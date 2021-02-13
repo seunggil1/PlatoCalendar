@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:plato_calendar/ics.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -45,23 +43,28 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Plato a = Plato();
-    a.login().then((value) => a.getCalendar());
+    //a.login().then((value) => a.getCalendar());
     return SafeArea(
       child: Scaffold(
         body: Container(
-          child: SfCalendar(
-            headerHeight: 30,
-            view: CalendarView.month,
-            firstDayOfWeek: 0, // 한주의 시작 - 0: 일, 1: 월 ..
-            monthViewSettings: MonthViewSettings(
-              showAgenda: true,
-              appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
-              monthCellStyle: MonthCellStyle()),
-            dataSource: _getCalendarDataSource(),
+          child: FutureBuilder(
+            future: _getCalendarDataSource(),
+            builder: (BuildContext context, AsyncSnapshot snapshot){
+              return SfCalendar(
+                headerHeight: 30,
+                view: CalendarView.month,
+                firstDayOfWeek: 0, // 한주의 시작 - 0: 일, 1: 월 ..
+                monthViewSettings: MonthViewSettings(
+                  showAgenda: true,
+                  appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+                  monthCellStyle: MonthCellStyle()),
+                dataSource: snapshot.hasData ? snapshot.data : DataSource(List<Appointment>())
+              );
+            }
           ),
-        ),
-      ));
+        )
+      )
+    );
   }
 }
 
@@ -96,17 +99,11 @@ class DataSource extends CalendarDataSource {
   }
 }
 
-DataSource _getCalendarDataSource() {
+Future<DataSource> _getCalendarDataSource() async {
+  await icsParser();
   List<Appointment> appointments = <Appointment>[];
-  appointments.add(Appointment(
-    startTime: DateTime.now(),
-    endTime: DateTime.now().add(Duration(days: 3,hours: 2)),
-    isAllDay: true,
-    subject: 'Meeting',
-    color: Colors.blue,
-    startTimeZone: '',
-    endTimeZone: '',
-  ));
-
+  for(var iter in data)
+    appointments.add(iter.toAppointment());
+  
   return DataSource(appointments);
 }

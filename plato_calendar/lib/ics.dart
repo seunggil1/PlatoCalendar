@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:icalendar_parser/icalendar_parser.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 // UID	      일정의 고유한 ID 값. 단일 캘린더 ID에서는 iCalendar의 UID가 고유해야 한다.
 //            UID는 일반적으로 iCalendar 데이터를 최초 생성할 때 사용자 ID, 타임스탬프, 도메인 등의 정보를 조합해서 만든다.
@@ -23,9 +25,56 @@ import 'package:icalendar_parser/icalendar_parser.dart';
 // LAST-MODIFIED	일정이 최종 수정된 날짜 및 시간
 // DTSTAMP	  일정을 iCalendar 데이터로 변환한 날짜 및 시간(현재는 중요하지 않게 취급).
 
-ICalendar iCalendar;
-void test() async{
+Set<CalendarData> data = Set<CalendarData>();
+
+Future<void> icsParser() async{
   String bytes = await rootBundle.loadString('icalexport.ics');
-  iCalendar = ICalendar.fromString(bytes);
-  print(1);
+  ICalendar iCalendar = ICalendar.fromString(bytes);
+  
+  for(var iter in iCalendar.data)
+    data.add(CalendarData(iter));
+}
+
+
+class CalendarData{
+  String uid;
+  String summary;
+  String description;
+
+  DateTime start, end;
+  bool isPeriod = true;
+  String classCode;
+
+
+  CalendarData(Map<String,dynamic> data){
+    uid = data["uid"];
+    summary = data["summary"];
+    description = data["description"];
+    start = data["dtstart"];
+    end = data["dtend"];
+    classCode = data["categories"][0];
+    
+    isPeriod = !(start == end);
+  }
+
+  Appointment toAppointment(){
+    return Appointment(
+      startTime: start,
+      endTime: end,
+      subject: summary,
+      notes: description,
+      color: Colors.blue,
+    );
+  }
+
+
+  @override
+  int get hashCode => uid.hashCode;
+
+  @override
+  bool operator ==(dynamic other) {
+    if(!other is CalendarData)
+      return false;
+    return this.uid == other.uid;
+  }
 }

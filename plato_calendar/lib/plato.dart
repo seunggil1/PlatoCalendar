@@ -94,7 +94,7 @@ class Plato {
       },
       body : body
     );
-    iCalendar = ICalendar.fromString(response.body);
+    //iCalendar = ICalendar.fromString(response.body);
 
     return true;
   }
