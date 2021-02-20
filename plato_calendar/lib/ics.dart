@@ -3,6 +3,8 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:icalendar_parser/icalendar_parser.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+import 'Data/subjectCode.dart';
+
 // UID	      일정의 고유한 ID 값. 단일 캘린더 ID에서는 iCalendar의 UID가 고유해야 한다.
 //            UID는 일반적으로 iCalendar 데이터를 최초 생성할 때 사용자 ID, 타임스탬프, 도메인 등의 정보를 조합해서 만든다.
 //            이때 특수 기호 % 문자는 이스케이프 문제로 지원되지 않으니 주의한다.
@@ -44,6 +46,7 @@ class CalendarData{
   DateTime start, end;
   bool isPeriod = true;
   String classCode;
+  String className;
 
 
   CalendarData(Map<String,dynamic> data){
@@ -53,7 +56,7 @@ class CalendarData{
     start = data["dtstart"];
     end = data["dtend"];
     classCode = data["categories"][0];
-    
+    className = (classCode.split('_').length > 2 ? subjectCode[classCode.split('_')[2]] : "") ?? "";
     isPeriod = !(start == end);
   }
 
