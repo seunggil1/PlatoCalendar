@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:plato_calendar/ics.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-import './plato.dart';
+import 'plato.dart';
+import 'settings.dart';
+import 'sfCalendar.dart';
+import 'toDoList.dart';
 
 // 프록시 사용할 떄 주석 해제 처리.
 // class MyHttpOverrides extends HttpOverrides{
@@ -12,6 +13,8 @@ import './plato.dart';
 //       ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
 //   }
 // }
+
+List<Widget> _widgets = [Calendar(), ToDoList(), Setting()];
 void main() {
   // HttpOverrides.global = new MyHttpOverrides();
   runApp(MyApp());
@@ -34,76 +37,40 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key}) : super(key: key);
 
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
+  int _index = 0;
   @override
   Widget build(BuildContext context) {
     //a.login().then((value) => a.getCalendar());
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          child: FutureBuilder(
-            future: _getCalendarDataSource(),
-            builder: (BuildContext context, AsyncSnapshot snapshot){
-              return SfCalendar(
-                headerHeight: 30,
-                view: CalendarView.month,
-                firstDayOfWeek: 0, // 한주의 시작 - 0: 일, 1: 월 ..
-                monthViewSettings: MonthViewSettings(
-                  showAgenda: true,
-                  appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
-                  monthCellStyle: MonthCellStyle()),
-                dataSource: snapshot.hasData ? snapshot.data : DataSource(List<Appointment>())
-              );
-            }
-          ),
-        )
-      )
-    );
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.black,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white.withOpacity(.60),
+          currentIndex: _index,
+          onTap: (int i){
+            setState(() { _index = i; });
+          },
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_today_outlined),
+              label: "Calendar"),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_view_day_outlined),
+              label: "할일"),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: "설정"),
+          ],
+        ),
+        body: _widgets[_index]
+          )
+        );
   }
-}
-
-class DataSource extends CalendarDataSource {
-  DataSource(List<Appointment> source) {
-    appointments = source;
-  }
-
-  @override
-  DateTime getStartTime(int index) {
-    return appointments[index].from;
-  }
-
-  @override
-  DateTime getEndTime(int index) {
-    return appointments[index].to;
-  }
-
-  @override
-  String getSubject(int index) {
-    return appointments[index].eventName;
-  }
-
-  @override
-  Color getColor(int index) {
-    return appointments[index].background;
-  }
-
-  @override
-  bool isAllDay(int index) {
-    return appointments[index].isAllDay;
-  }
-}
-
-Future<DataSource> _getCalendarDataSource() async {
-  await icsParser();
-  List<Appointment> appointments = <Appointment>[];
-  for(var iter in data)
-    appointments.add(iter.toAppointment());
-  
-  return DataSource(appointments);
 }
