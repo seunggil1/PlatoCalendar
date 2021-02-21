@@ -76,7 +76,7 @@ class CalendarData{
 
   @override
   bool operator ==(dynamic other) {
-    if(!other is CalendarData)
+    if(!(other is CalendarData))
       return false;
     return this.uid == other.uid;
   }
