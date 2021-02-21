@@ -35,6 +35,7 @@ Future<void> icsParser() async{
   
   for(var iter in iCalendar.data)
     data.add(CalendarData(iter));
+  print(1);
 }
 
 
@@ -45,6 +46,8 @@ class CalendarData{
 
   DateTime start, end;
   bool isPeriod = true;
+  String year;
+  String semester;
   String classCode;
   String className;
 
@@ -55,8 +58,22 @@ class CalendarData{
     description = data["description"];
     start = data["dtstart"];
     end = data["dtend"];
-    classCode = data["categories"][0];
-    className = (classCode.split('_').length > 2 ? subjectCode[classCode.split('_')[2]] : "") ?? "";
+
+     
+    List classInfo = data["categories"][0].split('_');
+    if(classInfo.length > 2){
+      year = classInfo[0];
+      semester = classInfo[1];
+      classCode = classInfo[2];
+      className = subjectCode[classCode] ?? "";
+    }else{
+      year = "No data";
+      semester = "No data";
+      classCode = classInfo[0];
+      className = "";
+    }
+    
+    
     isPeriod = !(start == end);
   }
 
