@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'Data/userSetting.dart';
+
 class ToDoList extends StatefulWidget{
   @override
   State<StatefulWidget> createState() => _ToDoList();
@@ -8,6 +10,7 @@ class ToDoList extends StatefulWidget{
 class _ToDoList extends State<ToDoList>{
   BuildContext ctx;
   String dropdownValue = 'One';
+  SortMethod _sortMethod= sortMethod;
   @override
   Widget build(BuildContext context) {
     ctx = context;
@@ -40,7 +43,7 @@ class _ToDoList extends State<ToDoList>{
                   );
                 }).toList(),
               ),
-              flex: 18,
+              flex: 9,
             ),
             Expanded(child: 
               Container(
@@ -50,14 +53,78 @@ class _ToDoList extends State<ToDoList>{
                   onPressed: () => showMessage('IconButton'),
                 ),
               ),
-              flex: 6
+              flex: 3
             ),
             Expanded(child:
-              IconButton(
-                  icon: Icon(Icons.more_vert),
-                  onPressed: () => showMessage('IconButton'),
-                ),
-              flex: 2
+              PopupMenuButton<int>(
+                itemBuilder: (context) =>[
+                  PopupMenuItem(
+                    value: 1,
+                    child: Text('정렬'),
+                  )
+                ],
+                onSelected: (value){
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return StatefulBuilder(
+                        builder: (context, setState){
+                          return AlertDialog(
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children:[
+                                  Row(children: [
+                                    Radio(
+                                      value: SortMethod.sortByDue,
+                                      groupValue: _sortMethod,
+                                      onChanged: (SortMethod value) {
+                                        setState(() {
+                                          _sortMethod = value;
+                                        });
+                                      },
+                                    ),
+                                    Text('기한순')
+                                  ],),
+                                  Row(children: [
+                                    Radio(
+                                      value: SortMethod.sortByRegister,
+                                      groupValue: _sortMethod,
+                                      onChanged: (SortMethod value) {
+                                        setState(() {
+                                          _sortMethod = value;
+                                        });
+                                      },
+                                    ),
+                                    Text('등록순')
+                                  ],)
+                                ]
+                              ),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: new Text("확인"),
+                                  onPressed: () {
+                                    sortMethod = _sortMethod;
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                FlatButton(
+                                  child: new Text("취소"),
+                                  onPressed: () {
+                                    _sortMethod = sortMethod;
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            );
+                        }
+                      );
+                    },
+                  );
+                },
+              ),
+              flex: 1
             )
           ],
 
