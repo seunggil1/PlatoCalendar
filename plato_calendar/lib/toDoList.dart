@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:intl/intl.dart';
 
 import 'Data/userData.dart';
+import 'ics.dart';
 
 class ToDoList extends StatefulWidget{
   @override
@@ -8,12 +11,15 @@ class ToDoList extends StatefulWidget{
 }
 
 class _ToDoList extends State<ToDoList>{
-  BuildContext ctx;
   String dropdownValue = 'One';
   SortMethod _sortMethod= sortMethod;
+  List<Widget> toDoWidgetList = [];
   @override
   Widget build(BuildContext context) {
-    ctx = context;
+    toDoWidgetList.clear();
+    data.forEach((element) { 
+      toDoWidgetList.add(getTodoWidget(element)); 
+    });
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -50,7 +56,7 @@ class _ToDoList extends State<ToDoList>{
                 alignment: Alignment.centerRight,
                 child: IconButton(
                   icon: Icon(Icons.add_box_outlined),
-                  onPressed: () => showMessage('IconButton'),
+                  onPressed: () => print('IconButton'),
                 ),
               ),
               flex: 3
@@ -132,22 +138,65 @@ class _ToDoList extends State<ToDoList>{
       ),
       body: Container(
         margin: const EdgeInsets.all(10.0),
-        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal:10.0),
+        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal:5.0),
         decoration: BoxDecoration(
           border:Border.all(color:Colors.grey[350], width: 1.5),
           borderRadius: BorderRadius.circular(5)
         ),
-        child: Text("data"),
+        child: Column(
+          children: toDoWidgetList,
+        ),
       ),
       );
   }
-      void showMessage(String msg) {
-        final snackbar = SnackBar(content: Text(msg));
 
-        Scaffold.of(ctx)
-            ..removeCurrentSnackBar()
-            ..showSnackBar(snackbar);
-    }
+  Widget getTodoWidget(CalendarData data){
+    return Row(
+      children: [
+        Checkbox(
+          value: data.finished,
+          onChanged: (value){
+            setState(() {
+              data.finished = value;
+            });
+        }),
+        Expanded(
+          flex: 4,
+          child: RichText(
+            overflow: TextOverflow.ellipsis,
+            text: TextSpan(
+              style: TextStyle(color: Colors.black),
+              text: data.summary+' : '+ data.description)
+          )
+        ),
+        Expanded(
+          flex : 1,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AutoSizeText(
+                data.className != "" ? data.className : data.classCode,
+                maxLines: 1,
+                minFontSize: 8,
+                style: TextStyle(color: Colors.grey),
+              ),
+              AutoSizeText(
+                DateFormat("MM-dd HH:mm:ss").format(data.end),
+                maxLines: 1,
+                minFontSize: 8,
+                style: TextStyle(color: Colors.grey,),
+              )
+            ],
+          )
+        )
+      ],
+    );
+  }
+
+
+
+
+
 }
 
 

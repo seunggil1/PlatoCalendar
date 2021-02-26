@@ -27,6 +27,10 @@ dependencies:
   http:
   syncfusion_flutter_calendar:
   dio:
+  # 폰트 동적 사이즈 조절
+  auto_size_text: ^2.1.0
+  # DateFormat("MM-dd HH:mm:ss").format(data),
+  intl: ^0.16.1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
