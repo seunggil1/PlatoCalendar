@@ -52,6 +52,7 @@ class CalendarData{
   String classCode;
   String className;
 
+  bool disable = false;
   bool finished = false;
 
   CalendarData(Map<String,dynamic> data){
@@ -61,7 +62,11 @@ class CalendarData{
     start = data["dtstart"];
     end = data["dtend"];
 
-     
+    if(start.hour == 0 && start.minute == 0)
+      start.subtract(Duration(seconds: 1));
+    if(end.hour == 0 && end.minute == 0)
+      end.subtract(Duration(seconds: 1));
+
     List classInfo = data["categories"][0].split('_');
     if(classInfo.length > 2){
       year = classInfo[0];
@@ -75,9 +80,9 @@ class CalendarData{
       className = "";
     }
     
-    
     isPeriod = !(start == end);
   }
+
 
   Appointment toAppointment(){
     return Appointment(
