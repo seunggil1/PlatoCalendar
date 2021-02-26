@@ -30,7 +30,8 @@ import 'Data/userData.dart';
 
 
 
-Future<void> icsParser() async{
+Future<void> icsParser(String bytes) async{
+  // For Test
   String bytes = await rootBundle.loadString('icalexport.ics');
   ICalendar iCalendar = ICalendar.fromString(bytes);
   

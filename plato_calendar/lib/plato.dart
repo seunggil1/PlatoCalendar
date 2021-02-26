@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:icalendar_parser/icalendar_parser.dart';
+import 'Data/userData.dart';
 import 'ics.dart';
 
 class Plato {
@@ -94,7 +95,7 @@ class Plato {
       },
       body : body
     );
-    //iCalendar = ICalendar.fromString(response.body);
+    await icsParser(response.body);
 
     return true;
   }

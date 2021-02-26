@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'Data/userData.dart';
 import 'ics.dart';
+import 'plato.dart';
 
 class Calendar extends StatefulWidget{
 
@@ -59,7 +60,12 @@ class DataSource extends CalendarDataSource {
 }
 
 Future<DataSource> _getCalendarDataSource() async {
-  await icsParser();
+  // Plato login = Plato();
+  // await login.login();
+  // await login.getCalendar();
+
+  // for test
+  await icsParser("");
   List<Appointment> appointments = <Appointment>[];
   for(var iter in data)
     appointments.add(iter.toAppointment());
