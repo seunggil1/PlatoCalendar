@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-// do not use this
-
+// #1 하단에 잠시 텍스트 뜨게 하는 코드
 BuildContext ctx;
 
 Widget build(BuildContext context) {
