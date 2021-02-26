@@ -5,6 +5,11 @@ import 'package:intl/intl.dart';
 import 'Data/userData.dart';
 import 'ics.dart';
 
+
+final EdgeInsets edgeInsetsStart  = EdgeInsets.fromLTRB(10, 10, 10, 0);
+final EdgeInsets edgeInsetsMiddle = EdgeInsets.fromLTRB(10, 10, 10, 0);
+final EdgeInsets edgeInsetsEnd    = EdgeInsets.fromLTRB(10, 10, 10, 10);
+
 class ToDoList extends StatefulWidget{
   @override
   State<StatefulWidget> createState() => _ToDoList();
@@ -13,12 +18,53 @@ class ToDoList extends StatefulWidget{
 class _ToDoList extends State<ToDoList>{
   String dropdownValue = 'One';
   SortMethod _sortMethod= sortMethod;
-  List<Widget> toDoWidgetList = [];
+  List<Widget> toDoListNodate = [];   // 날짜 없음
+  List<Widget> toDoListPassed = [];   // 기간 지남
+  List<Widget> toDoListLongTime = []; // 1주일 이상 남음
+  List<Widget> toDoListWeek = [];     // 1주일 남음
+  List<Widget> toDoListToday = [];    // 오늘까지
+  List<Widget> toDoList12Hour = [];   // 12시간 남음
+  List<Widget> toDoList6Hour= [];     // 6시간 남음
+  List<Widget> toDoListFinished = []; // 완료
+
   @override
   Widget build(BuildContext context) {
-    toDoWidgetList.clear();
-    data.forEach((element) { 
-      toDoWidgetList.add(getTodoWidget(element)); 
+    toDoListNodate.clear();
+    toDoListPassed.clear();
+    toDoListLongTime.clear();
+    toDoListWeek.clear();
+    toDoListToday.clear();
+    toDoList12Hour.clear();
+    toDoList6Hour.clear();
+    toDoListFinished.clear();
+    DateTime now = DateTime.now();
+    data.forEach((element) {
+      Duration diff = element.end.difference(now);
+      if(!element.disable){ // 유저가 삭제 처리
+        if(element.finished){ // 완료 일정
+          // 날짜 정보가 없거나 2주 안지나면 표시
+          if(element.end == null || diff.inDays > -13)
+            toDoListFinished.add(_getTodoWidget(element));
+        }
+        else{
+          // 날짜 정보 없음
+          if(element.end == null) toDoListNodate.add(_getTodoWidget(element));
+          else
+            if(diff.inSeconds < 0) // 기간 지남
+              toDoListPassed.add(_getTodoWidget(element));
+            else if(diff.inDays > 7){ // 일주일 이상 남음.
+              toDoListLongTime.add(_getTodoWidget(element));
+            }else if(element.end.day == now.day){ //오늘 까지
+              if(diff.inHours < 6) // 6시간 남음
+                toDoList6Hour.add(_getTodoWidget(element));
+              else if(diff.inHours < 12) // 12시간 남음
+                toDoList12Hour.add(_getTodoWidget(element));
+              else // 오늘까지 인데 12시간 이상 남음
+                toDoListToday.add(_getTodoWidget(element));
+            }else // 하루 넘게 남았음
+              toDoListWeek.add(_getTodoWidget(element));
+        }
+      }
     });
     return Scaffold(
       appBar: AppBar(
@@ -136,21 +182,125 @@ class _ToDoList extends State<ToDoList>{
 
         )
       ),
-      body: Container(
-        margin: const EdgeInsets.all(10.0),
-        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal:5.0),
-        decoration: BoxDecoration(
-          border:Border.all(color:Colors.grey[350], width: 1.5),
-          borderRadius: BorderRadius.circular(5)
-        ),
-        child: Column(
-          children: toDoWidgetList,
-        ),
+      body: ListView(
+        children: [
+          toDoListPassed.isEmpty ? Container()
+          : Container(
+            margin: edgeInsetsStart,
+            padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal:5.0),
+            decoration: BoxDecoration(
+              border:Border.all(color:Colors.grey[350], width: 1.5),
+              borderRadius: BorderRadius.circular(5)
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [_getDurationWidget("지난 할일")] + toDoListPassed,
+            ),
+          ),
+          toDoList6Hour.isEmpty ? Container()
+          : Container(
+            margin: edgeInsetsMiddle,
+            padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal:5.0),
+            decoration: BoxDecoration(
+              border:Border.all(color:Colors.grey[350], width: 1.5),
+              borderRadius: BorderRadius.circular(5)
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [_getDurationWidget("6시간 남음")] + toDoList6Hour,
+            ),
+          ),
+          toDoList12Hour.isEmpty ? Container()
+          : Container(
+            margin: edgeInsetsMiddle,
+            padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal:5.0),
+            decoration: BoxDecoration(
+              border:Border.all(color:Colors.grey[350], width: 1.5),
+              borderRadius: BorderRadius.circular(5)
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [_getDurationWidget("12시간 남음")] + toDoList12Hour,
+            ),
+          ),
+          toDoListToday.isEmpty ? Container()
+          : Container(
+            margin: edgeInsetsMiddle,
+            padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal:5.0),
+            decoration: BoxDecoration(
+              border:Border.all(color:Colors.grey[350], width: 1.5),
+              borderRadius: BorderRadius.circular(5)
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [_getDurationWidget("오늘")] + toDoListToday,
+            ),
+          ),
+          toDoListWeek.isEmpty ? Container()
+          : Container(
+            margin: edgeInsetsMiddle,
+            padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal:5.0),
+            decoration: BoxDecoration(
+              border:Border.all(color:Colors.grey[350], width: 1.5),
+              borderRadius: BorderRadius.circular(5)
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [_getDurationWidget("7일 이내")] + toDoListWeek,
+            ),
+          ),
+          toDoListLongTime.isEmpty ? Container()
+          : Container(
+            margin: edgeInsetsMiddle,
+            padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal:5.0),
+            decoration: BoxDecoration(
+              border:Border.all(color:Colors.grey[350], width: 1.5),
+              borderRadius: BorderRadius.circular(5)
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [_getDurationWidget("7일 이상")] + toDoListLongTime,
+            ),
+          ),
+          toDoListNodate.isEmpty ? Container()
+          : Container(
+            margin: edgeInsetsMiddle,
+            padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal:5.0),
+            decoration: BoxDecoration(
+              border:Border.all(color:Colors.grey[350], width: 1.5),
+              borderRadius: BorderRadius.circular(5)
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [_getDurationWidget("기한 없음")] + toDoListNodate,
+            ),
+          ),
+          toDoListFinished.isEmpty ? Container()
+          : Container(
+            margin: edgeInsetsEnd,
+            padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal:5.0),
+            decoration: BoxDecoration(
+              border:Border.all(color:Colors.grey[350], width: 1.5),
+              borderRadius: BorderRadius.circular(5)
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [_getDurationWidget("완료")] + toDoListFinished,
+            ),
+          ),
+        ],
       ),
+    );
+  }
+  Widget _getDurationWidget(String str){
+    return Container(
+      margin: const EdgeInsets.fromLTRB(7,7,0,0),
+      child: Text(str,
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)
+        )
       );
   }
-
-  Widget getTodoWidget(CalendarData data){
+  Widget _getTodoWidget(CalendarData data){
     return Row(
       children: [
         Checkbox(
@@ -163,6 +313,7 @@ class _ToDoList extends State<ToDoList>{
         Expanded(
           flex: 4,
           child: RichText(
+            maxLines: 1,
             overflow: TextOverflow.ellipsis,
             text: TextSpan(
               style: TextStyle(color: Colors.black),
