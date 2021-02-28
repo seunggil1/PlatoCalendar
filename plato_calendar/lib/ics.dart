@@ -4,7 +4,7 @@ import 'package:icalendar_parser/icalendar_parser.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import 'Data/subjectCode.dart';
-import 'Data/userData.dart';
+import 'Data/userData.dart' as userData;
 
 // UID	      일정의 고유한 ID 값. 단일 캘린더 ID에서는 iCalendar의 UID가 고유해야 한다.
 //            UID는 일반적으로 iCalendar 데이터를 최초 생성할 때 사용자 ID, 타임스탬프, 도메인 등의 정보를 조합해서 만든다.
@@ -32,11 +32,11 @@ import 'Data/userData.dart';
 
 Future<void> icsParser(String bytes) async{
   // For Test
-  String bytes = await rootBundle.loadString('icalexportForTest.ics');
+  String bytes = await rootBundle.loadString('icalexport2021.ics');
   ICalendar iCalendar = ICalendar.fromString(bytes);
   
   for(var iter in iCalendar.data)
-    data.add(CalendarData(iter));
+    userData.data.add(CalendarData(iter));
   print(1);
 }
 
@@ -63,10 +63,9 @@ class CalendarData{
     start = data["dtstart"];
     end = data["dtend"];
 
-    if(start.hour == 0 && start.minute == 0)
-      start.subtract(Duration(seconds: 1));
-    if(end.hour == 0 && end.minute == 0)
-      end.subtract(Duration(seconds: 1));
+    start = start.toLocal();
+    end = end.toLocal();
+    isPeriod = !(start == end);
 
     List classInfo = data["categories"][0].split('_');
     if(classInfo.length > 2){
@@ -74,6 +73,7 @@ class CalendarData{
       semester = classInfo[1];
       classCode = classInfo[2];
       className = subjectCode[classCode] ?? "";
+      userData.subjectThisSemester.add(className);
     }else{
       year = "No data";
       semester = "No data";
@@ -81,7 +81,11 @@ class CalendarData{
       className = "";
     }
     
-    isPeriod = !(start == end);
+    if(start.hour == 0 && start.minute == 0)
+      start = start.subtract(Duration(seconds: 1));
+    if(end.hour == 0 && end.minute == 0)
+      end = end.subtract(Duration(seconds: 1));
+
   }
 
 

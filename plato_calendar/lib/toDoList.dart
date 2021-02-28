@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 
+import 'Data/else.dart';
 import 'Data/userData.dart';
 import 'ics.dart';
 
@@ -16,7 +18,7 @@ class ToDoList extends StatefulWidget{
 }
 
 class _ToDoList extends State<ToDoList>{
-  String dropdownValue = 'One';
+  String dropdownValue = subjectThisSemester.first;
   SortMethod _sortMethod= sortMethod;
   List<Widget> toDoListNodate = [];   // 날짜 없음
   List<Widget> toDoListPassed = [];   // 기간 지남
@@ -40,31 +42,32 @@ class _ToDoList extends State<ToDoList>{
     DateTime now = DateTime.now();
     data.forEach((element) {
       Duration diff = element.end.difference(now);
-      if(!element.disable){ // 유저가 삭제 처리
-        if(element.finished){ // 완료 일정
-          // 날짜 정보가 없거나 2주 안지나면 표시
-          if(element.end == null || diff.inDays > -13)
-            toDoListFinished.add(_getTodoWidget(element));
+      if(dropdownValue == '전체' || element.className == dropdownValue)
+        if(!element.disable){ // 유저가 삭제 처리
+          if(element.finished){ // 완료 일정
+            // 날짜 정보가 없거나 2주 안지나면 표시
+            if(element.end == null || diff.inDays > -13)
+              toDoListFinished.add(_getTodoWidget(element));
+          }
+          else{
+            // 날짜 정보 없음
+            if(element.end == null) toDoListNodate.add(_getTodoWidget(element));
+            else
+              if(diff.inSeconds < 0) // 기간 지남
+                toDoListPassed.add(_getTodoWidget(element));
+              else if(diff.inDays > 7){ // 일주일 이상 남음.
+                toDoListLongTime.add(_getTodoWidget(element));
+              }else if(element.end.day == now.day){ //오늘 까지
+                if(diff.inHours < 6) // 6시간 남음
+                  toDoList6Hour.add(_getTodoWidget(element));
+                else if(diff.inHours < 12) // 12시간 남음
+                  toDoList12Hour.add(_getTodoWidget(element));
+                else // 오늘까지 인데 12시간 이상 남음
+                  toDoListToday.add(_getTodoWidget(element));
+              }else // 하루 넘게 남았음
+                toDoListWeek.add(_getTodoWidget(element));
+          }
         }
-        else{
-          // 날짜 정보 없음
-          if(element.end == null) toDoListNodate.add(_getTodoWidget(element));
-          else
-            if(diff.inSeconds < 0) // 기간 지남
-              toDoListPassed.add(_getTodoWidget(element));
-            else if(diff.inDays > 7){ // 일주일 이상 남음.
-              toDoListLongTime.add(_getTodoWidget(element));
-            }else if(element.end.day == now.day){ //오늘 까지
-              if(diff.inHours < 6) // 6시간 남음
-                toDoList6Hour.add(_getTodoWidget(element));
-              else if(diff.inHours < 12) // 12시간 남음
-                toDoList12Hour.add(_getTodoWidget(element));
-              else // 오늘까지 인데 12시간 이상 남음
-                toDoListToday.add(_getTodoWidget(element));
-            }else // 하루 넘게 남았음
-              toDoListWeek.add(_getTodoWidget(element));
-        }
-      }
     });
     return Scaffold(
       appBar: AppBar(
@@ -87,7 +90,7 @@ class _ToDoList extends State<ToDoList>{
                     dropdownValue = newValue;
                   });
                 },
-                items: <String>['One', 'Two', 'Free', 'Four']
+                items: subjectThisSemester
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
@@ -301,46 +304,51 @@ class _ToDoList extends State<ToDoList>{
       );
   }
   Widget _getTodoWidget(CalendarData data){
-    return Row(
-      children: [
-        Checkbox(
-          value: data.finished,
-          onChanged: (value){
-            setState(() {
-              data.finished = value;
-            });
-        }),
-        Expanded(
-          flex: 4,
-          child: RichText(
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            text: TextSpan(
-              style: TextStyle(color: Colors.black),
-              text: data.summary+' : '+ data.description)
+    return FlatButton(onPressed: () => print(1),
+      padding: EdgeInsets.all(0),
+      child: Row(
+        children: [
+          Checkbox(
+            activeColor: Colors.grey, // 선택했을 때 체크박스 background color
+            checkColor : Colors.black26, // 선택했을 때 체크표시 color
+            value: data.finished,
+            onChanged: (value){
+              setState(() {
+                data.finished = value;
+              });
+          }),
+          Expanded(
+            flex: 4,
+            child: RichText(
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              text: TextSpan(
+                style: TextStyle(color: Colors.black),
+                text: data.summary+' : '+ data.description)
+            )
+          ),
+          Expanded(
+            flex : 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AutoSizeText(
+                  data.className != "" ? data.className : data.classCode,
+                  maxLines: 1,
+                  minFontSize: 8,
+                  style: TextStyle(color: Colors.grey),
+                ),
+                AutoSizeText(
+                  DateFormat("MM-dd ").format(data.end) + weekdayLocaleKR[data.end.weekday] + DateFormat(" HH:mm").format(data.end),
+                  maxLines: 1,
+                  minFontSize: 8,
+                  style: TextStyle(color: Colors.grey,),
+                )
+              ],
+            )
           )
-        ),
-        Expanded(
-          flex : 1,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AutoSizeText(
-                data.className != "" ? data.className : data.classCode,
-                maxLines: 1,
-                minFontSize: 8,
-                style: TextStyle(color: Colors.grey),
-              ),
-              AutoSizeText(
-                DateFormat("MM-dd HH:mm:ss").format(data.end),
-                maxLines: 1,
-                minFontSize: 8,
-                style: TextStyle(color: Colors.grey,),
-              )
-            ],
-          )
-        )
-      ],
+        ],
+      )
     );
   }
 

@@ -1,7 +1,7 @@
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/material.dart';
 
-import 'Data/userData.dart';
+import 'Data/userData.dart' as userData;
 import 'ics.dart';
 import 'plato.dart';
 
@@ -12,30 +12,57 @@ class Calendar extends StatefulWidget{
 }
 
 class _Calendar extends State<Calendar>{
+  CalendarView viewType = CalendarView.month;
+  CalendarController _calendarController = CalendarController();
+ 
+  @override
+  void initState() {
+    super.initState();
+    _calendarController.view = CalendarView.month;
+  }
   @override
   Widget build(BuildContext context) {
-    //a.login().then((value) => a.getCalendar());
-    return Container(
+    return WillPopScope(
+      child: Container(
           child: FutureBuilder(
             future: _getCalendarDataSource(),
             builder: (BuildContext context, AsyncSnapshot snapshot){
               return SfCalendar(
+                controller: _calendarController,
                 headerHeight: 30,
-                view: CalendarView.month,
-                firstDayOfWeek: 0, // 한주의 시작 - 0: 일, 1: 월 ..
+                headerStyle: CalendarHeaderStyle(),
+                firstDayOfWeek: userData.firstDayOfWeek, // 한주의 시작 - 1: 월 .., 7:일
                 monthViewSettings: MonthViewSettings(
+                  appointmentDisplayCount: 5,
                   appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
                   monthCellStyle: MonthCellStyle()),
+                scheduleViewSettings: ScheduleViewSettings(
+                  monthHeaderSettings: MonthHeaderSettings(
+                    height: 100,
+                    monthFormat: 'yyyy년 M월'
+                  )
+                ),
                 dataSource: snapshot.hasData ? snapshot.data : DataSource(List<Appointment>()),
-                onTap: test,
-                onLongPress: test2,
-                onViewChanged: test3,
+                onTap: (data){
+                if(_calendarController.view == CalendarView.month)
+                  setState(() {
+                    _calendarController.view = CalendarView.schedule;
+                  });
+                },
               );
             }
           ),
-        );
+        ),
+      onWillPop: () async {
+        if(_calendarController.view == CalendarView.schedule)
+          setState(() {
+            _calendarController.view = CalendarView.month;
+            return false;
+          });
+        else
+          return true;
+      });
   }
-
 }
 
 class DataSource extends CalendarDataSource {
@@ -67,18 +94,8 @@ Future<DataSource> _getCalendarDataSource() async {
   // for test
   await icsParser("");
   List<Appointment> appointments = <Appointment>[];
-  for(var iter in data)
+  for(var iter in userData.data)
     appointments.add(iter.toAppointment());
   
   return DataSource(appointments);
-}
-
-void test(CalendarTapDetails data){
-  print(1);
-}
-void test2(CalendarLongPressDetails data){
-  print(1);
-}
-void test3(ViewChangedDetails data){
-  print(1);
 }
