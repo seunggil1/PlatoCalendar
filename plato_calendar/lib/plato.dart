@@ -7,11 +7,9 @@ import 'Data/userData.dart';
 import 'ics.dart';
 
 class Plato {
-  String id ="";
-  String pw = "";
-  String moodleSession = "";
-  String sesskey = "";
-  Future<bool> login() async {
+  static String moodleSession = "";
+  static String sesskey = "";
+  static Future<bool> login() async {
 
     String body = 'username=$id&password=${Uri.encodeQueryComponent(pw)}&loginbutton=%EB%A1%9C%EA%B7%B8%EC%9D%B8';
     Response response;
@@ -53,7 +51,7 @@ class Plato {
     return true;
   }
   
-  Future<bool> getCalendar() async{
+  static Future<bool> getCalendar() async{
     String body;
     http.Response response;
     response = await http.get("https://plato.pusan.ac.kr/calendar/export.php?course=1",
@@ -99,11 +97,10 @@ class Plato {
 
     return true;
   }
-  Future<bool> logout() async{
+  static Future<bool> logout() async{
     print(1);
     return true;
   }
-
 }
 
 
