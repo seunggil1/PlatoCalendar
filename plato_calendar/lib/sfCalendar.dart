@@ -54,9 +54,7 @@ class _Calendar extends State<Calendar>{
                     showDialog(context: context,
                       builder: (BuildContext context){
                         return PopUpAppointmentEditor.appointment(data.appointments[0]);
-                      }).then((value) => setState((){
-
-                      }));
+                      }).then((value) => setState((){}));
                   }
                 },
               );
@@ -105,7 +103,7 @@ Future<DataSource> _getCalendarDataSource() async {
   await icsParser("");
   List<Appointment> appointments = <Appointment>[];
   for(var iter in userData.data)
-    appointments.add(iter.toAppointment());
+    if(!iter.finished) appointments.add(iter.toAppointment());
   
   return DataSource(appointments);
 }

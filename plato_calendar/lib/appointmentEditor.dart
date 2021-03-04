@@ -67,7 +67,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                     showDialog(context: context,
                       builder: (BuildContext context){
                         return CalendarColorPicker(
-                          colorCollection,widget.calendarData.color);
+                          colorCollection,widget.calendarData);
                         
                       }).then((value) => setState((){
                         
@@ -81,32 +81,16 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
 
 }
 class CalendarColorPicker extends StatefulWidget {
-  CalendarColorPicker(this.colorCollection, this.selectedColorIndex);
+  CalendarColorPicker(this.colorCollection, this.test);
 
   final List<Color> colorCollection;
-
-  final int selectedColorIndex;
-
-
+  final CalendarData test;
 
   @override
   State<StatefulWidget> createState() => _CalendarColorPickerState();
 }
 
 class _CalendarColorPickerState extends State<CalendarColorPicker> {
-  int _selectedColorIndex;
-
-  @override
-  void initState() {
-    _selectedColorIndex = widget.selectedColorIndex;
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(CalendarColorPicker oldWidget) {
-    _selectedColorIndex = widget.selectedColorIndex;
-    super.didUpdateWidget(oldWidget);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,15 +115,14 @@ class _CalendarColorPickerState extends State<CalendarColorPicker> {
                   minWidth: 10,
                   onPressed: (){
                     setState(() {
-                      _selectedColorIndex = i;
+                      widget.test.color = i;
                     });
-
                     Future.delayed(const Duration(milliseconds: 200), () {
                       Navigator.pop(context);
                     });
                   },
                   child: Icon(
-                    i == _selectedColorIndex
+                    i == widget.test.color
                         ? Icons.lens
                         : Icons.trip_origin,
                     color: widget.colorCollection[i])
@@ -147,18 +130,6 @@ class _CalendarColorPickerState extends State<CalendarColorPicker> {
               }),
           )
 
-            //   onTap: () {
-            //     setState(() {
-            //       _selectedColorIndex = index;
-            //     });
-            //     Future.delayed(const Duration(milliseconds: 200), () {
-            //       Navigator.pop(context);
-            //     });
-            //   },
-            // )
-
     ));
   }
-
-  
-  }
+}

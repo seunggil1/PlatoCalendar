@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'Data/else.dart';
 import 'Data/subjectCode.dart';
 import 'Data/userData.dart';
+import 'appointmentEditor.dart';
 import 'ics.dart';
 
 
@@ -305,7 +306,13 @@ class _ToDoList extends State<ToDoList>{
       );
   }
   Widget _getTodoWidget(CalendarData data){
-    return FlatButton(onPressed: () => print(1),
+    return FlatButton(
+      onPressed: () {
+        showDialog(context: context,
+          builder: (BuildContext context){
+            return PopUpAppointmentEditor(data);
+          }).then((value) => setState((){}));
+      },
       padding: EdgeInsets.all(0),
       child: Row(
         children: [
