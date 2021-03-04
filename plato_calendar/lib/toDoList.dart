@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 
 import 'Data/else.dart';
+import 'Data/subjectCode.dart';
 import 'Data/userData.dart';
 import 'ics.dart';
 
@@ -18,7 +19,7 @@ class ToDoList extends StatefulWidget{
 }
 
 class _ToDoList extends State<ToDoList>{
-  String dropdownValue = subjectThisSemester.first;
+  String dropdownValue = subjectCodeThisSemester.first;
   SortMethod _sortMethod= sortMethod;
   List<Widget> toDoListNodate = [];   // 날짜 없음
   List<Widget> toDoListPassed = [];   // 기간 지남
@@ -42,7 +43,7 @@ class _ToDoList extends State<ToDoList>{
     DateTime now = DateTime.now();
     data.forEach((element) {
       Duration diff = element.end.difference(now);
-      if(dropdownValue == '전체' || element.className == dropdownValue)
+      if(dropdownValue == '전체' || element.classCode == dropdownValue)
         if(!element.disable){ // 유저가 삭제 처리
           if(element.finished){ // 완료 일정
             // 날짜 정보가 없거나 2주 안지나면 표시
@@ -90,11 +91,11 @@ class _ToDoList extends State<ToDoList>{
                     dropdownValue = newValue;
                   });
                 },
-                items: subjectThisSemester
+                items: subjectCodeThisSemester
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value),
+                    child: Text(subjectCode[value]),
                   );
                 }).toList(),
               ),

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:icalendar_parser/icalendar_parser.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+import 'Data/else.dart';
 import 'Data/subjectCode.dart';
 import 'Data/userData.dart' as userData;
 
@@ -56,6 +57,8 @@ class CalendarData{
   bool disable = false;
   bool finished = false;
 
+  int color;
+
   CalendarData(Map<String,dynamic> data){
     uid = data["uid"];
     summary = data["summary"];
@@ -73,7 +76,7 @@ class CalendarData{
       semester = classInfo[1];
       classCode = classInfo[2];
       className = subjectCode[classCode] ?? "";
-      userData.subjectThisSemester.add(className);
+      userData.subjectCodeThisSemester.add(classCode);
     }else{
       year = "No data";
       semester = "No data";
@@ -86,16 +89,19 @@ class CalendarData{
     if(end.hour == 0 && end.minute == 0)
       end = end.subtract(Duration(seconds: 1));
 
+    color = userData.defaultColor[classCode] ?? 5; // colorCollection[5] = Colors.blue
+    print(1);
   }
 
 
   Appointment toAppointment(){
     return Appointment(
-      startTime: end.subtract(Duration(hours: 1)),
+      startTime: end,
       endTime: end,
       subject: summary,
       notes: description,
-      color: Colors.blue,
+      color: colorCollection[color],
+      resourceIds: <int>[hashCode]
     );
   }
 

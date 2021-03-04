@@ -2,6 +2,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/material.dart';
 
 import 'Data/userData.dart' as userData;
+import 'appointmentEditor.dart';
 import 'ics.dart';
 import 'plato.dart';
 
@@ -20,6 +21,7 @@ class _Calendar extends State<Calendar>{
     super.initState();
     _calendarController.view = CalendarView.month;
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -44,10 +46,18 @@ class _Calendar extends State<Calendar>{
                 ),
                 dataSource: snapshot.hasData ? snapshot.data : DataSource(List<Appointment>()),
                 onTap: (data){
-                if(_calendarController.view == CalendarView.month)
-                  setState(() {
-                    _calendarController.view = CalendarView.schedule;
-                  });
+                  if(_calendarController.view == CalendarView.month)
+                    setState(() {
+                      _calendarController.view = CalendarView.schedule;
+                    });
+                  else if(_calendarController.view == CalendarView.schedule && data.targetElement == CalendarElement.appointment){
+                    showDialog(context: context,
+                      builder: (BuildContext context){
+                        return PopUpAppointmentEditor.appointment(data.appointments[0]);
+                      }).then((value) => setState((){
+
+                      }));
+                  }
                 },
               );
             }
@@ -66,7 +76,7 @@ class _Calendar extends State<Calendar>{
 }
 
 class DataSource extends CalendarDataSource {
-  DataSource(List<Appointment> source) {
+  DataSource(List<Appointment>  source) {
     appointments = source;
   }
 

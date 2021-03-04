@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:icalendar_parser/icalendar_parser.dart';
 import 'Data/userData.dart';
 import 'ics.dart';
 

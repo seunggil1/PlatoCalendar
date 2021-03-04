@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'Data/else.dart';
 import 'Data/userData.dart' as userData;
+import 'appointmentEditor.dart';
 
 class Setting extends StatefulWidget{
 
@@ -39,10 +40,13 @@ class _Settings extends State<Setting>{
                       });
                     }),
                 )
-              )
+              ),
             ],
           ),
-          Column(),
+          Column(
+            children: [
+            ],
+          ),
           Column(),
         ],
       ),
