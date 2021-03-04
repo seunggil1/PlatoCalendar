@@ -1,5 +1,7 @@
 import 'dart:collection';
 
+import 'package:flutter/material.dart';
+
 import '../ics.dart';
 
 enum SortMethod {sortByDue, sortByRegister}
@@ -14,4 +16,5 @@ String semester = "10";
 
 // 앞의 날짜가 먼저 오는 set
 SplayTreeSet<CalendarData> data = SplayTreeSet<CalendarData>((CalendarData a, CalendarData b) => a.end.compareTo(b.end)); 
-Set<String> subjectThisSemester = {"전체"};
+Set<String> subjectCodeThisSemester = {"전체"};
+Map<String,int> defaultColor = {}; // classCode, colorCollectionIndex
