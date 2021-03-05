@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'ics.dart';
 import 'plato.dart';
 import 'settings.dart';
 import 'sfCalendar.dart';
@@ -15,8 +16,14 @@ import 'toDoList.dart';
 // }
 
 List<Widget> _widgets = [Calendar(), ToDoList(), Setting()];
-void main() {
+void main() async{
   // HttpOverrides.global = new MyHttpOverrides();
+  // await Plato.login();
+  // await Plato.getCalendar();
+
+  // for test
+  WidgetsFlutterBinding.ensureInitialized();
+  await icsParser("");
   runApp(MyApp());
 }
 
@@ -60,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.calendar_today_outlined),
-              label: "Calendar"),
+              label: "달력"),
             BottomNavigationBarItem(
               icon: Icon(Icons.calendar_view_day_outlined),
               label: "할일"),

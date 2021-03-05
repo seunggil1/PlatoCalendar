@@ -95,15 +95,11 @@ class DataSource extends CalendarDataSource {
 }
 
 Future<DataSource> _getCalendarDataSource() async {
-  // Plato login = Plato();
-  // await login.login();
-  // await login.getCalendar();
 
-  // for test
-  await icsParser("");
   List<Appointment> appointments = <Appointment>[];
   for(var iter in userData.data)
-    if(!iter.finished) appointments.add(iter.toAppointment());
+    if(!iter.finished || userData.showFinished)
+      appointments.add(iter.toAppointment());
   
   return DataSource(appointments);
 }
