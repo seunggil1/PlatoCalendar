@@ -36,6 +36,8 @@ class Plato {
         }
       ),
       data: body);
+
+      return false;
     }
     catch(e){
       if(e.runtimeType == DioError && e.error == "Http status error [303]")
@@ -45,9 +47,12 @@ class Plato {
         return false;
       }
     }
-    moodleSession = response.headers.map["set-cookie"][1];
-    moodleSession = moodleSession.substring(0, moodleSession.indexOf(';'));
-    return true;
+    if(response.headers.map["location"][0] == "https://plato.pusan.ac.kr/login/index.php?testsession=66892"){
+      moodleSession = response.headers.map["set-cookie"][1];
+      moodleSession = moodleSession.substring(0, moodleSession.indexOf(';'));
+      return true;
+    }
+    return false;
   }
   
   static Future<bool> getCalendar() async{
