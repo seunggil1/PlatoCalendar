@@ -33,7 +33,7 @@ import 'Data/userData.dart' as userData;
 
 Future<void> icsParser(String bytes) async{
   // For Test
-  String bytes = await rootBundle.loadString('icalexport2021.ics');
+  String bytes = await rootBundle.loadString('icalexport2021.ics');  
   ICalendar iCalendar = ICalendar.fromString(bytes);
   
   for(var iter in iCalendar.data)
@@ -96,7 +96,7 @@ class CalendarData{
 
   Appointment toAppointment(){
     return Appointment(
-      startTime: end,
+      startTime: start.day == end.day ? start : end,
       endTime: end,
       subject: summary,
       notes: description,
