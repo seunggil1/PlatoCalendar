@@ -78,7 +78,7 @@ class _ToDoList extends State<ToDoList>{
             Expanded(child: 
               DropdownButton<String>(
                 value: dropdownValue,
-                icon: Icon(Icons.arrow_downward),
+                icon: Icon(Icons.arrow_drop_down),
                 isExpanded: true,
                 iconSize: 24,
                 elevation: 16,
@@ -160,14 +160,14 @@ class _ToDoList extends State<ToDoList>{
                               ),
                               actions: <Widget>[
                                 FlatButton(
-                                  child: new Text("확인"),
+                                  child: Text("확인"),
                                   onPressed: () {
                                     sortMethod = _sortMethod;
                                     Navigator.pop(context);
                                   },
                                 ),
                                 FlatButton(
-                                  child: new Text("취소"),
+                                  child: Text("취소"),
                                   onPressed: () {
                                     _sortMethod = sortMethod;
                                     Navigator.pop(context);
