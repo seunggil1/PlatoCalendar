@@ -114,74 +114,78 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
               ),
             backgroundColor: colorCollection[_color],
           ),
-          body: Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              children: [
-                Row(
+          body: ListView(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
                   children: [
-                    Text('수업  ',style: TextStyle(color: Colors.grey[600])),
-                    Expanded(
-                      child: DropdownButton<String>(
-                        value: _classCode,
-                        icon: Icon(Icons.arrow_drop_down),
-                        isExpanded: true,
-                        iconSize: 24,
-                        elevation: 16,
-                        style: TextStyle(color: Colors.black),
-                        underline: Container(
-                          height: 1,
-                          color: Colors.grey[600],
+                    Row(
+                      children: [
+                        Text('수업  ',style: TextStyle(color: Colors.grey[600])),
+                        Expanded(
+                          child: DropdownButton<String>(
+                            value: _classCode,
+                            icon: Icon(Icons.arrow_drop_down),
+                            isExpanded: true,
+                            iconSize: 24,
+                            elevation: 16,
+                            style: TextStyle(color: Colors.black),
+                            underline: Container(
+                              height: 1,
+                              color: Colors.grey[600],
+                            ),
+                            onChanged: (String newValue) {
+                              setState(() {
+                                _classCode = newValue;
+                              });
+                            },
+                            items: subjectCodeThisSemester
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(subjectCode[value]),
+                              );
+                            }).toList(),
+                          ),
+                        )
+                      ],
+                    ),
+                    ListTile(
+                      contentPadding: EdgeInsets.all(0),
+                      title: Transform.translate(
+                        offset: Offset(-20,0),
+                        child: TextField(
+                          controller: summaryController,
                         ),
-                        onChanged: (String newValue) {
-                          setState(() {
-                            _classCode = newValue;
-                          });
-                        },
-                        items: subjectCodeThisSemester
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(subjectCode[value]),
-                          );
-                        }).toList(),
                       ),
-                    )
+                      leading: Icon(Icons.calendar_today_rounded ,color: colorCollection[_color]),
+                    ),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight: 300.0,
+                      ),
+                      child: TextField(
+                        controller: descriptionController,
+                        maxLines: null,
+                      ),
+                    ),
+                    Text(DateFormat("MM-dd ").format(_start) + weekdayLocaleKR[_start.weekday] + DateFormat(" HH:mm").format(_start)),
+                    Text(DateFormat("MM-dd ").format(_end) + weekdayLocaleKR[_end.weekday] + DateFormat(" HH:mm").format(_end)),
+                    FlatButton(child: Text("1"),
+                      onPressed: (){
+                        showDialog(context: context,
+                          builder: (BuildContext context){
+                            return CalendarColorPicker(_color);                      
+                          }).then((value) => setState((){
+                            _color = value;
+                          }));
+                      })
                   ],
                 ),
-                ListTile(
-                  contentPadding: EdgeInsets.all(0),
-                  title: Transform.translate(
-                    offset: Offset(-20,0),
-                    child: TextField(
-                      controller: summaryController,
-                    ),
-                  ),
-                  leading: Icon(Icons.calendar_today_rounded ,color: colorCollection[_color]),
-                ),
-                ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxHeight: 300.0,
-                  ),
-                  child: TextField(
-                    controller: descriptionController,
-                    maxLines: null,
-                  ),
-                ),
-                Text(DateFormat("MM-dd ").format(_start) + weekdayLocaleKR[_start.weekday] + DateFormat(" HH:mm").format(_start)),
-                Text(DateFormat("MM-dd ").format(_end) + weekdayLocaleKR[_end.weekday] + DateFormat(" HH:mm").format(_end)),
-                FlatButton(child: Text("1"),
-                  onPressed: (){
-                    showDialog(context: context,
-                      builder: (BuildContext context){
-                        return CalendarColorPicker(_color);                      
-                      }).then((value) => setState((){
-                        _color = value;
-                      }));
-                  })
-              ],
-            ),
-          ),
+              ),
+            ],
+          )
     );
   }
 
