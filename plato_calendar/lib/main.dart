@@ -18,8 +18,7 @@ import 'toDoList.dart';
 List<Widget> _widgets = [Calendar(), ToDoList(), Setting()];
 void main() async{
   // HttpOverrides.global = new MyHttpOverrides();
-  // await Plato.login();
-  // await Plato.getCalendar();
+  // await Plato.login().then((value) => Plato.getCalendar());
 
   // for test
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,7 +32,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.white,
+        // primarySwatch: Typography.white,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(),

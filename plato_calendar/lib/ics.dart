@@ -29,16 +29,31 @@ import 'Data/userData.dart' as userData;
 // LAST-MODIFIED	일정이 최종 수정된 날짜 및 시간
 // DTSTAMP	  일정을 iCalendar 데이터로 변환한 날짜 및 시간(현재는 중요하지 않게 취급).
 
-
+final Set<String> _calendarReserved= 
+        {"BEGIN","METHOD","PRODID","VERSION","UID","SUMMARY","DESCRIPTION"
+        ,"CLASS","LAST-MODIFIED","DTSTAMP","DTSTART","DTEND","CATEGORIES","END"}; 
 
 Future<void> icsParser(String bytes) async{
   // For Test
-  String bytes = await rootBundle.loadString('icalexport2021.ics');  
+  String bytes = await rootBundle.loadString('icalexport.ics');
+  List<String> linebytes = bytes.split('\r\n');
+  // 일정 내용에 :가 있을 경우 오류가 발생하는 경우가 있어서 : -> ####로 교체하고 파싱진행.
+  for(int i = 0; i<linebytes.length; i++){
+    int index = linebytes[i].indexOf(':');
+    if(index != -1){
+      String first = linebytes[i].substring(0,index);
+      if(_calendarReserved.contains(first))
+        linebytes[i] = first + ':' + linebytes[i].substring(index+1).replaceAll(':', "####");
+      else
+        linebytes[i] = linebytes[i].replaceAll(':', "####");
+    }
+  }
+  bytes = linebytes.join('\r\n');
   ICalendar iCalendar = ICalendar.fromString(bytes);
-  
+
   for(var iter in iCalendar.data)
     userData.data.add(CalendarData(iter));
-  print(1);
+
 }
 
 
@@ -63,6 +78,9 @@ class CalendarData{
     uid = data["uid"];
     summary = data["summary"];
     description = data["description"];
+    description = description.replaceAll("####",":");
+    description = description.replaceAll("\\n", "\n");
+    
     start = data["dtstart"];
     end = data["dtend"];
 
@@ -90,7 +108,6 @@ class CalendarData{
       end = end.subtract(Duration(seconds: 1));
 
     color = userData.defaultColor[classCode] ?? 5; // colorCollection[5] = Colors.blue
-    print(1);
   }
 
 
