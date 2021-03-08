@@ -82,10 +82,10 @@ class _ToDoList extends State<ToDoList>{
                 isExpanded: true,
                 iconSize: 24,
                 elevation: 16,
-                style: TextStyle(color: Colors.deepPurple),
+                style: TextStyle(color: Colors.black),
                 underline: Container(
                   height: 2,
-                  color: Colors.deepPurpleAccent,
+                  color: Colors.grey[350],
                 ),
                 onChanged: (String newValue) {
                   setState(() {
@@ -106,7 +106,7 @@ class _ToDoList extends State<ToDoList>{
               Container(
                 alignment: Alignment.centerRight,
                 child: IconButton(
-                  icon: Icon(Icons.add_box_outlined),
+                  icon: Icon(Icons.add_box_outlined ,color: Colors.grey[700]),
                   onPressed: () => print('IconButton'),
                 ),
               ),
@@ -114,6 +114,7 @@ class _ToDoList extends State<ToDoList>{
             ),
             Expanded(child:
               PopupMenuButton<int>(
+                icon: Icon(Icons.more_vert_rounded, color: Colors.grey[700]),
                 itemBuilder: (context) =>[
                   PopupMenuItem(
                     value: 1,
