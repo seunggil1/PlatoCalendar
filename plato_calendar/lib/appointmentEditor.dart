@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:plato_calendar/Data/else.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -7,6 +8,7 @@ import 'Data/userData.dart' as userData;
 import 'Data/userData.dart';
 import 'package:intl/intl.dart';
 import 'ics.dart';
+
 
 class PopUpAppointmentEditor extends StatefulWidget{
   CalendarData calendarData;
@@ -168,11 +170,19 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                       child: TextField(
                         controller: descriptionController,
                         maxLines: null,
+                        style: TextStyle(fontSize: 14),
                       ),
                     ),
-                    Text(DateFormat("MM-dd ").format(_start) + weekdayLocaleKR[_start.weekday] + DateFormat(" HH:mm").format(_start)),
-                    Text(DateFormat("MM-dd ").format(_end) + weekdayLocaleKR[_end.weekday] + DateFormat(" HH:mm").format(_end)),
-                    FlatButton(child: Text("1"),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: _start == _end
+                      ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [Icon(Icons.watch_later_outlined ,color: colorCollection[_color],size: 30),Text("마감기한 : " + getTimeLocaleKR(_end))],)
+                      : Column(
+                          children: [AutoSizeText(getTimeLocaleKR(_start)), Text('~',style: TextStyle( fontSize: 20)) ,AutoSizeText(getTimeLocaleKR(_end))]),
+                    ),
+                    FlatButton(child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [Text("달력에 표시되는 색깔 : "), Icon(Icons.lens,color: colorCollection[_color])]),
                       onPressed: (){
                         showDialog(context: context,
                           builder: (BuildContext context){

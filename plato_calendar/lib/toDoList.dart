@@ -106,8 +106,8 @@ class _ToDoList extends State<ToDoList>{
               Container(
                 alignment: Alignment.centerRight,
                 child: IconButton(
-                  icon: Icon(Icons.add_box_outlined ,color: Colors.grey[700]),
-                  onPressed: () => print('IconButton'),
+                  icon: Icon(Icons.add_box_outlined ,color: Colors.grey[350]),// 기능넣으면 grey[700]으로
+                  onPressed: null,
                 ),
               ),
               flex: 3
@@ -149,13 +149,14 @@ class _ToDoList extends State<ToDoList>{
                                     Radio(
                                       value: SortMethod.sortByRegister,
                                       groupValue: _sortMethod,
-                                      onChanged: (SortMethod value) {
-                                        setState(() {
-                                          _sortMethod = value;
-                                        });
-                                      },
+                                      onChanged: null,
+                                      // (SortMethod value) {
+                                      //   setState(() {
+                                      //     _sortMethod = value;
+                                      //   });
+                                      // }
                                     ),
-                                    Text('등록순')
+                                    Text('등록순',style: TextStyle(color: Colors.grey[350]),)
                                   ],)
                                 ]
                               ),

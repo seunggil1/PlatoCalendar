@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 Map<int, String> weekdayLocaleKR = {
   1 : "월",
@@ -9,6 +10,8 @@ Map<int, String> weekdayLocaleKR = {
   6 : "토",
   7 : "일",
 };
+
+String getTimeLocaleKR(DateTime time) => DateFormat("yyyy년 M월 d일 (","ko_KR").format(time) + weekdayLocaleKR[time.weekday] + DateFormat(")      a h:mm","ko_KR").format(time);
 
 final List<Color> colorCollection =[
   Colors.red,
