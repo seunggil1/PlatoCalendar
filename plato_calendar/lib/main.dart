@@ -18,10 +18,10 @@ import 'toDoList.dart';
 List<Widget> _widgets = [Calendar(), ToDoList(), Setting()];
 void main() async{
   // HttpOverrides.global = new MyHttpOverrides();
-  // await Plato.login().then((value) => Plato.getCalendar());
 
   // for test
   WidgetsFlutterBinding.ensureInitialized();
+  // await Plato.login().then((value) => Plato.getCalendar().then((value) => Plato.logout()));
   await icsParser("");
   runApp(MyApp());
 }
