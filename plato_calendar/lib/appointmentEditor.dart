@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:plato_calendar/Data/else.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+import 'Data/subjectCode.dart';
 import 'Data/userData.dart' as userData;
+import 'Data/userData.dart';
+import 'package:intl/intl.dart';
 import 'ics.dart';
 
 class PopUpAppointmentEditor extends StatefulWidget{
@@ -20,12 +23,23 @@ class PopUpAppointmentEditor extends StatefulWidget{
   _PopUpAppointmentEditorState createState() => _PopUpAppointmentEditorState();
 }
 class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
-  final myController = TextEditingController();
-
+  TextEditingController summaryController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  String _classCode;
+  DateTime _start;
+  DateTime _end;
+  int _color;
   @override
   void initState() {
     super.initState();
-    myController.text = widget.calendarData.description;
+    summaryController.text = widget.calendarData.summary;
+    descriptionController.text = widget.calendarData.description;
+    _classCode =  subjectCodeThisSemester.contains(widget.calendarData.classCode)
+                  ? widget.calendarData.classCode
+                  : subjectCodeThisSemester.first;
+    _start = widget.calendarData.start;
+    _end = widget.calendarData.end;
+    _color = widget.calendarData.color;
   }
   @override
   Widget build(BuildContext context) {
@@ -39,38 +53,130 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                   Container(
                     alignment: Alignment.centerLeft,
                     width: 50,
-                    child: FlatButton(padding: EdgeInsets.all(5),onPressed: (){print(1);}, child: Icon(Icons.delete_outlined, color: Colors.white,)),
+                    child: FlatButton(
+                      padding: EdgeInsets.all(5),
+                      onPressed: (){
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context){
+                            return StatefulBuilder(builder: (context,setState){
+                              return AlertDialog(
+                                content: Text("삭제하시겠습니까?"),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    child: Text("확인"),
+                                    onPressed: () {
+                                      Navigator.pop(context,true);
+                                    },
+                                  ),
+                                  FlatButton(
+                                    child: Text("취소"),
+                                    onPressed: () {
+                                      Navigator.pop(context,false);
+                                    },
+                                  ),
+                                ],
+                              );
+                            });
+                          }).then((value){
+                            if(value){
+                              widget.calendarData.disable = true;
+                              Navigator.pop(context);
+                            }
+                          });
+                      },
+                      child: Icon(Icons.delete_outlined, color: Colors.white,))
                   ),
                   Container(
                     alignment: Alignment.centerLeft,
                     width: 50,
-                    child: FlatButton(padding: EdgeInsets.all(5),onPressed: (){print(1);}, child: Text('완료',style: TextStyle(color: Colors.white),)),
+                    child: FlatButton(
+                      padding: EdgeInsets.all(5),
+                      onPressed: (){
+                        widget.calendarData.summary = summaryController.text;
+                        widget.calendarData.description = descriptionController.text;
+                        if(_classCode != "전체"){
+                          widget.calendarData.classCode = _classCode;
+                          widget.calendarData.className = subjectCode[_classCode];
+                        }else{
+                          widget.calendarData.classCode = "bc6a6e7ce4fb95e75c4aa33a26";
+                          widget.calendarData.className = "";
+                        }
+                        widget.calendarData.start = _start;
+                        widget.calendarData.end = _end;
+                        widget.calendarData.color = _color;
+                        Navigator.pop(context);
+                      },
+                      child: Text('저장',style: TextStyle(color: Colors.white),)),
                   )
                 ],
               ),
               ),
-            backgroundColor: colorCollection[widget.calendarData.color],
+            backgroundColor: colorCollection[_color],
           ),
           body: Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
             child: Column(
               children: [
-                TextField(
-                  controller: myController,
+                Row(
+                  children: [
+                    Text('수업  ',style: TextStyle(color: Colors.grey[600])),
+                    Expanded(
+                      child: DropdownButton<String>(
+                        value: _classCode,
+                        icon: Icon(Icons.arrow_drop_down),
+                        isExpanded: true,
+                        iconSize: 24,
+                        elevation: 16,
+                        style: TextStyle(color: Colors.black),
+                        underline: Container(
+                          height: 1,
+                          color: Colors.grey[600],
+                        ),
+                        onChanged: (String newValue) {
+                          setState(() {
+                            _classCode = newValue;
+                          });
+                        },
+                        items: subjectCodeThisSemester
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(subjectCode[value]),
+                          );
+                        }).toList(),
+                      ),
+                    )
+                  ],
                 ),
-                Text(widget.calendarData.className == "" ? widget.calendarData.classCode : widget.calendarData.className),
-                Text(widget.calendarData.summary),
-                Text(widget.calendarData.description),
-                Text(widget.calendarData.start.toString()),
-                Text(widget.calendarData.end.toString()),
+                ListTile(
+                  contentPadding: EdgeInsets.all(0),
+                  title: Transform.translate(
+                    offset: Offset(-20,0),
+                    child: TextField(
+                      controller: summaryController,
+                    ),
+                  ),
+                  leading: Icon(Icons.calendar_today_rounded ,color: colorCollection[_color]),
+                ),
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: 300.0,
+                  ),
+                  child: TextField(
+                    controller: descriptionController,
+                    maxLines: null,
+                  ),
+                ),
+                Text(DateFormat("MM-dd ").format(_start) + weekdayLocaleKR[_start.weekday] + DateFormat(" HH:mm").format(_start)),
+                Text(DateFormat("MM-dd ").format(_end) + weekdayLocaleKR[_end.weekday] + DateFormat(" HH:mm").format(_end)),
                 FlatButton(child: Text("1"),
                   onPressed: (){
                     showDialog(context: context,
                       builder: (BuildContext context){
-                        return CalendarColorPicker(
-                          colorCollection,widget.calendarData);
-                        
+                        return CalendarColorPicker(_color);                      
                       }).then((value) => setState((){
-                        
+                        _color = value;
                       }));
                   })
               ],
@@ -81,24 +187,24 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
 
 }
 class CalendarColorPicker extends StatefulWidget {
-  CalendarColorPicker(this.colorCollection, this.test);
+  CalendarColorPicker(this.calendarColor);
 
-  final List<Color> colorCollection;
-  final CalendarData test;
+  final int calendarColor;
 
   @override
-  State<StatefulWidget> createState() => _CalendarColorPickerState();
+  State<StatefulWidget> createState() => _CalendarColorPickerState(calendarColor);
 }
 
 class _CalendarColorPickerState extends State<CalendarColorPicker> {
-
+  int _calendarColor;
+  _CalendarColorPickerState(this._calendarColor);
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
         contentPadding : const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 24.0),
         content: Container(
           alignment: Alignment.center,
-          width: (widget.colorCollection.length * 100).toDouble(),
+          width: (colorCollection.length * 100).toDouble(),
           height: 50.0,
           child: ListTile(
             dense: true,
@@ -107,7 +213,7 @@ class _CalendarColorPickerState extends State<CalendarColorPicker> {
             title: ListView.builder(
               padding: EdgeInsets.all(0),
               scrollDirection: Axis.horizontal,
-              itemCount: widget.colorCollection.length,
+              itemCount: colorCollection.length,
               itemBuilder: (context,i){
                 return FlatButton(
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -115,17 +221,17 @@ class _CalendarColorPickerState extends State<CalendarColorPicker> {
                   minWidth: 10,
                   onPressed: (){
                     setState(() {
-                      widget.test.color = i;
+                      _calendarColor = i;
                     });
                     Future.delayed(const Duration(milliseconds: 200), () {
-                      Navigator.pop(context);
+                      Navigator.pop(context,_calendarColor);
                     });
                   },
                   child: Icon(
-                    i == widget.test.color
+                    i == _calendarColor
                         ? Icons.lens
                         : Icons.trip_origin,
-                    color: widget.colorCollection[i])
+                    color: colorCollection[i])
                   );
               }),
           )
