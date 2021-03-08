@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import '../ics.dart';
 
 enum SortMethod {sortByDue, sortByRegister}
-int firstDayOfWeek = 7;
 SortMethod sortMethod = SortMethod.sortByDue;
+int firstDayOfWeek = 7;
 bool showFinished = false;
 
 String id = "";
