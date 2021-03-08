@@ -50,7 +50,7 @@ class _Settings extends State<Setting>{
           ),
           Row(
             children: [
-              Text("완료된 일정 숨기기", style: TextStyle(fontSize: 16 )),
+              Text("완료된 일정 표시", style: TextStyle(fontSize: 16 )),
               Expanded(
                 child: Container(
                   alignment: Alignment.centerRight,

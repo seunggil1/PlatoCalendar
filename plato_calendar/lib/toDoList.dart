@@ -47,8 +47,8 @@ class _ToDoList extends State<ToDoList>{
       if(dropdownValue == '전체' || element.classCode == dropdownValue)
         if(!element.disable){ // 유저가 삭제 처리
           if(element.finished){ // 완료 일정
-            // 날짜 정보가 없거나 2주 안지나면 표시
-            if(element.end == null || diff.inDays > -13)
+            // 날짜 정보가 없거나 1주 안지나면 표시
+            if(element.end == null || diff.inDays > -7)
               toDoListFinished.add(_getTodoWidget(element));
           }
           else{
