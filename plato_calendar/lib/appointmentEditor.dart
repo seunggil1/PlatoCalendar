@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:plato_calendar/Data/else.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -175,14 +176,38 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                     ),
                     Container(
                       padding: EdgeInsets.all(10),
-                      child: _start == _end
-                      ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [Icon(Icons.watch_later_outlined ,color: colorCollection[_color],size: 30),Text("마감기한 : " + getTimeLocaleKR(_end))],)
-                      : Column(
-                          children: [AutoSizeText(getTimeLocaleKR(_start)), Text('~',style: TextStyle( fontSize: 20)) ,AutoSizeText(getTimeLocaleKR(_end))]),
+                      child: Column(
+                          children: [
+                            FlatButton(
+                              onPressed: (){
+                                DatePicker.showDateTimePicker(
+                                  context,
+                                  locale: LocaleType.ko,
+                                  onConfirm: (DateTime time){
+                                    setState(() {
+                                      _start = time;
+                                    });
+                                });
+                              },
+                              child: AutoSizeText(getTimeLocaleKR(_start))
+                            ),
+                            Text('~',style: TextStyle( fontSize: 30)),
+                            FlatButton(
+                              onPressed: (){
+                                DatePicker.showDateTimePicker(
+                                  context,
+                                  locale: LocaleType.ko,
+                                  onConfirm: (DateTime time){
+                                    setState(() {
+                                      _end = time;
+                                    });
+                                });
+                              },
+                              child: AutoSizeText(getTimeLocaleKR(_end))
+                            ),
+                          ]),
                     ),
-                    FlatButton(child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [Text("달력에 표시되는 색깔 : "), Icon(Icons.lens,color: colorCollection[_color])]),
+                    FlatButton(child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [Text(" 달력에 표시되는 색깔 : "), Icon(Icons.lens,color: colorCollection[_color])]),
                       onPressed: (){
                         showDialog(context: context,
                           builder: (BuildContext context){
