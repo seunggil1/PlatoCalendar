@@ -98,7 +98,7 @@ Future<DataSource> _getCalendarDataSource() async {
 
   List<Appointment> appointments = <Appointment>[];
   for(var iter in userData.data)
-    if(!iter.finished || userData.showFinished)
+    if(!iter.disable &&(!iter.finished || userData.showFinished))
       appointments.add(iter.toAppointment());
   
   return DataSource(appointments);
