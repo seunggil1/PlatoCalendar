@@ -47,7 +47,9 @@ class Plato {
         return false;
       }
     }
-    if(response.headers.map["location"][0] == "https://plato.pusan.ac.kr/login/index.php?testsession=66892"){
+    if(response.headers.map["location"][0] == "https://plato.pusan.ac.kr/login.php?errorcode=3")
+      print("ID,PW is incorrect");
+    else{
       moodleSession = response.headers.map["set-cookie"][1];
       moodleSession = moodleSession.substring(0, moodleSession.indexOf(';'));
       return true;
