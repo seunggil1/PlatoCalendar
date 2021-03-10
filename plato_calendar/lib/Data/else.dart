@@ -11,7 +11,7 @@ Map<int, String> weekdayLocaleKR = {
   7 : "일",
 };
 
-String getTimeLocaleKR(DateTime time) => DateFormat("yyyy년 M월 d일 (","ko_KR").format(time) + weekdayLocaleKR[time.weekday] + DateFormat(")      a h:mm","ko_KR").format(time);
+String getTimeLocaleKR(DateTime time) => DateFormat("yyyy년 M월 d일 (","ko_KR").format(time) + weekdayLocaleKR[time.weekday] + DateFormat(")  a h:mm","ko_KR").format(time);
 
 final List<Color> colorCollection =[
   Colors.red,

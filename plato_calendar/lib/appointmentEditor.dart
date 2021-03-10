@@ -177,6 +177,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                     Container(
                       padding: EdgeInsets.all(10),
                       child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             FlatButton(
                               onPressed: (){
@@ -189,9 +190,9 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                                     });
                                 });
                               },
-                              child: AutoSizeText(getTimeLocaleKR(_start))
+                              child: AutoSizeText("시작 시간 :  "+getTimeLocaleKR(_start))
                             ),
-                            Text('~',style: TextStyle( fontSize: 30)),
+                            //Text('~',style: TextStyle( fontSize: 30)),
                             FlatButton(
                               onPressed: (){
                                 DatePicker.showDateTimePicker(
@@ -203,7 +204,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                                     });
                                 });
                               },
-                              child: AutoSizeText(getTimeLocaleKR(_end))
+                              child: AutoSizeText("종료 시간 :  "+getTimeLocaleKR(_end))
                             ),
                           ]),
                     ),
@@ -213,7 +214,8 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                           builder: (BuildContext context){
                             return CalendarColorPicker(_color);                      
                           }).then((value) => setState((){
-                            _color = value;
+                            if(value != null)
+                              _color = value;
                           }));
                       })
                   ],

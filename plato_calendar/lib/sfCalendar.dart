@@ -35,7 +35,7 @@ class _Calendar extends State<Calendar>{
                 headerStyle: CalendarHeaderStyle(),
                 firstDayOfWeek: userData.firstDayOfWeek, // 한주의 시작 - 1: 월 .., 7:일
                 monthViewSettings: MonthViewSettings(
-                  appointmentDisplayCount: 5,
+                  appointmentDisplayCount: 4,
                   appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
                   monthCellStyle: MonthCellStyle()),
                 scheduleViewSettings: ScheduleViewSettings(

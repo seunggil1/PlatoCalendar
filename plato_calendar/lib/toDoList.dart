@@ -73,8 +73,10 @@ class _ToDoList extends State<ToDoList>{
     });
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         title: Row(
           children: [
+            SizedBox(width: 5),
             Expanded(child: 
               DropdownButton<String>(
                 value: dropdownValue,
@@ -303,7 +305,7 @@ class _ToDoList extends State<ToDoList>{
     return Container(
       margin: const EdgeInsets.fromLTRB(7,7,0,0),
       child: Text(str,
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)
+        style: TextStyle(fontSize: 15) // fontWeight: FontWeight.bold, 
         )
       );
   }
@@ -319,14 +321,14 @@ class _ToDoList extends State<ToDoList>{
       child: Row(
         children: [
           Checkbox(
-            activeColor: Colors.grey, // 선택했을 때 체크박스 background color
-            checkColor : Colors.black26, // 선택했을 때 체크표시 color
-            value: data.finished,
-            onChanged: (value){
-              setState(() {
-                data.finished = value;
-              });
-          }),
+              activeColor: Colors.grey, // 선택했을 때 체크박스 background color
+              checkColor : Colors.black26, // 선택했을 때 체크표시 color
+              value: data.finished,
+              onChanged: (value){
+                setState(() {
+                  data.finished = value;
+                });
+            }),
           Expanded(
             flex: 4,
             child: RichText(
@@ -334,7 +336,7 @@ class _ToDoList extends State<ToDoList>{
               overflow: TextOverflow.ellipsis,
               text: TextSpan(
                 style: TextStyle(color: Colors.black),
-                text: data.summary+' : '+ data.description)
+                text: data.summary +(data.description != "" ? ' : ${data.description}'  : ""))
             )
           ),
           Expanded(
