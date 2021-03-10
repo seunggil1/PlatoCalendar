@@ -1,5 +1,9 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'database.dart';
 import 'ics.dart';
 import 'plato.dart';
 import 'settings.dart';
@@ -21,8 +25,13 @@ void main() async{
 
   // for test
   WidgetsFlutterBinding.ensureInitialized();
-  // await Plato.login().then((value) => Plato.getCalendar().then((value) => Plato.logout()));
-  await icsParser("");
+  
+  //await icsParser("");
+  await Database.init();
+  Database.userDataLoad();
+  Database.calendarDataLoad();
+
+  Plato.update();
   runApp(MyApp());
 }
 

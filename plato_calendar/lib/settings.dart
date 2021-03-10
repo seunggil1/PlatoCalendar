@@ -5,6 +5,7 @@ import 'Data/subjectCode.dart';
 import 'Data/userData.dart' as userData;
 import 'Data/userData.dart';
 import 'appointmentEditor.dart';
+import 'database.dart';
 import 'plato.dart';
 
 class Setting extends StatefulWidget{
@@ -21,7 +22,10 @@ class _Settings extends State<Setting>{
   void initState() {
     super.initState();
     _subjectCodeThisSemester.remove("전체");
-    _subject = _subjectCodeThisSemester.first;
+    if(_subjectCodeThisSemester.length != 0)
+      _subject = _subjectCodeThisSemester.first;
+    else
+      _subject = "None";
   }
 
   @override
@@ -52,8 +56,10 @@ class _Settings extends State<Setting>{
                           print(1);
                         }));
                     else{
-                      id = "";
-                      pw = "";
+                      setState(() {
+                        id = "";
+                        pw = "";
+                      });
                     }                      
                   },
                   child: Container(
@@ -83,6 +89,7 @@ class _Settings extends State<Setting>{
                       setState(() {
                         userData.firstDayOfWeek = newValue;
                       });
+                      Database.userDataSave();
                     }),
                 )
               ),
@@ -98,12 +105,14 @@ class _Settings extends State<Setting>{
                     setState(() {
                       showFinished = value;
                     });
+                    Database.userDataSave();
                   }),
                 )
               ),
             ],
           ),
-          Row(
+          _subjectCodeThisSemester.length != 0
+          ? Row(
             children: [
               Text('과목 기본 색상 지정', style: TextStyle(fontSize: 16 )),
               Expanded(child: Container()),
@@ -141,15 +150,19 @@ class _Settings extends State<Setting>{
                   showDialog(context: context,
                           builder: (BuildContext context){
                             return CalendarColorPicker(defaultColor[_subject] ?? 5);                      
-                          }).then((value) => setState((){
-                            defaultColor[_subject] = value;
-                          }));
+                          }).then((value) {
+                            setState((){
+                              defaultColor[_subject] = value;
+                            });
+                            Database.userDataSave();
+                          });
                 },
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 minWidth: 3,
                 child: Icon(Icons.lens,color: colorCollection[defaultColor[_subject] ?? 5]))
             ],
-          ),
+          )
+          : Container()
         ],
       ),
       )
@@ -219,9 +232,10 @@ class _LoginPageState extends State<LoginPage> {
               TextButton(
                   onPressed: idController.text == "" && pwController.text == ""
                   ? null
-                  :(){
+                  :() async {
                     id = idController.text;
-                    pw = idController.text;
+                    pw = pwController.text;
+                    await Plato.update(force: true);
                     Navigator.pop(context, true);
                   },
                   child: Container(

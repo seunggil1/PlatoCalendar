@@ -8,6 +8,17 @@ import 'ics.dart';
 class Plato {
   static String moodleSession = "";
   static String sesskey = "";
+
+  static Future<bool> update({bool force = false}) async{
+    if(id != "")
+      if(force ||(DateTime.now().difference(lastSyncTime).inHours > 3)){
+        if(await login() && await getCalendar() && await logout())
+          return true;
+        return false;
+      }
+    return true;
+  }
+
   static Future<bool> login() async {
 
     String body = 'username=$id&password=${Uri.encodeQueryComponent(pw)}&loginbutton=%EB%A1%9C%EA%B7%B8%EC%9D%B8';

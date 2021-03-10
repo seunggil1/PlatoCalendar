@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:icalendar_parser/icalendar_parser.dart';
@@ -6,7 +8,11 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'Data/else.dart';
 import 'Data/subjectCode.dart';
 import 'Data/userData.dart' as userData;
+import 'package:hive/hive.dart';
 
+import 'database.dart';
+
+part 'ics.g.dart';
 // UID	      일정의 고유한 ID 값. 단일 캘린더 ID에서는 iCalendar의 UID가 고유해야 한다.
 //            UID는 일반적으로 iCalendar 데이터를 최초 생성할 때 사용자 ID, 타임스탬프, 도메인 등의 정보를 조합해서 만든다.
 //            이때 특수 기호 % 문자는 이스케이프 문제로 지원되지 않으니 주의한다.
@@ -52,18 +58,22 @@ Future<void> icsParser(String bytes) async{
   ICalendar iCalendar = ICalendar.fromString(bytes);
 
   for(var iter in iCalendar.data)
-    userData.data.add(CalendarData(iter));
-
+    userData.data.add(CalendarData.byMap(iter));
+  userData.lastSyncTime = DateTime.now();
+  Database.calendarDataSave();
+  Database.userDataSave();
 }
 
-
 class CalendarData{
+
   String uid;
   String summary;
   String description;
 
   DateTime start, end;
+
   bool isPeriod = true;
+
   String year;
   String semester;
   String classCode;
@@ -74,7 +84,11 @@ class CalendarData{
 
   int color;
 
-  CalendarData(Map<String,dynamic> data){
+  CalendarData(this.uid, this.summary,this.description, this.start, this.end,
+              this.isPeriod, this.year, this.semester, this.classCode, this.className,
+              this.disable, this.finished, this.color);
+
+  CalendarData.byMap(Map<String,dynamic> data){
     uid = data["uid"];
     summary = data["summary"];
     description = data["description"];
@@ -133,3 +147,4 @@ class CalendarData{
     return this.uid == other.uid;
   }
 }
+

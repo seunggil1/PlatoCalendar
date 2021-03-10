@@ -6,18 +6,25 @@ import '../ics.dart';
 
 enum SortMethod {sortByDue, sortByRegister}
 SortMethod sortMethod = SortMethod.sortByDue;
-int firstDayOfWeek = 7;
-bool showFinished = false;
+/// 한 주의 시작, Default : 7(일요일)
+int firstDayOfWeek;
+/// 완료된 일정 표시 여부, Default : False
+bool showFinished;
 
-String id = "";
-String pw = "";
+String id;
+String pw;
 
 String year = "2021";
 String semester = "10";
 
-DateTime lastSyncTime = DateTime(1999);
+/// 마지막 동기화 시간, Default : DateTime(1999)
+DateTime lastSyncTime;
 
-// 앞의 날짜가 먼저 오는 set
+/// 이전 날짜가 먼저 오는 CalendarData set
 SplayTreeSet<CalendarData> data = SplayTreeSet<CalendarData>((CalendarData a, CalendarData b) => a.end.compareTo(b.end)); 
-Set<String> subjectCodeThisSemester = {"전체"};
-Map<String,int> defaultColor = {}; // classCode, colorCollectionIndex
+
+/// 이번학기 수강하는 subjectCode
+Set<String> subjectCodeThisSemester;
+
+/// 과목별 default Color
+Map defaultColor = {}; // classCode, colorCollectionIndex
