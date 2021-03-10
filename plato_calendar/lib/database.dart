@@ -53,7 +53,7 @@ class Database{
     userData.pw = userDataBox.get('pw') ?? "";
     userData.lastSyncTime = userDataBox.get('lastSyncTime') ?? DateTime(1999);
     userData.subjectCodeThisSemester = (userDataBox.get('subjectCodeThisSemester') ?? ["전체"]).toSet();
-    userData.defaultColor = userDataBox.get('defaultColor') ?? {};
+    userData.defaultColor = userDataBox.get('defaultColor') ?? { };
   }
 
 }

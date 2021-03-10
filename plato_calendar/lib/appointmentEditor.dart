@@ -8,6 +8,7 @@ import 'Data/subjectCode.dart';
 import 'Data/userData.dart' as userData;
 import 'Data/userData.dart';
 import 'package:intl/intl.dart';
+import 'database.dart';
 import 'ics.dart';
 
 
@@ -70,6 +71,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                                     child: Text("확인"),
                                     onPressed: () {
                                       Navigator.pop(context,true);
+                                      Database.calendarDataSave();
                                     },
                                   ),
                                   FlatButton(
@@ -109,6 +111,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                         widget.calendarData.end = _end;
                         widget.calendarData.color = _color;
                         Navigator.pop(context);
+                        Database.calendarDataSave();
                       },
                       child: Text('저장',style: TextStyle(color: Colors.white),)),
                   )

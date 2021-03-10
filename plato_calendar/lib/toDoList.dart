@@ -7,6 +7,7 @@ import 'Data/else.dart';
 import 'Data/subjectCode.dart';
 import 'Data/userData.dart';
 import 'appointmentEditor.dart';
+import 'database.dart';
 import 'ics.dart';
 
 
@@ -328,6 +329,7 @@ class _ToDoList extends State<ToDoList>{
                 setState(() {
                   data.finished = value;
                 });
+                Database.calendarDataSave();
             }),
           Expanded(
             flex: 4,

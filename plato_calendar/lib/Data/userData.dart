@@ -27,4 +27,4 @@ SplayTreeSet<CalendarData> data = SplayTreeSet<CalendarData>((CalendarData a, Ca
 Set<String> subjectCodeThisSemester;
 
 /// 과목별 default Color
-Map defaultColor = {}; // classCode, colorCollectionIndex
+Map defaultColor; // classCode, colorCollectionIndex
