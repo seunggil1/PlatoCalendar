@@ -44,7 +44,7 @@ class _Calendar extends State<Calendar>{
                     monthFormat: 'yyyy년 M월'
                   )
                 ),
-                dataSource: snapshot.hasData ? snapshot.data : DataSource(List<Appointment>()),
+                dataSource: snapshot.hasData ? snapshot.data : DataSource([]),
                 onTap: (data){
                   if(_calendarController.view == CalendarView.month)
                     setState(() {
