@@ -20,15 +20,16 @@ String semester = "10";
 /// 마지막 동기화 시간, Default : DateTime(1999)
 DateTime lastSyncTime;
 
+Set<CalendarData> data = {};
 /// 이전 날짜가 먼저 오는 CalendarData set
-SplayTreeSet<CalendarData> data = SplayTreeSet<CalendarData>(
-  (CalendarData a, CalendarData b) {
-    int i = a.end.compareTo(b.end);
-    if(i == 0)
-      return a.summary.compareTo(b.summary);
-    else
-      return i;
-  }); 
+// SplayTreeSet<CalendarData> data = SplayTreeSet<CalendarData>(
+//   (CalendarData a, CalendarData b) {
+//     int i = a.end.compareTo(b.end);
+//     if(i == 0)
+//       return a.summary.compareTo(b.summary);
+//     else
+//       return i;
+//   }); 
 
 /// 이번학기 수강하는 subjectCode
 Set<String> subjectCodeThisSemester;
