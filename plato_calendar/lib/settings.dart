@@ -151,10 +151,10 @@ class _Settings extends State<Setting>{
                           builder: (BuildContext context){
                             return CalendarColorPicker(defaultColor[_subject] ?? 5);                      
                           }).then((value) {
-                            setState((){
-                              defaultColor[_subject] = value;
-                            });
-                            Database.userDataSave();
+                            if(value != null){
+                              setState((){ defaultColor[_subject] = value;});
+                              Database.userDataSave();
+                            }
                           });
                 },
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
