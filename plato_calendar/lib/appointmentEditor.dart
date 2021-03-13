@@ -187,6 +187,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                                 DatePicker.showDateTimePicker(
                                   context,
                                   locale: LocaleType.ko,
+                                  currentTime: _start,
                                   onConfirm: (DateTime time){
                                     setState(() {
                                       _start = time;
@@ -201,6 +202,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                                 DatePicker.showDateTimePicker(
                                   context,
                                   locale: LocaleType.ko,
+                                  currentTime: _end,
                                   onConfirm: (DateTime time){
                                     setState(() {
                                       _end = time;
