@@ -100,6 +100,10 @@ class CalendarData{
 
     start = start.toLocal();
     end = end.toLocal();
+    
+    // 시간에서 초 부분 0으로 자르기, 59초인 경우 sfcalendar.scheduleview에서 토요일 일정 제대로 표시 못하는 오류가 있음.
+    start = start.subtract(Duration(seconds: start.second));
+    end = end.subtract(Duration(seconds: end.second));
     isPeriod = !(start == end);
 
     List classInfo = data["categories"][0].split('_');
@@ -116,10 +120,8 @@ class CalendarData{
       className = "";
     }
     
-    if(start.hour == 0 && start.minute == 0)
-      start = start.subtract(Duration(seconds: 1));
     if(end.hour == 0 && end.minute == 0)
-      end = end.subtract(Duration(seconds: 1));
+      end = end.subtract(Duration(minutes: 1));
 
     color = userData.defaultColor[classCode] ?? 5; // colorCollection[5] = Colors.blue
   }
