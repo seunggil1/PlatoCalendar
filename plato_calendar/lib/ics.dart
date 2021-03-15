@@ -18,7 +18,7 @@ part 'ics.g.dart';
 //            이때 특수 기호 % 문자는 이스케이프 문제로 지원되지 않으니 주의한다.
 // DTSTART	  일정이 시작된 날짜 및 시간.
 //            별도의 표준시간대를 사용하지 않는다면 'T' 이하의 시간 값만 수정해서 사용할 수 있다.
-//            DTEND	일정이 종료된 날짜 및 시간.
+// DTEND	    일정이 종료된 날짜 및 시간.
 //            별도의 표준시간대를 사용하지 않는다면 'T' 이하의 시간 값만 수정해서 사용할 수 있다.
 // SUMMARY	  일정 제목
 // DESCRIPTION	일정의 상세 내용
@@ -120,8 +120,11 @@ class CalendarData{
       className = "";
     }
     
-    if(end.hour == 0 && end.minute == 0)
+    if(end.hour == 0 && end.minute == 0){
+      if(start == end)
+        start = start.subtract(Duration(minutes: 1));
       end = end.subtract(Duration(minutes: 1));
+    }
 
     color = userData.defaultColor[classCode] ?? 5; // colorCollection[5] = Colors.blue
   }
