@@ -27,17 +27,18 @@ class _ToDoList extends State<ToDoList>{
   List<Widget> toDoListPassed = [];   // 기간 지남
   List<Widget> toDoListLongTime = []; // 1주일 이상 남음
   List<Widget> toDoListWeek = [];     // 1주일 남음
+  List<Widget> toDoListTomorrow = []; // 내일까지
   List<Widget> toDoListToday = [];    // 오늘까지
   List<Widget> toDoList12Hour = [];   // 12시간 남음
   List<Widget> toDoList6Hour= [];     // 6시간 남음
   List<Widget> toDoListFinished = []; // 완료
-
   @override
   Widget build(BuildContext context) {
     toDoListNodate.clear();
     toDoListPassed.clear();
     toDoListLongTime.clear();
     toDoListWeek.clear();
+    toDoListTomorrow.clear();
     toDoListToday.clear();
     toDoList12Hour.clear();
     toDoList6Hour.clear();
@@ -67,7 +68,9 @@ class _ToDoList extends State<ToDoList>{
                   toDoList12Hour.add(_getTodoWidget(element));
                 else // 오늘까지 인데 12시간 이상 남음
                   toDoListToday.add(_getTodoWidget(element));
-              }else // 하루 넘게 남았음
+              }else if(diff.inHours < 24) // 오늘까지는 아닌데 24시간 이하로 남음 => 내일까지
+                toDoListTomorrow.add(_getTodoWidget(element));
+              else // 하루 넘게 남았음
                 toDoListWeek.add(_getTodoWidget(element));
           }
         }
@@ -244,6 +247,19 @@ class _ToDoList extends State<ToDoList>{
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [_getDurationWidget("오늘")] + toDoListToday,
+            ),
+          ),
+          toDoListTomorrow.isEmpty ? Container()
+          : Container(
+            margin: edgeInsetsMiddle,
+            padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal:5.0),
+            decoration: BoxDecoration(
+              border:Border.all(color:Colors.grey[350], width: 1.5),
+              borderRadius: BorderRadius.circular(5)
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [_getDurationWidget("내일")] + toDoListTomorrow,
             ),
           ),
           toDoListWeek.isEmpty ? Container()
