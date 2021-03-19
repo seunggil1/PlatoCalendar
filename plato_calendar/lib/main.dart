@@ -30,7 +30,7 @@ void main() async{
   await Database.init();
   Database.userDataLoad();
   Database.calendarDataLoad();
-
+  
   Plato.update();
   runApp(MyApp());
 }

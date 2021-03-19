@@ -7,7 +7,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import 'Data/else.dart';
 import 'Data/subjectCode.dart';
-import 'Data/userData.dart' as userData;
+import 'Data/userData.dart';
 import 'package:hive/hive.dart';
 
 import 'database.dart';
@@ -58,10 +58,9 @@ Future<void> icsParser(String bytes) async{
   ICalendar iCalendar = ICalendar.fromString(bytes);
 
   for(var iter in iCalendar.data)
-    userData.data.add(CalendarData.byMap(iter));
-  userData.lastSyncTime = DateTime.now();
-  Database.calendarDataSave();
-  Database.userDataSave();
+    UserData.data.add(CalendarData.byMap(iter));
+  UserData.lastSyncTime = DateTime.now();
+  Database.calendarBox.put('uidList', Database.uidSet.toList());
 }
 
 class CalendarData{
@@ -112,7 +111,7 @@ class CalendarData{
       semester = classInfo[1];
       classCode = classInfo[2];
       className = subjectCode[classCode] ?? "";
-      userData.subjectCodeThisSemester.add(classCode);
+      UserData.subjectCodeThisSemester.add(classCode);
     }else{
       year = "No data";
       semester = "No data";
@@ -126,7 +125,10 @@ class CalendarData{
       end = end.subtract(Duration(minutes: 1));
     }
 
-    color = userData.defaultColor[classCode] ?? 5; // colorCollection[5] = Colors.blue
+    color = UserData.defaultColor[classCode] ?? 5; // colorCollection[5] = Colors.blue
+
+    Database.uidSet.add(uid);
+    Database.calendarDataSave(this);
   }
 
 
