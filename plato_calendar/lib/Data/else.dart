@@ -14,14 +14,16 @@ Map<int, String> weekdayLocaleKR = {
 String getTimeLocaleKR(DateTime time) => DateFormat("yyyy년 M월 d일 (","ko_KR").format(time) + weekdayLocaleKR[time.weekday] + DateFormat(")  a h:mm","ko_KR").format(time);
 
 final List<Color> colorCollection =[
-  Colors.red,
   Colors.red[200],
+  Colors.indigo,
   Colors.orange,
-  Colors.lightGreen,
   Colors.green,
+  Colors.lightGreen,
+  Colors.blueGrey,
+  Colors.teal[200],
+  Colors.pink[300],
+  Colors.brown[400],
   Colors.blue,
-  Colors.brown[900],
-  Colors.purple,
-  Colors.grey
+  Colors.purple[400],
 ];
 
