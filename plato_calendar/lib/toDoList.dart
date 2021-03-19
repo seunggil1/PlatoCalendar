@@ -347,6 +347,11 @@ class _ToDoList extends State<ToDoList>{
                 });
                 Database.calendarDataSave();
             }),
+          Container(
+            width: 5,
+            color: colorCollection[data.color],
+            child: Text('')
+          ),
           Expanded(
             flex: 4,
             child: RichText(
@@ -354,7 +359,7 @@ class _ToDoList extends State<ToDoList>{
               overflow: TextOverflow.ellipsis,
               text: TextSpan(
                 style: TextStyle(color: Colors.black),
-                text: data.summary +(data.description != "" ? ' : ${data.description}'  : ""))
+                text: ' '+data.summary +(data.description != "" ? ' : ${data.description}'  : ""))
             )
           ),
           Expanded(
