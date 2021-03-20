@@ -146,16 +146,17 @@ class _Settings extends State<Setting>{
                 onPressed: (){
                   showDialog(context: context,
                           builder: (BuildContext context){
-                            return CalendarColorPicker(UserData.defaultColor[_subject] ?? 5);                      
+                            return CalendarColorPicker(UserData.defaultColor[_subject] ?? 9);                      
                           }).then((value) {
                             if(value != null){
                               setState((){ UserData.defaultColor[_subject] = value;});
+                              Database.defaultColorSave();
                             }
                           });
                 },
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 minWidth: 3,
-                child: Icon(Icons.lens,color: colorCollection[UserData.defaultColor[_subject] ?? 5]))
+                child: Icon(Icons.lens,color: colorCollection[UserData.defaultColor[_subject] ?? 9]))
             ],
           )
           : Container()

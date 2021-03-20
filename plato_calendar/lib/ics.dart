@@ -61,7 +61,8 @@ Future<void> icsParser(String bytes) async{
     UserData.data.add(CalendarData.byMap(iter));
   UserData.lastSyncTime = DateTime.now();
   Database.subjectCodeThisSemesterSave();
-  Database.calendarBox.put('uidList', Database.uidSet.toList());
+  Database.defaultColorSave();
+  Database.uidSetSave();
 }
 
 class CalendarData{

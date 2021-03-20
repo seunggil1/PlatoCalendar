@@ -22,6 +22,9 @@ class Database{
     await userDataBox.clear();
   }
 
+  static void uidSetSave(){
+    calendarBox.put('uidList', Database.uidSet.toList());
+  }
   static void calendarDataSave(CalendarData data){
     calendarBox.put(data.uid,data);
   }
@@ -35,9 +38,11 @@ class Database{
     userDataBox.put('subjectCodeThisSemester', UserData.subjectCodeThisSemester.toList());
   }
 
-  static void defaultColor(){
+  static void defaultColorSave(){
     userDataBox.put('defaultColor', UserData.defaultColor);
   }
+
+
 
   static void userDataLoad(){
     UserData.firstDayOfWeek = userDataBox.get('firstDayOfWeek');
