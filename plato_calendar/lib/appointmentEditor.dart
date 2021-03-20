@@ -5,7 +5,6 @@ import 'package:plato_calendar/Data/else.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import 'Data/subjectCode.dart';
-import 'Data/userData.dart' as userData;
 import 'Data/userData.dart';
 import 'package:intl/intl.dart';
 import 'database.dart';
@@ -17,7 +16,7 @@ class PopUpAppointmentEditor extends StatefulWidget{
 
   CalendarData get scalendarData => calendarData;
   PopUpAppointmentEditor.appointment(Appointment data){
-    calendarData = userData.data.firstWhere((value) {
+    calendarData = UserData.data.firstWhere((value) {
       return value.hashCode == data.resourceIds[0];
     });
   }
@@ -38,9 +37,9 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
     super.initState();
     summaryController.text = widget.calendarData.summary;
     descriptionController.text = widget.calendarData.description;
-    _classCode =  subjectCodeThisSemester.contains(widget.calendarData.classCode)
+    _classCode =  UserData.subjectCodeThisSemester.contains(widget.calendarData.classCode)
                   ? widget.calendarData.classCode
-                  : subjectCodeThisSemester.first;
+                  : UserData.subjectCodeThisSemester.first;
     _start = widget.calendarData.start;
     _end = widget.calendarData.end;
     _color = widget.calendarData.color;
@@ -71,7 +70,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                                     child: Text("확인"),
                                     onPressed: () {
                                       Navigator.pop(context,true);
-                                      Database.calendarDataSave();
+                                      
                                     },
                                   ),
                                   FlatButton(
@@ -87,6 +86,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                             if(value){
                               widget.calendarData.disable = true;
                               Navigator.pop(context);
+                              Database.calendarDataSave(widget.calendarData);
                             }
                           });
                       },
@@ -111,7 +111,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                         widget.calendarData.end = _end;
                         widget.calendarData.color = _color;
                         Navigator.pop(context);
-                        Database.calendarDataSave();
+                        Database.calendarDataSave(widget.calendarData);
                       },
                       child: Text('저장',style: TextStyle(color: Colors.white),)),
                   )
@@ -146,7 +146,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                                 _classCode = newValue;
                               });
                             },
-                            items: subjectCodeThisSemester
+                            items: UserData.subjectCodeThisSemester
                                 .map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,

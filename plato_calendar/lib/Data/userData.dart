@@ -1,38 +1,109 @@
-import 'dart:collection';
-
-import 'package:flutter/material.dart';
-
+import '../database.dart';
 import '../ics.dart';
 
 enum SortMethod {sortByDue, sortByRegister}
 SortMethod sortMethod = SortMethod.sortByDue;
-/// 한 주의 시작, Default : 7(일요일)
-int firstDayOfWeek;
-/// 완료된 일정 표시 여부, Default : False
-bool showFinished;
 
-String id;
-String pw;
+class UserData{
+  /// 한 주의 시작, Default : 7(일요일)
+  static int _firstDayOfWeek;
 
-String year = "2021";
-String semester = "10";
+  /// 완료된 일정 표시 여부
+  static bool _showFinished;
 
-/// 마지막 동기화 시간, Default : DateTime(1999)
-DateTime lastSyncTime;
+  static String _id;
+  static String _pw;
+ 
+  static String _year = "2021";
+  static String _semester = "10";
 
-Set<CalendarData> data = {};
-/// 이전 날짜가 먼저 오는 CalendarData set
-// SplayTreeSet<CalendarData> data = SplayTreeSet<CalendarData>(
-//   (CalendarData a, CalendarData b) {
-//     int i = a.end.compareTo(b.end);
-//     if(i == 0)
-//       return a.summary.compareTo(b.summary);
-//     else
-//       return i;
-//   }); 
+  /// 마지막 동기화 시간, Default : DateTime(1999)
+  static DateTime _lastSyncTime;
 
-/// 이번학기 수강하는 subjectCode
-Set<String> subjectCodeThisSemester;
+  static Set<CalendarData> data = {};
 
-/// 과목별 default Color
-Map defaultColor; // classCode, colorCollectionIndex
+  /// 이번학기 수강하는 subjectCode
+  static Set<String> subjectCodeThisSemester;
+
+  /// 과목별 default Color
+  static Map defaultColor; // classCode, colorCollectionIndex
+
+  static int get firstDayOfWeek => _firstDayOfWeek;
+  static bool get showFinished => _showFinished;
+  static String get id => _id;
+  static String get pw => _pw;
+  static String get year => _year;
+  static String get semester => _semester;
+  static DateTime get lastSyncTime => _lastSyncTime;
+
+
+  static set firstDayOfWeek(int newValue){
+    bool update = true;
+    if(_firstDayOfWeek == null)
+      update = false;
+    
+    if(newValue != null)
+      _firstDayOfWeek = newValue;
+    else
+      _firstDayOfWeek = 7;
+
+    if(update)
+      Database.userDataBox.put('firstDayOfWeek', _firstDayOfWeek);
+  }
+
+  static set showFinished(bool newValue){
+    bool update = true;
+    if(_showFinished == null)
+      update = false;
+    
+    if(newValue != null)
+      _showFinished = newValue;
+    else
+      _showFinished = true;
+
+    if(update)
+      Database.userDataBox.put('showFinished', _showFinished);
+  }
+
+  static set id(String newValue){
+    bool update = true;
+    if(_id == null)
+      update = false;
+    
+    if(newValue != null)
+      _id = newValue;
+    else
+      _id = "";
+
+    if(update)
+      Database.userDataBox.put('id', _id);
+  }
+
+  static set pw(String newValue){
+    bool update = true;
+    if(_pw == null)
+      update = false;
+    
+    if(newValue != null)
+      _pw = newValue;
+    else
+      _pw = "";
+
+    if(update)
+      Database.userDataBox.put('pw', _pw);
+  }
+
+  static set lastSyncTime(DateTime newValue){
+    bool update = true;
+    if(_lastSyncTime == null)
+      update = false;
+    
+    if(newValue != null)
+      _lastSyncTime = newValue;
+    else
+      _lastSyncTime = DateTime(1999);
+
+    if(update)
+      Database.userDataBox.put('lastSyncTime', _lastSyncTime);
+  }
+}

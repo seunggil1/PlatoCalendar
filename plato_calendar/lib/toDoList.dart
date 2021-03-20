@@ -21,7 +21,7 @@ class ToDoList extends StatefulWidget{
 }
 
 class _ToDoList extends State<ToDoList>{
-  String dropdownValue = subjectCodeThisSemester.first;
+  String dropdownValue = UserData.subjectCodeThisSemester.first;
   SortMethod _sortMethod= sortMethod;
   List<Widget> toDoListNodate = [];   // 날짜 없음
   List<Widget> toDoListPassed = [];   // 기간 지남
@@ -44,7 +44,7 @@ class _ToDoList extends State<ToDoList>{
     toDoList6Hour.clear();
     toDoListFinished.clear();
     DateTime now = DateTime.now();
-    data.forEach((element) {
+    UserData.data.forEach((element) {
       Duration diff = element.end.difference(now);
       if(dropdownValue == '전체' || element.classCode == dropdownValue)
         if(!element.disable){ // 유저가 삭제 처리
@@ -68,7 +68,7 @@ class _ToDoList extends State<ToDoList>{
                   toDoList12Hour.add(_getTodoWidget(element));
                 else // 오늘까지 인데 12시간 이상 남음
                   toDoListToday.add(_getTodoWidget(element));
-              }else if(diff.inHours < 24) // 오늘까지는 아닌데 24시간 이하로 남음 => 내일까지
+              }else if(element.end.day == now.day + 1) // 내일까지
                 toDoListTomorrow.add(_getTodoWidget(element));
               else // 하루 넘게 남았음
                 toDoListWeek.add(_getTodoWidget(element));
@@ -98,7 +98,7 @@ class _ToDoList extends State<ToDoList>{
                     dropdownValue = newValue;
                   });
                 },
-                items: subjectCodeThisSemester
+                items: UserData.subjectCodeThisSemester
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
@@ -345,7 +345,7 @@ class _ToDoList extends State<ToDoList>{
                 setState(() {
                   data.finished = value;
                 });
-                Database.calendarDataSave();
+                Database.calendarDataSave(data);
             }),
           Container(
             width: 5,

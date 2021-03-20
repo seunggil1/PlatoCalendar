@@ -1,7 +1,7 @@
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/material.dart';
 
-import 'Data/userData.dart' as userData;
+import 'Data/userData.dart';
 import 'appointmentEditor.dart';
 import 'ics.dart';
 import 'plato.dart';
@@ -34,7 +34,7 @@ class _Calendar extends State<Calendar>{
                 headerHeight: 30,
                 headerStyle: CalendarHeaderStyle(backgroundColor: Colors.blue, textStyle: TextStyle(color: Colors.white, fontSize: 20)),
                 viewHeaderStyle : ViewHeaderStyle(backgroundColor: Colors.white, dayTextStyle:TextStyle(color: Colors.grey, fontWeight: FontWeight.bold)),
-                firstDayOfWeek: userData.firstDayOfWeek, // 한주의 시작 - 1: 월 .., 7:일
+                firstDayOfWeek: UserData.firstDayOfWeek, // 한주의 시작 - 1: 월 .., 7:일
                 monthViewSettings: MonthViewSettings(
                   appointmentDisplayCount: 4,
                   appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
@@ -98,8 +98,8 @@ class DataSource extends CalendarDataSource {
 Future<DataSource> _getCalendarDataSource() async {
 
   List<Appointment> appointments = <Appointment>[];
-  for(var iter in userData.data)
-    if(!iter.disable &&(!iter.finished || userData.showFinished))
+  for(var iter in UserData.data)
+    if(!iter.disable &&(!iter.finished || UserData.showFinished))
       appointments.add(iter.toAppointment());
   
   return DataSource(appointments);

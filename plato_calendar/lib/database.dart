@@ -1,12 +1,14 @@
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'Data/userData.dart' as userData;
+import 'Data/userData.dart';
 import 'ics.dart';
 
 class Database{
-  static Box<CalendarData> calendarBox;
+  static Box calendarBox;
   static Box userDataBox;
+
+  static Set<String> uidSet = {};
 
   static Future init() async {
     await Hive.initFlutter();
@@ -20,40 +22,36 @@ class Database{
     await userDataBox.clear();
   }
 
-  static void calendarDataSave(){
-    userDataBox.put('size', userData.data.length);
-    
-    int i = 0;
-    for(var iter in userData.data){
-      calendarBox.put(i, iter);
-      i++;
-    }
+  static void uidSetSave(){
+    calendarBox.put('uidList', Database.uidSet.toList());
   }
-
+  static void calendarDataSave(CalendarData data){
+    calendarBox.put(data.uid,data);
+  }
   static void calendarDataLoad(){
-    int i = 0;
-    while(i < (userDataBox.get('size') ?? 0))
-      userData.data.add(calendarBox.get(i++));
+    uidSet = (calendarBox.get('uidList') ?? <String>[]).toSet();;
+    for(var iter in uidSet)
+      UserData.data.add(calendarBox.get(iter));
   }
 
-  static void userDataSave(){
-    userDataBox.put('firstDayOfWeek', userData.firstDayOfWeek);
-    userDataBox.put('showFinished', userData.showFinished);
-    userDataBox.put('id', userData.id);
-    userDataBox.put('pw', userData.pw);
-    userDataBox.put('lastSyncTime', userData.lastSyncTime);
-    userDataBox.put('subjectCodeThisSemester', userData.subjectCodeThisSemester.toList());
-    userDataBox.put('defaultColor', userData.defaultColor);
+  static void subjectCodeThisSemesterSave(){
+    userDataBox.put('subjectCodeThisSemester', UserData.subjectCodeThisSemester.toList());
   }
+
+  static void defaultColorSave(){
+    userDataBox.put('defaultColor', UserData.defaultColor);
+  }
+
+
 
   static void userDataLoad(){
-    userData.firstDayOfWeek = userDataBox.get('firstDayOfWeek') ?? 7;
-    userData.showFinished = userDataBox.get('showFinished') ?? false;
-    userData.id = userDataBox.get('id') ?? "";
-    userData.pw = userDataBox.get('pw') ?? "";
-    userData.lastSyncTime = userDataBox.get('lastSyncTime') ?? DateTime(1999);
-    userData.subjectCodeThisSemester = (userDataBox.get('subjectCodeThisSemester') ?? ["전체"]).toSet();
-    userData.defaultColor = userDataBox.get('defaultColor') ?? { };
+    UserData.firstDayOfWeek = userDataBox.get('firstDayOfWeek');
+    UserData.showFinished = userDataBox.get('showFinished');
+    UserData.id = userDataBox.get('id');
+    UserData.pw = userDataBox.get('pw');
+    UserData.lastSyncTime = userDataBox.get('lastSyncTime');
+    UserData.subjectCodeThisSemester = (userDataBox.get('subjectCodeThisSemester') ?? ["전체"]).toSet();
+    UserData.defaultColor = userDataBox.get('defaultColor') ?? {};
   }
 
 }

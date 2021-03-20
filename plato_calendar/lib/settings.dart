@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'Data/else.dart';
 import 'Data/subjectCode.dart';
-import 'Data/userData.dart' as userData;
 import 'Data/userData.dart';
 import 'appointmentEditor.dart';
 import 'database.dart';
@@ -15,7 +14,7 @@ class Setting extends StatefulWidget{
 }
 
 class _Settings extends State<Setting>{
-  Set<String> _subjectCodeThisSemester = Set<String>.from(subjectCodeThisSemester);
+  Set<String> _subjectCodeThisSemester = Set<String>.from(UserData.subjectCodeThisSemester);
   String _subject;
 
   @override
@@ -48,7 +47,7 @@ class _Settings extends State<Setting>{
                 Expanded(child: Container()),
                 TextButton(
                   onPressed: (){
-                    if(id == "")
+                    if(UserData.id == "")
                       showDialog(context: context,
                         builder: (BuildContext context){
                           return LoginPage();                      
@@ -57,8 +56,8 @@ class _Settings extends State<Setting>{
                         }));
                     else{
                       setState(() {
-                        id = "";
-                        pw = "";
+                        UserData.id = "";
+                        UserData.pw = "";
                       });
                     }                      
                   },
@@ -67,7 +66,7 @@ class _Settings extends State<Setting>{
                     padding: EdgeInsets.all(10),
                     width: 90,
                     decoration: BoxDecoration(color: Colors.blue,borderRadius: BorderRadius.circular(10)),
-                    child: Text(id == ""? "로그인" : "로그아웃", style: TextStyle(color: Colors.white))))
+                    child: Text(UserData.id == ""? "로그인" : "로그아웃", style: TextStyle(color: Colors.white))))
               ],
             ),
           ),
@@ -82,14 +81,13 @@ class _Settings extends State<Setting>{
                       height: 2,
                       color: Colors.grey[350],
                     ),
-                    value: userData.firstDayOfWeek,
+                    value: UserData.firstDayOfWeek,
                     items: weekdayLocaleKR.entries.map<DropdownMenuItem<int>>((e) 
                       => DropdownMenuItem<int>(value: e.key, child: Text(e.value))).toList(),
                     onChanged: (newValue){
                       setState(() {
-                        userData.firstDayOfWeek = newValue;
+                        UserData.firstDayOfWeek = newValue;
                       });
-                      Database.userDataSave();
                     }),
                 )
               ),
@@ -101,11 +99,10 @@ class _Settings extends State<Setting>{
               Expanded(
                 child: Container(
                   alignment: Alignment.centerRight,
-                  child: Switch(value: showFinished, onChanged: (value){
+                  child: Switch(value: UserData.showFinished, onChanged: (value){
                     setState(() {
-                      showFinished = value;
+                      UserData.showFinished = value;
                     });
-                    Database.userDataSave();
                   }),
                 )
               ),
@@ -149,17 +146,17 @@ class _Settings extends State<Setting>{
                 onPressed: (){
                   showDialog(context: context,
                           builder: (BuildContext context){
-                            return CalendarColorPicker(defaultColor[_subject] ?? 5);                      
+                            return CalendarColorPicker(UserData.defaultColor[_subject] ?? 9);                      
                           }).then((value) {
                             if(value != null){
-                              setState((){ defaultColor[_subject] = value;});
-                              Database.userDataSave();
+                              setState((){ UserData.defaultColor[_subject] = value;});
+                              Database.defaultColorSave();
                             }
                           });
                 },
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 minWidth: 3,
-                child: Icon(Icons.lens,color: colorCollection[defaultColor[_subject] ?? 5]))
+                child: Icon(Icons.lens,color: colorCollection[UserData.defaultColor[_subject] ?? 9]))
             ],
           )
           : Container()
@@ -233,8 +230,8 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: idController.text == "" && pwController.text == ""
                   ? null
                   :() async {
-                    id = idController.text;
-                    pw = pwController.text;
+                    UserData.id = idController.text;
+                    UserData.pw = pwController.text;
                     await Plato.update(force: true);
                     Navigator.pop(context, true);
                   },
