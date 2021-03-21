@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:icalendar_parser/icalendar_parser.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -57,8 +54,15 @@ Future<void> icsParser(String bytes) async{
   bytes = linebytes.join('\r\n');
   ICalendar iCalendar = ICalendar.fromString(bytes);
 
-  for(var iter in iCalendar.data)
-    UserData.data.add(CalendarData.byMap(iter));
+  for(var iter in iCalendar.data){
+    CalendarData data = CalendarData.byMap(iter);
+    if(!UserData.data.contains(data)){
+      Database.uidSet.add(data.uid);
+      Database.calendarDataSave(data);
+      UserData.data.add(data);
+    }
+    
+  }
   UserData.lastSyncTime = DateTime.now();
   Database.subjectCodeThisSemesterSave();
   Database.defaultColorSave();
@@ -131,8 +135,6 @@ class CalendarData{
 
     color = UserData.defaultColor[classCode] ?? 9; // colorCollection[9] = Colors.blue
 
-    Database.uidSet.add(uid);
-    Database.calendarDataSave(this);
   }
 
 
