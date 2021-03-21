@@ -6,7 +6,6 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import 'Data/subjectCode.dart';
 import 'Data/userData.dart';
-import 'package:intl/intl.dart';
 import 'database.dart';
 import 'ics.dart';
 

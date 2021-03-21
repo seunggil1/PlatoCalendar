@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'Data/userData.dart';
 import 'appointmentEditor.dart';
-import 'ics.dart';
-import 'plato.dart';
 
 class Calendar extends StatefulWidget{
 

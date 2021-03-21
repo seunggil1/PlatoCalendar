@@ -29,7 +29,7 @@ class Database{
     calendarBox.put(data.uid,data);
   }
   static void calendarDataLoad(){
-    uidSet = (calendarBox.get('uidList') ?? <String>[]).toSet();;
+    uidSet = (calendarBox.get('uidList') ?? <String>[]).toSet();
     for(var iter in uidSet)
       UserData.data.add(calendarBox.get(iter));
   }
