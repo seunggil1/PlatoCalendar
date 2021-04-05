@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import '../database.dart';
 import '../ics.dart';
 
@@ -20,7 +22,16 @@ class UserData{
   /// 마지막 동기화 시간, Default : DateTime(1999)
   static DateTime _lastSyncTime;
 
-  static Set<CalendarData> data = {};
+
+/// 이전 날짜가 먼저 오는 CalendarData set
+  static SplayTreeSet<CalendarData> data = SplayTreeSet<CalendarData>(
+  (CalendarData a, CalendarData b) {
+    int i = a.end.compareTo(b.end);
+    if(i == 0)
+      return a.uid.compareTo(b.uid);
+    else
+      return i;
+  }); 
 
   /// 이번학기 수강하는 subjectCode
   static Set<String> subjectCodeThisSemester;
