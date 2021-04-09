@@ -10,7 +10,7 @@ Widget build(BuildContext context) {
 void showMessage(String msg) {
     final snackbar = SnackBar(content: Text(msg));
 
-    Scaffold.of(ctx)
+    ScaffoldMessenger.of(ctx)
         ..removeCurrentSnackBar()
         ..showSnackBar(snackbar);
   }

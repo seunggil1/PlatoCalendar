@@ -42,8 +42,6 @@ class Database{
     userDataBox.put('defaultColor', UserData.defaultColor);
   }
 
-
-
   static void userDataLoad(){
     UserData.firstDayOfWeek = userDataBox.get('firstDayOfWeek');
     UserData.showFinished = userDataBox.get('showFinished');
