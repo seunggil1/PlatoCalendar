@@ -56,14 +56,14 @@ class Plato {
       else{
         print("plato Login Error: ${e.error}");
         DateTime now = DateTime.now();
-        UserData.lastSyncInfo = "${now.month}월${now.day}일 ${now.hour}:${now.minute}- 로그인 오류";
+        UserData.lastSyncInfo = "${now.month}월${now.day}일 ${now.hour}시 ${now.minute}분 - 로그인 오류";
         return false;
       }
     }
     if(response.headers.map["location"][0] == "https://plato.pusan.ac.kr/login.php?errorcode=3"){
       print("ID,PW is incorrect");
       DateTime now = DateTime.now();
-      UserData.lastSyncInfo = "${now.month}월${now.day}일 ${now.hour}:${now.minute} - ID/PW 오류";
+      UserData.lastSyncInfo = "${now.month}월${now.day}일 ${now.hour}시 ${now.minute}분 - ID/PW 오류";
     }
     else{
       moodleSession = response.headers.map["set-cookie"][1];
@@ -120,7 +120,7 @@ class Plato {
     }
     catch(e){
       DateTime now = DateTime.now();
-      UserData.lastSyncInfo = "${now.month}월${now.day}일 ${now.hour}:${now.minute} - 동기화 오류";
+      UserData.lastSyncInfo = "${now.month}월${now.day}일 ${now.hour}시 ${now.minute}분 - 동기화 오류";
       return false;
     }
     return true;

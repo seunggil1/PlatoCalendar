@@ -179,7 +179,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController idController = TextEditingController();
   TextEditingController pwController = TextEditingController();
-
+  bool loginStatus = false;
   void checkIdPw(String data){
     if(idController.text != "" && pwController.text != "")
       setState(() {});
@@ -230,26 +230,28 @@ class _LoginPageState extends State<LoginPage> {
                 )
               ),
               TextButton(
-                  onPressed: idController.text == "" && pwController.text == ""
-                  ? null
-                  :() async {
-                    UserData.id = idController.text;
-                    UserData.pw = pwController.text;
-                    await Plato.update(force: true);
-                    Navigator.pop(context, true);
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.all(10),
-                    width: 90,
-                    decoration: BoxDecoration(
-                      color: idController.text != "" && pwController.text != ""
-                        ? Colors.blue[900]
-                        : Colors.grey,
-                      borderRadius: BorderRadius.circular(10)),
-                    child: Text("로그인", style: TextStyle(color: Colors.white)))
-                )
-
+                onPressed: idController.text == "" && pwController.text == "" && !loginStatus
+                ? null
+                :() async {
+                  setState(() {
+                    loginStatus = true;
+                  });
+                  UserData.id = idController.text;
+                  UserData.pw = pwController.text;
+                  await Plato.update(force: true);
+                  Navigator.pop(context, true);
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.all(10),
+                  width: 90,
+                  decoration: BoxDecoration(
+                    color: idController.text != "" && pwController.text != "" && !loginStatus
+                      ? Colors.blue[900]
+                      : Colors.grey,
+                    borderRadius: BorderRadius.circular(10)),
+                  child: Text("로그인", style: TextStyle(color: Colors.white)))
+              ),
             ],
           )
           )
