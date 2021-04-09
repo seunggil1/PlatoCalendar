@@ -64,6 +64,7 @@ Future<void> icsParser(String bytes) async{
     
   }
   UserData.lastSyncTime = DateTime.now();
+  UserData.lastSyncInfo = "${UserData.lastSyncTime.month}월${UserData.lastSyncTime.day}일 ${UserData.lastSyncTime.hour}:${UserData.lastSyncTime.minute} - 동기화 성공";
   Database.subjectCodeThisSemesterSave();
   Database.defaultColorSave();
   Database.uidSetSave();

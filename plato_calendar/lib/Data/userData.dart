@@ -21,7 +21,7 @@ class UserData{
 
   /// 마지막 동기화 시간, Default : DateTime(1999)
   static DateTime _lastSyncTime;
-  static String _lastSyncInfo = "4월2일 18:03 - 동기화 성공";
+  static String _lastSyncInfo;
 
 
 /// 이전 날짜가 먼저 오는 CalendarData set
@@ -117,5 +117,19 @@ class UserData{
 
     if(update)
       Database.userDataBox.put('lastSyncTime', _lastSyncTime);
+  }
+
+  static set lastSyncInfo(String newValue){
+    bool update = true;
+    if(_lastSyncInfo == null)
+      update = false;
+
+    if(newValue != null)
+      _lastSyncInfo = newValue;
+    else
+      _lastSyncInfo = "로그인이 필요합니다";
+
+    if(update)
+      Database.userDataBox.put('lastSyncInfo', _lastSyncInfo);
   }
 }

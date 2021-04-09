@@ -48,6 +48,7 @@ class Database{
     UserData.id = userDataBox.get('id');
     UserData.pw = userDataBox.get('pw');
     UserData.lastSyncTime = userDataBox.get('lastSyncTime');
+    UserData.lastSyncInfo = userDataBox.get('lastSyncInfo');
     UserData.subjectCodeThisSemester = (userDataBox.get('subjectCodeThisSemester') ?? ["전체"]).toSet();
     UserData.defaultColor = userDataBox.get('defaultColor') ?? {};
   }

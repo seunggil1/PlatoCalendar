@@ -55,11 +55,16 @@ class Plato {
         response = e.response;
       else{
         print("plato Login Error: ${e.error}");
+        DateTime now = DateTime.now();
+        UserData.lastSyncInfo = "${now.month}월${now.day}일 ${now.hour}:${now.minute}- 로그인 오류";
         return false;
       }
     }
-    if(response.headers.map["location"][0] == "https://plato.pusan.ac.kr/login.php?errorcode=3")
+    if(response.headers.map["location"][0] == "https://plato.pusan.ac.kr/login.php?errorcode=3"){
       print("ID,PW is incorrect");
+      DateTime now = DateTime.now();
+      UserData.lastSyncInfo = "${now.month}월${now.day}일 ${now.hour}:${now.minute} - ID/PW 오류";
+    }
     else{
       moodleSession = response.headers.map["set-cookie"][1];
       moodleSession = moodleSession.substring(0, moodleSession.indexOf(';'));
@@ -69,49 +74,55 @@ class Plato {
   }
   
   static Future<bool> getCalendar() async{
-    String body;
-    http.Response response;
-    response = await http.get("https://plato.pusan.ac.kr/calendar/export.php?course=1",
-      headers: {
-        "Host": "plato.pusan.ac.kr",
-        "Connection": "close",
-        "Cache-Control": "max-age=0",
-        "Upgrade-Insecure-Requests": "1",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36 Edg/88.0.705.63",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-        "Accept-Encoding": "gzip, deflate",
-        "Accept-Language": "ko,en;q=0.9,en-US;q=0.8",
-        "Cookie": moodleSession
-      }
-    );
-    body = RegExp('"sesskey":".*?"').stringMatch(response.body);
-    body = '{' + body + '}';
-    sesskey = "sesskey=${jsonDecode(body)["sesskey"]}";
+    try{
+      String body;
+      http.Response response;
+      response = await http.get("https://plato.pusan.ac.kr/calendar/export.php?course=1",
+        headers: {
+          "Host": "plato.pusan.ac.kr",
+          "Connection": "close",
+          "Cache-Control": "max-age=0",
+          "Upgrade-Insecure-Requests": "1",
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36 Edg/88.0.705.63",
+          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+          "Accept-Encoding": "gzip, deflate",
+          "Accept-Language": "ko,en;q=0.9,en-US;q=0.8",
+          "Cookie": moodleSession
+        }
+      );
+      body = RegExp('"sesskey":".*?"').stringMatch(response.body);
+      body = '{' + body + '}';
+      sesskey = "sesskey=${jsonDecode(body)["sesskey"]}";
 
-    body = "$sesskey&_qf__core_calendar_export_form=1"
-            + "&${Uri.encodeQueryComponent("events[exportevents]")}=all"
-            + "&${Uri.encodeQueryComponent("period[timeperiod]")}=recentupcoming"
-            + "&export=${Uri.encodeQueryComponent("내보내기")}";
-    response = await http.post("https://plato.pusan.ac.kr/calendar/export.php",
-      headers: {
-        "Host": "plato.pusan.ac.kr",
-        "Connection": "close",
-        "Content-Length": body.length.toString(),
-        "Cache-Control": "max-age=0",
-        "Upgrade-Insecure-Requests": "1",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36 Edg/88.0.705.63",
-        "Origin": "https://plato.pusan.ac.kr",
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-        "Referer": "https://plato.pusan.ac.kr/calendar/export.php?course=1",
-        "Accept-Encoding": "gzip, deflate",
-        "Accept-Language": "ko,en;q=0.9,en-US;q=0.8",
-        "Cookie": moodleSession
-      },
-      body : body
-    );
-    await icsParser(response.body);
-
+      body = "$sesskey&_qf__core_calendar_export_form=1"
+              + "&${Uri.encodeQueryComponent("events[exportevents]")}=all"
+              + "&${Uri.encodeQueryComponent("period[timeperiod]")}=recentupcoming"
+              + "&export=${Uri.encodeQueryComponent("내보내기")}";
+      response = await http.post("https://plato.pusan.ac.kr/calendar/export.php",
+        headers: {
+          "Host": "plato.pusan.ac.kr",
+          "Connection": "close",
+          "Content-Length": body.length.toString(),
+          "Cache-Control": "max-age=0",
+          "Upgrade-Insecure-Requests": "1",
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36 Edg/88.0.705.63",
+          "Origin": "https://plato.pusan.ac.kr",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+          "Referer": "https://plato.pusan.ac.kr/calendar/export.php?course=1",
+          "Accept-Encoding": "gzip, deflate",
+          "Accept-Language": "ko,en;q=0.9,en-US;q=0.8",
+          "Cookie": moodleSession
+        },
+        body : body
+      );
+      await icsParser(response.body);
+    }
+    catch(e){
+      DateTime now = DateTime.now();
+      UserData.lastSyncInfo = "${now.month}월${now.day}일 ${now.hour}:${now.minute} - 동기화 오류";
+      return false;
+    }
     return true;
   }
   static Future<bool> logout() async{

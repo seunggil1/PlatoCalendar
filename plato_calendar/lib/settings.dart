@@ -61,6 +61,7 @@ class _Settings extends State<Setting>{
                     setState(() {
                       UserData.id = "";
                       UserData.pw = "";
+                      UserData.lastSyncInfo = null;
                     });
                   }                      
                 },
