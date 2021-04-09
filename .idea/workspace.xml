@@ -7,8 +7,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c87888ce-bfb0-4173-b7e8-053dd81717b5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/modules/platoCalendar.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/platoCalendar.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/icalexport.ics" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/iconfinder_winter-activity-03_3850770.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/iconfinder_winter-activity-03_3850770.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plato_calendar/icalexport.ics" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plato_calendar/icalexport2021.ics" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plato_calendar/icalexportForTest.ics" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plato_calendar/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" beforeDir="false" afterPath="$PROJECT_DIR$/plato_calendar/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plato_calendar/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plato_calendar/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plato_calendar/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plato_calendar/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plato_calendar/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plato_calendar/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plato_calendar/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plato_calendar/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plato_calendar/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plato_calendar/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plato_calendar/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plato_calendar/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plato_calendar/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plato_calendar/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plato_calendar/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plato_calendar/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/plato_calendar/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +65,10 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../Windows/com.ireal.pnu" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/plato_calendar" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.17" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
@@ -127,6 +152,10 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
+    <state x="477" y="266" key="#PSD" timestamp="1617997658820">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="477" y="266" key="#PSD/0.0.1920.1040/1920.0.1920.1040/-1050.-409.1050.1640@0.0.1920.1040" timestamp="1617997658820" />
     <state x="100" y="100" width="1720" height="840" key="AVDManager" timestamp="1613257386256">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -135,9 +164,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="549" y="114" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1610752855915" />
-    <state x="2660" y="275" key="FileChooserDialogImpl" timestamp="1613303677298">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1617997672514">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040/-1050.-409.1050.1640@0.0.1920.1040" timestamp="1617997672514" />
     <state x="2660" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1613303677298" />
     <state x="461" y="162" key="SettingsEditor" timestamp="1610752847796">
       <screen x="0" y="0" width="1920" height="1040" />
