@@ -21,6 +21,7 @@ class UserData{
 
   /// 마지막 동기화 시간, Default : DateTime(1999)
   static DateTime _lastSyncTime;
+  static String _lastSyncInfo = "4월2일 18:03 - 동기화 성공";
 
 
 /// 이전 날짜가 먼저 오는 CalendarData set
@@ -46,7 +47,7 @@ class UserData{
   static String get year => _year;
   static String get semester => _semester;
   static DateTime get lastSyncTime => _lastSyncTime;
-
+  static String get lastSyncInfo => _lastSyncInfo;
 
   static set firstDayOfWeek(int newValue){
     bool update = true;
