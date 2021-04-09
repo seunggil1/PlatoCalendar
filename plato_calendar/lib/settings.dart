@@ -15,16 +15,11 @@ class Setting extends StatefulWidget{
 
 class _Settings extends State<Setting>{
   Set<String> _subjectCodeThisSemester = Set<String>.from(UserData.subjectCodeThisSemester);
-  String _subject;
   bool expanded = false;
   @override
   void initState() {
     super.initState();
     _subjectCodeThisSemester.remove("전체");
-    if(_subjectCodeThisSemester.length != 0)
-      _subject = _subjectCodeThisSemester.first;
-    else
-      _subject = "None";
   }
 
   @override
@@ -56,6 +51,7 @@ class _Settings extends State<Setting>{
                             return LoginPage();                      
                           }).then((value) => setState((){
                             _subjectCodeThisSemester = Set<String>.from(UserData.subjectCodeThisSemester);
+                            _subjectCodeThisSemester.remove("전체");
                           }));
                       else{
                         setState(() {
