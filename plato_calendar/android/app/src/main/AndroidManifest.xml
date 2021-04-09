@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="plato_calendar"
+        android:label="Plato 달력"
         android:icon="@mipmap/calender_icon">
         <activity
             android:name=".MainActivity"
