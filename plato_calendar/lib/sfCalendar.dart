@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'Data/userData.dart';
 import 'appointmentEditor.dart';
+import 'utility.dart';
 
 class Calendar extends StatefulWidget{
 
@@ -56,6 +57,20 @@ class _Calendar extends State<Calendar>{
                       }).then((value) => setState((){}));
                   }
                 },
+                onLongPress: (data){
+                  if(_calendarController.view == CalendarView.schedule && data.targetElement == CalendarElement.appointment){
+                    showDialog(context: context,
+                      builder: (BuildContext context){
+                        return SimplePopUpAppointmentEditor(data.appointments[0]);
+                      }).then((value) => setState((){
+                        if(value == true){ // 일정 완료
+                          showMessage(context, "완료된 일정으로 변경했습니다.");
+                        }else if(value == false){ // 일정 삭제
+                          showMessage(context, "일정을 삭제 했습니다.");
+                        }
+                      }));
+                  }
+                },
               );
             }
           ),
@@ -102,3 +117,5 @@ Future<DataSource> _getCalendarDataSource() async {
   
   return DataSource(appointments);
 }
+
+

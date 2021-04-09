@@ -239,7 +239,6 @@ class CalendarColorPicker extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _CalendarColorPickerState(calendarColor);
 }
-
 class _CalendarColorPickerState extends State<CalendarColorPicker> {
   int _calendarColor;
   _CalendarColorPickerState(this._calendarColor);
@@ -282,5 +281,63 @@ class _CalendarColorPickerState extends State<CalendarColorPicker> {
           )
 
     ));
+  }
+}
+
+class SimplePopUpAppointmentEditor extends StatefulWidget {
+  final CalendarData calendarData;
+
+  SimplePopUpAppointmentEditor(Appointment data)
+    : calendarData = UserData.data.firstWhere((value) {
+        return value.hashCode == data.resourceIds[0];
+      });
+  @override
+  State<StatefulWidget> createState() => _SimplePopUpAppointmentEditorState(calendarData);
+}
+
+class _SimplePopUpAppointmentEditorState extends State<SimplePopUpAppointmentEditor> {
+  CalendarData calendarData;
+
+  _SimplePopUpAppointmentEditorState(this.calendarData);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+        contentPadding : const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        backgroundColor: Colors.grey[50],
+        content: Container(
+          height: 150.0,
+          child: Column(
+            children: [
+              TextButton(
+                onPressed: (){
+                  calendarData.finished = true;
+                  Database.calendarDataSave(calendarData);
+                  Navigator.pop(context,true);
+                },
+                child: Text("일정 완료처리 하기",
+                  style: TextStyle(color: Colors.grey[700],fontSize: 16)
+                  )),
+              TextButton(
+                onPressed: (){
+                  calendarData.disable = true;
+                  Database.calendarDataSave(calendarData);
+                  Navigator.pop(context,false);
+                },
+                child: Text("일정 삭제하기",
+                  style: TextStyle(color: Colors.grey[700],fontSize: 16)
+                  )),
+              TextButton(
+                onPressed: (){
+                  Navigator.pop(context);
+                },
+                child: Text("취소",
+                  style: TextStyle(color: Colors.grey[700],fontSize: 16)
+                  ))
+            ],
+          )
+        )
+
+    );
   }
 }
