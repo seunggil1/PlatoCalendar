@@ -16,7 +16,7 @@ class Setting extends StatefulWidget{
 class _Settings extends State<Setting>{
   Set<String> _subjectCodeThisSemester = Set<String>.from(UserData.subjectCodeThisSemester);
   String _subject;
-
+  bool expanded = false;
   @override
   void initState() {
     super.initState();
@@ -33,146 +33,146 @@ class _Settings extends State<Setting>{
       appBar: AppBar(
         title: Text('설정'),
       ),
-      body: Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
+      body: ListView(
         children: [
-          Card(child: 
-            ListTile(
-              minLeadingWidth : 20,
-              leading: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.people_alt,color: Colors.blue[200]),
-                ],
-              ),
-              title: Text(UserData.id == ""? "Plato 계정" : UserData.id),
-              subtitle: Text(UserData.lastSyncInfo),
-              trailing: TextButton(
-                onPressed: (){
-                  if(UserData.id == "")
-                    showDialog(context: context,
-                      builder: (BuildContext context){
-                        return LoginPage();                      
-                      }).then((value) => setState((){
-                        print(1);
-                      }));
-                  else{
-                    setState(() {
-                      UserData.id = "";
-                      UserData.pw = "";
-                      UserData.lastSyncInfo = null;
-                    });
-                  }                      
-                },
-              child: Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.all(10),
-                width: 90,
-                decoration: BoxDecoration(color: Colors.blue,borderRadius: BorderRadius.circular(10)),
-                child: Text(UserData.id == ""? "로그인" : "로그아웃", style: TextStyle(color: Colors.white))
-                )
-              ),
-            ),
-          ),
-          Card(
+          Container(
+            padding: EdgeInsets.all(10),
             child: Column(
-              children: [
-                ListTile(
-                    title: Text('완료된 일정 표시'),
-                    subtitle: Text(
-                      UserData.showFinished ? '완료된 일정을 달력에 표시합니다' : '완료된 일정을 달력에 표시하지 않습니다'
-                    ),
-                    trailing: Switch(
-                      value: UserData.showFinished, 
-                      onChanged: (value){
+            children: [
+              Card(
+                child: ListTile(
+                  minLeadingWidth : 20,
+                  leading: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[ Icon(Icons.people_alt,color: Colors.blue[200])]
+                  ),
+                  title: Text(UserData.id == ""? "Plato 계정" : UserData.id),
+                  subtitle: Text(UserData.lastSyncInfo),
+                  trailing: TextButton(
+                    onPressed: (){
+                      if(UserData.id == "")
+                        showDialog(context: context,
+                          builder: (BuildContext context){
+                            return LoginPage();                      
+                          }).then((value) => setState((){
+                            _subjectCodeThisSemester = Set<String>.from(UserData.subjectCodeThisSemester);
+                          }));
+                      else{
                         setState(() {
-                          UserData.showFinished = value;
+                          UserData.id = "";
+                          UserData.pw = "";
+                          UserData.lastSyncInfo = null;
                         });
-                      }),
-                    isThreeLine: false
+                      }                      
+                    },
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(10),
+                    width: 90,
+                    decoration: BoxDecoration(color: Colors.blue,borderRadius: BorderRadius.circular(10)),
+                    child: Text(UserData.id == ""? "로그인" : "로그아웃", style: TextStyle(color: Colors.white))
+                    )
+                  ),
                 ),
-                ListTile(
-                      title: Text('시작 요일'),
-                      subtitle: Text('달력에서 한 주의 시작을 ${weekdayLocaleKR[UserData.firstDayOfWeek]}요일로 합니다'),
-                      trailing:
-                        DropdownButton(
-                          underline: Container(
-                            height: 2,
-                            color: Colors.grey[350]),
-                          value: UserData.firstDayOfWeek,
-                          items: weekdayLocaleKR.entries.map<DropdownMenuItem<int>>(
-                            (e) => DropdownMenuItem<int>(value: e.key, child: Text(e.value))).toList(),
-                          onChanged: (newValue){
+              ),
+              Card(
+                child: Column(
+                  children: [
+                    ListTile(
+                        title: Text('완료된 일정 표시'),
+                        subtitle: Text(
+                          UserData.showFinished ? '완료된 일정을 달력에 표시합니다' : '완료된 일정을 달력에 표시하지 않습니다'
+                        ),
+                        trailing: Switch(
+                          value: UserData.showFinished, 
+                          onChanged: (value){
                             setState(() {
-                                UserData.firstDayOfWeek = newValue;
+                              UserData.showFinished = value;
                             });
                           }),
-                      isThreeLine: false
+                        isThreeLine: false
+                    ),
+                    ListTile(
+                          title: Text('시작 요일'),
+                          subtitle: Text('달력에서 한 주의 시작을 ${weekdayLocaleKR[UserData.firstDayOfWeek]}요일로 합니다'),
+                          trailing:
+                            DropdownButton(
+                              underline: Container(
+                                height: 2,
+                                color: Colors.grey[350]),
+                              value: UserData.firstDayOfWeek,
+                              items: weekdayLocaleKR.entries.map<DropdownMenuItem<int>>(
+                                (e) => DropdownMenuItem<int>(value: e.key, child: Text(e.value))).toList(),
+                              onChanged: (newValue){
+                                setState(() {
+                                    UserData.firstDayOfWeek = newValue;
+                                });
+                              }),
+                          isThreeLine: false
+                    )
+                  ],
                 )
-              ],
-            )
-          ),
-          _subjectCodeThisSemester.length != 0
-          ? Card(
-            child: Row(
-            children: [
-              Text('    기본 색상 지정', style: TextStyle(fontSize: 16 )),
-              Expanded(child: Container()),
-              DropdownButton<String>(
-                  value: _subject,
-                  icon: Icon(Icons.arrow_drop_down),
-                  iconSize: 24,
-                  elevation: 16,
-                  style: TextStyle(color: Colors.black),
-                  underline: Container(
-                    height: 2,
-                    color: Colors.grey[350],
-                  ),
-                  onChanged: (String newValue) {
-                    setState(() {
-                      _subject = newValue;
-                    });
-                  },
-                  items: _subjectCodeThisSemester
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: RichText(
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        text: TextSpan(
-                          style: TextStyle(color: Colors.black),
-                          text: subjectCode[value])
-                      )
+              ),
+              _subjectCodeThisSemester.length != 0
+              ? Card(
+                child: expanded 
+                ? ListTile(
+                  subtitle: Column(children: _subjectCodeThisSemester.map<Widget>((String data) {
+                    return Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.bottomLeft,
+                            child: Text(subjectCode[data]),
+                          ),
+                        ),
+                        FlatButton(
+                          onPressed: (){
+                            showDialog(context: context,
+                                    builder: (BuildContext context){
+                                      return CalendarColorPicker(UserData.defaultColor[data] ?? 9);                      
+                                    }).then((value) {
+                                      if(value != null){
+                                        setState((){ UserData.defaultColor[data] = value;});
+                                        Database.defaultColorSave();
+                                      }
+                                    });
+                          },
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          minWidth: 3,
+                          child: Icon(Icons.lens,color: colorCollection[UserData.defaultColor[data] ?? 9]))
+                      ],
                     );
-                  }).toList(),
-                ),
-              FlatButton(
-                onPressed: (){
-                  showDialog(context: context,
-                          builder: (BuildContext context){
-                            return CalendarColorPicker(UserData.defaultColor[_subject] ?? 9);                      
-                          }).then((value) {
-                            if(value != null){
-                              setState((){ UserData.defaultColor[_subject] = value;});
-                              Database.defaultColorSave();
-                            }
-                          });
-                },
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                minWidth: 3,
-                child: Icon(Icons.lens,color: colorCollection[UserData.defaultColor[_subject] ?? 9]))
+                  }).toList()
+                  ),
+                )
+                : TextButton(
+                  onPressed: (){
+                    setState(() {
+                      expanded = true;
+                    });
+                  }, 
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: ListTile(
+                          contentPadding: EdgeInsets.fromLTRB(4.0,2.0,2.0,2.5),
+                          title: Text("기본 색상 지정"),
+                          subtitle: Text("새로 추가되는 일정의 색깔을 지정합니다. 이미 추가된 일정에는 적용되지 않습니다.")
+                        )
+                      ),
+                      Icon(Icons.keyboard_arrow_down_sharp,size: 30,color: Colors.grey[600])
+                    ],
+                  )
+                )
+              )
+              : Container(),
             ],
           ),
           )
-          : Container(),
         ],
-      ),
-      )
-    );
+      ));
   }
-
 }
 
 class LoginPage extends StatefulWidget {
