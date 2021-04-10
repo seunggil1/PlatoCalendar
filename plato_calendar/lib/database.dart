@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'Data/userData.dart';
 import 'ics.dart';
@@ -13,8 +15,16 @@ class Database{
   static Future init() async {
     await Hive.initFlutter();
     Hive.registerAdapter(CalendarDataAdapter());
-    calendarBox = await Hive.openBox('calendarBox');
-    userDataBox = await Hive.openBox('userDataBox');
+    final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+
+    if (!(await secureStorage.containsKey(key: 'key'))) {
+      var key = Hive.generateSecureKey();
+      await secureStorage.write(key: 'key', value: base64UrlEncode(key));
+    }
+    var encryptionKey = base64Url.decode(await secureStorage.read(key: 'key'));
+
+    calendarBox = await Hive.openBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
+    userDataBox = await Hive.openBox('userDataBox', encryptionCipher: HiveAesCipher(encryptionKey));
   }
 
   static Future clear() async{
