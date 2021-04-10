@@ -62,7 +62,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     //a.login().then((value) => a.getCalendar());
-    return Scaffold(
+    return SafeArea(
+      child: Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.black,
@@ -85,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
         body: _widgets[_index]
-      );
+          )
+        );
   }
 }
