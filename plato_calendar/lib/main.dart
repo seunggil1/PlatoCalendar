@@ -26,7 +26,12 @@ void main() async{
   Database.userDataLoad();
   Database.calendarDataLoad();
   
-  Plato.update();
+  Plato.update().then((value) { // update 한 뒤에, 6시간마다 update 다시 진행.
+    Stream.periodic(Duration(hours: 6, minutes: 10),(x)=>x).forEach((element) { 
+      Plato.update();
+    });
+  });
+
   runApp(MyApp());
 }
 

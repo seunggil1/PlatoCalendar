@@ -11,7 +11,7 @@ class Plato {
 
   static Future<bool> update({bool force = false}) async{
     if(UserData.id != "")
-      if(force ||(DateTime.now().difference(UserData.lastSyncTime).inHours > 3)){
+      if(force ||(DateTime.now().difference(UserData.lastSyncTime).inHours > 6)){
         if(await login() && await getCalendar() && await logout())
           return true;
         return false;
