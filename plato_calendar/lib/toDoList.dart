@@ -9,6 +9,7 @@ import 'Data/userData.dart';
 import 'appointmentEditor.dart';
 import 'database.dart';
 import 'ics.dart';
+import 'utility.dart';
 
 
 final EdgeInsets edgeInsetsStart  = EdgeInsets.fromLTRB(10, 10, 10, 0);
@@ -346,6 +347,8 @@ class _ToDoList extends State<ToDoList>{
                   data.finished = value;
                 });
                 Database.calendarDataSave(data);
+                if(value)
+                  showMessage(context, "완료된 일정으로 변경했습니다.");
             }),
           Container(
             width: 5,
