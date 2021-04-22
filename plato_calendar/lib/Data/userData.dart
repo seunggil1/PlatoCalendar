@@ -7,6 +7,9 @@ enum SortMethod {sortByDue, sortByRegister}
 SortMethod sortMethod = SortMethod.sortByDue;
 
 class UserData{
+  /// 마지막으로 봤던 tapIndex
+  static int _tapIndex;
+  
   /// 한 주의 시작, Default : 7(일요일)
   static int _firstDayOfWeek;
 
@@ -40,6 +43,7 @@ class UserData{
   /// 과목별 default Color
   static Map defaultColor; // classCode, colorCollectionIndex
 
+  static int get tapIndex => _tapIndex;
   static int get firstDayOfWeek => _firstDayOfWeek;
   static bool get showFinished => _showFinished;
   static String get id => _id;
@@ -48,6 +52,20 @@ class UserData{
   static String get semester => _semester;
   static DateTime get lastSyncTime => _lastSyncTime;
   static String get lastSyncInfo => _lastSyncInfo;
+
+  static set tapIndex(int newValue){
+    bool update = true;
+    if(_tapIndex == null)
+      update = false;
+    
+    if(newValue != null)
+      _tapIndex = newValue;
+    else
+      _tapIndex = 0;
+
+    if(update)
+      Database.userDataBox.put('tapIndex', _tapIndex);
+  }
 
   static set firstDayOfWeek(int newValue){
     bool update = true;

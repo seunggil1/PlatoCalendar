@@ -4,7 +4,7 @@ import 'plato.dart';
 import 'settings.dart';
 import 'sfCalendar.dart';
 import 'toDoList.dart';
-
+import 'Data/userData.dart';
 // 프록시 사용할 떄 주석 해제 처리.
 // class MyHttpOverrides extends HttpOverrides{
 //   @override
@@ -58,33 +58,32 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _index = 0;
-  @override
+    @override
   Widget build(BuildContext context) {
     //a.login().then((value) => a.getCalendar());
     return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.black,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white.withOpacity(.60),
-          currentIndex: _index,
+          backgroundColor: Colors.white,
+          selectedItemColor: Colors.green[300],
+          unselectedItemColor: Colors.grey[400].withOpacity(1),
+          currentIndex: UserData.tapIndex,
           onTap: (int i){
-            setState(() { _index = i; });
+            setState(() { UserData.tapIndex = i; });
           },
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.calendar_today_outlined),
               label: "달력"),
             BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_view_day_outlined),
+              icon: Icon(Icons.my_library_books_outlined),
               label: "할일"),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),
               label: "설정"),
           ],
         ),
-        body: _widgets[_index]
+        body: _widgets[UserData.tapIndex]
       );
   }
 }

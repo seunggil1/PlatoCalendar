@@ -42,7 +42,7 @@ class _Settings extends State<Setting>{
                     children: <Widget>[ Icon(Icons.people_alt,color: Colors.blue[200])]
                   ),
                   title: Text(UserData.id == ""? "Plato 계정" : UserData.id),
-                  subtitle: Text(UserData.lastSyncInfo),
+                  subtitle: Text(UserData.lastSyncInfo, style: TextStyle(fontSize: 13)),
                   trailing: TextButton(
                     onPressed: (){
                       if(UserData.id == "")
@@ -154,7 +154,7 @@ class _Settings extends State<Setting>{
                         child: ListTile(
                           contentPadding: EdgeInsets.fromLTRB(4.0,2.0,2.0,2.5),
                           title: Text("기본 색상 지정"),
-                          subtitle: Text("새로 추가되는 일정의 색깔을 지정합니다. 이미 추가된 일정에는 적용되지 않습니다.")
+                          subtitle: Text("새로 추가되는 일정의 색깔을 지정합니다. 이미 추가된 일정에는 적용되지 않습니다.",style: TextStyle(fontSize: 13),)
                         )
                       ),
                       Icon(Icons.keyboard_arrow_down_sharp,size: 30,color: Colors.grey[600])

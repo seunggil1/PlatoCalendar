@@ -53,6 +53,7 @@ class Database{
   }
 
   static void userDataLoad(){
+    UserData.tapIndex = userDataBox.get('tapIndex');
     UserData.firstDayOfWeek = userDataBox.get('firstDayOfWeek');
     UserData.showFinished = userDataBox.get('showFinished');
     UserData.id = userDataBox.get('id');
