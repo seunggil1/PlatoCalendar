@@ -15,6 +15,7 @@ class Database{
   static Future init() async {
     await Hive.initFlutter();
     Hive.registerAdapter(CalendarDataAdapter());
+    Hive.registerAdapter(CalendarTypeAdapter());
     final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
     if (!(await secureStorage.containsKey(key: 'key'))) {
@@ -55,6 +56,7 @@ class Database{
   static void userDataLoad(){
     UserData.tapIndex = userDataBox.get('tapIndex');
     UserData.firstDayOfWeek = userDataBox.get('firstDayOfWeek');
+    UserData.calendarType = userDataBox.get('calendarType');
     UserData.showFinished = userDataBox.get('showFinished');
     UserData.id = userDataBox.get('id');
     UserData.pw = userDataBox.get('pw');

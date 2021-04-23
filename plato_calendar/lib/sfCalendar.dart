@@ -19,6 +19,7 @@ class _Calendar extends State<Calendar>{
   void initState() {
     super.initState();
     _calendarController.view = CalendarView.month;
+    _calendarController.selectedDate = DateTime.now();
   }
 
   @override
@@ -38,7 +39,8 @@ class _Calendar extends State<Calendar>{
                   firstDayOfWeek: UserData.firstDayOfWeek, // 한주의 시작 - 1: 월 .., 7:일
                   monthViewSettings: MonthViewSettings(
                     appointmentDisplayCount: 4,
-                    appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+                    appointmentDisplayMode: UserData.calendarType == CalendarType.split ? MonthAppointmentDisplayMode.appointment : MonthAppointmentDisplayMode.indicator,
+                    showAgenda: UserData.calendarType == CalendarType.split ? false : true,
                     monthCellStyle: MonthCellStyle()),
                   scheduleViewSettings: ScheduleViewSettings(
                     monthHeaderSettings: MonthHeaderSettings(
@@ -48,15 +50,25 @@ class _Calendar extends State<Calendar>{
                   ),
                   dataSource: snapshot.hasData ? snapshot.data : DataSource([]),
                   onTap: (data){
-                    if(_calendarController.view == CalendarView.month)
-                      setState(() {
-                        _calendarController.view = CalendarView.schedule;
-                      });
-                    else if(_calendarController.view == CalendarView.schedule && data.targetElement == CalendarElement.appointment){
-                      showDialog(context: context,
-                        builder: (BuildContext context){
-                          return PopUpAppointmentEditor.appointment(data.appointments[0]);
-                        }).then((value) => setState((){}));
+                    if(UserData.calendarType == CalendarType.split){
+                      if(_calendarController.view == CalendarView.month && data.targetElement == CalendarElement.calendarCell)
+                        setState(() {
+                          _calendarController.view = CalendarView.schedule;
+                        });
+                      else if(_calendarController.view == CalendarView.schedule && data.targetElement == CalendarElement.appointment){
+                        showDialog(context: context,
+                          builder: (BuildContext context){
+                            return PopUpAppointmentEditor.appointment(data.appointments[0]);
+                          }).then((value) => setState((){}));
+                      }
+                    }
+                    else if(UserData.calendarType == CalendarType.integrated){
+                      if(data.targetElement == CalendarElement.appointment){
+                        showDialog(context: context,
+                          builder: (BuildContext context){
+                            return PopUpAppointmentEditor.appointment(data.appointments[0]);
+                          }).then((value) => setState((){}));
+                      }
                     }
                   },
                   onLongPress: (data){

@@ -1,9 +1,14 @@
 import 'dart:collection';
 
+import 'package:hive/hive.dart';
+
 import '../database.dart';
 import '../ics.dart';
 
+part 'userData.g.dart';
+
 enum SortMethod {sortByDue, sortByRegister}
+enum CalendarType {split,integrated}
 SortMethod sortMethod = SortMethod.sortByDue;
 
 class UserData{
@@ -15,6 +20,9 @@ class UserData{
 
   /// 완료된 일정 표시 여부
   static bool _showFinished;
+
+  /// CalendarType : split(달력, 스케줄 분리 표시), integrated(한 페이지에 표시)
+  static CalendarType _calendarType;
 
   static String _id;
   static String _pw;
@@ -46,6 +54,7 @@ class UserData{
   static int get tapIndex => _tapIndex;
   static int get firstDayOfWeek => _firstDayOfWeek;
   static bool get showFinished => _showFinished;
+  static CalendarType get calendarType => _calendarType;
   static String get id => _id;
   static String get pw => _pw;
   static int get year => _year;
@@ -93,6 +102,20 @@ class UserData{
 
     if(update)
       Database.userDataBox.put('showFinished', _showFinished);
+  }
+
+  static set calendarType(CalendarType newValue){
+    bool update = true;
+    if(_calendarType == null)
+      update = false;
+    
+    if(newValue != null)
+      _calendarType = newValue;
+    else
+      _calendarType = CalendarType.split;
+
+    if(update)
+      Database.userDataBox.put('calendarType', _calendarType);
   }
 
   static set id(String newValue){

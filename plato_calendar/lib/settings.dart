@@ -110,6 +110,48 @@ class _Settings extends State<Setting>{
                   ],
                 )
               ),
+              Card(
+                child: Column(
+                  children: [
+                    ListTile(
+                      title: Text('달력 종류'),
+                      subtitle: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 120,
+                          padding: EdgeInsets.all(0),
+                          alignment: Alignment.center,
+                          child: RadioListTile(
+                            title: Text('Type1'),
+                            value: CalendarType.split,
+                            contentPadding: EdgeInsets.all(0),
+                            groupValue: UserData.calendarType,
+                            onChanged: (value){
+                              setState(() {
+                                UserData.calendarType = value;
+                              });
+                          }),
+                        ),
+                        Container(
+                          width: 120,
+                          child: RadioListTile(
+                            title: Text('Type2'),
+                            value: CalendarType.integrated,
+                            contentPadding: EdgeInsets.all(0),
+                            groupValue: UserData.calendarType,
+                            onChanged: (value){
+                              setState(() {
+                                UserData.calendarType = value;
+                              });
+                          }),
+                        ),
+                      ],
+                    ),
+                    ),
+                  ],
+                )
+              ),
               _subjectCodeThisSemester.length != 0
               ? Card(
                 child: expanded 
