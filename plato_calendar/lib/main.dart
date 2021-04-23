@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'database.dart';
 import 'plato.dart';
 import 'settings.dart';
@@ -32,6 +33,7 @@ void main() async{
     });
   });
 
+  await initializeDateFormatting('ko_KR', null);
   runApp(MyApp());
 }
 
@@ -65,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.white,
-          selectedItemColor: Colors.green[300],
+          selectedItemColor: Colors.blueAccent[100],
           unselectedItemColor: Colors.grey[400].withOpacity(1),
           currentIndex: UserData.tapIndex,
           onTap: (int i){

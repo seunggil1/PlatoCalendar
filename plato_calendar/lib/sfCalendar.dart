@@ -32,9 +32,9 @@ class _Calendar extends State<Calendar>{
                 child: SfCalendar(
                   controller: _calendarController,
                   headerHeight: 30,
-                  headerStyle: CalendarHeaderStyle(backgroundColor: Colors.green[300], textStyle: TextStyle(color: Colors.white, fontSize: 20)),
+                  headerStyle: CalendarHeaderStyle(backgroundColor: Colors.blueAccent[100], textStyle: TextStyle(color: Colors.white, fontSize: 20)),
                   viewHeaderStyle : ViewHeaderStyle(backgroundColor: Colors.white, dayTextStyle:TextStyle(color: Colors.grey, fontWeight: FontWeight.bold)),
-                  todayHighlightColor: Colors.green[200],
+                  todayHighlightColor: Colors.blueAccent[100],
                   firstDayOfWeek: UserData.firstDayOfWeek, // 한주의 시작 - 1: 월 .., 7:일
                   monthViewSettings: MonthViewSettings(
                     appointmentDisplayCount: 4,
