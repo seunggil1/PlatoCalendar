@@ -19,8 +19,8 @@ class UserData{
   static String _id;
   static String _pw;
  
-  static String _year = "2021";
-  static String _semester = "10";
+  static int _year = DateTime.now().year;
+  static int _semester = DateTime.now().month > 8 ? 20 : 10;
 
   /// 마지막 동기화 시간, Default : DateTime(1999)
   static DateTime _lastSyncTime;
@@ -48,8 +48,8 @@ class UserData{
   static bool get showFinished => _showFinished;
   static String get id => _id;
   static String get pw => _pw;
-  static String get year => _year;
-  static String get semester => _semester;
+  static int get year => _year;
+  static int get semester => _semester;
   static DateTime get lastSyncTime => _lastSyncTime;
   static String get lastSyncInfo => _lastSyncInfo;
 

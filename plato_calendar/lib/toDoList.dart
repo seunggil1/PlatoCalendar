@@ -113,8 +113,21 @@ class _ToDoList extends State<ToDoList>{
               Container(
                 alignment: Alignment.centerRight,
                 child: IconButton(
-                  icon: Icon(Icons.add_box_outlined ,color: Colors.grey[350]),// 기능넣으면 grey[700]으로
-                  onPressed: null,
+                  icon: Icon(Icons.add_box_outlined ,color: Colors.grey[700]),// 기능넣으면 grey[700]으로
+                  onPressed: (){
+                    showDialog(context: context,
+                      builder: (BuildContext context){
+                        return PopUpAppointmentEditor.newAppointment();
+                      }).then((value) {
+                        if(value != null){
+                          setState((){
+                            Database.uidSet.add(value.uid);
+                            UserData.data.add(value);
+                          });
+                          Database.uidSetSave();
+                        }
+                      });
+                  },
                 ),
               ),
               flex: 3

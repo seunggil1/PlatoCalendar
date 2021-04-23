@@ -39,7 +39,7 @@ class _Settings extends State<Setting>{
                   minLeadingWidth : 20,
                   leading: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[ Icon(Icons.people_alt,color: Colors.blue[200])]
+                    children: <Widget>[ Icon(Icons.people_alt,color: Colors.blueAccent[100])]
                   ),
                   title: Text(UserData.id == ""? "Plato 계정" : UserData.id),
                   subtitle: Text(UserData.lastSyncInfo, style: TextStyle(fontSize: 13)),
@@ -65,7 +65,7 @@ class _Settings extends State<Setting>{
                     alignment: Alignment.center,
                     padding: EdgeInsets.all(10),
                     width: 90,
-                    decoration: BoxDecoration(color: Colors.blue,borderRadius: BorderRadius.circular(10)),
+                    decoration: BoxDecoration(color: Colors.blueAccent[100],borderRadius: BorderRadius.circular(10)),
                     child: Text(UserData.id == ""? "로그인" : "로그아웃", style: TextStyle(color: Colors.white))
                     )
                   ),
@@ -80,6 +80,7 @@ class _Settings extends State<Setting>{
                           UserData.showFinished ? '완료된 일정을 달력에 표시합니다' : '완료된 일정을 달력에 표시하지 않습니다'
                         ),
                         trailing: Switch(
+                          activeColor: Colors.blueAccent[100],
                           value: UserData.showFinished, 
                           onChanged: (value){
                             setState(() {

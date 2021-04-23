@@ -11,6 +11,7 @@ import 'ics.dart';
 
 
 class PopUpAppointmentEditor extends StatefulWidget{
+  bool newData = false;
   CalendarData calendarData;
 
   CalendarData get scalendarData => calendarData;
@@ -20,7 +21,16 @@ class PopUpAppointmentEditor extends StatefulWidget{
     });
   }
   PopUpAppointmentEditor(this.calendarData);
-
+  PopUpAppointmentEditor.newAppointment(){
+    DateTime time = DateTime.now();
+    time = time.subtract(Duration(seconds: time.second, milliseconds: time.millisecond, microseconds: time.microsecond));
+    calendarData = CalendarData(
+      DateTime.now().toUtc().toString()+'_userAppointment',
+      '','', time, time ,false,
+      UserData.year.toString(), UserData.semester.toString(),
+      "과목 분류 없음","",false,false,9);
+      newData = true;
+  }
   @override
   _PopUpAppointmentEditorState createState() => _PopUpAppointmentEditorState();
 }
@@ -52,7 +62,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Container(
+                  !widget.newData ? Container( // 신규추가인 경우 삭제 버튼 표시 x
                     alignment: Alignment.centerLeft,
                     width: 50,
                     child: FlatButton(
@@ -90,7 +100,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                           });
                       },
                       child: Icon(Icons.delete_outlined, color: Colors.white,))
-                  ),
+                  ) : Container(),
                   Container(
                     alignment: Alignment.centerLeft,
                     width: 50,
@@ -103,13 +113,16 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                           widget.calendarData.classCode = _classCode;
                           widget.calendarData.className = subjectCode[_classCode];
                         }else{
-                          widget.calendarData.classCode = "bc6a6e7ce4fb95e75c4aa33a26";
+                          widget.calendarData.classCode = "과목 분류 없음";
                           widget.calendarData.className = "";
                         }
                         widget.calendarData.start = _start;
                         widget.calendarData.end = _end;
                         widget.calendarData.color = _color;
-                        Navigator.pop(context);
+                        if(widget.newData) // 신규 추가인 경우
+                          Navigator.pop(context,widget.calendarData); // calendarData 전달
+                        else
+                          Navigator.pop(context);
                         Database.calendarDataSave(widget.calendarData);
                       },
                       child: Text('저장',style: TextStyle(color: Colors.white),)),
@@ -261,7 +274,7 @@ class _CalendarColorPickerState extends State<CalendarColorPicker> {
               itemBuilder: (context,i){
                 return FlatButton(
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  padding: EdgeInsets.all(5),
+                  padding: EdgeInsets.all(2.2),
                   minWidth: 10,
                   onPressed: (){
                     setState(() {
