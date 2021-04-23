@@ -85,14 +85,14 @@ class _ToDoList extends State<ToDoList>{
             Expanded(child: 
               DropdownButton<String>(
                 value: dropdownValue,
-                icon: Icon(Icons.arrow_drop_down),
+                icon: Icon(Icons.arrow_drop_down,color: Colors.blueAccent[100]),
                 isExpanded: true,
                 iconSize: 24,
                 elevation: 16,
                 style: TextStyle(color: Colors.black),
                 underline: Container(
                   height: 2,
-                  color: Colors.grey[350],
+                  color: Colors.blueAccent[100],
                 ),
                 onChanged: (String newValue) {
                   setState(() {
@@ -103,7 +103,7 @@ class _ToDoList extends State<ToDoList>{
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(subjectCode[value]),
+                    child: Text(' '+subjectCode[value], style: TextStyle(color: Colors.blueAccent[100], fontWeight: FontWeight.bold)),
                   );
                 }).toList(),
               ),
@@ -113,7 +113,7 @@ class _ToDoList extends State<ToDoList>{
               Container(
                 alignment: Alignment.centerRight,
                 child: IconButton(
-                  icon: Icon(Icons.add_box_outlined ,color: Colors.grey[700]),// 기능넣으면 grey[700]으로
+                  icon: Icon(Icons.add_box_outlined ,color: Colors.blueAccent[100]),
                   onPressed: (){
                     showDialog(context: context,
                       builder: (BuildContext context){
@@ -134,7 +134,7 @@ class _ToDoList extends State<ToDoList>{
             ),
             Expanded(child:
               PopupMenuButton<int>(
-                icon: Icon(Icons.more_vert_rounded, color: Colors.grey[700]),
+                icon: Icon(Icons.more_vert_rounded, color: Colors.blueAccent[100]),
                 itemBuilder: (context) =>[
                   PopupMenuItem(
                     value: 1,
