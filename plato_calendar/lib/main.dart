@@ -26,12 +26,6 @@ void main() async{
   await Database.init();
   Database.userDataLoad();
   Database.calendarDataLoad();
-  
-  Plato.update().then((value) { // update 한 뒤에, 6시간마다 update 다시 진행.
-    Stream.periodic(Duration(hours: 1, minutes: 1),(x)=>x).forEach((element) { 
-      Plato.update();
-    });
-  });
 
   await initializeDateFormatting('ko_KR', null);
   runApp(MyApp());
@@ -60,7 +54,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-    @override
+  @override
+  void initState() {
+    super.initState();
+    Plato.update().then((value) { // update 한 뒤에, 6시간마다 update 다시 진행.
+      if(value) setState(() { });
+      Stream.periodic(Duration(hours: 1, minutes: 1),(x)=>x).forEach((element) async { 
+        if(await Plato.update()) setState(() { });
+      });
+    });
+
+  }
+  @override
   Widget build(BuildContext context) {
     //a.login().then((value) => a.getCalendar());
     return Scaffold(

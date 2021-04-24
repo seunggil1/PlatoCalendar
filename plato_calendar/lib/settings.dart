@@ -114,41 +114,25 @@ class _Settings extends State<Setting>{
                 child: Column(
                   children: [
                     ListTile(
-                      title: Text('달력 종류'),
-                      subtitle: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 120,
-                          padding: EdgeInsets.all(0),
-                          alignment: Alignment.center,
-                          child: RadioListTile(
-                            title: Text('Type1'),
-                            value: CalendarType.split,
-                            contentPadding: EdgeInsets.all(0),
-                            groupValue: UserData.calendarType,
-                            onChanged: (value){
-                              setState(() {
-                                UserData.calendarType = value;
-                              });
-                          }),
-                        ),
-                        Container(
-                          width: 120,
-                          child: RadioListTile(
-                            title: Text('Type2'),
-                            value: CalendarType.integrated,
-                            contentPadding: EdgeInsets.all(0),
-                            groupValue: UserData.calendarType,
-                            onChanged: (value){
-                              setState(() {
-                                UserData.calendarType = value;
-                              });
-                          }),
-                        ),
-                      ],
-                    ),
-                    ),
+                          title: Text('달력 종류'),
+                          subtitle: UserData.calendarType == CalendarType.integrated ? Text('달력과 시간별 일정을 한 페이지에 표시합니다') : Text('달력과 시간별 일정을 두 페이지로 나눠서 표시합니다'),
+                          trailing:
+                            DropdownButton(
+                              underline: Container(
+                                height: 2,
+                                color: Colors.grey[350]),
+                              value: UserData.calendarType,
+                              items: [
+                                  DropdownMenuItem<CalendarType>(value: CalendarType.split, child: Text('Type1')),
+                                  DropdownMenuItem<CalendarType>(value: CalendarType.integrated, child: Text('Type2'))
+                              ],
+                              onChanged: (newValue){
+                                setState(() {
+                                    UserData.calendarType = newValue;
+                                });
+                              }),
+                          isThreeLine: true
+                    )
                   ],
                 )
               ),
@@ -197,7 +181,7 @@ class _Settings extends State<Setting>{
                         child: ListTile(
                           contentPadding: EdgeInsets.fromLTRB(4.0,2.0,2.0,2.5),
                           title: Text("기본 색상 지정"),
-                          subtitle: Text("새로 추가되는 일정의 색깔을 지정합니다. 이미 추가된 일정에는 적용되지 않습니다.",style: TextStyle(fontSize: 13),)
+                          subtitle: Text("Plato에서 새로운 일정이 추가 될 때의 각 과목 별 색깔을 지정합니다. 이미 추가된 일정에는 적용되지 않습니다.",style: TextStyle(fontSize: 13),)
                         )
                       ),
                       Icon(Icons.keyboard_arrow_down_sharp,size: 30,color: Colors.grey[600])
