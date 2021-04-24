@@ -115,7 +115,7 @@ class _Settings extends State<Setting>{
                   children: [
                     ListTile(
                           title: Text('달력 종류'),
-                          subtitle: UserData.calendarType == CalendarType.integrated ? Text('달력과 시간별 일정을 한 페이지에 표시합니다') : Text('달력과 시간별 일정을 두 페이지로 나눠서 표시합니다'),
+                          subtitle: UserData.calendarType == CalendarType.integrated ? Text('달력과 시간 별 일정을 한 페이지에 표시합니다') : Text('달력과 시간별 일정을 두 페이지로 나눠서 표시합니다'),
                           trailing:
                             DropdownButton(
                               underline: Container(
