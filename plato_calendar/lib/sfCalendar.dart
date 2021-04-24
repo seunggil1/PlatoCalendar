@@ -72,7 +72,7 @@ class _Calendar extends State<Calendar>{
                     }
                   },
                   onLongPress: (data){
-                    if(_calendarController.view == CalendarView.schedule && data.targetElement == CalendarElement.appointment){
+                    if(data.targetElement == CalendarElement.appointment){
                       showDialog(context: context,
                         builder: (BuildContext context){
                           return SimplePopUpAppointmentEditor(data.appointments[0]);

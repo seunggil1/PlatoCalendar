@@ -131,7 +131,7 @@ class _Settings extends State<Setting>{
                                     UserData.calendarType = newValue;
                                 });
                               }),
-                          isThreeLine: true
+                          isThreeLine: false
                     )
                   ],
                 )
