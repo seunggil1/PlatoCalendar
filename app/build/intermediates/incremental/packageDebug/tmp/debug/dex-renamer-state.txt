@@ -1,4 +1,0 @@
-#Sat Jan 16 08:14:42 KST 2021
-base.0=C\:\\Users\\seung\\Documents\\GitHub\\PNU-Plato\\calendar\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
-path.0=classes.dex
-renamed.0=classes.dex
