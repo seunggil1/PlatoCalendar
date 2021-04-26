@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'database.dart';
@@ -15,6 +17,8 @@ import 'Data/userData.dart';
 //   }
 // }
 
+/// Plato 동기화 완료됐을경우 화면 갱신 요청하는 Stream
+StreamController platoStream = StreamController<bool>.broadcast();
 List<Widget> _widgets = [Calendar(), ToDoList(), Setting()];
 void main() async{
   // HttpOverrides.global = new MyHttpOverrides();
@@ -32,7 +36,6 @@ void main() async{
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -58,12 +61,10 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     Plato.update().then((value) { // update 한 뒤에, 6시간마다 update 다시 진행.
-      if(value) setState(() { });
-      Stream.periodic(Duration(hours: 1, minutes: 1),(x)=>x).forEach((element) async { 
-        if(await Plato.update()) setState(() { });
+      Stream.periodic(Duration(hours: 1, minutes: 1),(x)=>x).forEach((element) { 
+        Plato.update();
       });
     });
-
   }
   @override
   Widget build(BuildContext context) {

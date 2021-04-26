@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'Data/else.dart';
@@ -5,6 +6,7 @@ import 'Data/subjectCode.dart';
 import 'Data/userData.dart';
 import 'appointmentEditor.dart';
 import 'database.dart';
+import 'main.dart';
 import 'plato.dart';
 
 class Setting extends StatefulWidget{
@@ -16,12 +18,22 @@ class Setting extends StatefulWidget{
 class _Settings extends State<Setting>{
   Set<String> _subjectCodeThisSemester = Set<String>.from(UserData.subjectCodeThisSemester);
   bool expanded = false;
+  StreamSubscription<bool> listener;
   @override
   void initState() {
     super.initState();
     _subjectCodeThisSemester.remove("전체");
+    listener = platoStream.stream.listen((event) {
+      if(event)
+        setState(() {  });
+    });
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    listener.cancel();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +54,7 @@ class _Settings extends State<Setting>{
                     children: <Widget>[ Icon(Icons.people_alt,color: Colors.blueAccent[100])]
                   ),
                   title: Text(UserData.id == ""? "Plato 계정" : UserData.id),
-                  subtitle: Text(UserData.lastSyncInfo, style: TextStyle(fontSize: 13)),
+                  subtitle: Text(UserData.lastSyncInfo, style: TextStyle(fontSize: 12)),
                   trailing: TextButton(
                     onPressed: (){
                       if(UserData.id == "")
@@ -131,7 +143,7 @@ class _Settings extends State<Setting>{
                                     UserData.calendarType = newValue;
                                 });
                               }),
-                          isThreeLine: false
+                          isThreeLine: true
                     )
                   ],
                 )

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/rendering.dart';
@@ -9,6 +10,7 @@ import 'Data/userData.dart';
 import 'appointmentEditor.dart';
 import 'database.dart';
 import 'ics.dart';
+import 'main.dart';
 import 'utility.dart';
 
 
@@ -33,6 +35,22 @@ class _ToDoList extends State<ToDoList>{
   List<Widget> toDoList12Hour = [];   // 12시간 남음
   List<Widget> toDoList6Hour= [];     // 6시간 남음
   List<Widget> toDoListFinished = []; // 완료
+  StreamSubscription<bool> listener;
+
+  @override
+  void initState() {
+    super.initState();
+    listener = platoStream.stream.listen((event) {
+      if(event)
+        setState(() {  });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    listener.cancel();
+  }
   @override
   Widget build(BuildContext context) {
     toDoListNodate.clear();

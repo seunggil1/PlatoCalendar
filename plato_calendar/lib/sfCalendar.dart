@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/material.dart';
 
+import 'main.dart';
 import 'Data/userData.dart';
 import 'appointmentEditor.dart';
 import 'utility.dart';
@@ -14,14 +17,23 @@ class Calendar extends StatefulWidget{
 class _Calendar extends State<Calendar>{
   CalendarView viewType = CalendarView.month;
   CalendarController _calendarController = CalendarController();
- 
+  StreamSubscription<bool> listener;
   @override
   void initState() {
     super.initState();
     _calendarController.view = CalendarView.month;
     _calendarController.selectedDate = DateTime.now();
+    listener = platoStream.stream.listen((event) {
+      if(event)
+        setState(() {  });
+    });
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    listener.cancel();
+  }
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
