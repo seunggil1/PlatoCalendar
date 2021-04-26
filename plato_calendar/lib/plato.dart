@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
+import 'database.dart';
 import 'main.dart';
 import 'Data/userData.dart';
 import 'ics.dart';
@@ -99,7 +100,7 @@ class Plato {
 
       body = "$sesskey&_qf__core_calendar_export_form=1"
               + "&${Uri.encodeQueryComponent("events[exportevents]")}=all"
-              + "&${Uri.encodeQueryComponent("period[timeperiod]")}=recentupcoming"
+              + "&${Uri.encodeQueryComponent("period[timeperiod]")}=monthnow"
               + "&export=${Uri.encodeQueryComponent("내보내기")}";
       response = await http.post("https://plato.pusan.ac.kr/calendar/export.php",
         headers: {
@@ -120,6 +121,36 @@ class Plato {
         body : body
       );
       await icsParser(response.body);
+
+      body = "$sesskey&_qf__core_calendar_export_form=1"
+        + "&${Uri.encodeQueryComponent("events[exportevents]")}=all"
+        + "&${Uri.encodeQueryComponent("period[timeperiod]")}=monthnext"
+        + "&export=${Uri.encodeQueryComponent("내보내기")}";
+      response = await http.post("https://plato.pusan.ac.kr/calendar/export.php",
+        headers: {
+          "Host": "plato.pusan.ac.kr",
+          "Connection": "close",
+          "Content-Length": body.length.toString(),
+          "Cache-Control": "max-age=0",
+          "Upgrade-Insecure-Requests": "1",
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36 Edg/88.0.705.63",
+          "Origin": "https://plato.pusan.ac.kr",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+          "Referer": "https://plato.pusan.ac.kr/calendar/export.php?course=1",
+          "Accept-Encoding": "gzip, deflate",
+          "Accept-Language": "ko,en;q=0.9,en-US;q=0.8",
+          "Cookie": moodleSession
+        },
+        body : body
+      );
+      await icsParser(response.body);
+
+      UserData.lastSyncTime = DateTime.now();
+      UserData.lastSyncInfo = "${UserData.lastSyncTime.month}월${UserData.lastSyncTime.day}일 ${UserData.lastSyncTime.hour}시 ${UserData.lastSyncTime.minute}분 - 동기화 성공";
+      Database.subjectCodeThisSemesterSave();
+      Database.defaultColorSave();
+      Database.uidSetSave();
     }
     catch(e){
       DateTime now = DateTime.now();
