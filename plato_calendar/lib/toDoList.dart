@@ -403,14 +403,17 @@ class _ToDoList extends State<ToDoList>{
               children: [
                 AutoSizeText(
                   data.className != "" ? data.className : data.classCode,
+                  overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   minFontSize: 8,
-                  style: TextStyle(color: Colors.grey),
+                  maxFontSize: 12,
+                  style: TextStyle(color: Colors.grey,),
                 ),
                 AutoSizeText(
                   DateFormat("MM-dd ").format(data.end) + weekdayLocaleKR[data.end.weekday] + DateFormat(" HH:mm").format(data.end),
                   maxLines: 1,
-                  minFontSize: 8,
+                  minFontSize: 7,
+                  maxFontSize: 12,
                   style: TextStyle(color: Colors.grey,),
                 )
               ],
