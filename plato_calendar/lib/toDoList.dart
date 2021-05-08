@@ -252,7 +252,7 @@ class _ToDoList extends State<ToDoList>{
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [_getDurationWidget("6시간 남음")] + toDoList6Hour,
+              children: [_getDurationWidget("6시간 이내")] + toDoList6Hour,
             ),
           ),
           toDoList12Hour.isEmpty ? Container()
