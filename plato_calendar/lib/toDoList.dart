@@ -387,7 +387,7 @@ class _ToDoList extends State<ToDoList>{
             child: Text('')
           ),
           Expanded(
-            flex: 4,
+            flex: 7,
             child: RichText(
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -397,7 +397,7 @@ class _ToDoList extends State<ToDoList>{
             )
           ),
           Expanded(
-            flex : 1,
+            flex : 2,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
