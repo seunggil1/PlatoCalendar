@@ -124,7 +124,7 @@ class Plato {
 
       body = "$sesskey&_qf__core_calendar_export_form=1"
         + "&${Uri.encodeQueryComponent("events[exportevents]")}=all"
-        + "&${Uri.encodeQueryComponent("period[timeperiod]")}=monthnext"
+        + "&${Uri.encodeQueryComponent("period[timeperiod]")}=recentupcoming"
         + "&export=${Uri.encodeQueryComponent("내보내기")}";
       response = await http.post("https://plato.pusan.ac.kr/calendar/export.php",
         headers: {
