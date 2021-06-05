@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'Data/userData.dart';
 import 'ics.dart';
+import 'utility.dart';
 
 class Database{
   static Box calendarBox;
@@ -12,20 +13,30 @@ class Database{
 
   static Set<String> uidSet = {};
 
-  static Future init() async {
-    await Hive.initFlutter();
-    Hive.registerAdapter(CalendarDataAdapter());
-    Hive.registerAdapter(CalendarTypeAdapter());
+  static Future init([bool retry = false]) async {
+    if(!retry){
+      await Hive.initFlutter();
+      Hive.registerAdapter(CalendarDataAdapter());
+      Hive.registerAdapter(CalendarTypeAdapter());
+    }
+    
     final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-
     if (!(await secureStorage.containsKey(key: 'key'))) {
       var key = Hive.generateSecureKey();
       await secureStorage.write(key: 'key', value: base64UrlEncode(key));
     }
     var encryptionKey = base64Url.decode(await secureStorage.read(key: 'key'));
-
-    calendarBox = await Hive.openBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
-    userDataBox = await Hive.openBox('userDataBox', encryptionCipher: HiveAesCipher(encryptionKey));
+    try{
+      calendarBox = await Hive.openBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
+      userDataBox = await Hive.openBox('userDataBox', encryptionCipher: HiveAesCipher(encryptionKey));
+    }
+    catch(e){
+      Hive.deleteBoxFromDisk('calendarBox');
+      Hive.deleteBoxFromDisk('userDataBox');
+      showToastMessage("저장된 데이터 복원에 실패했습니다.");
+      if(!retry)
+        await init(true);
+    }
   }
 
   static Future clear() async{
