@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../Data/else.dart';
 import '../Data/subjectCode.dart';
 import '../Data/userData.dart';
-import '../appointmentEditor.dart';
+import 'widget/appointmentEditor.dart';
 import '../Data/database.dart';
 import '../main.dart';
 import '../plato.dart';
