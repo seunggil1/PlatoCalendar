@@ -6,8 +6,8 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import 'Data/subjectCode.dart';
 import 'Data/userData.dart';
-import 'database.dart';
-import 'ics.dart';
+import 'Data/database.dart';
+import 'Data/ics.dart';
 
 
 class PopUpAppointmentEditor extends StatefulWidget{

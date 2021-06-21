@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
-import 'database.dart';
+import 'Data/database.dart';
 import 'main.dart';
 import 'Data/userData.dart';
-import 'ics.dart';
+import 'Data/ics.dart';
 
 class Plato {
   static String moodleSession = "";

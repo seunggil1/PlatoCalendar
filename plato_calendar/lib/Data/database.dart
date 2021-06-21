@@ -3,9 +3,9 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'Data/userData.dart';
+import './userData.dart';
 import 'ics.dart';
-import 'utility.dart';
+import '../utility.dart';
 
 class Database{
   static Box calendarBox;

@@ -4,14 +4,14 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 
-import 'Data/else.dart';
-import 'Data/subjectCode.dart';
-import 'Data/userData.dart';
-import 'appointmentEditor.dart';
-import 'database.dart';
-import 'ics.dart';
-import 'main.dart';
-import 'utility.dart';
+import '../Data/else.dart';
+import '../Data/subjectCode.dart';
+import '../Data/userData.dart';
+import '../appointmentEditor.dart';
+import '../Data/database.dart';
+import '../Data/ics.dart';
+import '../main.dart';
+import '../utility.dart';
 
 
 final EdgeInsets edgeInsetsStart  = EdgeInsets.fromLTRB(10, 10, 10, 0);

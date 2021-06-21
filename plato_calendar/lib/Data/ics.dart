@@ -2,9 +2,9 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:icalendar_parser/icalendar_parser.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-import 'Data/else.dart';
-import 'Data/subjectCode.dart';
-import 'Data/userData.dart';
+import './else.dart';
+import './subjectCode.dart';
+import './userData.dart';
 import 'package:hive/hive.dart';
 
 import 'database.dart';

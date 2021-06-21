@@ -2,8 +2,8 @@ import 'dart:collection';
 
 import 'package:hive/hive.dart';
 
-import '../database.dart';
-import '../ics.dart';
+import './database.dart';
+import './ics.dart';
 
 part 'userData.g.dart';
 

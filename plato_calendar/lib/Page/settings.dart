@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-import 'Data/else.dart';
-import 'Data/subjectCode.dart';
-import 'Data/userData.dart';
-import 'appointmentEditor.dart';
-import 'database.dart';
-import 'main.dart';
-import 'plato.dart';
+import '../Data/else.dart';
+import '../Data/subjectCode.dart';
+import '../Data/userData.dart';
+import '../appointmentEditor.dart';
+import '../Data/database.dart';
+import '../main.dart';
+import '../plato.dart';
 
 class Setting extends StatefulWidget{
 

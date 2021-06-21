@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/material.dart';
 
-import 'main.dart';
-import 'Data/userData.dart';
-import 'appointmentEditor.dart';
-import 'utility.dart';
+import '../main.dart';
+import '../Data/userData.dart';
+import '../appointmentEditor.dart';
+import '../utility.dart';
 
 class Calendar extends StatefulWidget{
 
