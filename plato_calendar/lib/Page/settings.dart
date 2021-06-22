@@ -1,24 +1,30 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../Data/else.dart';
 import '../Data/subjectCode.dart';
 import '../Data/userData.dart';
+import '../utility.dart';
 import 'widget/appointmentEditor.dart';
 import '../Data/database.dart';
 import '../main.dart';
 import '../plato.dart';
 
-class Setting extends StatefulWidget{
 
+class Setting extends StatefulWidget{
   @override
   State<StatefulWidget> createState() => _Settings();
 }
 
-class _Settings extends State<Setting>{
+class _Settings extends State<Setting> with TickerProviderStateMixin{
   Set<String> _subjectCodeThisSemester = Set<String>.from(UserData.subjectCodeThisSemester);
   bool expanded = false;
   StreamSubscription<bool> listener;
+
+  AnimationController _controller;
+  Animation<double> animation;
   @override
   void initState() {
     super.initState();
@@ -27,10 +33,21 @@ class _Settings extends State<Setting>{
       if(event)
         setState(() {  });
     });
+
+    _controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    );
+    animation = 
+      Tween<double>(
+        begin: 0,
+        end: 2 * pi,
+      ).animate(_controller);
   }
 
   @override
   void dispose() {
+    _controller.dispose();
     super.dispose();
     listener.cancel();
   }
@@ -49,38 +66,51 @@ class _Settings extends State<Setting>{
               Card(
                 child: ListTile(
                   minLeadingWidth : 20,
+                  contentPadding : const EdgeInsets.fromLTRB(16, 5, 5, 5),
                   leading: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[ Icon(Icons.people_alt,color: Colors.blueAccent[100])]
+                    children: <Widget>[Icon(Icons.people_alt,color: Colors.blueAccent[100])]
                   ),
                   title: Text(UserData.id == ""? "Plato 계정" : UserData.id),
                   subtitle: Text(UserData.lastSyncInfo, style: TextStyle(fontSize: 12)),
-                  trailing: TextButton(
-                    onPressed: (){
-                      if(UserData.id == "")
-                        showDialog(context: context,
-                          builder: (BuildContext context){
-                            return LoginPage();                      
-                          }).then((value) => setState((){
-                            _subjectCodeThisSemester = Set<String>.from(UserData.subjectCodeThisSemester);
-                            _subjectCodeThisSemester.remove("전체");
-                          }));
-                      else{
-                        setState(() {
-                          UserData.id = "";
-                          UserData.pw = "";
-                          UserData.lastSyncInfo = null;
-                        });
-                      }                      
-                    },
-                  child: Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.all(10),
-                    width: 90,
-                    decoration: BoxDecoration(color: Colors.blueAccent[100],borderRadius: BorderRadius.circular(10)),
-                    child: Text(UserData.id == ""? "로그인" : "로그아웃", style: TextStyle(color: Colors.white))
-                    )
-                  ),
+                  trailing: Container(
+                    padding: EdgeInsets.all(0),
+                    width: 160,
+                    child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        child: Loading(animation: animation, control: _controller)),
+                      TextButton(
+                        onPressed: (){
+                          if(UserData.id == "")
+                            showDialog(context: context,
+                              builder: (BuildContext context){
+                                return LoginPage();                      
+                              }).then((value) => setState((){
+                                _subjectCodeThisSemester = Set<String>.from(UserData.subjectCodeThisSemester);
+                                _subjectCodeThisSemester.remove("전체");
+                              }));
+                          else{
+                            setState(() {
+                              UserData.id = "";
+                              UserData.pw = "";
+                              UserData.lastSyncInfo = null;
+                            });
+                          }                      
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(0),
+                          width: 85,
+                          decoration: BoxDecoration(color: Colors.blueAccent[100],borderRadius: BorderRadius.circular(10)),
+                          child: Text(UserData.id == ""? "로그인" : "로그아웃", style: TextStyle(color: Colors.white))
+                          )
+                      ),
+                    ],
+                    ),
+                  )
                 ),
               ),
               UserData.lastSyncInfo.contains("오류")
@@ -228,6 +258,7 @@ class _Settings extends State<Setting>{
   }
 }
 
+// 로그인 창
 class LoginPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _LoginPageState();
@@ -312,7 +343,43 @@ class _LoginPageState extends State<LoginPage> {
             ],
           )
           )
+    );
+  }
+}
 
+// Loading Icon
+class Loading extends AnimatedWidget{
+  AnimationController controller;
+  static DateTime _manualUpdateTime = DateTime.utc(0);
+  Loading({Key key, Animation<double> animation, AnimationController control}) : super(key: key, listenable: animation){
+    controller = control;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final animation = listenable as Animation<double>;
+    return Transform.rotate(
+        angle: animation.value,
+        child: Container(
+          padding: EdgeInsets.zero,
+            child: IconButton(
+              iconSize: 28,
+              padding: EdgeInsets.zero,
+              onPressed: () async{
+                if(!controller.isAnimating)
+                  if(DateTime.now().difference(_manualUpdateTime).inMinutes > 4){
+                    controller.repeat();
+                    await Plato.update(force : true).then((value) {
+                        if(value) _manualUpdateTime = DateTime.now();
+                    });
+                    controller.stop();
+                  }else{
+                    showToastMessageTop("동기화는 5분에 한 번씩만 가능합니다.");
+                  }
+              }, 
+              icon: Icon(Icons.refresh_rounded, color: Colors.blueAccent[100])
+            )
+        )
     );
   }
 }

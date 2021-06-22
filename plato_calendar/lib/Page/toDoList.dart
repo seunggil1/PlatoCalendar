@@ -338,7 +338,7 @@ class _ToDoList extends State<ToDoList>{
             margin: edgeInsetsEnd,
             padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal:5.0),
             decoration: BoxDecoration(
-              border:Border.all(color:Colors.grey[350], width: 1.5),
+              border:Border.all(color: Colors.grey[350], width: 1.5),
               borderRadius: BorderRadius.circular(5)
             ),
             child: Column(

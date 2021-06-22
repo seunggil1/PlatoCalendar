@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -33,7 +34,7 @@ class Database{
     catch(e){
       Hive.deleteBoxFromDisk('calendarBox');
       Hive.deleteBoxFromDisk('userDataBox');
-      showToastMessage("저장된 데이터 복원에 실패했습니다.");
+      showToastMessageCenter("저장된 데이터 복원에 실패했습니다.");
       if(!retry)
         await init(true);
     }

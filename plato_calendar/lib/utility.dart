@@ -11,11 +11,20 @@ void showMessage(BuildContext context, String msg) {
 }
 
 // #2 원하는 위치에 toast 메세지
-void showToastMessage(String message){
+void showToastMessageCenter(String message){
   Fluttertoast.cancel().then((value) => {
     Fluttertoast.showToast(
       msg: message,
       gravity: ToastGravity.CENTER,
+      toastLength: Toast.LENGTH_LONG)
+  });
+}
+
+void showToastMessageTop(String message){
+  Fluttertoast.cancel().then((value) => {
+    Fluttertoast.showToast(
+      msg: message,
+      gravity: ToastGravity.TOP,
       toastLength: Toast.LENGTH_LONG)
   });
 }
