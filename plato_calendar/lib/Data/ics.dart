@@ -98,7 +98,9 @@ Future<bool> icsExport() async {
 
     icsFile.writeAsString(data);
     OpenResult result = await OpenFile.open("$dir/data.ics");
-    
+    if(result.type != ResultType.done)
+      throw Error();
+
     return true;
   } catch(e){
     return false;
