@@ -35,6 +35,7 @@ class _ToDoList extends State<ToDoList>{
   List<Widget> toDoList12Hour = [];   // 12시간 남음
   List<Widget> toDoList6Hour= [];     // 6시간 남음
   List<Widget> toDoListFinished = []; // 완료
+
   StreamSubscription<bool> listener;
 
   @override
@@ -224,7 +225,6 @@ class _ToDoList extends State<ToDoList>{
               flex: 1
             )
           ],
-
         )
       ),
       body: ListView(
@@ -239,7 +239,7 @@ class _ToDoList extends State<ToDoList>{
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [_getDurationWidget("지난 할일")] + toDoListPassed,
+              children: [_getDurationWidget("지난 할일",0)] + (UserData.showToDoList[0] ? toDoListPassed : []),
             ),
           ),
           toDoList6Hour.isEmpty ? Container()
@@ -252,7 +252,7 @@ class _ToDoList extends State<ToDoList>{
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [_getDurationWidget("6시간 이내")] + toDoList6Hour,
+              children: [_getDurationWidget("6시간 이내",1)] + (UserData.showToDoList[1] ? toDoList6Hour : []),
             ),
           ),
           toDoList12Hour.isEmpty ? Container()
@@ -265,7 +265,7 @@ class _ToDoList extends State<ToDoList>{
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [_getDurationWidget("12시간 남음")] + toDoList12Hour,
+              children: [_getDurationWidget("12시간 남음",2)] + (UserData.showToDoList[2] ? toDoList12Hour : []),
             ),
           ),
           toDoListToday.isEmpty ? Container()
@@ -278,7 +278,7 @@ class _ToDoList extends State<ToDoList>{
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [_getDurationWidget("오늘")] + toDoListToday,
+              children: [_getDurationWidget("오늘",3)] + (UserData.showToDoList[3] ? toDoListToday : []),
             ),
           ),
           toDoListTomorrow.isEmpty ? Container()
@@ -291,7 +291,7 @@ class _ToDoList extends State<ToDoList>{
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [_getDurationWidget("내일")] + toDoListTomorrow,
+              children: [_getDurationWidget("내일",4)] + (UserData.showToDoList[4] ? toDoListTomorrow : []),
             ),
           ),
           toDoListWeek.isEmpty ? Container()
@@ -304,7 +304,7 @@ class _ToDoList extends State<ToDoList>{
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [_getDurationWidget("7일 이내")] + toDoListWeek,
+              children: [_getDurationWidget("7일 이내",5)] + (UserData.showToDoList[5] ? toDoListWeek : []),
             ),
           ),
           toDoListLongTime.isEmpty ? Container()
@@ -317,7 +317,7 @@ class _ToDoList extends State<ToDoList>{
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [_getDurationWidget("7일 이상")] + toDoListLongTime,
+              children: [_getDurationWidget("7일 이상",6)] + (UserData.showToDoList[6] ? toDoListLongTime : []),
             ),
           ),
           toDoListNodate.isEmpty ? Container()
@@ -330,7 +330,7 @@ class _ToDoList extends State<ToDoList>{
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [_getDurationWidget("기한 없음")] + toDoListNodate,
+              children: [_getDurationWidget("기한 없음",7)] + (UserData.showToDoList[7] ? toDoListNodate : []),
             ),
           ),
           toDoListFinished.isEmpty ? Container()
@@ -343,19 +343,30 @@ class _ToDoList extends State<ToDoList>{
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [_getDurationWidget("완료")] + toDoListFinished,
+              children: [_getDurationWidget("완료",8)] + (UserData.showToDoList[8] ? toDoListFinished : []),
             ),
           ),
         ],
       ),
     );
   }
-  Widget _getDurationWidget(String str){
+  Widget _getDurationWidget(String str, int index){
     return Container(
-      margin: const EdgeInsets.fromLTRB(7,7,0,0),
-      child: Text(str,
-        style: TextStyle(fontSize: 15) // fontWeight: FontWeight.bold, 
-        )
+      margin: const EdgeInsets.all(5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(str, style: TextStyle(fontSize: 15)),
+          GestureDetector(
+            onTap: (){
+              setState(() {
+                UserData.showToDoListByIndex(index, !UserData.showToDoList[index]);
+              });
+            },
+            child: Icon(UserData.showToDoList[index] ? Icons.arrow_drop_up : Icons.arrow_drop_down, color: Colors.blueAccent[100]),
+          )
+        ],
+      )
       );
   }
   Widget _getTodoWidget(CalendarData data){
@@ -423,11 +434,4 @@ class _ToDoList extends State<ToDoList>{
       )
     );
   }
-
-
-
-
-
 }
-
-
