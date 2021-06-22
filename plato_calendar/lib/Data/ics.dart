@@ -1,12 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:icalendar_parser/icalendar_parser.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-import 'Data/else.dart';
-import 'Data/subjectCode.dart';
-import 'Data/userData.dart';
+import './else.dart';
+import './subjectCode.dart';
+import './userData.dart';
 import 'package:hive/hive.dart';
-
+import 'package:open_file/open_file.dart';
 import 'database.dart';
 
 part 'ics.g.dart';
@@ -65,6 +68,45 @@ Future<void> icsParser(String bytes) async{
   }
 }
 
+Future<bool> icsExport() async {
+  try{
+    final dir = (await getApplicationDocumentsDirectory()).path;
+    File icsFile = File("$dir/data.ics");
+    String data = "";
+    data += ('BEGIN:VCALENDAR\n');
+    data +=('METHOD:PUBLISH\n');
+    data +=('PRODID:-//Moodle Pty Ltd//NONSGML Moodle Version 2018051709//EN\n');
+    data +=('VERSION:2.0\n');
+    for(var iter in UserData.data)
+      if(DateTime.now().difference(iter.end).inDays < 35){
+        data += ('BEGIN:VEVENT\n');
+        data += ('UID:${iter.uid}\n');
+        data += ('SUMMARY:${iter.summary}\n');
+        String description = iter.description.replaceAll('\n', '\\n');
+        data += ('DESCRIPTION:$description\n');
+        data += ('\n');
+        data += ('CLASS:PUBLIC\n');
+        data += ('LAST-MODIFIED:20201108T053930Z\n');
+        data += ('DTSTAMP:${toISO8601(iter.end)}\n');
+        DateTime start = iter.start.day == iter.end.day ? iter.start : iter.end;
+        data += ('DTSTART:${toISO8601(start)}\n');
+        data += ('DTEND:${toISO8601(iter.end)}\n');
+        data += ('CATEGORIES:${iter.classCode}\n');
+        data += ('END:VEVENT\n');
+      }  
+    data +=('END:VCALENDAR\n');
+
+    icsFile.writeAsString(data);
+    OpenResult result = await OpenFile.open("$dir/data.ics");
+    if(result.type != ResultType.done)
+      throw Error();
+
+    return true;
+  } catch(e){
+    return false;
+  }
+
+}
 class CalendarData{
 
   String uid;

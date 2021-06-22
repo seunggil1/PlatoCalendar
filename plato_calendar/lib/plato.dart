@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
-import 'database.dart';
+import 'Data/database.dart';
 import 'main.dart';
 import 'Data/userData.dart';
-import 'ics.dart';
+import 'Data/ics.dart';
 
 class Plato {
   static String moodleSession = "";
@@ -60,14 +60,14 @@ class Plato {
       else{
         print("plato Login Error: ${e.error}");
         DateTime now = DateTime.now();
-        UserData.lastSyncInfo = "${now.month}월${now.day}일 ${now.hour}시 ${now.minute}분 - 로그인 오류";
+        UserData.lastSyncInfo = "${now.day}일 ${now.hour}:${now.minute} - 로그인 오류";
         return false;
       }
     }
     if(response.headers.map["location"][0] == "https://plato.pusan.ac.kr/login.php?errorcode=3"){
       print("ID,PW is incorrect");
       DateTime now = DateTime.now();
-      UserData.lastSyncInfo = "${now.month}월${now.day}일 ${now.hour}시 ${now.minute}분 - ID/PW 오류";
+      UserData.lastSyncInfo = "${now.day}일 ${now.hour}:${now.minute} - ID/PW 오류";
     }
     else{
       moodleSession = response.headers.map["set-cookie"][1];
@@ -147,14 +147,14 @@ class Plato {
       await icsParser(response.body);
 
       UserData.lastSyncTime = DateTime.now();
-      UserData.lastSyncInfo = "${UserData.lastSyncTime.month}월${UserData.lastSyncTime.day}일 ${UserData.lastSyncTime.hour}시 ${UserData.lastSyncTime.minute}분 - 동기화 성공";
+      UserData.lastSyncInfo = "${UserData.lastSyncTime.day}일 ${UserData.lastSyncTime.hour}:${UserData.lastSyncTime.minute} - 동기화 성공";
       Database.subjectCodeThisSemesterSave();
       Database.defaultColorSave();
       Database.uidSetSave();
     }
     catch(e){
       DateTime now = DateTime.now();
-      UserData.lastSyncInfo = "${now.month}월${now.day}일 ${now.hour}시 ${now.minute}분 - 동기화 오류";
+      UserData.lastSyncInfo = "${now.day}일 ${now.hour}:${now.minute} - 동기화 오류";
       return false;
     }
     return true;

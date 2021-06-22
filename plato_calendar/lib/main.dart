@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'database.dart';
+import 'Data/database.dart';
+import 'Data/ics.dart';
 import 'plato.dart';
-import 'settings.dart';
-import 'sfCalendar.dart';
-import 'toDoList.dart';
+import 'Page/settings.dart';
+import 'Page/sfCalendar.dart';
+import 'Page/toDoList.dart';
 import 'Data/userData.dart';
 // 프록시 사용할 떄 주석 해제 처리.
 // class MyHttpOverrides extends HttpOverrides{

@@ -2,8 +2,8 @@ import 'dart:collection';
 
 import 'package:hive/hive.dart';
 
-import '../database.dart';
-import '../ics.dart';
+import './database.dart';
+import './ics.dart';
 
 part 'userData.g.dart';
 
@@ -34,6 +34,10 @@ class UserData{
   static DateTime _lastSyncTime;
   static String _lastSyncInfo;
 
+  /// toDoList 각 항목 접힘, 열림 여부
+  /// 
+  /// [지남, 6, 12, 오늘, 내일, 1주일 이하, 1주일 이상, 날짜 없음, 완료]
+  static List<bool> _showToDoList;
 
 /// 이전 날짜가 먼저 오는 CalendarData set
   static SplayTreeSet<CalendarData> data = SplayTreeSet<CalendarData>(
@@ -61,6 +65,7 @@ class UserData{
   static int get semester => _semester;
   static DateTime get lastSyncTime => _lastSyncTime;
   static String get lastSyncInfo => _lastSyncInfo;
+  static List<bool> get showToDoList => _showToDoList;
 
   static set tapIndex(int newValue){
     bool update = true;
@@ -172,5 +177,24 @@ class UserData{
 
     if(update)
       Database.userDataBox.put('lastSyncInfo', _lastSyncInfo);
+  }
+
+  static set showToDoList(List<bool> newValue){
+    bool update = true;
+    if(_showToDoList == null)
+      update = false;
+
+    if(newValue != null)
+      _showToDoList = newValue;
+    else
+      _showToDoList = [true,true,true,true,true,true,true,true,true];
+
+    if(update)
+      Database.userDataBox.put('showToDoList', _showToDoList);
+  }
+
+  static void showToDoListByIndex(int index, bool newvalue){
+    _showToDoList[index] = newvalue;
+    Database.userDataBox.put('showToDoList', _showToDoList);
   }
 }
