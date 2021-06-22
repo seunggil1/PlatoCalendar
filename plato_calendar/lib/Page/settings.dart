@@ -6,9 +6,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../Data/else.dart';
 import '../Data/subjectCode.dart';
 import '../Data/userData.dart';
+import '../Data/database.dart';
+import '../Data/ics.dart';
 import '../utility.dart';
 import 'widget/appointmentEditor.dart';
-import '../Data/database.dart';
 import '../main.dart';
 import '../plato.dart';
 
@@ -250,6 +251,28 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                 )
               )
               : Container(),
+              Card(
+                child: ListTile(
+                  title: Text('일정 내보내기'),
+                  subtitle: Text('다른 캘린더 앱으로 내보내기'),
+                  trailing: TextButton(
+                        onPressed: (){ 
+                          showToastMessageCenter("잠시 후 새창이 표시되면 캘린더 앱을 선택해주세요");
+                          icsExport().then((value) {
+                            if(!value)
+                              showToastMessageCenter("오류가 발생했습니다");
+                          });
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(0),
+                          width: 70,
+                          decoration: BoxDecoration(color: Colors.blueAccent[100],borderRadius: BorderRadius.circular(10)),
+                          child: Text("Export", style: TextStyle(color: Colors.white))
+                          )
+                      ),
+                ),
+              )
             ],
           ),
           )
