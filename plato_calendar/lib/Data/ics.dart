@@ -78,7 +78,7 @@ Future<bool> icsExport() async {
     data +=('PRODID:-//Moodle Pty Ltd//NONSGML Moodle Version 2018051709//EN\n');
     data +=('VERSION:2.0\n');
     for(var iter in UserData.data)
-      if(DateTime.now().difference(iter.end).inDays < 35){
+      if(DateTime.now().difference(iter.end).inDays < 35 && iter.finished == false){
         data += ('BEGIN:VEVENT\n');
         data += ('UID:${iter.uid}\n');
         data += ('SUMMARY:${iter.summary}\n');
