@@ -302,7 +302,7 @@ class _ToDoList extends State<ToDoList>{
               border:Border.all(color:Colors.grey[350], width: 1.5),
               borderRadius: BorderRadius.circular(5)
             ),
-            child: AdBanner()
+            child: AdBanner(bannerLocation : 1)
           ),
           toDoListWeek.isEmpty ? Container()
           : Container(

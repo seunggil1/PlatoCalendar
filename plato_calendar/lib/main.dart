@@ -5,6 +5,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'Data/database.dart';
 import 'Data/ics.dart';
+import 'Page/widget/adBanner.dart';
 import 'plato.dart';
 import 'Page/settings.dart';
 import 'Page/sfCalendar.dart';
@@ -67,6 +68,13 @@ class _MyHomePageState extends State<MyHomePage> {
         Plato.update();
       });
     });
+  }
+
+  @override
+  void dispose() {
+    adBanner1.dispose();
+    adBanner2.dispose();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {

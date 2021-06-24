@@ -1,49 +1,43 @@
 import 'package:flutter/cupertino.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-class AdBanner extends StatefulWidget{
-  @override
-  State<StatefulWidget> createState() => _AdBanner();
-}
 
-class _AdBanner extends State<AdBanner>{
+// 빌드전 android\app\src\main\AndroidManifest.xml에서
+// com.google.android.gms.ads.APPLICATION_ID 값 변경
 
-  BannerAdListener listener;
-  BannerAd myBanner;
+BannerAdListener listener = BannerAdListener(
+  onAdLoaded: (Ad ad) => print('Ad loaded.'),
+  onAdFailedToLoad: (Ad ad, LoadAdError error) {
+    ad.dispose();
+    print('Ad failed to load: $error');
+  },
+  onAdOpened: (Ad ad) => print('Ad opened.'),
+  onAdClosed: (Ad ad) => print('Ad closed.'),
+  onAdImpression: (Ad ad) => print('Ad impression.'),
+);
+BannerAd adBanner1 = BannerAd(
+  adUnitId: 'ca-app-pub-9612248828148882/3280746521',
+  size: AdSize.banner,
+  request: AdRequest(),
+  listener: listener,
+)..load();
 
-  @override
-  void initState() {
-    listener = BannerAdListener(
-      onAdLoaded: (Ad ad) => print('Ad loaded.'),
-      onAdFailedToLoad: (Ad ad, LoadAdError error) {
-        ad.dispose();
-        print('Ad failed to load: $error');
-      },
-      onAdOpened: (Ad ad) => print('Ad opened.'),
-      onAdClosed: (Ad ad) => print('Ad closed.'),
-      onAdImpression: (Ad ad) => print('Ad impression.'),
-    );
+BannerAd adBanner2 = BannerAd(
+  adUnitId: 'ca-app-pub-9612248828148882/8029799884',
+  size: AdSize.banner,
+  request: AdRequest(),
+  listener: listener,
+)..load();
 
-    myBanner = BannerAd(
-      adUnitId: 'ca-app-pub-3940256099942544/8865242552',
-      size: AdSize.banner,
-      request: AdRequest(),
-      listener: listener,
-    )..load();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    myBanner.dispose();
-    super.dispose();
-  }
+class AdBanner extends StatelessWidget{
+  final int bannerLocation;
+  AdBanner({@required this.bannerLocation});
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      child: AdWidget(ad: myBanner),
-      height: myBanner.size.height.toDouble() * 1.45,
+      child: bannerLocation == 1 ? AdWidget(ad: adBanner1) : AdWidget(ad: adBanner2),
+      height: adBanner1.size.height.toDouble() * 1.45,
     );
   }
 }

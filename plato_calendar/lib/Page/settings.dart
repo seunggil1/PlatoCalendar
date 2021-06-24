@@ -275,7 +275,7 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                 ),
               ),
               Card(
-                child: AdBanner()
+                child: AdBanner(bannerLocation : 2)
               )
             ],
           ),
