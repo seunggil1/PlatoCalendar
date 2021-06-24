@@ -16,14 +16,14 @@ BannerAdListener listener = BannerAdListener(
   onAdImpression: (Ad ad) => print('Ad impression.'),
 );
 BannerAd adBanner1 = BannerAd(
-  adUnitId: 'ca-app-pub-9612248828148882/3280746521',
+  adUnitId: 'ca-app-pub-3940256099942544/6300978111',
   size: AdSize.banner,
   request: AdRequest(),
   listener: listener,
 )..load();
 
 BannerAd adBanner2 = BannerAd(
-  adUnitId: 'ca-app-pub-9612248828148882/8029799884',
+  adUnitId: 'ca-app-pub-3940256099942544/6300978111',
   size: AdSize.banner,
   request: AdRequest(),
   listener: listener,
