@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'Data/database.dart';
 import 'Data/ics.dart';
 import 'plato.dart';
@@ -26,7 +27,7 @@ void main() async{
 
   // for test
   WidgetsFlutterBinding.ensureInitialized();
-  
+  MobileAds.instance.initialize();
   //await icsParser("");
   await Database.init();
   Database.userDataLoad();

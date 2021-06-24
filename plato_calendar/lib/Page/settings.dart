@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:plato_calendar/Page/widget/adBanner.dart';
 
 import '../Data/else.dart';
 import '../Data/subjectCode.dart';
@@ -272,6 +273,9 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                           )
                       ),
                 ),
+              ),
+              Card(
+                child: AdBanner()
               )
             ],
           ),
