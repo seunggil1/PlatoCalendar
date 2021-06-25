@@ -6,6 +6,7 @@ import 'Data/database.dart';
 import 'main.dart';
 import 'Data/userData.dart';
 import 'Data/ics.dart';
+import 'onestop.dart';
 
 class Plato {
   static String moodleSession = "";
@@ -15,6 +16,7 @@ class Plato {
     if(UserData.id != "")
       if(force ||(DateTime.now().difference(UserData.lastSyncTime).inHours > 6)){
         if(await login() && await getCalendar() && await logout()){
+          await Onestop.login();
           platoStream.sink.add(true);
           return true;
         }
