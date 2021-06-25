@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:html/parser.dart' as parser;
 import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
@@ -5,8 +6,8 @@ import 'package:html/dom.dart' as dom;
 import 'Data/userData.dart';
 
 class Onestop {
-  static String jsessionid;
-  static String wmonid;
+  static String jsessionid= '';
+  static String wmonid= '';
 
   static Future<bool> login() async {
     http.Response response;
@@ -114,14 +115,14 @@ class Onestop {
         if (i < list.length - 1) body += '&';
       }
       response = await http.post(
-        'https://e-onestop.pusan.ac.kr:443/sso/agentProc',
+        'https://e-onestop.pusan.ac.kr/sso/agentProc',
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           "Cookie": "${cookieList[0]}; ${cookieList[1]}",
           "Host": "e-onestop.pusan.ac.kr",
           "Referer": "https://sso.pusan.ac.kr/LoginServlet",
         },
-        body: body,
+        body: 'method=auth',
       );
       document = parser.parse(response.body);
 
@@ -159,6 +160,45 @@ class Onestop {
     return true;
   }
 
+  static Future<bool> getTestTimeTable() async {
+    try{
+      http.Response response;
+      response = await http.get('https://e-onestop.pusan.ac.kr/menu/class/C06/C06002?menuId=2000030702&rMenu=03',
+      headers: {
+        'Host' : 'e-onestop.pusan.ac.kr',
+        'Connection' : 'keep-alive',
+        'Cache-Control' : 'no-cache',
+        'Referer' : 'https://e-onestop.pusan.ac.kr/index?home=home',
+        'Cookie' : '$wmonid; $jsessionid'
+      });
+      int index = response.body.indexOf('agreeUserID');
+      String userInfo = response.body.substring(index, response.body.indexOf(';',index));
+      userInfo = userInfo.substring(userInfo.indexOf('\'') +1,userInfo.length -1);
+
+      Map<String, dynamic> body = {
+        "pName" : ["년도","학기","학번","학번대학원구분","시험구분"],
+        "pValue" : ["2021","10",userInfo,"01","20"]
+      };
+      response = await http.post('https://e-onestop.pusan.ac.kr/middleware/study/testTimeTable/testTimeTableCheck',
+        headers: {
+          'Host' : 'e-onestop.pusan.ac.kr',
+          'Connection' : 'keep-alive',
+          'Cache-Control' : 'no-cache',
+          'Content-Type' : 'application/json',
+          'Origin': 'https://e-onestop.pusan.ac.kr',
+          'Referer' : 'https://e-onestop.pusan.ac.kr/menu/class/C06/C06002?menuId=2000030702&rMenu=03',
+          'Cookie' : '$wmonid; $jsessionid'
+        },
+        body: jsonEncode(body));
+      
+      for(var iter in jsonDecode(response.body)["dataset1"]){
+        
+      }
+    }catch(e){
+      return false;
+    }
+    return true;
+  }
   static Future<bool> logout() async {
     try{
       http.Response response;

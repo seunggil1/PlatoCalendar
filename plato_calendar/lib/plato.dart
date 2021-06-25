@@ -13,10 +13,11 @@ class Plato {
   static String sesskey = "";
 
   static Future<bool> update({bool force = false}) async{
+    await Onestop.getTestTimeTable();
     if(UserData.id != "")
       if(force ||(DateTime.now().difference(UserData.lastSyncTime).inHours > 6)){
         if(await login() && await getCalendar() && await logout()){
-          await Onestop.login();
+          
           platoStream.sink.add(true);
           return true;
         }

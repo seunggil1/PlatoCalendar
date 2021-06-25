@@ -34,6 +34,9 @@ class UserData{
   static DateTime _lastSyncTime;
   static String _lastSyncInfo;
 
+  /// 학생지원 시스템 마지막 동기화 날짜
+  static int oneStopLastSyncDay = 0;
+
   /// toDoList 각 항목 접힘, 열림 여부
   /// 
   /// [지남, 6, 12, 오늘, 내일, 1주일 이하, 1주일 이상, 날짜 없음, 완료]
