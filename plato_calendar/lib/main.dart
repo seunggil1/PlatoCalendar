@@ -28,7 +28,7 @@ void main() async{
 
   // for test
   WidgetsFlutterBinding.ensureInitialized();
-  MobileAds.instance.initialize();
+  await MobileAds.instance.initialize();
   //await icsParser("");
   await Database.init();
   Database.userDataLoad();

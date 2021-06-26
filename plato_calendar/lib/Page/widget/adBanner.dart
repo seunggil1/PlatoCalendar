@@ -19,14 +19,14 @@ BannerAd adBanner1 = BannerAd(
   adUnitId: 'ca-app-pub-3940256099942544/6300978111',
   size: AdSize.banner,
   request: AdRequest(),
-  listener: listener,
+  listener: BannerAdListener(),
 )..load();
 
 BannerAd adBanner2 = BannerAd(
   adUnitId: 'ca-app-pub-3940256099942544/6300978111',
   size: AdSize.banner,
   request: AdRequest(),
-  listener: listener,
+  listener: BannerAdListener(),
 )..load();
 
 class AdBanner extends StatelessWidget{
@@ -34,10 +34,23 @@ class AdBanner extends StatelessWidget{
   AdBanner({@required this.bannerLocation});
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: bannerLocation == 1 ? AdWidget(ad: adBanner1) : AdWidget(ad: adBanner2),
-      height: adBanner1.size.height.toDouble() * 1.45,
-    );
+    if(bannerLocation == 1)
+      if(adBanner1.responseInfo == null)
+        return Container();
+      else{
+        return Container(
+          alignment: Alignment.center,
+          child: AdWidget(ad: adBanner1),
+          height: adBanner1.size.height.toDouble() * 1.45);
+      }
+    else
+      if(adBanner2.responseInfo == null)
+        return Container();
+      else{
+        return Container(
+          alignment: Alignment.center,
+          child: AdWidget(ad: adBanner2),
+          height: adBanner2.size.height.toDouble() * 1.45);
+      }
   }
 }
