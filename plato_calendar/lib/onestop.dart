@@ -2,12 +2,14 @@ import 'dart:convert';
 import 'package:html/parser.dart' as parser;
 import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
+import 'package:plato_calendar/Data/ics.dart';
 
+import 'Data/database.dart';
 import 'Data/userData.dart';
 
 class Onestop {
-  static String jsessionid= '';
-  static String wmonid= '';
+  static String jsessionid;
+  static String wmonid;
 
   static Future<bool> login() async {
     http.Response response;
@@ -138,9 +140,10 @@ class Onestop {
       response = await http.post(
         'https://e-onestop.pusan.ac.kr/j_spring_security_check',
         headers: {
+          "Host": "e-onestop.pusan.ac.kr",
+          "Connection": "keep-alive",
           "Content-Type": "application/x-www-form-urlencoded",
           "Cookie": "${cookieList[0]}; ${cookieList[1]}",
-          "Host": "e-onestop.pusan.ac.kr",
           "Origin": "https://e-onestop.pusan.ac.kr",
           "Referer": "https://e-onestop.pusan.ac.kr/sso/agentProc",
         },
@@ -171,13 +174,29 @@ class Onestop {
         'Referer' : 'https://e-onestop.pusan.ac.kr/index?home=home',
         'Cookie' : '$wmonid; $jsessionid'
       });
+
+      // 학번 정보
       int index = response.body.indexOf('agreeUserID');
       String userInfo = response.body.substring(index, response.body.indexOf(';',index));
       userInfo = userInfo.substring(userInfo.indexOf('\'') +1,userInfo.length -1);
 
+      // 학부 대학원 구분
+      index = response.body.indexOf('year, term,');
+      String studentType = response.body.substring(index + 12, response.body.indexOf('testgbn',index));
+      index = studentType.indexOf(',');
+      studentType = studentType.substring(index+3, studentType.indexOf(',', index+3) -1);
+
+      DateTime now = DateTime.now();
+      String semester = now.month <= 7 ? "10" : "20";
+      String test;
+      if(semester == "10"){
+        test = now.month <= 5 ? "10" : "20";
+      }else{
+        test = now.month <= 11 ? "10" : "20";
+      }
       Map<String, dynamic> body = {
         "pName" : ["년도","학기","학번","학번대학원구분","시험구분"],
-        "pValue" : ["2021","10",userInfo,"01","20"]
+        "pValue" : [now.year, semester, userInfo, studentType, test]
       };
       response = await http.post('https://e-onestop.pusan.ac.kr/middleware/study/testTimeTable/testTimeTableCheck',
         headers: {
@@ -191,12 +210,15 @@ class Onestop {
         },
         body: jsonEncode(body));
       
-      for(var iter in jsonDecode(response.body)["dataset1"]){
-        
-      }
+      await testTimeParser(jsonDecode(response.body)["dataset1"],[now.year.toString(), semester, test == "10" ? "중간고사" : "기말고사"]);
+      
     }catch(e){
       return false;
     }
+    UserData.oneStopLastSyncDay = DateTime.now().day;
+    Database.subjectCodeThisSemesterSave();
+    Database.defaultColorSave();
+    Database.uidSetSave();
     return true;
   }
   static Future<bool> logout() async {

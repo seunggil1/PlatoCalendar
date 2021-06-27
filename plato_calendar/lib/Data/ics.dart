@@ -105,8 +105,19 @@ Future<bool> icsExport() async {
   } catch(e){
     return false;
   }
-
 }
+
+Future<void> testTimeParser(dynamic dataList,List<String> requestInfo) async {
+  for(var iter in dataList){
+    CalendarData data = CalendarData.byTestTime(iter, requestInfo);
+    if(!UserData.data.contains(data)){
+      Database.uidSet.add(data.uid);
+      Database.calendarDataSave(data);
+      UserData.data.add(data);
+    }
+  }
+}
+
 class CalendarData{
 
   String uid;
@@ -175,6 +186,40 @@ class CalendarData{
 
   }
 
+  CalendarData.byTestTime(Map<String,dynamic> data, List<String> requestInfo){
+    // requestInfo = [2021, 10, 중간/기말고사]
+    data = data.map((key, value) {
+      value = value ?? "";
+      value = value.toString().trim();
+      return MapEntry(key, value);
+    });
+      
+    uid = data["교과목번호"]+ data["분반"]+ data["시험일"];
+    summary = data["교과목명"] + " ${requestInfo[2]}";
+    description =  "${data["시험일"]} ${data["교과목명"]} ${data["분반"]}분반 ${requestInfo[2]}\n";
+    description += "\n";
+    description += "${data["건물명"]}(${data["건물코드"]}) : ${data["호실"]}\n";
+    if(data["건물명2"] != "")
+      description += "${data["건물명2"]}(${data["건물코드2"]}) : ${data["호실2"]}\n";
+    if(data["건물명3"] != "")
+      description += "${data["건물명3"]}(${data["건물코드3"]}) : ${data["호실3"]}\n";
+    description += "(정확한 정보는 각 과목 공지사항를 확인해주세요.)";    
+
+    List<int> day = List<int>.from(data["시험일"].split('.').map(int.parse));
+    List<int> time = List<int>.from((data["시험시작시간"].split(':') + data["시험종료시간"].split(':')).map(int.parse));
+    start = DateTime(day[0], day[1],day[2], time[0], time[1]);
+    end = DateTime(day[0], day[1],day[2], time[2], time[3]);
+
+    classCode = data["교과목번호"];
+    className = subjectCode[classCode] ?? data["교과목명"];
+    year = requestInfo[0];
+    semester = requestInfo[1];
+
+    UserData.subjectCodeThisSemester.add(classCode);
+    if(!UserData.defaultColor.containsKey(classCode) && UserData.defaultColor.length < 11)
+      UserData.defaultColor[classCode] = UserData.defaultColor.length;
+    color = 11;
+  }
 
   Appointment toAppointment(){
     return Appointment(
