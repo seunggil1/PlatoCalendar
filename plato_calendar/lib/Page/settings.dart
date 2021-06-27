@@ -31,7 +31,7 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
   void initState() {
     super.initState();
     _subjectCodeThisSemester.remove("전체");
-    listener = platoStream.stream.listen((event) {
+    listener = pnuStream.stream.listen((event) {
       if(event)
         setState(() {  });
     });

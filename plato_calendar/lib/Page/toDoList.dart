@@ -42,7 +42,7 @@ class _ToDoList extends State<ToDoList>{
   @override
   void initState() {
     super.initState();
-    listener = platoStream.stream.listen((event) {
+    listener = pnuStream.stream.listen((event) {
       if(event)
         setState(() {  });
     });

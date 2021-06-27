@@ -21,7 +21,7 @@ import 'pnu/pnu.dart';
 // }
 
 /// Plato 동기화 완료됐을경우 화면 갱신 요청하는 Stream
-StreamController platoStream = StreamController<bool>.broadcast();
+StreamController pnuStream = StreamController<bool>.broadcast();
 List<Widget> _widgets = [Calendar(), ToDoList(), Setting()];
 void main() async{
   // HttpOverrides.global = new MyHttpOverrides();
@@ -29,6 +29,14 @@ void main() async{
   // for test
   WidgetsFlutterBinding.ensureInitialized();
   await MobileAds.instance.initialize();
+  Future.wait([
+    adBanner1.load(),
+    adBanner2.load(),
+    Future.delayed(Duration(seconds: 2))
+  ]).then((value){
+    pnuStream.sink.add(true);
+  });
+  
   //await icsParser("");
   await Database.init();
   Database.userDataLoad();

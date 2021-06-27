@@ -20,14 +20,14 @@ BannerAd adBanner1 = BannerAd(
   size: AdSize.banner,
   request: AdRequest(),
   listener: BannerAdListener(),
-)..load();
+);
 
 BannerAd adBanner2 = BannerAd(
   adUnitId: 'ca-app-pub-3940256099942544/6300978111',
   size: AdSize.banner,
   request: AdRequest(),
   listener: BannerAdListener(),
-)..load();
+);
 
 class AdBanner extends StatelessWidget{
   final int bannerLocation;

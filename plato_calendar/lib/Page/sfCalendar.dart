@@ -23,7 +23,7 @@ class _Calendar extends State<Calendar>{
     super.initState();
     _calendarController.view = CalendarView.month;
     _calendarController.selectedDate = DateTime.now();
-    listener = platoStream.stream.listen((event) {
+    listener = pnuStream.stream.listen((event) {
       if(event)
         setState(() {  });
     });

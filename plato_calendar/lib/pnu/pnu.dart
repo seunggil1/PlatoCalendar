@@ -7,10 +7,11 @@ Future<bool> update({bool force = false}) async{
   if(UserData.id != ""){
     if(DateTime.now().day != UserData.oneStopLastSyncDay)
       if(await Onestop.login() && await Onestop.getTestTimeTable() && await Onestop.logout()){}
+    UserData.oneStopLastSyncDay = DateTime.now().day;
 
     if(force ||(DateTime.now().difference(UserData.lastSyncTime).inHours > 6)){
       if(await Plato.login() && await Plato.getCalendar() && await Plato.logout()){
-        platoStream.sink.add(true);
+        pnuStream.sink.add(true);
         return true;
       }
       return false;
