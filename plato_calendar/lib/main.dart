@@ -2,13 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'Data/database.dart';
 import 'Data/ics.dart';
-import 'plato.dart';
+import 'Page/widget/adBanner.dart';
 import 'Page/settings.dart';
 import 'Page/sfCalendar.dart';
 import 'Page/toDoList.dart';
 import 'Data/userData.dart';
+import 'pnu/pnu.dart';
 // 프록시 사용할 떄 주석 해제 처리.
 // class MyHttpOverrides extends HttpOverrides{
 //   @override
@@ -26,7 +28,7 @@ void main() async{
 
   // for test
   WidgetsFlutterBinding.ensureInitialized();
-  
+  MobileAds.instance.initialize();
   //await icsParser("");
   await Database.init();
   Database.userDataLoad();
@@ -61,11 +63,18 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    Plato.update().then((value) { // update 한 뒤에, 6시간마다 update 다시 진행.
+    update().then((value) { // update 한 뒤에, 6시간마다 update 다시 진행.
       Stream.periodic(Duration(hours: 1, minutes: 1),(x)=>x).forEach((element) { 
-        Plato.update();
+        update();
       });
     });
+  }
+
+  @override
+  void dispose() {
+    adBanner1.dispose();
+    adBanner2.dispose();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {

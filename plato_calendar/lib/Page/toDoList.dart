@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import '../Data/else.dart';
 import '../Data/subjectCode.dart';
 import '../Data/userData.dart';
+import 'widget/adBanner.dart';
 import 'widget/appointmentEditor.dart';
 import '../Data/database.dart';
 import '../Data/ics.dart';
@@ -293,6 +294,15 @@ class _ToDoList extends State<ToDoList>{
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [_getDurationWidget("내일",4)] + (UserData.showToDoList[4] ? toDoListTomorrow : []),
             ),
+          ),
+          Container(
+            margin: edgeInsetsMiddle,
+            padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal:5.0),
+            decoration: BoxDecoration(
+              border:Border.all(color:Colors.grey[350], width: 1.5),
+              borderRadius: BorderRadius.circular(5)
+            ),
+            child: AdBanner(bannerLocation : 1)
           ),
           toDoListWeek.isEmpty ? Container()
           : Container(

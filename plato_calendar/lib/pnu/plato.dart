@@ -2,26 +2,15 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
-import 'Data/database.dart';
-import 'main.dart';
-import 'Data/userData.dart';
-import 'Data/ics.dart';
+import '../Data/database.dart';
+import '../main.dart';
+import '../Data/userData.dart';
+import '../Data/ics.dart';
+import './onestop.dart';
 
 class Plato {
   static String moodleSession = "";
   static String sesskey = "";
-
-  static Future<bool> update({bool force = false}) async{
-    if(UserData.id != "")
-      if(force ||(DateTime.now().difference(UserData.lastSyncTime).inHours > 6)){
-        if(await login() && await getCalendar() && await logout()){
-          platoStream.sink.add(true);
-          return true;
-        }
-        return false;
-      }
-    return false;
-  }
 
   static Future<bool> login() async {
 

@@ -34,6 +34,9 @@ class UserData{
   static DateTime _lastSyncTime;
   static String _lastSyncInfo;
 
+  /// 학생지원 시스템 마지막 동기화 날짜
+  static int _oneStopLastSyncDay = 0;
+
   /// toDoList 각 항목 접힘, 열림 여부
   /// 
   /// [지남, 6, 12, 오늘, 내일, 1주일 이하, 1주일 이상, 날짜 없음, 완료]
@@ -66,6 +69,7 @@ class UserData{
   static DateTime get lastSyncTime => _lastSyncTime;
   static String get lastSyncInfo => _lastSyncInfo;
   static List<bool> get showToDoList => _showToDoList;
+  static int get oneStopLastSyncDay => _oneStopLastSyncDay;
 
   static set tapIndex(int newValue){
     bool update = true;
@@ -196,5 +200,19 @@ class UserData{
   static void showToDoListByIndex(int index, bool newvalue){
     _showToDoList[index] = newvalue;
     Database.userDataBox.put('showToDoList', _showToDoList);
+  }
+
+  static set oneStopLastSyncDay(int newValue){
+    bool update = true;
+    if(_oneStopLastSyncDay == null)
+      update = false;
+
+    if(newValue != null)
+      _oneStopLastSyncDay = newValue;
+    else
+      _oneStopLastSyncDay = -1;
+
+    if(update)
+      Database.userDataBox.put('oneStopLastSyncDay', _oneStopLastSyncDay);
   }
 }

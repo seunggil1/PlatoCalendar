@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:plato_calendar/Page/widget/adBanner.dart';
 
 import '../Data/else.dart';
 import '../Data/subjectCode.dart';
@@ -11,8 +12,8 @@ import '../Data/ics.dart';
 import '../utility.dart';
 import 'widget/appointmentEditor.dart';
 import '../main.dart';
-import '../plato.dart';
-
+import '../pnu/plato.dart';
+import '../pnu/pnu.dart';
 
 class Setting extends StatefulWidget{
   @override
@@ -272,6 +273,9 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                           )
                       ),
                 ),
+              ),
+              Card(
+                child: AdBanner(bannerLocation : 2)
               )
             ],
           ),
@@ -349,7 +353,7 @@ class _LoginPageState extends State<LoginPage> {
                 });
                 UserData.id = idController.text;
                 UserData.pw = pwController.text;
-                await Plato.update(force: true);
+                await update(force: true);
                 Navigator.pop(context, true);
               },
               child: Container(
@@ -392,7 +396,7 @@ class Loading extends AnimatedWidget{
                 if(!controller.isAnimating)
                   if(DateTime.now().difference(_manualUpdateTime).inMinutes > 4){
                     controller.repeat();
-                    await Plato.update(force : true).then((value) {
+                    await update(force : true).then((value) {
                         if(value) _manualUpdateTime = DateTime.now();
                     });
                     controller.stop();

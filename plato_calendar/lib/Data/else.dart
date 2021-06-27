@@ -28,5 +28,6 @@ final List<Color> colorCollection =[
   Colors.blueGrey,
   Colors.blue,
   Colors.purple[400],
+  Colors.red
 ];
 
