@@ -20,20 +20,21 @@ class Database{
       Hive.registerAdapter(CalendarDataAdapter());
       Hive.registerAdapter(CalendarTypeAdapter());
     }
-    
-    final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-    if (!(await secureStorage.containsKey(key: 'key'))) {
-      var key = Hive.generateSecureKey();
-      await secureStorage.write(key: 'key', value: base64UrlEncode(key));
-    }
-    var encryptionKey = base64Url.decode(await secureStorage.read(key: 'key'));
+    FlutterSecureStorage secureStorage;
     try{
+      secureStorage = const FlutterSecureStorage();
+      if (!(await secureStorage.containsKey(key: 'key'))) {
+        var key = Hive.generateSecureKey();
+        await secureStorage.write(key: 'key', value: base64UrlEncode(key));
+      }
+      var encryptionKey = base64Url.decode(await secureStorage.read(key: 'key'));
       calendarBox = await Hive.openBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
       userDataBox = await Hive.openBox('userDataBox', encryptionCipher: HiveAesCipher(encryptionKey));
     }
     catch(e){
-      Hive.deleteBoxFromDisk('calendarBox');
-      Hive.deleteBoxFromDisk('userDataBox');
+      await secureStorage.deleteAll();
+      await Hive.deleteBoxFromDisk('calendarBox');
+      await Hive.deleteBoxFromDisk('userDataBox');
       showToastMessageCenter("저장된 데이터 복원에 실패했습니다.");
       if(!retry)
         await init(true);
