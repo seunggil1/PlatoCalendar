@@ -4,8 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
 import 'package:plato_calendar/Data/ics.dart';
 
-import 'Data/database.dart';
-import 'Data/userData.dart';
+import '../Data/database.dart';
+import '../Data/userData.dart';
 
 class Onestop {
   static String jsessionid;

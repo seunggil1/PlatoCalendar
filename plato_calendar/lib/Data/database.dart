@@ -77,7 +77,7 @@ class Database{
     UserData.subjectCodeThisSemester = (userDataBox.get('subjectCodeThisSemester') ?? ["전체"]).toSet();
     UserData.defaultColor = userDataBox.get('defaultColor') ?? {};
     UserData.showToDoList = userDataBox.get('showToDoList');
-    UserData.showToDoList = userDataBox.get('oneStopLastSyncDay');
+    UserData.oneStopLastSyncDay = userDataBox.get('oneStopLastSyncDay');
   }
 
 }
