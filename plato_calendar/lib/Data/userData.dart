@@ -28,7 +28,7 @@ class UserData{
   static String _pw;
  
   static int _year = DateTime.now().year;
-  static int _semester = DateTime.now().month > 8 ? 20 : 10;
+  static int _semester = (2 < DateTime.now().month && DateTime.now().month < 9) ? 10 : 20;
 
   /// 마지막 동기화 시간, Default : DateTime(1999)
   static DateTime _lastSyncTime;

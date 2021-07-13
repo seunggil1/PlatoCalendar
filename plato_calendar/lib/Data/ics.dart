@@ -160,7 +160,13 @@ class CalendarData{
     end = end.subtract(Duration(seconds: end.second));
     isPeriod = !(start == end);
 
-    List classInfo = data["categories"][0].split('_');
+    List classInfo;
+    if(data.containsKey("categories")){
+      classInfo = data["categories"][0].split('_');
+    }else{
+      classInfo = ["${UserData.year}", "${UserData.semester}", "과목 분류 없음", "000"];
+    }
+
     if(classInfo.length > 2){
       year = classInfo[0];
       semester = classInfo[1];
