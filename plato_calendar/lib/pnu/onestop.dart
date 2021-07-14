@@ -9,7 +9,7 @@ import '../Data/userData.dart';
 
 class Onestop {
   static String jsessionid;
-  static String wmonid;
+  //static String wmonid;
 
   static Future<bool> login() async {
     http.Response response;
@@ -65,11 +65,11 @@ class Onestop {
 
       String cookiesOrigin = response.headers['set-cookie'];
       List<String> cookieList = cookiesOrigin.split('/,');
-      for (int i = 0; i < 2; i++) {
+      for (int i = 0; i < cookieList.length ; i++)
         cookieList[i] = cookieList[i].substring(0, cookieList[i].indexOf(';'));
-      }
-      jsessionid = cookieList[1];
-      wmonid = cookieList[0];
+      
+      jsessionid = cookieList[0];
+      //wmonid = cookieList[1];
       //end at here
 
       list = document.getElementsByTagName('input');
@@ -83,7 +83,7 @@ class Onestop {
         'https://e-onestop.pusan.ac.kr/sso/checkauth',
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          "Cookie": "${cookieList[0]}; ${cookieList[1]}",
+          "Cookie": "$jsessionid",
           "Host": "e-onestop.pusan.ac.kr",
           "Referer": "https//e-onestop.pusan.ac.kr/sso/business",
         },
@@ -102,7 +102,7 @@ class Onestop {
         'https://sso.pusan.ac.kr/LoginServlet',
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          "Cookie": "${cookieList[0]}; ${cookieList[1]}",
+          "Cookie": "$jsessionid",
           "Host": "e-onestop.pusan.ac.kr",
           "Referer": "https://e-onestop.pusan.ac.kr/sso/checkauth",
         },
@@ -120,7 +120,7 @@ class Onestop {
         'https://e-onestop.pusan.ac.kr/sso/agentProc',
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          "Cookie": "${cookieList[0]}; ${cookieList[1]}",
+          "Cookie": "$jsessionid",
           "Host": "e-onestop.pusan.ac.kr",
           "Referer": "https://sso.pusan.ac.kr/LoginServlet",
         },
@@ -143,7 +143,7 @@ class Onestop {
           "Host": "e-onestop.pusan.ac.kr",
           "Connection": "keep-alive",
           "Content-Type": "application/x-www-form-urlencoded",
-          "Cookie": "${cookieList[0]}; ${cookieList[1]}",
+          "Cookie": "$jsessionid",
           "Origin": "https://e-onestop.pusan.ac.kr",
           "Referer": "https://e-onestop.pusan.ac.kr/sso/agentProc",
         },
@@ -172,7 +172,7 @@ class Onestop {
         'Connection' : 'keep-alive',
         'Cache-Control' : 'no-cache',
         'Referer' : 'https://e-onestop.pusan.ac.kr/index?home=home',
-        'Cookie' : '$wmonid; $jsessionid'
+        'Cookie' : '$jsessionid'
       });
 
       // 학번 정보
@@ -206,7 +206,7 @@ class Onestop {
           'Content-Type' : 'application/json',
           'Origin': 'https://e-onestop.pusan.ac.kr',
           'Referer' : 'https://e-onestop.pusan.ac.kr/menu/class/C06/C06002?menuId=2000030702&rMenu=03',
-          'Cookie' : '$wmonid; $jsessionid'
+          'Cookie' : '$jsessionid'
         },
         body: jsonEncode(body));
       
@@ -226,7 +226,7 @@ class Onestop {
       http.Response response;
       response = await http.get('https://e-onestop.pusan.ac.kr/sso/logout', 
           headers: {
-            "Cookie": "$wmonid; $jsessionid",
+            "Cookie": "$jsessionid",
             "Host": "e-onestop.pusan.ac.kr",
             "Referer": "https://e-onestop.pusan.ac.kr/index?home=home",
           });
@@ -256,7 +256,7 @@ class Onestop {
       response = await http.post('https://e-onestop.pusan.ac.kr/sso/business',
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            "Cookie": "$wmonid; $jsessionid",
+            "Cookie": "$jsessionid",
             "Host": "e-onestop.pusan.ac.kr",
             "Origin": "http://sso.pusan.ac.kr",
             "Referer": "http://sso.pusan.ac.kr/LoginServlet",
@@ -272,5 +272,4 @@ class Onestop {
     return true;
 
   }
-
 }
