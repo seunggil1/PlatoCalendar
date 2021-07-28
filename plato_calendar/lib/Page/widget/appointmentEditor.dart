@@ -162,7 +162,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                                 .map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
-                                child: Text(subjectCode[value]),
+                                child: Text(subjectCode[value] ?? value),
                               );
                             }).toList(),
                           ),

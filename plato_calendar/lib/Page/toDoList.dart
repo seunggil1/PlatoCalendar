@@ -123,7 +123,7 @@ class _ToDoList extends State<ToDoList>{
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(' '+subjectCode[value], style: TextStyle(color: Colors.blueAccent[100], fontWeight: FontWeight.bold)),
+                    child: Text(' '+(subjectCode[value] ?? value), style: TextStyle(color: Colors.blueAccent[100], fontWeight: FontWeight.bold)),
                   );
                 }).toList(),
               ),
