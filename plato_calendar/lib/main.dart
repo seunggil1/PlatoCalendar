@@ -5,6 +5,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'Data/database.dart';
 import 'Data/ics.dart';
+import 'Data/subjectCode.dart';
 import 'Page/widget/adBanner.dart';
 import 'Page/settings.dart';
 import 'Page/sfCalendar.dart';
@@ -26,7 +27,6 @@ List<Widget> _widgets = [Calendar(), ToDoList(), Setting()];
 void main() async{
   // HttpOverrides.global = new MyHttpOverrides();
 
-  // for test
   WidgetsFlutterBinding.ensureInitialized();
   await MobileAds.instance.initialize();
   Future.wait([
@@ -37,11 +37,12 @@ void main() async{
     pnuStream.sink.add(true);
   });
   
-  //await icsParser("");
+  
   await Database.init();
   Database.userDataLoad();
   Database.calendarDataLoad();
-
+  // for test
+  // await icsParser("");
   await initializeDateFormatting('ko_KR', null);
   runApp(MyApp());
 }
