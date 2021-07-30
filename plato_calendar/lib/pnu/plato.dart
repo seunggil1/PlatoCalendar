@@ -70,7 +70,7 @@ class Plato {
     try{
       String body;
       http.Response response;
-      response = await http.get("https://plato.pusan.ac.kr/calendar/export.php?course=1",
+      response = await http.get(Uri.parse("https://plato.pusan.ac.kr/calendar/export.php?course=1"),
         headers: {
           "Host": "plato.pusan.ac.kr",
           "Connection": "close",
@@ -91,7 +91,7 @@ class Plato {
               + "&${Uri.encodeQueryComponent("events[exportevents]")}=all"
               + "&${Uri.encodeQueryComponent("period[timeperiod]")}=monthnow"
               + "&export=${Uri.encodeQueryComponent("내보내기")}";
-      response = await http.post("https://plato.pusan.ac.kr/calendar/export.php",
+      response = await http.post(Uri.parse("https://plato.pusan.ac.kr/calendar/export.php"),
         headers: {
           "Host": "plato.pusan.ac.kr",
           "Connection": "close",
@@ -115,7 +115,7 @@ class Plato {
         + "&${Uri.encodeQueryComponent("events[exportevents]")}=all"
         + "&${Uri.encodeQueryComponent("period[timeperiod]")}=recentupcoming"
         + "&export=${Uri.encodeQueryComponent("내보내기")}";
-      response = await http.post("https://plato.pusan.ac.kr/calendar/export.php",
+      response = await http.post(Uri.parse("https://plato.pusan.ac.kr/calendar/export.php"),
         headers: {
           "Host": "plato.pusan.ac.kr",
           "Connection": "close",

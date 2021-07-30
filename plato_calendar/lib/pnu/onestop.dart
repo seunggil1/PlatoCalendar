@@ -24,7 +24,7 @@ class Onestop {
 
     try {
       response = await http.post(
-        'https://sso.pusan.ac.kr/LoginServlet?method=idpwProcessEx&ssid=49',
+        Uri.parse('https://sso.pusan.ac.kr/LoginServlet?method=idpwProcessEx&ssid=49'),
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           "Host": "sso.pusan.ac.kr",
@@ -54,7 +54,7 @@ class Onestop {
         if (i < list.length - 1) body += '&';
       }
       response = await http.post(
-        'https://e-onestop.pusan.ac.kr/sso/business',
+        Uri.parse('https://e-onestop.pusan.ac.kr/sso/business'),
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
             "Host": "e-onestop.pusan.ac.kr",
@@ -80,7 +80,7 @@ class Onestop {
           body += '&';
       }
       response = await http.post(
-        'https://e-onestop.pusan.ac.kr/sso/checkauth',
+        Uri.parse('https://e-onestop.pusan.ac.kr/sso/checkauth'),
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           "Cookie": "$jsessionid",
@@ -99,7 +99,7 @@ class Onestop {
           body += '&';
       }
       response = await http.post(
-        'https://sso.pusan.ac.kr/LoginServlet',
+        Uri.parse('https://sso.pusan.ac.kr/LoginServlet'),
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           "Cookie": "$jsessionid",
@@ -117,7 +117,7 @@ class Onestop {
         if (i < list.length - 1) body += '&';
       }
       response = await http.post(
-        'https://e-onestop.pusan.ac.kr/sso/agentProc',
+        Uri.parse('https://e-onestop.pusan.ac.kr/sso/agentProc'),
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           "Cookie": "$jsessionid",
@@ -138,7 +138,7 @@ class Onestop {
       body += list[1].attributes['name'] + '=';
 
       response = await http.post(
-        'https://e-onestop.pusan.ac.kr/j_spring_security_check',
+        Uri.parse('https://e-onestop.pusan.ac.kr/j_spring_security_check'),
         headers: {
           "Host": "e-onestop.pusan.ac.kr",
           "Connection": "keep-alive",
@@ -166,7 +166,7 @@ class Onestop {
   static Future<bool> getTestTimeTable() async {
     try{
       http.Response response;
-      response = await http.get('https://e-onestop.pusan.ac.kr/menu/class/C06/C06002?menuId=2000030702&rMenu=03',
+      response = await http.get(Uri.parse('https://e-onestop.pusan.ac.kr/menu/class/C06/C06002?menuId=2000030702&rMenu=03'),
       headers: {
         'Host' : 'e-onestop.pusan.ac.kr',
         'Connection' : 'keep-alive',
@@ -198,7 +198,7 @@ class Onestop {
         "pName" : ["년도","학기","학번","학번대학원구분","시험구분"],
         "pValue" : [now.year, semester, userInfo, studentType, test]
       };
-      response = await http.post('https://e-onestop.pusan.ac.kr/middleware/study/testTimeTable/testTimeTableCheck',
+      response = await http.post(Uri.parse('https://e-onestop.pusan.ac.kr/middleware/study/testTimeTable/testTimeTableCheck'),
         headers: {
           'Host' : 'e-onestop.pusan.ac.kr',
           'Connection' : 'keep-alive',
@@ -224,14 +224,14 @@ class Onestop {
   static Future<bool> logout() async {
     try{
       http.Response response;
-      response = await http.get('https://e-onestop.pusan.ac.kr/sso/logout', 
+      response = await http.get(Uri.parse('https://e-onestop.pusan.ac.kr/sso/logout'), 
           headers: {
             "Cookie": "$jsessionid",
             "Host": "e-onestop.pusan.ac.kr",
             "Referer": "https://e-onestop.pusan.ac.kr/index?home=home",
           });
 
-      response = await http.post('http://sso.pusan.ac.kr/isignplus/logout.jsp',
+      response = await http.post(Uri.parse('http://sso.pusan.ac.kr/isignplus/logout.jsp'),
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
             "Host": "sso.pusan.ac.kr",
@@ -240,7 +240,7 @@ class Onestop {
       String ntassessionid = response.headers["set-cookie"];
       ntassessionid = ntassessionid.substring(0, ntassessionid.indexOf(';'));
 
-      response = await http.post('http://sso.pusan.ac.kr/LoginServlet',
+      response = await http.post(Uri.parse('http://sso.pusan.ac.kr/LoginServlet'),
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
             "Cookie": "$ntassessionid",
@@ -253,7 +253,7 @@ class Onestop {
       ntassessionid = response.headers["set-cookie"];
       ntassessionid = ntassessionid.substring(0, ntassessionid.indexOf(';'));
 
-      response = await http.post('https://e-onestop.pusan.ac.kr/sso/business',
+      response = await http.post(Uri.parse('https://e-onestop.pusan.ac.kr/sso/business'),
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
             "Cookie": "$jsessionid",
