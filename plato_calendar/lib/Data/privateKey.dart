@@ -1,4 +1,4 @@
-class Key{
+class PrivateKey{
   //
   // This is test key. Do not use this.
   //
