@@ -41,6 +41,7 @@ void main() async{
   await Database.init();
   Database.userDataLoad();
   Database.calendarDataLoad();
+  Database.googleDataLoad();
   // for test
   // await icsParser("");
   await initializeDateFormatting('ko_KR', null);

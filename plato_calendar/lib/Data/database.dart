@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import './userData.dart';
 import 'ics.dart';
+import '../google/calendar.dart';
 import '../utility.dart';
 
 class Database{
@@ -19,6 +20,7 @@ class Database{
       await Hive.initFlutter();
       Hive.registerAdapter(CalendarDataAdapter());
       Hive.registerAdapter(CalendarTypeAdapter());
+      Hive.registerAdapter(GoogleCalendarTokenAdapter());
     }
     FlutterSecureStorage secureStorage;
     try{
@@ -79,6 +81,23 @@ class Database{
     UserData.defaultColor = userDataBox.get('defaultColor') ?? {};
     UserData.showToDoList = userDataBox.get('showToDoList');
     UserData.oneStopLastSyncDay = userDataBox.get('oneStopLastSyncDay');
+    
   }
 
+  static Future<void> googleDataSave() async{
+    await userDataBox.put('isSaveGoogleToken', UserData.isSaveGoogleToken);
+    if(UserData.isSaveGoogleToken)
+      await userDataBox.put('googleToken', UserData.googleCalendar);
+    else
+      await userDataBox.delete('googleToken');
+  }
+
+  static void googleDataLoad(){
+    UserData.isSaveGoogleToken = userDataBox.get('isSaveGoogleToken') ?? false;
+
+    if(UserData.isSaveGoogleToken){
+      UserData.googleCalendar = userDataBox.get('googleToken');
+      UserData.isSaveGoogleToken = UserData.googleCalendar.restoreAutoRefreshingAuthClient();
+    }
+  }
 }

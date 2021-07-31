@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:hive/hive.dart';
+import '../google/calendar.dart';
 
 import './database.dart';
 import './ics.dart';
@@ -42,7 +43,7 @@ class UserData{
   /// [지남, 6, 12, 오늘, 내일, 1주일 이하, 1주일 이상, 날짜 없음, 완료]
   static List<bool> _showToDoList;
 
-/// 이전 날짜가 먼저 오는 CalendarData set
+  /// 이전 날짜가 먼저 오는 CalendarData set
   static SplayTreeSet<CalendarData> data = SplayTreeSet<CalendarData>(
   (CalendarData a, CalendarData b) {
     int i = a.end.compareTo(b.end);
@@ -57,6 +58,12 @@ class UserData{
 
   /// 과목별 default Color
   static Map defaultColor; // classCode, colorCollectionIndex
+
+  /// Google Token 저장 여부.
+  static bool isSaveGoogleToken;
+  
+  /// Google Calendar 연동을 위한 Token 정보.
+  static GoogleCalendarToken googleCalendar; 
 
   static int get tapIndex => _tapIndex;
   static int get firstDayOfWeek => _firstDayOfWeek;
