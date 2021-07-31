@@ -201,14 +201,14 @@ class _ToDoList extends State<ToDoList>{
                                 ]
                               ),
                               actions: <Widget>[
-                                FlatButton(
+                                TextButton(
                                   child: Text("확인"),
                                   onPressed: () {
                                     sortMethod = _sortMethod;
                                     Navigator.pop(context);
                                   },
                                 ),
-                                FlatButton(
+                                TextButton(
                                   child: Text("취소"),
                                   onPressed: () {
                                     _sortMethod = sortMethod;

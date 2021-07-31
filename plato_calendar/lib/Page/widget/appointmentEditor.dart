@@ -75,14 +75,13 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                               return AlertDialog(
                                 content: Text("삭제하시겠습니까?"),
                                 actions: <Widget>[
-                                  FlatButton(
+                                  TextButton(
                                     child: Text("확인"),
                                     onPressed: () {
                                       Navigator.pop(context,true);
-                                      
                                     },
                                   ),
-                                  FlatButton(
+                                  TextButton(
                                     child: Text("취소"),
                                     onPressed: () {
                                       Navigator.pop(context,false);
@@ -92,7 +91,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                               );
                             });
                           }).then((value){
-                            if(value){
+                            if(value != null && value){
                               widget.calendarData.disable = true;
                               Navigator.pop(context);
                               Database.calendarDataSave(widget.calendarData);

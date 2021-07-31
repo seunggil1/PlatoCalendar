@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:plato_calendar/Page/widget/adBanner.dart';
 
 import '../Data/else.dart';
@@ -12,8 +11,6 @@ import '../Data/ics.dart';
 import '../utility.dart';
 import 'widget/appointmentEditor.dart';
 import '../main.dart';
-import '../google/calendar.dart';
-import '../pnu/plato.dart';
 import '../pnu/pnu.dart';
 
 
