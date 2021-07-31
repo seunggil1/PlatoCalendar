@@ -198,12 +198,21 @@ class UserData{
     if(newValue != null)
       _showToDoList = newValue;
     else
-      _showToDoList = [true,true,true,true,true,true,true,true,true];
+      _showToDoList = const [true,true,true,true,true,true,true,true,true];
 
     if(update)
       Database.userDataBox.put('showToDoList', _showToDoList);
   }
 
+  static set semester(int newValue){
+    if(newValue == null || newValue != semester){
+      subjectCodeThisSemester.clear();
+      subjectCodeThisSemester.add("전체");
+      Database.subjectCodeThisSemesterSave();
+      Database.userDataBox.put('semester', semester);
+    }
+    
+  }
   static void showToDoListByIndex(int index, bool newvalue){
     _showToDoList[index] = newvalue;
     Database.userDataBox.put('showToDoList', _showToDoList);

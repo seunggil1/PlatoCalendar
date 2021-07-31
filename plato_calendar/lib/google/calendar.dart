@@ -78,8 +78,12 @@ class GoogleCalendarToken{
         this.expiry = newToken.accessToken.expiry;
         this.refreshToken = newToken.refreshToken;
         this.scopes = newToken.scopes;
-      });
 
+        this.tokenStream = newClient.credentialUpdates;
+        this.token = newToken;
+        this.client = newClient;
+      });
+      
       UserData.isSaveGoogleToken = true;
       await Database.googleDataSave();
   }

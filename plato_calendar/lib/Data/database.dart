@@ -85,6 +85,7 @@ class Database{
     UserData.defaultColor = userDataBox.get('defaultColor') ?? {};
     UserData.showToDoList = userDataBox.get('showToDoList');
     UserData.oneStopLastSyncDay = userDataBox.get('oneStopLastSyncDay');
+    UserData.semester = userDataBox.get('semester');
     
   }
 
