@@ -53,7 +53,7 @@ class Database{
   }
   static void calendarDataSave(CalendarData data){
     calendarBox.put(data.uid,data);
-    if(data.disable)
+    if(data.disable || (UserData.showFinished && data.finished))
       UserData.googleCalendar.deleteCalendar(data.toEvent());
     else
       UserData.googleCalendar.updateCalendar(data.toEvent());
