@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-
+import '../../Data/privateKey.dart';
 
 // 빌드전 android\app\src\main\AndroidManifest.xml에서
 // com.google.android.gms.ads.APPLICATION_ID 값 변경
@@ -16,14 +16,14 @@ BannerAdListener listener = BannerAdListener(
   onAdImpression: (Ad ad) => print('Ad impression.'),
 );
 BannerAd adBanner1 = BannerAd(
-  adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+  adUnitId: PrivateKey.adUnitId1,
   size: AdSize.banner,
   request: AdRequest(),
   listener: BannerAdListener(),
 );
 
 BannerAd adBanner2 = BannerAd(
-  adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+  adUnitId: PrivateKey.adUnitId2,
   size: AdSize.banner,
   request: AdRequest(),
   listener: BannerAdListener(),
