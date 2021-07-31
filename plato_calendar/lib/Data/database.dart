@@ -53,6 +53,10 @@ class Database{
   }
   static void calendarDataSave(CalendarData data){
     calendarBox.put(data.uid,data);
+    if(data.disable)
+      UserData.googleCalendar.deleteCalendar(data.toEvent());
+    else
+      UserData.googleCalendar.updateCalendar(data.toEvent());
   }
   static void calendarDataLoad(){
     uidSet = (calendarBox.get('uidList') ?? <String>[]).toSet();
@@ -98,6 +102,7 @@ class Database{
     if(UserData.isSaveGoogleToken){
       UserData.googleCalendar = userDataBox.get('googleToken');
       UserData.isSaveGoogleToken = UserData.googleCalendar.restoreAutoRefreshingAuthClient();
-    }
+    }else
+      UserData.googleCalendar = GoogleCalendarToken("","",DateTime(1990),"",[]);
   }
 }

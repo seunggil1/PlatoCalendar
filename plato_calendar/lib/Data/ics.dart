@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:googleapis/calendar/v3.dart';
 import 'package:icalendar_parser/icalendar_parser.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -188,7 +189,7 @@ class CalendarData{
       end = end.subtract(Duration(minutes: 1));
     }
 
-    color = UserData.defaultColor[classCode] ?? 9; // colorCollection[9] = Colors.blue
+    color = UserData.defaultColor[classCode] ?? 18; // colorCollection[9] = Colors.lightGreen
 
   }
 
@@ -236,6 +237,23 @@ class CalendarData{
       color: colorCollection[color],
       resourceIds: <int>[hashCode]
     );
+  }
+  Event toEvent(){
+    Event t = Event();
+    t.iCalUID = this.uid;
+    t.summary = this.summary;
+    t.description = this.description;
+    t.reminders = EventReminders(overrides : [EventReminder(method: "popup", minutes: 60)], useDefault: false);
+    t.end = EventDateTime(dateTime: this.end, timeZone: "Asia/Seoul");
+
+    if(this.end.day != this.start.day)
+      t.start = EventDateTime(dateTime: this.end, timeZone: "Asia/Seoul");
+    else
+      t.start = EventDateTime(dateTime: this.start, timeZone: "Asia/Seoul");
+
+    t.colorId = "${(this.color > 10 ? 10 : this.color)+ 1}";
+
+    return t;
   }
 
 

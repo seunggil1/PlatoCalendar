@@ -28,7 +28,7 @@ class PopUpAppointmentEditor extends StatefulWidget{
       DateTime.now().toUtc().toString()+'_userAppointment',
       '','', time, time ,false,
       UserData.year.toString(), UserData.semester.toString(),
-      "과목 분류 없음","",false,false,9);
+      "과목 분류 없음","",false,false,18);
       newData = true;
   }
   @override

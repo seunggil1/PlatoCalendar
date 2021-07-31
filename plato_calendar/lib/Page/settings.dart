@@ -12,8 +12,10 @@ import '../Data/ics.dart';
 import '../utility.dart';
 import 'widget/appointmentEditor.dart';
 import '../main.dart';
+import '../google/calendar.dart';
 import '../pnu/plato.dart';
 import '../pnu/pnu.dart';
+
 
 class Setting extends StatefulWidget{
   @override
@@ -252,6 +254,29 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                 )
               )
               : Container(),
+              Card(
+                child: ListTile(
+                  title: Text('Login with Google'),
+                  subtitle: Text('Google 계정에 일정 정보 자동 동기화'),
+                  trailing: TextButton(
+                        onPressed: () async { 
+                          if(UserData.isSaveGoogleToken){
+                            await UserData.googleCalendar.logOutGoogleAccount();
+                          }else{
+                            await UserData.googleCalendar.authUsingGoogleAccount();
+                          }
+                          setState(() { });
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(0),
+                          width: 70,
+                          decoration: BoxDecoration(color: Colors.blueAccent[100],borderRadius: BorderRadius.circular(10)),
+                          child: Text(UserData.isSaveGoogleToken ?"Logout" : "Login", style: TextStyle(color: Colors.white))
+                          )
+                      ),
+                ),
+              ),
               Card(
                 child: ListTile(
                   title: Text('일정 내보내기'),

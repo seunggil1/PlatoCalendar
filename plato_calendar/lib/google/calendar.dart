@@ -2,8 +2,8 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import "package:googleapis_auth/auth_io.dart";
 import 'package:googleapis/calendar/v3.dart';
-import '../Data/privateKey.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../Data/privateKey.dart';
 
 import '../Data/database.dart';
 import '../Data/userData.dart';
@@ -83,6 +83,17 @@ class GoogleCalendarToken{
       UserData.isSaveGoogleToken = true;
       await Database.googleDataSave();
   }
+
+  Future<void> logOutGoogleAccount() async {
+      UserData.isSaveGoogleToken = false;
+      this.type = "";
+      this.data = ""; 
+      this.expiry = DateTime(1990);
+      this.refreshToken = "";
+      this.scopes = [];
+      await Database.googleDataSave();
+  }
+
   Future<bool> updateCalendar(Event newEvent) async{
     if(!UserData.isSaveGoogleToken)
         return false;
@@ -95,6 +106,24 @@ class GoogleCalendarToken{
         mycalendar.events.patch(newEvent, "primary", searchResult[0].id);
       else
         mycalendar.events.insert(newEvent, "primary");
+      
+      return true;
+    }catch(e){
+      return false;
+    }
+    
+  }
+
+    Future<bool> deleteCalendar(Event newEvent) async{
+    if(!UserData.isSaveGoogleToken)
+        return false;
+
+    try{
+      CalendarApi mycalendar = CalendarApi(client);
+      List<Event> searchResult = (await mycalendar.events.list("primary", iCalUID: newEvent.iCalUID)).items;
+
+      if(searchResult != null && searchResult.length >=1 && searchResult[0].id != null)
+        mycalendar.events.delete("primary", searchResult[0].id);
       
       return true;
     }catch(e){
