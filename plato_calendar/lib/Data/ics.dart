@@ -65,8 +65,10 @@ Future<void> icsParser(String bytes) async{
       Database.calendarDataSave(data);
       UserData.data.add(data);
     }
-    
   }
+  // For test
+  // Database.uidSetSave();
+  // Database.subjectCodeThisSemesterSave();
 }
 
 Future<bool> icsExport() async {
