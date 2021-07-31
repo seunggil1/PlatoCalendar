@@ -141,7 +141,7 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                     ListTile(
                         title: Text('완료된 일정 표시'),
                         subtitle: Text(
-                          UserData.showFinished ? '완료된 일정을 달력에 표시합니다' : '완료된 일정을 달력에 표시하지 않습니다'
+                          UserData.showFinished ? '완료된 일정을 달력에 표시합니다' : '완료된 일정을 달력에 표시하지 않습니다. '
                         ),
                         trailing: Switch(
                           activeColor: Colors.blueAccent[100],
@@ -257,7 +257,7 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
               Card(
                 child: ListTile(
                   title: Text('Login with Google'),
-                  subtitle: Text('Google 계정에 일정 정보 자동 동기화'),
+                  subtitle: UserData.isSaveGoogleToken ? Text('Google 계정 동기화 진행중') : Text('Google 계정에 일정 정보 자동 동기화'),
                   trailing: TextButton(
                         onPressed: () async { 
                           if(UserData.isSaveGoogleToken){
