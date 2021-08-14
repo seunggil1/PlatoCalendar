@@ -76,7 +76,7 @@ class GoogleCalendarToken{
       await clientViaUserConsent(
       ClientId(PrivateKey.clientIDIdentifier, ""), const [CalendarApi.calendarEventsScope] , prompt)
       .then((AutoRefreshingAuthClient newClient) {
-        prompt("app://com.seunggil.plato_calendar/");
+        //prompt("app://com.seunggil.plato_calendar/");
         AccessCredentials newToken = newClient.credentials;
         this.type   = newToken.accessToken.type;
         this.data   = newToken.accessToken.data;
