@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import "package:googleapis_auth/auth_io.dart";
@@ -87,7 +90,13 @@ class GoogleCalendarToken{
       });
       
       UserData.isSaveGoogleToken = true;
+      UserData.googleFirstLogin = true;
       await Database.googleDataSave();
+      await Future.delayed(Duration(seconds: 2));
+      if(Platform.isAndroid)
+        SystemNavigator.pop();
+      else if(Platform.isIOS)
+        exit(0);
     }catch(e){
       return false;
     }
@@ -105,12 +114,12 @@ class GoogleCalendarToken{
   }
   Future<bool> updateCalendarFull() async {
     DateTime nowTime = DateTime.now();
-    UserData.data.forEach((element) { 
+    UserData.data.forEach((element) async { 
       Duration diff = nowTime.difference(element.end);
       if(!element.disable && !element.finished && diff.inDays <= 5)
-        updateCalendar(element.toEvent());
+        await updateCalendar(element.toEvent());
     });
-    
+    UserData.googleFirstLogin = false;
     return true;
   }
   Future<bool> updateCalendar(Event newEvent) async{

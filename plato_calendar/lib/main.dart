@@ -25,7 +25,6 @@ StreamController pnuStream = StreamController<bool>.broadcast();
 List<Widget> _widgets = [Calendar(), ToDoList(), Setting()];
 void main() async{
   // HttpOverrides.global = new MyHttpOverrides();
-
   WidgetsFlutterBinding.ensureInitialized();
   await MobileAds.instance.initialize();
   Future.wait([

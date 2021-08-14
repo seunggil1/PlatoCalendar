@@ -61,7 +61,10 @@ class UserData{
 
   /// Google Token 저장 여부.
   static bool isSaveGoogleToken;
-  
+
+  /// Google Login 직후 최초 앱실행. Calendar 동기화 필요.
+  static bool _googleFirstLogin;
+
   /// Google Calendar 연동을 위한 Token 정보.
   static GoogleCalendarToken googleCalendar; 
 
@@ -77,6 +80,7 @@ class UserData{
   static String get lastSyncInfo => _lastSyncInfo;
   static List<bool> get showToDoList => _showToDoList;
   static int get oneStopLastSyncDay => _oneStopLastSyncDay;
+  static bool get googleFirstLogin => _googleFirstLogin;
 
   static set tapIndex(int newValue){
     bool update = true;
@@ -230,5 +234,19 @@ class UserData{
 
     if(update)
       Database.userDataBox.put('oneStopLastSyncDay', _oneStopLastSyncDay);
+  }
+
+  static set googleFirstLogin(bool newValue) {
+    bool update = true;
+    if(_googleFirstLogin == null)
+      update = false;
+
+    if(newValue != null)
+      _googleFirstLogin = newValue;
+    else
+      _googleFirstLogin = false;
+
+    if(update)
+      Database.userDataBox.put('googleFirstLogin', _googleFirstLogin);
   }
 }

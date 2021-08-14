@@ -90,18 +90,21 @@ class Database{
 
   static Future<void> googleDataSave() async{
     await userDataBox.put('isSaveGoogleToken', UserData.isSaveGoogleToken);
-    if(UserData.isSaveGoogleToken)
+    if(UserData.isSaveGoogleToken){
       await userDataBox.put('googleToken', UserData.googleCalendar);
+    }
     else
       await userDataBox.delete('googleToken');
   }
 
   static void googleDataLoad(){
     UserData.isSaveGoogleToken = userDataBox.get('isSaveGoogleToken') ?? false;
-
+    UserData.googleFirstLogin = userDataBox.get('googleFirstLogin');
     if(UserData.isSaveGoogleToken){
       UserData.googleCalendar = userDataBox.get('googleToken');
       UserData.isSaveGoogleToken = UserData.googleCalendar.restoreAutoRefreshingAuthClient();
+      if(UserData.isSaveGoogleToken && UserData.googleFirstLogin)
+        UserData.googleCalendar.updateCalendarFull();
     }else
       UserData.googleCalendar = GoogleCalendarToken("","",DateTime(1990),"",[]);
   }

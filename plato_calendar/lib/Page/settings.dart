@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:plato_calendar/Page/widget/adBanner.dart';
 
 import '../Data/else.dart';
@@ -260,10 +262,7 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                           if(UserData.isSaveGoogleToken){
                             await UserData.googleCalendar.logOutGoogleAccount();
                           }else{
-                            await UserData.googleCalendar.authUsingGoogleAccount().then((value) {
-                              if(value)
-                                UserData.googleCalendar.updateCalendarFull();
-                            });
+                            await UserData.googleCalendar.authUsingGoogleAccount();
                           }
                           setState(() { });
                         },
