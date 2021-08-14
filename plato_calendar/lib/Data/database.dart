@@ -50,12 +50,12 @@ class Database{
   static void uidSetSave(){
     calendarBox.put('uidList', Database.uidSet.toList());
   }
-  static void calendarDataSave(CalendarData data){
+  static void calendarDataSave(CalendarData data) async {
     calendarBox.put(data.uid,data);
     if(data.disable || data.finished) // (UserData.showFinished && data.finished)
-      UserData.googleCalendar.deleteCalendar(data.toEvent());
+      await UserData.googleCalendar.deleteCalendar(data.toEvent());
     else
-      UserData.googleCalendar.updateCalendar(data.toEvent());
+      await UserData.googleCalendar.updateCalendar(data.toEvent());
   }
   static void calendarDataLoad(){
     uidSet = (calendarBox.get('uidList') ?? <String>[]).toSet();
