@@ -5,6 +5,8 @@ import '../google/calendar.dart';
 
 import './database.dart';
 import './ics.dart';
+import 'package:ordered_set/ordered_set.dart';
+import 'package:ordered_set/comparing.dart';
 
 part 'userData.g.dart';
 
@@ -52,6 +54,8 @@ class UserData{
     else
       return i;
   }); 
+  // 차후 테스트 후 교체.
+  static OrderedSet<CalendarData> dataTest = OrderedSet<CalendarData>(Comparing.on((CalendarData a) => a.end));
 
   /// 이번학기 수강하는 subjectCode
   static Set<String> subjectCodeThisSemester;

@@ -29,6 +29,7 @@ dependencies:
   html:
   syncfusion_flutter_calendar:
   dio:
+  ordered_set: ^3.1.0
   # 폰트 동적 사이즈 조절
   auto_size_text: ^2.1.0
   # DateFormat("MM-dd HH:mm:ss").format(data),
