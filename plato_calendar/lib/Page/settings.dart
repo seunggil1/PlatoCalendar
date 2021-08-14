@@ -260,7 +260,10 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                           if(UserData.isSaveGoogleToken){
                             await UserData.googleCalendar.logOutGoogleAccount();
                           }else{
-                            await UserData.googleCalendar.authUsingGoogleAccount();
+                            await UserData.googleCalendar.authUsingGoogleAccount().then((value) {
+                              if(value)
+                                UserData.googleCalendar.updateCalendarFull();
+                            });
                           }
                           setState(() { });
                         },

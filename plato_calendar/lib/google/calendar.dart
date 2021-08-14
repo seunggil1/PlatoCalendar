@@ -68,10 +68,12 @@ class GoogleCalendarToken{
     return true;
   }
 
-  Future<void> authUsingGoogleAccount() async {
-    await clientViaUserConsent(
+  Future<bool> authUsingGoogleAccount() async {
+    try{
+      await clientViaUserConsent(
       ClientId(PrivateKey.clientIDIdentifier, ""), const [CalendarApi.calendarEventsScope] , prompt)
       .then((AutoRefreshingAuthClient newClient) {
+        prompt("app://com.seunggil.plato_calendar/");
         AccessCredentials newToken = newClient.credentials;
         this.type   = newToken.accessToken.type;
         this.data   = newToken.accessToken.data;
@@ -86,6 +88,10 @@ class GoogleCalendarToken{
       
       UserData.isSaveGoogleToken = true;
       await Database.googleDataSave();
+    }catch(e){
+      return false;
+    }
+      return true;
   }
 
   Future<void> logOutGoogleAccount() async {
@@ -97,7 +103,16 @@ class GoogleCalendarToken{
       this.scopes = [];
       await Database.googleDataSave();
   }
-
+  Future<bool> updateCalendarFull() async {
+    DateTime nowTime = DateTime.now();
+    UserData.data.forEach((element) { 
+      Duration diff = nowTime.difference(element.end);
+      if(!element.disable && !element.finished && diff.inDays <= 5)
+        updateCalendar(element.toEvent());
+    });
+    
+    return true;
+  }
   Future<bool> updateCalendar(Event newEvent) async{
     if(!UserData.isSaveGoogleToken)
         return false;
