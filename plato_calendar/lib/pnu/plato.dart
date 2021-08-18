@@ -12,7 +12,7 @@ class Plato {
 
   static Future<bool> login() async {
 
-    String body = 'username=${UserData.id}&password=${Uri.encodeQueryComponent(UserData.pw)}&loginbutton=%EB%A1%9C%EA%B7%B8%EC%9D%B8';
+    String body = 'username=${UserData.id}&password=${Uri.encodeQueryComponent(UserData.pw)}'; //&loginbutton=%EB%A1%9C%EA%B7%B8%EC%9D%B8';
     Response response;
     
     try{

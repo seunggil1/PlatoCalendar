@@ -127,7 +127,7 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                           children: <Widget>[ Icon(Icons.warning_amber_outlined, size: 18)]
                         ),
                         title: Text('오류 메세지가 나왔을 때',style: TextStyle(color: Colors.grey, fontSize: 14),),
-                        subtitle: Text('- ID/PW 오류 : 로그아웃 버튼을 누르고 다시 시도해주세요.\n- 기타 오류 : Plato 서버나 일시적인 네트워크 문제로, 인터넷 연결을 확인한 뒤에 앱을 재시작해보세요.',style: TextStyle(color: Colors.grey, fontSize: 12)),
+                        subtitle: Text('- ID/PW 오류 : 로그아웃 버튼을 누르고 다시 시도해주세요.\n- 로그인 오류 : Plato 서버나 일시적인 네트워크 문제로, 인터넷 연결을 확인한 뒤에 앱을 재시작해보세요.\n- 동기화 오류 : 데이터 분석중 오류가 발생했습니다. 지속적인 오류 발생시 앱스토어를 통해 알려주세요.',style: TextStyle(color: Colors.grey, fontSize: 12)),
                         isThreeLine: false
                     ),
                   ],
