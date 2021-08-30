@@ -244,7 +244,7 @@ class CalendarData{
     Event t = Event();
     t.iCalUID = this.uid;
     t.summary = this.summary;
-    t.description = this.description;
+    t.description = (this.className != "" ? this.className : this.classCode) + this.description;
     t.reminders = EventReminders(overrides : [EventReminder(method: "popup", minutes: 60)], useDefault: false);
     t.end = EventDateTime(dateTime: this.end, timeZone: "Asia/Seoul");
 

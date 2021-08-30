@@ -38,5 +38,4 @@ Future<void> getGraduateSubject() async {
     print("'$key':'$value',");
   });
 
-
 }
