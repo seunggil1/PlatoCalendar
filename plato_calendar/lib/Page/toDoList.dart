@@ -373,7 +373,7 @@ class _ToDoList extends State<ToDoList>{
                 UserData.showToDoListByIndex(index, !UserData.showToDoList[index]);
               });
             },
-            child: Icon(UserData.showToDoList[index] ? Icons.keyboard_arrow_up_sharp : Icons.keyboard_arrow_down_sharp, color: Colors.blueAccent[100]),
+            child: Icon(UserData.showToDoList[index] ? Icons.keyboard_arrow_up_sharp : Icons.keyboard_arrow_down_sharp, color: Colors.blueAccent[100], size: 27),
           )
         ],
       )
