@@ -44,7 +44,6 @@ class UserData{
   /// 
   /// [지남, 6, 12, 오늘, 내일, 1주일 이하, 1주일 이상, 날짜 없음, 완료]
   static List<bool> _showToDoList;
-
   /// 이전 날짜가 먼저 오는 CalendarData set
   static SplayTreeSet<CalendarData> data = SplayTreeSet<CalendarData>(
   (CalendarData a, CalendarData b) {
@@ -206,7 +205,7 @@ class UserData{
     if(newValue != null)
       _showToDoList = newValue;
     else
-      _showToDoList = const [true,true,true,true,true,true,true,true,true];
+      _showToDoList = [true,true,true,true,true,true,true,true,true];
 
     if(update)
       Database.userDataBox.put('showToDoList', _showToDoList);
