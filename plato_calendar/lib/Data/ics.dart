@@ -175,7 +175,8 @@ class CalendarData{
       semester = classInfo[1];
       classCode = classInfo[2];
       className = subjectCode[classCode] ?? "";
-      UserData.subjectCodeThisSemester.add(classCode);
+      if(classCode != '과목 분류 없음')
+        UserData.subjectCodeThisSemester.add(classCode);
       if(!UserData.defaultColor.containsKey(classCode) && UserData.defaultColor.length < 11)
         UserData.defaultColor[classCode] = UserData.defaultColor.length;
     }else{
@@ -244,7 +245,7 @@ class CalendarData{
     Event t = Event();
     t.iCalUID = this.uid;
     t.summary = this.summary;
-    t.description = (this.className != "" ? this.className : this.classCode) + this.description;
+    t.description = (this.className != "" ? this.className : this.classCode) + '\n' +this.description;
     t.reminders = EventReminders(overrides : [EventReminder(method: "popup", minutes: 60)], useDefault: false);
     t.end = EventDateTime(dateTime: this.end, timeZone: "Asia/Seoul");
 

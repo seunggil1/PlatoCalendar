@@ -45,16 +45,9 @@ class UserData{
   /// [지남, 6, 12, 오늘, 내일, 1주일 이하, 1주일 이상, 날짜 없음, 완료]
   static List<bool> _showToDoList;
   /// 이전 날짜가 먼저 오는 CalendarData set
-  static SplayTreeSet<CalendarData> data = SplayTreeSet<CalendarData>(
-  (CalendarData a, CalendarData b) {
-    int i = a.end.compareTo(b.end);
-    if(i == 0)
-      return a.uid.compareTo(b.uid);
-    else
-      return i;
-  }); 
+  /// 
   // 차후 테스트 후 교체.
-  static OrderedSet<CalendarData> dataTest = OrderedSet<CalendarData>(Comparing.on((CalendarData a) => a.end));
+  static OrderedSet<CalendarData> data = OrderedSet<CalendarData>(Comparing.on((CalendarData a) => a.end));
 
   /// 이번학기 수강하는 subjectCode
   static Set<String> subjectCodeThisSemester;
