@@ -155,6 +155,8 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                             onChanged: (String newValue) {
                               setState(() {
                                 _classCode = newValue;
+                                if(UserData.defaultColor.containsKey(_classCode))
+                                  _color = UserData.defaultColor[_classCode];
                               });
                             },
                             items: UserData.subjectCodeThisSemester
@@ -202,6 +204,8 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                                   onConfirm: (DateTime time){
                                     setState(() {
                                       _start = time;
+                                      if(_start.difference(_end).inSeconds > 0)
+                                        _end = _start.add(Duration(hours: 1));
                                     });
                                 });
                               },
@@ -217,6 +221,8 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                                   onConfirm: (DateTime time){
                                     setState(() {
                                       _end = time;
+                                      if(_start.difference(_end).inSeconds > 0)
+                                        _start = _end.subtract(Duration(hours: 1));
                                     });
                                 });
                               },
