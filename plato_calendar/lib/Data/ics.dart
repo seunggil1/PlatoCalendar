@@ -148,6 +148,7 @@ class CalendarData{
   CalendarData.byMap(Map<String,dynamic> data){
     uid = data["uid"];
     summary = data["summary"];
+    summary = summary.replaceAll("####",":");
     description = data["description"];
     description = description.replaceAll("####",":");
     description = description.replaceAll("\\n", "\n");
@@ -192,7 +193,7 @@ class CalendarData{
       end = end.subtract(Duration(minutes: 1));
     }
 
-    color = UserData.defaultColor[classCode] ?? 18; // colorCollection[9] = Colors.lightGreen
+    color = UserData.defaultColor[classCode] ?? 18; // colorCollection[18] = Colors.lightGreen
 
   }
 
