@@ -131,10 +131,9 @@ class GoogleCalendarToken{
       List<Event> searchResult = (await mycalendar.events.list("primary", iCalUID: newEvent.iCalUID)).items;
 
       if(searchResult != null && searchResult.length >=1 && searchResult[0].id != null)
-        mycalendar.events.patch(newEvent, "primary", searchResult[0].id);
+        await mycalendar.events.patch(newEvent, "primary", searchResult[0].id);
       else
-        mycalendar.events.insert(newEvent, "primary");
-      
+        await mycalendar.events.insert(newEvent, "primary");
       return true;
     }catch(e){
       return false;
