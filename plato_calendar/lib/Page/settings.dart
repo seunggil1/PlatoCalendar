@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:plato_calendar/Page/widget/adBanner.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 import '../Data/else.dart';
 import '../Data/subjectCode.dart';
@@ -253,17 +254,14 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                 )
               )
               : Container(),
-              Card(
+              UserData.isSaveGoogleToken
+              ?Card(
                 child: ListTile(
-                  title: Text('Login with Google'),
-                  subtitle: UserData.isSaveGoogleToken ? Text('Google 계정 동기화 진행중') : Text('Google 계정에 일정 정보 자동 동기화'),
+                  title: Text('일정 Google과 동기화'),
+                  subtitle: Text('Google 동기화 진행중'),
                   trailing: TextButton(
                         onPressed: () async { 
-                          if(UserData.isSaveGoogleToken){
-                            await UserData.googleCalendar.logOutGoogleAccount();
-                          }else{
-                            await UserData.googleCalendar.authUsingGoogleAccount();
-                          }
+                          await UserData.googleCalendar.logOutGoogleAccount();
                           setState(() { });
                         },
                         child: Container(
@@ -271,9 +269,24 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                           padding: EdgeInsets.all(0),
                           width: 70,
                           decoration: BoxDecoration(color: Colors.blueAccent[100],borderRadius: BorderRadius.circular(10)),
-                          child: Text(UserData.isSaveGoogleToken ?"Logout" : "Login", style: TextStyle(color: Colors.white))
-                          )
+                          child: Text("Logout", style: TextStyle(color: Colors.white))
+                        )
                       ),
+                ),
+              )
+              :Card(
+                child: ListTile(
+                  title: Container(
+                    padding: EdgeInsets.symmetric(vertical: 2),
+                    child: Text('일정 Google과 동기화'),
+                  ),
+                  subtitle: SignInButton(
+                      Buttons.GoogleDark,
+                      onPressed: () async{
+                        await UserData.googleCalendar.authUsingGoogleAccount();
+                        setState(() { });
+                      },
+                  ),
                 ),
               ),
               Card(
