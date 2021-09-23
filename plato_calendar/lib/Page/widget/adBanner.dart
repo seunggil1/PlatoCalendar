@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../../Data/privateKey.dart';
 
-// 빌드전 android\app\src\main\AndroidManifest.xml에서
-// com.google.android.gms.ads.APPLICATION_ID 값 변경
 
 BannerAdListener listener = BannerAdListener(
   onAdLoaded: (Ad ad) => print('Ad loaded.'),
