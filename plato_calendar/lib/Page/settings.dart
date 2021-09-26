@@ -278,7 +278,7 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
               :Card(
                 child: ListTile(
                   leading: Container(
-                    //padding: EdgeInsets.symmetric(vertical: 2),
+                    padding: EdgeInsets.symmetric(vertical: 2),
                     child: Text('캘린더 앱과 동기화')),
                   title: SignInButton(
                       Buttons.GoogleDark,
