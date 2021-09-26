@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:googleapis/appengine/v1.dart';
 import 'package:plato_calendar/Page/widget/adBanner.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
@@ -217,7 +218,7 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                           onPressed: (){
                             showDialog(context: context,
                                     builder: (BuildContext context){
-                                      return CalendarColorPicker(UserData.defaultColor[data] ?? 9);                      
+                                      return CalendarColorPicker(UserData.defaultColor[data] ?? 18);                      
                                     }).then((value) {
                                       if(value != null){
                                         setState((){ UserData.defaultColor[data] = value;});
@@ -227,7 +228,7 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                           },
                           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           minWidth: 3,
-                          child: Icon(Icons.lens,color: colorCollection[UserData.defaultColor[data] ?? 9]))
+                          child: Icon(Icons.lens,color: colorCollection[UserData.defaultColor[data] ?? 18]))
                       ],
                     );
                   }).toList()
@@ -276,11 +277,10 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
               )
               :Card(
                 child: ListTile(
-                  title: Container(
-                    padding: EdgeInsets.symmetric(vertical: 2),
-                    child: Text('일정 Google과 동기화'),
-                  ),
-                  subtitle: SignInButton(
+                  leading: Container(
+                    //padding: EdgeInsets.symmetric(vertical: 2),
+                    child: Text('캘린더 앱과 동기화')),
+                  title: SignInButton(
                       Buttons.GoogleDark,
                       onPressed: () async{
                         await UserData.googleCalendar.authUsingGoogleAccount();
