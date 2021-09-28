@@ -258,7 +258,7 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
               UserData.isSaveGoogleToken
               ?Card(
                 child: ListTile(
-                  title: Text('일정 Google과 동기화'),
+                  title: Text('캘린더 앱과 동기화'),
                   subtitle: Text('Google 동기화 진행중'),
                   trailing: TextButton(
                         onPressed: () async { 
@@ -289,28 +289,28 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                   ),
                 ),
               ),
-              Card(
-                child: ListTile(
-                  title: Text('일정 내보내기'),
-                  subtitle: Text('다른 캘린더 앱으로 내보내기'),
-                  trailing: TextButton(
-                        onPressed: (){ 
-                          showToastMessageCenter("잠시 후 새창이 표시되면 캘린더 앱을 선택해주세요");
-                          icsExport().then((value) {
-                            if(!value)
-                              showToastMessageCenter("오류가 발생했습니다");
-                          });
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.all(0),
-                          width: 70,
-                          decoration: BoxDecoration(color: Colors.blueAccent[100],borderRadius: BorderRadius.circular(10)),
-                          child: Text("Export", style: TextStyle(color: Colors.white))
-                          )
-                      ),
-                ),
-              ),
+              // Card(
+              //   child: ListTile(
+              //     title: Text('일정 내보내기'),
+              //     subtitle: Text('다른 캘린더 앱으로 내보내기'),
+              //     trailing: TextButton(
+              //           onPressed: (){ 
+              //             showToastMessageCenter("잠시 후 새창이 표시되면 캘린더 앱을 선택해주세요");
+              //             icsExport().then((value) {
+              //               if(!value)
+              //                 showToastMessageCenter("오류가 발생했습니다");
+              //             });
+              //           },
+              //           child: Container(
+              //             alignment: Alignment.center,
+              //             padding: EdgeInsets.all(0),
+              //             width: 70,
+              //             decoration: BoxDecoration(color: Colors.blueAccent[100],borderRadius: BorderRadius.circular(10)),
+              //             child: Text("Export", style: TextStyle(color: Colors.white))
+              //             )
+              //         ),
+              //   ),
+              // ),
               Card(
                 child: AdBanner(bannerLocation : 2)
               )
