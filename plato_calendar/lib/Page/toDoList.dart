@@ -89,7 +89,7 @@ class _ToDoList extends State<ToDoList>{
                   toDoList12Hour.add(_getTodoWidget(element));
                 else // 오늘까지 인데 12시간 이상 남음
                   toDoListToday.add(_getTodoWidget(element));
-              }else if(element.end.day == now.day + 1) // 내일까지
+              }else if(element.end.day == now.add(const Duration(days: 1)).day) // 내일까지
                 toDoListTomorrow.add(_getTodoWidget(element));
               else // 하루 넘게 남았음
                 toDoListWeek.add(_getTodoWidget(element));
