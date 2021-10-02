@@ -5,6 +5,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'Data/database.dart';
 import 'Data/ics.dart';
+import 'Firebase/firebase.dart';
 import 'Page/widget/adBanner.dart';
 import 'Page/settings.dart';
 import 'Page/sfCalendar.dart';
@@ -43,6 +44,7 @@ void main() async{
   // for test
   // await icsParser("");
   await initializeDateFormatting('ko_KR', null);
+  firebaseInit();
   runApp(MyApp());
 }
 
@@ -50,6 +52,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      //debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.white,
         // primarySwatch: Typography.white,
