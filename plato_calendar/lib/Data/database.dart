@@ -11,6 +11,7 @@ import '../utility.dart';
 class Database{
   static Box calendarBox;
   static Box userDataBox;
+  static Box debugLogBox;
 
   static Set<String> uidSet = {};
 
@@ -31,6 +32,8 @@ class Database{
       var encryptionKey = base64Url.decode(await secureStorage.read(key: 'key'));
       calendarBox = await Hive.openBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
       userDataBox = await Hive.openBox('userDataBox', encryptionCipher: HiveAesCipher(encryptionKey));
+      debugLogBox = await Hive.openBox('debugLogBox');
+      UserData.syncLog = debugLogBox.get('syncLog') ?? [];
     }
     catch(e){
       await secureStorage.deleteAll();
@@ -107,5 +110,20 @@ class Database{
         UserData.googleCalendar.updateCalendarFull();
     }else
       UserData.googleCalendar = GoogleCalendarToken("","",DateTime(1990),"",[]);
+  }
+
+  /// 백그라운드에서만 호출함, 디버깅을 위한 동기화 시간 기록
+  static Future<bool> saveSyncLog() async {
+    try{
+      await Hive.initFlutter();
+      debugLogBox = await Hive.openBox('debugLogBox');
+      UserData.syncLog = debugLogBox.get('syncLog') ?? [];
+      UserData.syncLog.add(DateTime.now());
+      await debugLogBox.put('syncLog', UserData.syncLog);
+
+      return true;
+    }catch(e){
+      return false;
+    }
   }
 }
