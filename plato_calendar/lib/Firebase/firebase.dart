@@ -1,27 +1,19 @@
-import 'dart:io';
+import 'dart:math';
 import 'package:firebase_messaging/firebase_messaging.dart'; 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:plato_calendar/Data/database.dart';
+import 'package:plato_calendar/pnu/pnu.dart';
 
 // 아래 페이지를 따라갈 것.
 // https://firebase.flutter.dev/docs/overview
 
-FirebaseMessaging _message = FirebaseMessaging.instance;
+//FirebaseMessaging _message = FirebaseMessaging.instance;
 
 Future<bool> firebaseInit() async{
   try{
     await Firebase.initializeApp();
     await FirebaseMessaging.instance.subscribeToTopic("all");
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-    var test = _message.getToken();
-    FirebaseMessaging.onMessage.listen((RemoteMessage msg) {
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${msg.data}');
-      
-      if (msg.notification != null) {
-        print('Message also contained a notification: ${msg.notification}');
-      }
-    });
     return true;
   }
   catch(e){
@@ -30,9 +22,15 @@ Future<bool> firebaseInit() async{
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
-  await Database.saveSyncLog();
+  await Database.backGroundInit().then((bool result) {
+    Database.userDataLoad();
+    Database.calendarDataLoad();
+    Database.googleDataLoad();
+  });
+  Random random = new Random();
+
+  await Future.delayed(Duration(seconds: random.nextInt(60))); // from 0 upto 60 사이의 랜덤 숫자 생성
+  await update(force: true);
   print("Handling a background message: ${message.messageId}");
 }
