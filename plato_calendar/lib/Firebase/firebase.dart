@@ -14,6 +14,7 @@ Future<bool> firebaseInit() async{
     await Firebase.initializeApp();
     await FirebaseMessaging.instance.subscribeToTopic("all");
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
     return true;
   }
   catch(e){
@@ -28,9 +29,16 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     Database.calendarDataLoad();
     Database.googleDataLoad();
   });
-  Random random = new Random();
 
-  await Future.delayed(Duration(seconds: random.nextInt(60))); // from 0 upto 60 사이의 랜덤 숫자 생성
-  await update(force: true);
+  if(message.data["func"] == "sync"){
+    Random random = new Random();
+    await Future.delayed(Duration(seconds: random.nextInt(60))); // from 0 upto 60 사이의 랜덤 숫자 생성
+    await update(force: true);
+  }else if(message.data["func"] == "notifiy"){
+
+  }else{
+    print("firebase Debug Success.");
+  }
+  
   print("Handling a background message: ${message.messageId}");
 }
