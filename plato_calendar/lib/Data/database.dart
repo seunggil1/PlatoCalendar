@@ -95,7 +95,7 @@ class Database{
   static void uidSetSave(){
     calendarBox.put('uidList', Database.uidSet.toList());
   }
-  static void calendarDataSave(CalendarData data) async {
+  static Future<void> calendarDataSave(CalendarData data) async {
     calendarBox.put(data.uid,data);
     if(data.disable || data.finished) // (UserData.showFinished && data.finished)
       await UserData.googleCalendar.deleteCalendar(data.toEvent());

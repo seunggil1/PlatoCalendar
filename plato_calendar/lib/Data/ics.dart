@@ -62,7 +62,7 @@ Future<void> icsParser(String bytes) async{
     CalendarData data = CalendarData.byMap(iter);
     if(!UserData.data.contains(data)){
       Database.uidSet.add(data.uid);
-      Database.calendarDataSave(data);
+      await Database.calendarDataSave(data);
       UserData.data.add(data);
     }
   }
