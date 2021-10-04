@@ -74,11 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    update().then((value) { // update 한 뒤에, 6시간마다 update 다시 진행.
-      Stream.periodic(Duration(hours: 1, minutes: 1),(x)=>x).forEach((element) { 
-        update();
-      });
-    });
+    update();
   }
 
   @override
