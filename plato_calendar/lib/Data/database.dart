@@ -11,7 +11,6 @@ import '../utility.dart';
 class Database{
   static Box calendarBox;
   static Box userDataBox;
-  static Box debugLogBox;
 
   static Set<String> uidSet = {};
 
@@ -32,19 +31,19 @@ class Database{
       var encryptionKey = base64Url.decode(await secureStorage.read(key: 'key'));
       calendarBox = await Hive.openBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
       userDataBox = await Hive.openBox('userDataBox', encryptionCipher: HiveAesCipher(encryptionKey));
-      debugLogBox = await Hive.openBox('debugLogBox', encryptionCipher: HiveAesCipher(encryptionKey));
-      UserData.syncLog.addAll((debugLogBox.get('syncLog') ?? []));
     }
     catch(e){
       await secureStorage.deleteAll();
       await Hive.deleteBoxFromDisk('calendarBox');
       await Hive.deleteBoxFromDisk('userDataBox');
+      await Hive.deleteBoxFromDisk('debugLogBox');
       showToastMessageCenter("저장된 데이터 복원에 실패했습니다.");
       if(!retry)
         await init(true);
     }
   }
 
+  static bool _backgroundInit = false;
   /// 백그라운드에서 init함수 대신 사용
   /// 
   /// 이전에 호출했던 쓰레드가 살아있으면
@@ -54,10 +53,13 @@ class Database{
   /// 디버깅을 위한 동기화 시간 기록이 추가.
   static Future<bool> backGroundInit() async {
     try{
-      await Hive.initFlutter();
-      Hive.registerAdapter(CalendarDataAdapter());
-      Hive.registerAdapter(CalendarTypeAdapter());
-      Hive.registerAdapter(GoogleCalendarTokenAdapter());
+      if(!_backgroundInit){
+        _backgroundInit = true;
+        await Hive.initFlutter();
+        Hive.registerAdapter(CalendarDataAdapter());
+        Hive.registerAdapter(CalendarTypeAdapter());
+        Hive.registerAdapter(GoogleCalendarTokenAdapter());
+      }
     }catch(e){
       if(e.runtimeType != HiveError){
         return false;
@@ -75,11 +77,6 @@ class Database{
       var encryptionKey = base64Url.decode(await secureStorage.read(key: 'key'));
       calendarBox = await Hive.openBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
       userDataBox = await Hive.openBox('userDataBox', encryptionCipher: HiveAesCipher(encryptionKey));
-      debugLogBox = await Hive.openBox('debugLogBox', encryptionCipher: HiveAesCipher(encryptionKey));
-      if(UserData.syncLog.length == 0)
-        UserData.syncLog.addAll((debugLogBox.get('syncLog') ?? []));
-      UserData.syncLog.add(DateTime.now());
-      await debugLogBox.put('syncLog', UserData.syncLog);
     }catch(e){
       return false;
     }
@@ -89,7 +86,6 @@ class Database{
   static Future clear() async{
     await calendarBox.clear();
     await userDataBox.clear();
-    await debugLogBox.clear();
   }
 
   static void uidSetSave(){
@@ -153,5 +149,4 @@ class Database{
     }else
       UserData.googleCalendar = GoogleCalendarToken("","",DateTime(1990),"",[]);
   }
-
 }

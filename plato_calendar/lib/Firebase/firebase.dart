@@ -32,7 +32,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
   if(message.data["func"] == "sync"){
     Random random = new Random();
-    await Future.delayed(Duration(seconds: random.nextInt(60))); // from 0 upto 60 사이의 랜덤 숫자 생성
+    await Future.delayed(Duration(seconds: random.nextInt(3))); // from 0 upto 3 초사이의 랜덤 숫자 생성
     await update(force: true);
   }else if(message.data["func"] == "notifiy"){
 
