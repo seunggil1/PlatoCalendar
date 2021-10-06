@@ -229,7 +229,7 @@ class CalendarData{
     UserData.subjectCodeThisSemester.add(classCode);
     if(!UserData.defaultColor.containsKey(classCode) && UserData.defaultColor.length < 11)
       UserData.defaultColor[classCode] = UserData.defaultColor.length;
-    color = 11;
+    color = 10;
   }
 
   Appointment toAppointment(){
