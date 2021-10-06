@@ -22,7 +22,12 @@ Future<bool> firebaseInit() async{
   }
 }
 
+bool _flag = false;
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  if(_flag)
+    return;
+  else
+    _flag = true;
   await Firebase.initializeApp();
   await Database.backGroundInit().then((bool result) {
     Database.userDataLoad();
@@ -40,6 +45,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   }else{
     print("firebase error.");
   }
-  
+  await Database.debug.put("debug", Database.debugInfo.toList());
   print("Handling a background message: ${message.messageId}");
+  _flag = false;
+  return;
 }

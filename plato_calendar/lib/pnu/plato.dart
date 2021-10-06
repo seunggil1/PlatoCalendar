@@ -48,6 +48,7 @@ class Plato {
         print("plato Login Error: ${e.error}");
         DateTime now = DateTime.now();
         UserData.lastSyncInfo = "${now.day}일 ${now.hour}:${now.minute} - 로그인 오류";
+        Database.debugInfo.add(UserData.lastSyncInfo + '\n' + e.toString());
         return false;
       }
     }
@@ -55,6 +56,7 @@ class Plato {
       print("ID,PW is incorrect");
       DateTime now = DateTime.now();
       UserData.lastSyncInfo = "${now.day}일 ${now.hour}:${now.minute} - ID/PW 오류";
+      
     }
     else{
       moodleSession = response.headers.map["set-cookie"][1];
@@ -142,6 +144,7 @@ class Plato {
     catch(e){
       DateTime now = DateTime.now();
       UserData.lastSyncInfo = "${now.day}일 ${now.hour}:${now.minute} - 동기화 오류";
+      Database.debugInfo.add(UserData.lastSyncInfo + '\n' + e.toString());
       return false;
     }
     return true;
