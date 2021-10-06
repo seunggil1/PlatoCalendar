@@ -11,7 +11,8 @@ import '../utility.dart';
 class Database{
   static Box calendarBox;
   static Box userDataBox;
-
+  static Box debug;
+  static Set<String> debugInfo;
   static Set<String> uidSet = {};
 
   static Future init([bool retry = false]) async {
@@ -31,6 +32,8 @@ class Database{
       var encryptionKey = base64Url.decode(await secureStorage.read(key: 'key'));
       calendarBox = await Hive.openBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
       userDataBox = await Hive.openBox('userDataBox', encryptionCipher: HiveAesCipher(encryptionKey));
+      debug = await Hive.openBox('debug', encryptionCipher: HiveAesCipher(encryptionKey));
+      debugInfo = (debug.get('debug') ?? ["ateste","feasef"]).toSet();
     }
     catch(e){
       await secureStorage.deleteAll();
@@ -77,6 +80,8 @@ class Database{
       var encryptionKey = base64Url.decode(await secureStorage.read(key: 'key'));
       calendarBox = await Hive.openBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
       userDataBox = await Hive.openBox('userDataBox', encryptionCipher: HiveAesCipher(encryptionKey));
+      debug = await Hive.openBox('debug', encryptionCipher: HiveAesCipher(encryptionKey));
+      debugInfo = (debug.get('debug') ?? ["ateste","feasef"]).toSet();
     }catch(e){
       return false;
     }
