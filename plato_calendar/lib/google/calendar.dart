@@ -5,6 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import "package:googleapis_auth/auth_io.dart";
 import 'package:googleapis/calendar/v3.dart';
+import 'package:plato_calendar/utility.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../Data/privateKey.dart';
 
@@ -113,13 +114,17 @@ class GoogleCalendarToken{
       await Database.googleDataSave();
   }
   Future<bool> updateCalendarFull() async {
+    showToastMessageCenter("Google 동기화를 진행중입니다. 앱을 종료하지 말아 주세요.");
     DateTime nowTime = DateTime.now();
     UserData.data.forEach((element) async { 
       Duration diff = nowTime.difference(element.end);
-      if(!element.disable && !element.finished && diff.inDays <= 5)
+      if(!element.disable && !element.finished && diff.inDays <= 5){
         await updateCalendar(element.toEvent());
+        await Future.delayed(const Duration(milliseconds: 100)); // 403 오류 : Rate Limit Exceeded 방지.
+      }
     });
     UserData.googleFirstLogin = false;
+    showToastMessageCenter("Google 동기화 완료!");
     return true;
   }
   Future<bool> updateCalendar(Event newEvent) async{
