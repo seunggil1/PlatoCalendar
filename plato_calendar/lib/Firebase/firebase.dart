@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:plato_calendar/Data/database.dart';
 import 'package:plato_calendar/pnu/pnu.dart';
 
+import '../utility.dart';
+
 // 아래 페이지를 따라갈 것.
 // https://firebase.flutter.dev/docs/overview
 
@@ -38,6 +40,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       print("firebase Debug Success.");
     else if(message.data["func"] == "sync"){
       await update(background: true);
+      await notifyTodaySchedule();
     }else if(message.data["func"] == "notifiy"){
 
     }else{

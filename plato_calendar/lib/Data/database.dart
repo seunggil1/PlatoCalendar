@@ -63,6 +63,7 @@ class Database{
         WidgetsFlutterBinding.ensureInitialized();
         await Hive.initFlutter();
         await initializeDateFormatting('ko_KR', null);
+        await notificationInit();
         Hive.registerAdapter(CalendarDataAdapter());
         Hive.registerAdapter(CalendarTypeAdapter());
         Hive.registerAdapter(GoogleCalendarTokenAdapter());
@@ -133,6 +134,7 @@ class Database{
     UserData.subjectCodeThisSemester = (userDataBox.get('subjectCodeThisSemester') ?? ["전체"]).toSet();
     UserData.defaultColor = userDataBox.get('defaultColor') ?? {};
     UserData.showToDoList = userDataBox.get('showToDoList');
+    UserData.notificationDay = userDataBox.get('notificationDay');
     UserData.oneStopLastSyncDay = userDataBox.get('oneStopLastSyncDay');
     UserData.semester = userDataBox.get('semester');
     

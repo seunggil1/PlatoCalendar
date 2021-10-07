@@ -43,6 +43,9 @@ class UserData{
   /// 학생지원 시스템 마지막 동기화 날짜
   static int _oneStopLastSyncDay = 0;
 
+  /// 마지막 notification 날짜
+  static int _notificationDay;
+
   /// toDoList 각 항목 접힘, 열림 여부
   /// 
   /// [지남, 6, 12, 오늘, 내일, 1주일 이하, 1주일 이상, 날짜 없음, 완료]
@@ -78,6 +81,7 @@ class UserData{
   static String get lastSyncInfo => _lastSyncInfo;
   static List<bool> get showToDoList => _showToDoList;
   static int get oneStopLastSyncDay => _oneStopLastSyncDay;
+  static int get notificationDay => _notificationDay;
   static bool get googleFirstLogin => _googleFirstLogin;
 
   static set tapIndex(int newValue){
@@ -232,6 +236,20 @@ class UserData{
 
     if(update)
       Database.userDataBox.put('oneStopLastSyncDay', _oneStopLastSyncDay);
+  }
+
+  static set notificationDay(int newValue){
+    bool update = true;
+    if(_notificationDay == null)
+      update = false;
+
+    if(newValue != null)
+      _notificationDay = newValue;
+    else
+      _notificationDay = 0;
+
+    if(update)
+      Database.userDataBox.put('notificationDay', _notificationDay);
   }
 
   static set googleFirstLogin(bool newValue) {
