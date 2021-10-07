@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter/material.dart';
 
 import './userData.dart';
 import 'ics.dart';
@@ -58,6 +59,7 @@ class Database{
     try{
       if(!_backgroundInit){
         _backgroundInit = true;
+        WidgetsFlutterBinding.ensureInitialized();
         await Hive.initFlutter();
         Hive.registerAdapter(CalendarDataAdapter());
         Hive.registerAdapter(CalendarTypeAdapter());

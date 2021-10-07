@@ -29,22 +29,22 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   else
     _flag = true;
   await Firebase.initializeApp();
-  await Database.backGroundInit().then((bool result) {
+  await Database.backGroundInit().then((bool result) async {
     Database.userDataLoad();
     Database.calendarDataLoad();
     Database.googleDataLoad();
-  });
-  if(!message.data.containsKey("func"))
-    print("firebase Debug Success.");
-  else if(message.data["func"] == "sync"){
-    Random random = new Random();
-    await Future.delayed(Duration(seconds: random.nextInt(3))); // from 0 upto 3 초사이의 랜덤 숫자 생성
-    await update(force: true);
-  }else if(message.data["func"] == "notifiy"){
+    Database.debugInfo.add("background" + DateTime.now().toString());
+    if(!message.data.containsKey("func"))
+      print("firebase Debug Success.");
+    else if(message.data["func"] == "sync"){
+      await update(background: true);
+    }else if(message.data["func"] == "notifiy"){
 
-  }else{
-    print("firebase error.");
-  }
+    }else{
+      print("firebase error.");
+    }
+  });
+
   await Database.debug.put("debug", Database.debugInfo.toList());
   print("Handling a background message: ${message.messageId}");
   _flag = false;
