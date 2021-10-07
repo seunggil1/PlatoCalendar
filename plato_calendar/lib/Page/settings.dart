@@ -283,8 +283,12 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                   title: SignInButton(
                       Buttons.GoogleDark,
                       onPressed: () async{
-                        await UserData.googleCalendar.authUsingGoogleAccount();
-                        setState(() { });
+                        if(UserData.id == "")
+                          showToastMessageCenter('먼저 Plato 로그인을 진행해주세요.');
+                        else{
+                          await UserData.googleCalendar.authUsingGoogleAccount();
+                          setState(() { });
+                        }
                       },
                   ),
                 ),
