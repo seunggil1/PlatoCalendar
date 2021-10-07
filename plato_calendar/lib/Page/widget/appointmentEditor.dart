@@ -209,7 +209,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                                     });
                                 });
                               },
-                              child: AutoSizeText("시작 시간 :  "+getTimeLocaleKR(_start))
+                              child: AutoSizeText("시작 시간 :  "+getDateTimeLocaleKR(_start))
                             ),
                             //Text('~',style: TextStyle( fontSize: 30)),
                             FlatButton(
@@ -226,7 +226,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                                     });
                                 });
                               },
-                              child: AutoSizeText("종료 시간 :  "+getTimeLocaleKR(_end))
+                              child: AutoSizeText("종료 시간 :  "+getDateTimeLocaleKR(_end))
                             ),
                           ]),
                     ),

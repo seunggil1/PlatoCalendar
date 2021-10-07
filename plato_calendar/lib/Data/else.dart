@@ -11,7 +11,8 @@ Map<int, String> weekdayLocaleKR = {
   7 : "일",
 };
 
-String getTimeLocaleKR(DateTime time) => DateFormat("yyyy년 M월 d일 (","ko_KR").format(time) + weekdayLocaleKR[time.weekday] + DateFormat(")  a h:mm","ko_KR").format(time);
+String getDateTimeLocaleKR(DateTime time) => DateFormat("yyyy년 M월 d일 (","ko_KR").format(time) + weekdayLocaleKR[time.weekday] + DateFormat(")  a h:mm","ko_KR").format(time);
+String getTimeLocaleKR(DateTime time) => DateFormat("HH:mm").format(time);
 String toISO8601(DateTime data){
   data = data.toUtc();
   return DateFormat("yyyyMMddTHHmmss").format(data) + "Z";
