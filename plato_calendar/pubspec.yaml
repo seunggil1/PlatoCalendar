@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.4+20211004
+version: 1.0.4+20211007
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -24,11 +24,11 @@ dependencies:
   flutter:
     sdk: flutter
   
-  icalendar_parser:
-  http:
-  html:
-  syncfusion_flutter_calendar:
-  dio:
+  icalendar_parser: ^1.0.1
+  http: ^0.13.3
+  html: ^0.15.0
+  syncfusion_flutter_calendar: ^19.3.44
+  dio: ^4.0.0
   ordered_set: ^3.1.0
   # 폰트 동적 사이즈 조절
   auto_size_text: ^2.1.0
@@ -37,8 +37,9 @@ dependencies:
   flutter_datetime_picker: ^1.5.0
   flutter_secure_storage:
 
-  # toast 메세지
+  # toast 메세지, 알림 메세지
   fluttertoast: ^4.0.1
+  flutter_local_notifications: ^9.0.0
 
   # database
   hive: ^2.0.0

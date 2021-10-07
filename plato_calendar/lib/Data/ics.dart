@@ -153,8 +153,8 @@ class CalendarData{
     description = description.replaceAll("####",":");
     description = description.replaceAll("\\n", "\n");
     
-    start = data["dtstart"];
-    end = data["dtend"];
+    start = data["dtstart"].toDateTime();
+    end = data["dtend"].toDateTime();
 
     start = start.toLocal();
     end = end.toLocal();
