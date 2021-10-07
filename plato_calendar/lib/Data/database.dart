@@ -83,7 +83,7 @@ class Database{
       calendarBox = await Hive.openBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
       userDataBox = await Hive.openBox('userDataBox', encryptionCipher: HiveAesCipher(encryptionKey));
       debug = await Hive.openBox('debug', encryptionCipher: HiveAesCipher(encryptionKey));
-      debugInfo = (debug.get('debug') ?? ["ateste","feasef"]).toSet();
+      debugInfo = (debug.get('debug') ?? ["Background Test"]).toSet();
     }catch(e){
       return false;
     }
