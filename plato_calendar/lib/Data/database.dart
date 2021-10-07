@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import './userData.dart';
 import 'ics.dart';
@@ -34,7 +35,7 @@ class Database{
       calendarBox = await Hive.openBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
       userDataBox = await Hive.openBox('userDataBox', encryptionCipher: HiveAesCipher(encryptionKey));
       debug = await Hive.openBox('debug', encryptionCipher: HiveAesCipher(encryptionKey));
-      debugInfo = (debug.get('debug') ?? ["ateste","feasef"]).toSet();
+      debugInfo = (debug.get('debug') ?? ["Background Test"]).toSet();
     }
     catch(e){
       await secureStorage.deleteAll();
@@ -61,6 +62,7 @@ class Database{
         _backgroundInit = true;
         WidgetsFlutterBinding.ensureInitialized();
         await Hive.initFlutter();
+        await initializeDateFormatting('ko_KR', null);
         Hive.registerAdapter(CalendarDataAdapter());
         Hive.registerAdapter(CalendarTypeAdapter());
         Hive.registerAdapter(GoogleCalendarTokenAdapter());
