@@ -76,8 +76,9 @@ Future<void> notifyTodaySchedule() async{
         body += "\n$count. $className (${getTimeLocaleKR(element.start)} ~ ${getTimeLocaleKR(element.end)})";
         body += "\n   -  $contents";
       }
+      count++;
     }
-    count++;
+    
   });
   body = body.trim();
 
@@ -95,4 +96,18 @@ Future<void> notifyTodaySchedule() async{
     await flutterLocalNotificationsPlugin.show(0, '오늘의 일정', body, platformChannelSpecifics, payload: 'item x');
   }
   UserData.notificationDay = DateTime.now().day;
+}
+
+Future<void> notifyDebugInfo(String e) async{
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  const AndroidNotificationDetails androidPlatformChannelSpecifics =
+    AndroidNotificationDetails('0', '오늘의 일정',
+        channelDescription: '오늘 마감인 일정을 표시합니다.',
+        importance: Importance.defaultImportance,
+        priority: Priority.defaultPriority,
+        ticker: 'ticker',
+        styleInformation: const BigTextStyleInformation(''));
+  const NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
+  await flutterLocalNotificationsPlugin.show(1, 'Debug Error', e, platformChannelSpecifics, payload: 'item x');
 }
