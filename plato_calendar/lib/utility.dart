@@ -60,7 +60,7 @@ Future<void> notifyTodaySchedule() async{
   int today = DateTime.now().day;
   int count = 1;
   UserData.data.forEach((element){
-    //if(!element.disable && !element.finished && element.end.day == today){
+    if(!element.disable && !element.finished && element.end.day == today){
       String className = element.className != "" ? element.className : element.classCode;
       String contents = element.summary;
 
@@ -76,7 +76,7 @@ Future<void> notifyTodaySchedule() async{
         body += "\n$count. $className (${getTimeLocaleKR(element.start)} ~ ${getTimeLocaleKR(element.end)})";
         body += "\n   -  $contents";
       }
-    //}
+    }
     count++;
   });
   body = body.trim();
