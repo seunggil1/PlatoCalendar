@@ -30,26 +30,38 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     return;
   else
     _flag = true;
-  await Firebase.initializeApp();
-  await Database.backGroundInit().then((bool result) async {
-    Database.userDataLoad();
-    Database.calendarDataLoad();
-    Database.googleDataLoad();
-    Database.debugInfo.add("background" + DateTime.now().toString());
-    if(!message.data.containsKey("func"))
-      print("firebase Debug Success.");
-    else if(message.data["func"] == "sync"){
-      await update(background: true);
-      await notifyTodaySchedule();
-    }else if(message.data["func"] == "notifiy"){
+  try{
+    await Firebase.initializeApp();
+    await Database.backGroundInit().then((bool result) async {
+      if(!result){
+        _flag = false;
+        return;
+      }
 
-    }else{
-      print("firebase error.");
-    }
-  });
+      Database.userDataLoad();
+      Database.calendarDataLoad();
+      Database.googleDataLoad();
+      Database.debugInfo.add("background" + DateTime.now().toString());
+      if(!message.data.containsKey("func"))
+        print("firebase Debug Success.");
+      else if(message.data["func"] == "sync"){
+        await update(background: true);
+        await notifyTodaySchedule();
+      }else if(message.data["func"] == "notifiy"){
 
-  await Database.debug.put("debug", Database.debugInfo.toList());
-  print("Handling a background message: ${message.messageId}");
-  _flag = false;
+      }else{
+        print("firebase error.");
+      }
+      await Database.debug.put("debug", Database.debugInfo.toList());
+      print("Handling a background message: ${message.messageId}");
+      _flag = false;
+    });
+
+  }
+  catch(e){
+    await notifyDebugInfo(e.toString());
+    _flag = false;
+  }
+
   return;
 }
