@@ -73,7 +73,7 @@ class Database{
         return false;
       }
       if(!(e.message.contains("There is already a TypeAdapter") 
-          || e.message == "Instance has already been initialized."))
+          && e.message != "Instance has already been initialized."))
         return false;
     }
     try{
