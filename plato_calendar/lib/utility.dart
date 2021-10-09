@@ -40,7 +40,7 @@ Future<void> notificationInit() async{
   final initSettingsIOS = IOSInitializationSettings(
     requestSoundPermission: false,
     requestBadgePermission: false,
-    requestAlertPermission: false,
+    requestAlertPermission: true,
   );
   final initSettings = InitializationSettings(
     android: initSettingsAndroid,
