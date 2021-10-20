@@ -53,14 +53,15 @@ Future<void> notificationInit() async{
 }
 
 Future<void> notifyTodaySchedule() async{
-  if(UserData.notificationDay == DateTime.now().day)
+  if(UserData.notificationDay == DateTime.now().day || DateTime.now().hour < 8)
     return;
   
   String body = "";
+  int nowMonth = DateTime.now().month;
   int today = DateTime.now().day;
   int count = 1;
   UserData.data.forEach((element){
-    if(!element.disable && !element.finished && element.end.day == today){
+    if(!element.disable && !element.finished && element.end.month == nowMonth && element.end.day == today){
       String className = element.className != "" ? element.className : element.classCode;
       String contents = element.summary;
 
@@ -109,5 +110,5 @@ Future<void> notifyDebugInfo(String e) async{
         ticker: 'ticker',
         styleInformation: const BigTextStyleInformation(''));
   const NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
-  await flutterLocalNotificationsPlugin.show(1, 'Debug Error', e, platformChannelSpecifics, payload: 'item x');
+  await flutterLocalNotificationsPlugin.show(1, 'Error', e, platformChannelSpecifics, payload: 'item x');
 }
