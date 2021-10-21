@@ -247,7 +247,12 @@ class CalendarData{
     t.iCalUID = this.uid;
     t.summary = this.summary;
     t.description = (this.className != "" ? this.className : this.classCode) + '\n' +this.description;
-    t.reminders = EventReminders(overrides : [EventReminder(method: "popup", minutes: 60)], useDefault: false);
+
+    // 동영상 강의 or 과제 마감 => 2시간전 알림
+    if (this.start.day != this.end.day || this.start == this.end) 
+      t.reminders = EventReminders(overrides : [EventReminder(method: "popup", minutes: 120)], useDefault: false);
+    else // 실시간 zoom 수업 => 1시간전 알림
+      t.reminders = EventReminders(overrides : [EventReminder(method: "popup", minutes: 60)], useDefault: false);
     t.end = EventDateTime(dateTime: this.end, timeZone: "Asia/Seoul");
 
     if(this.end.day != this.start.day)
