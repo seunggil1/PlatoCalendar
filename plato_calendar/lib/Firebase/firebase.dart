@@ -25,12 +25,16 @@ Future<bool> firebaseInit() async{
 }
 
 bool _flag = false;
+/// fcm 수신시 background 동기화 시작
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   if(_flag)
     return;
   else
     _flag = true;
   try{
+    if(!await Database.lock())
+      return;
+
     await Firebase.initializeApp();
     await Database.backGroundInit().then((bool result) async {
       if(!result){
@@ -41,7 +45,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       Database.userDataLoad();
       Database.calendarDataLoad();
       Database.googleDataLoad();
-      Database.debugInfo.add("background" + DateTime.now().toString());
+      Database.debugInfo.add("background Start : " + DateTime.now().toString());
       if(!message.data.containsKey("func"))
         print("firebase Debug Success.");
       else if(message.data["func"] == "sync"){
@@ -52,6 +56,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       }else{
         print("firebase error.");
       }
+      Database.debugInfo.add("background End : " + DateTime.now().toString());
       await Database.debug.put("debug", Database.debugInfo.toList());
       print("Handling a background message: ${message.messageId}");
       _flag = false;
@@ -62,6 +67,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     await notifyDebugInfo(e.toString());
     _flag = false;
   }
+  await Database.release();
 
   return;
 }
