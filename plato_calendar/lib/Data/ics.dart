@@ -246,7 +246,7 @@ class CalendarData{
   Event toEvent(){
     Event t = Event();
     t.iCalUID = this.uid;
-    t.summary = this.summary;
+    t.summary = this.summary + " : " + (this.className != "" ? this.className : this.classCode);
     t.description = (this.className != "" ? this.className : this.classCode) + '\n' +this.description;
 
     // 동영상 강의 or 과제 마감 => 2시간전 알림
