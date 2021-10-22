@@ -6,7 +6,7 @@ import 'package:icalendar_parser/icalendar_parser.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-import './else.dart';
+import 'etc.dart';
 import './subjectCode.dart';
 import './userData.dart';
 import 'package:hive/hive.dart';
@@ -62,7 +62,7 @@ Future<void> icsParser(String bytes) async{
     CalendarData data = CalendarData.byMap(iter);
     if(!UserData.data.contains(data)){
       Database.uidSet.add(data.uid);
-      Database.calendarDataSave(data);
+      await Database.calendarDataSave(data);
       UserData.data.add(data);
     }
   }
@@ -153,8 +153,8 @@ class CalendarData{
     description = description.replaceAll("####",":");
     description = description.replaceAll("\\n", "\n");
     
-    start = data["dtstart"];
-    end = data["dtend"];
+    start = data["dtstart"].toDateTime();
+    end = data["dtend"].toDateTime();
 
     start = start.toLocal();
     end = end.toLocal();
@@ -229,9 +229,9 @@ class CalendarData{
     UserData.subjectCodeThisSemester.add(classCode);
     if(!UserData.defaultColor.containsKey(classCode) && UserData.defaultColor.length < 11)
       UserData.defaultColor[classCode] = UserData.defaultColor.length;
-    color = 11;
+    color = 10;
   }
-
+  /// sf calendar에서 사용하는 일정 타입으로 변환.
   Appointment toAppointment(){
     return Appointment(
       startTime: start.day == end.day ? start : end,
@@ -242,12 +242,18 @@ class CalendarData{
       resourceIds: <int>[hashCode]
     );
   }
+  /// google calendar에서 사용하는 일정 타입으로 변환
   Event toEvent(){
     Event t = Event();
     t.iCalUID = this.uid;
-    t.summary = this.summary;
+    t.summary = this.summary + " : " + (this.className != "" ? this.className : this.classCode);
     t.description = (this.className != "" ? this.className : this.classCode) + '\n' +this.description;
-    t.reminders = EventReminders(overrides : [EventReminder(method: "popup", minutes: 60)], useDefault: false);
+
+    // 동영상 강의 or 과제 마감 => 2시간전 알림
+    if (this.start.day != this.end.day || this.start == this.end) 
+      t.reminders = EventReminders(overrides : [EventReminder(method: "popup", minutes: 120)], useDefault: false);
+    else // 실시간 zoom 수업 => 1시간전 알림
+      t.reminders = EventReminders(overrides : [EventReminder(method: "popup", minutes: 60)], useDefault: false);
     t.end = EventDateTime(dateTime: this.end, timeZone: "Asia/Seoul");
 
     if(this.end.day != this.start.day)

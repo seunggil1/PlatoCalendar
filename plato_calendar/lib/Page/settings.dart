@@ -1,17 +1,13 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:googleapis/appengine/v1.dart';
 import 'package:plato_calendar/Page/widget/adBanner.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
-import '../Data/else.dart';
+import '../Data/etc.dart';
 import '../Data/subjectCode.dart';
 import '../Data/userData.dart';
 import '../Data/database.dart';
-import '../Data/ics.dart';
 import '../utility.dart';
 import 'widget/appointmentEditor.dart';
 import '../main.dart';
@@ -283,8 +279,12 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                   title: SignInButton(
                       Buttons.GoogleDark,
                       onPressed: () async{
-                        await UserData.googleCalendar.authUsingGoogleAccount();
-                        setState(() { });
+                        if(UserData.id == "")
+                          showToastMessageCenter('먼저 Plato 로그인을 진행해주세요.');
+                        else{
+                          await UserData.googleCalendar.authUsingGoogleAccount();
+                          setState(() { });
+                        }
                       },
                   ),
                 ),
@@ -313,7 +313,7 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
               // ),
               Card(
                 child: AdBanner(bannerLocation : 2)
-              )
+              ),
             ],
           ),
           )

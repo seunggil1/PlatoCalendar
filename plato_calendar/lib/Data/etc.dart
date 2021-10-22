@@ -11,13 +11,15 @@ Map<int, String> weekdayLocaleKR = {
   7 : "일",
 };
 
-String getTimeLocaleKR(DateTime time) => DateFormat("yyyy년 M월 d일 (","ko_KR").format(time) + weekdayLocaleKR[time.weekday] + DateFormat(")  a h:mm","ko_KR").format(time);
+/// 한글 날짜 형식으로 변경
+String getDateTimeLocaleKR(DateTime time) => DateFormat("yyyy년 M월 d일 (","ko_KR").format(time) + weekdayLocaleKR[time.weekday] + DateFormat(")  a h:mm","ko_KR").format(time);
+String getTimeLocaleKR(DateTime time) => DateFormat("HH:mm").format(time);
 String toISO8601(DateTime data){
   data = data.toUtc();
   return DateFormat("yyyyMMddTHHmmss").format(data) + "Z";
 }
 final List<Color> colorCollection =[
-  // Google Calendar에서 제공하는 색상 사용
+  // Google Calendar에서 제공하는 색상명 사용.
   Color.fromRGBO(121, 134, 203, 1.0), // 라벤더
   Color.fromRGBO(51, 182, 121, 1.0),  // 세이지
   Color.fromRGBO(142, 36, 170, 1.0),  // 포도

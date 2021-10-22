@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:hive/hive.dart';
 import '../google/calendar.dart';
 
@@ -15,6 +13,9 @@ enum CalendarType {split,integrated}
 SortMethod sortMethod = SortMethod.sortByDue;
 
 class UserData{
+  /// App build 날짜
+  static double version = 20211022;
+
   /// 마지막으로 봤던 tapIndex
   static int _tapIndex;
   
@@ -39,6 +40,9 @@ class UserData{
 
   /// 학생지원 시스템 마지막 동기화 날짜
   static int _oneStopLastSyncDay = 0;
+
+  /// 마지막 notification 날짜
+  static int _notificationDay;
 
   /// toDoList 각 항목 접힘, 열림 여부
   /// 
@@ -75,6 +79,7 @@ class UserData{
   static String get lastSyncInfo => _lastSyncInfo;
   static List<bool> get showToDoList => _showToDoList;
   static int get oneStopLastSyncDay => _oneStopLastSyncDay;
+  static int get notificationDay => _notificationDay;
   static bool get googleFirstLogin => _googleFirstLogin;
 
   static set tapIndex(int newValue){
@@ -229,6 +234,20 @@ class UserData{
 
     if(update)
       Database.userDataBox.put('oneStopLastSyncDay', _oneStopLastSyncDay);
+  }
+
+  static set notificationDay(int newValue){
+    bool update = true;
+    if(_notificationDay == null)
+      update = false;
+
+    if(newValue != null)
+      _notificationDay = newValue;
+    else
+      _notificationDay = 0;
+
+    if(update)
+      Database.userDataBox.put('notificationDay', _notificationDay);
   }
 
   static set googleFirstLogin(bool newValue) {

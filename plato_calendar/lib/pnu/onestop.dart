@@ -3,6 +3,7 @@ import 'package:html/parser.dart' as parser;
 import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
 import 'package:plato_calendar/Data/ics.dart';
+import 'package:dio/dio.dart';
 
 import '../Data/database.dart';
 import '../Data/userData.dart';
@@ -11,7 +12,61 @@ class Onestop {
   static String jsessionid;
   //static String wmonid;
 
-  static Future<bool> login() async {
+  static Future<bool> login() async{
+    Response response;
+    String body = '';
+
+    String studentNumber = UserData.id;
+    String password = UserData.pw;
+    studentNumber = studentNumber.trim();
+
+    try{
+      response = await Dio().post("https://e-onestop.pusan.ac.kr/j_spring_security_check",
+        options: Options(
+          followRedirects : false,
+          contentType: "application/x-www-form-urlencoded",
+          headers: {
+            "Host": "e-onestop.pusan.ac.kr",
+            "Connection": "keep-alive",
+            "Pragma": "no-cache",
+            "Cache-Control": "no-cache",
+            "Content-Length": body.length.toString(),
+            "Upgrade-Insecure-Requests": "1",
+            "Origin" : "https://e-onestop.pusan.ac.kr",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+            "Referer" : "https://e-onestop.pusan.ac.kr/index?home=home",
+            "Accept-Encoding" : "gzip, deflate, br",
+            "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+          }
+        ),
+        data: 'username=$studentNumber&password=${Uri.encodeQueryComponent(password)}',
+      );
+    }catch(e){
+      if(e.runtimeType == DioError && e.error == "Http status error [302]")
+        response = e.response;
+      else{
+        return false;
+      }
+    }
+
+    try{
+      body = response.headers.map['set-cookie'][0];
+      body = body.substring(0, body.indexOf(';'));
+
+      jsessionid = body;
+      print("Login finished $jsessionid");
+    }catch(e){
+      return false;
+    }
+
+    return true;
+  }
+
+  /// Deprecated.
+  ///
+  /// 학생지원시스템 변경전 로그인 함수
+  static Future<bool> loginDeprecated() async {
     http.Response response;
     dom.Document document;
 

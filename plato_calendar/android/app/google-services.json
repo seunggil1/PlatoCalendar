@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "530960691637",
+    "project_id": "plato-calendar",
+    "storage_bucket": "plato-calendar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530960691637:android:c76b92529cf4f69724a9fc",
+        "android_client_info": {
+          "package_name": "com.seunggil.plato_calendar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "530960691637-ejmbuvs9dk3cp8gvs545q07jrbvihto8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.seunggil.plato_calendar",
+            "certificate_hash": "4821940513e02235791fec3e0432a0aec51cbffa"
+          }
+        },
+        {
+          "client_id": "530960691637-17j9lrpv8orvmk4ahtl202lk9jm11bas.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxiTDi_QfYh0u_7dOVA8RjXHYf8USEYKE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "530960691637-17j9lrpv8orvmk4ahtl202lk9jm11bas.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "530960691637-b5u0rhsr9mgrcue6trlm9e666p63vc8v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.seunggil.platoCalendar",
+                "app_store_id": "1566119188"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

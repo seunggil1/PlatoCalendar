@@ -1,17 +1,26 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import '../Data/userData.dart';
 import '../main.dart';
 import 'onestop.dart';
 import 'plato.dart';
 
-Future<bool> update({bool force = false}) async{
+/// 학생지원시스템, Plato 동기화를 진행함.
+Future<bool> update({bool force = false, bool background = false}) async{
   if(UserData.id != ""){
+    if(await (Connectivity().checkConnectivity()) == ConnectivityResult.none){
+      UserData.lastSyncTime = DateTime.now();
+      UserData.lastSyncInfo = "${UserData.lastSyncTime.day}일 ${UserData.lastSyncTime.hour}:${UserData.lastSyncTime.minute} - 네트워크 오류";
+      return false;
+    }
     if(DateTime.now().day != UserData.oneStopLastSyncDay)
       if(await Onestop.login() && await Onestop.getTestTimeTable() && await Onestop.logout()){}
     UserData.oneStopLastSyncDay = DateTime.now().day;
 
-    if(force ||(DateTime.now().difference(UserData.lastSyncTime).inHours > 6)){
-      if(await Plato.login() && await Plato.getCalendar() && await Plato.logout()){
-        pnuStream.sink.add(true);
+    // 수동 동기화 or 동기화 6시간 경과 or 백그라운드 동기화 3시간 경과
+    if(force ||(DateTime.now().difference(UserData.lastSyncTime).inHours >= 6) || (background && DateTime.now().difference(UserData.lastSyncTime).inHours >= 3)){
+      if(await Plato.login() && await Plato.getCalendar()){
+        if(!background)
+          pnuStream.sink.add(true);
         return true;
       }
       return false;

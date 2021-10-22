@@ -55,6 +55,7 @@ class Plato {
       print("ID,PW is incorrect");
       DateTime now = DateTime.now();
       UserData.lastSyncInfo = "${now.day}일 ${now.hour}:${now.minute} - ID/PW 오류";
+      
     }
     else{
       moodleSession = response.headers.map["set-cookie"][1];
@@ -66,7 +67,6 @@ class Plato {
   
   static Future<bool> getCalendar() async{
     try{
-      String body;
       http.Response response;
       response = await http.get(Uri.parse("https://plato.pusan.ac.kr/calendar/export.php?course=1"),
         headers: {
@@ -81,57 +81,63 @@ class Plato {
           "Cookie": moodleSession
         }
       );
-      body = RegExp('"sesskey":".*?"').stringMatch(response.body);
-      body = '{' + body + '}';
-      sesskey = "sesskey=${jsonDecode(body)["sesskey"]}";
+      String requestBody1, requestBody2;
+      requestBody1 = RegExp('"sesskey":".*?"').stringMatch(response.body);
+      requestBody1 = '{' + requestBody1 + '}';
+      sesskey = "sesskey=${jsonDecode(requestBody1)["sesskey"]}";
 
-      body = "$sesskey&_qf__core_calendar_export_form=1"
+      requestBody1 = "$sesskey&_qf__core_calendar_export_form=1"
               + "&${Uri.encodeQueryComponent("events[exportevents]")}=all"
               + "&${Uri.encodeQueryComponent("period[timeperiod]")}=monthnow"
               + "&export=${Uri.encodeQueryComponent("내보내기")}";
-      response = await http.post(Uri.parse("https://plato.pusan.ac.kr/calendar/export.php"),
-        headers: {
-          "Host": "plato.pusan.ac.kr",
-          "Connection": "close",
-          "Content-Length": body.length.toString(),
-          "Cache-Control": "max-age=0",
-          "Upgrade-Insecure-Requests": "1",
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36 Edg/88.0.705.63",
-          "Origin": "https://plato.pusan.ac.kr",
-          "Content-Type": "application/x-www-form-urlencoded",
-          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-          "Referer": "https://plato.pusan.ac.kr/calendar/export.php?course=1",
-          "Accept-Encoding": "gzip, deflate",
-          "Accept-Language": "ko,en;q=0.9,en-US;q=0.8",
-          "Cookie": moodleSession
-        },
-        body : body
-      );
-      await icsParser(response.body);
 
-      body = "$sesskey&_qf__core_calendar_export_form=1"
+      requestBody2 = "$sesskey&_qf__core_calendar_export_form=1"
         + "&${Uri.encodeQueryComponent("events[exportevents]")}=all"
         + "&${Uri.encodeQueryComponent("period[timeperiod]")}=recentupcoming"
         + "&export=${Uri.encodeQueryComponent("내보내기")}";
-      response = await http.post(Uri.parse("https://plato.pusan.ac.kr/calendar/export.php"),
-        headers: {
-          "Host": "plato.pusan.ac.kr",
-          "Connection": "close",
-          "Content-Length": body.length.toString(),
-          "Cache-Control": "max-age=0",
-          "Upgrade-Insecure-Requests": "1",
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36 Edg/88.0.705.63",
-          "Origin": "https://plato.pusan.ac.kr",
-          "Content-Type": "application/x-www-form-urlencoded",
-          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-          "Referer": "https://plato.pusan.ac.kr/calendar/export.php?course=1",
-          "Accept-Encoding": "gzip, deflate",
-          "Accept-Language": "ko,en;q=0.9,en-US;q=0.8",
-          "Cookie": moodleSession
-        },
-        body : body
-      );
-      await icsParser(response.body);
+      
+      await Future.wait([
+        http.post(Uri.parse("https://plato.pusan.ac.kr/calendar/export.php"),
+          headers: {
+            "Host": "plato.pusan.ac.kr",
+            "Connection": "close",
+            "Content-Length": requestBody1.length.toString(),
+            "Cache-Control": "max-age=0",
+            "Upgrade-Insecure-Requests": "1",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36 Edg/88.0.705.63",
+            "Origin": "https://plato.pusan.ac.kr",
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+            "Referer": "https://plato.pusan.ac.kr/calendar/export.php?course=1",
+            "Accept-Encoding": "gzip, deflate",
+            "Accept-Language": "ko,en;q=0.9,en-US;q=0.8",
+            "Cookie": moodleSession
+          },
+          body : requestBody1
+        ),
+        http.post(Uri.parse("https://plato.pusan.ac.kr/calendar/export.php"),
+          headers: {
+            "Host": "plato.pusan.ac.kr",
+            "Connection": "close",
+            "Content-Length": requestBody2.length.toString(),
+            "Cache-Control": "max-age=0",
+            "Upgrade-Insecure-Requests": "1",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36 Edg/88.0.705.63",
+            "Origin": "https://plato.pusan.ac.kr",
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+            "Referer": "https://plato.pusan.ac.kr/calendar/export.php?course=1",
+            "Accept-Encoding": "gzip, deflate",
+            "Accept-Language": "ko,en;q=0.9,en-US;q=0.8",
+            "Cookie": moodleSession
+          },
+          body : requestBody2
+        )
+      ]).then((value) async {
+        Plato.logout();
+        await icsParser(value[0].body);
+        await icsParser(value[1].body);
+      });
 
       UserData.lastSyncTime = DateTime.now();
       UserData.lastSyncInfo = "${UserData.lastSyncTime.day}일 ${UserData.lastSyncTime.hour}:${UserData.lastSyncTime.minute} - 동기화 성공";

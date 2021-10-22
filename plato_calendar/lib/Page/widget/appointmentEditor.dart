@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:plato_calendar/Data/else.dart';
+import 'package:plato_calendar/Data/etc.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../Data/subjectCode.dart';
@@ -209,7 +209,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                                     });
                                 });
                               },
-                              child: AutoSizeText("시작 시간 :  "+getTimeLocaleKR(_start))
+                              child: AutoSizeText("시작 시간 :  "+getDateTimeLocaleKR(_start))
                             ),
                             //Text('~',style: TextStyle( fontSize: 30)),
                             FlatButton(
@@ -226,7 +226,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                                     });
                                 });
                               },
-                              child: AutoSizeText("종료 시간 :  "+getTimeLocaleKR(_end))
+                              child: AutoSizeText("종료 시간 :  "+getDateTimeLocaleKR(_end))
                             ),
                           ]),
                     ),
