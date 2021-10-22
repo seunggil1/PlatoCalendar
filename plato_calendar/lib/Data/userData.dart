@@ -69,9 +69,6 @@ class UserData{
   /// Google Calendar 연동을 위한 Token 정보.
   static GoogleCalendarToken googleCalendar; 
 
-  /// for debug
-  static String databaseerrorInfo;
-
   static int get tapIndex => _tapIndex;
   static int get firstDayOfWeek => _firstDayOfWeek;
   static bool get showFinished => _showFinished;

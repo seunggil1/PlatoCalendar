@@ -15,8 +15,6 @@ import '../utility.dart';
 class Database{
   static Box calendarBox;
   static Box userDataBox;
-  static Box debug;
-  static Set<String> debugInfo;
   static Set<String> uidSet = {};
 
   static Future<bool> lock() async{
@@ -62,29 +60,18 @@ class Database{
         var key = Hive.generateSecureKey();
         await secureStorage.write(key: 'key', value: base64UrlEncode(key));
       }
-      try{
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        UserData.databaseerrorInfo = prefs.getString('debug') ?? "None";
-      }catch(e){
-        UserData.databaseerrorInfo = "";
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('debug', "None");
-      }
+
       var encryptionKey = base64Url.decode(await secureStorage.read(key: 'key'));
       calendarBox = await Hive.openBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
       calendarBox = await Hive.openBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
       userDataBox = await Hive.openBox('userDataBox', encryptionCipher: HiveAesCipher(encryptionKey));
-      debug = await Hive.openBox('debug', encryptionCipher: HiveAesCipher(encryptionKey));
-      debugInfo = (debug.get('debug') ?? ["Background Test"]).toSet();
     }
     catch(e){
-      if(retry < 5){
-        showToastMessageCenter("데이터를 불러오고 있습니다..($retry/5)");
+      if(retry < 10){
+        showToastMessageCenter("데이터를 불러오고 있습니다..($retry/10)");
         await Future.delayed(const Duration(seconds: 2));
       }else{
-        //await secureStorage.deleteAll();
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('debug', e.toString());
+        await secureStorage.deleteAll();
         await Hive.deleteBoxFromDisk('calendarBox');
         await Hive.deleteBoxFromDisk('userDataBox');
         showToastMessageCenter("저장된 데이터 복원에 실패했습니다.");
@@ -135,8 +122,6 @@ class Database{
       var encryptionKey = base64Url.decode(await secureStorage.read(key: 'key'));
       calendarBox = await Hive.openBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
       userDataBox = await Hive.openBox('userDataBox', encryptionCipher: HiveAesCipher(encryptionKey));
-      debug = await Hive.openBox('debug', encryptionCipher: HiveAesCipher(encryptionKey));
-      debugInfo = (debug.get('debug') ?? ["Background Test"]).toSet();
     }catch(e){
       return false;
     }

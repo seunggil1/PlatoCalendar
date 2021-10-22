@@ -45,7 +45,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       Database.userDataLoad();
       Database.calendarDataLoad();
       Database.googleDataLoad();
-      Database.debugInfo.add("background Start : " + DateTime.now().toString());
       if(!message.data.containsKey("func"))
         print("firebase Debug Success.");
       else if(message.data["func"] == "sync"){
@@ -56,8 +55,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       }else{
         print("firebase error.");
       }
-      Database.debugInfo.add("background End : " + DateTime.now().toString());
-      await Database.debug.put("debug", Database.debugInfo.toList());
       print("Handling a background message: ${message.messageId}");
       _flag = false;
     });

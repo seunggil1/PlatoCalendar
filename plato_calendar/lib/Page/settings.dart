@@ -319,16 +319,6 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
               Card(
                 child: AdBanner(bannerLocation : 2)
               ),
-              Card(
-                child: Column(
-                  children: Database.debugInfo.map<Widget>((String s){
-                    return Text(s);
-                  }).toList()
-                ),
-              ),
-              Card(
-                child: Text(UserData.databaseerrorInfo),
-              )
             ],
           ),
           )
