@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import '../Data/userData.dart';
 import '../main.dart';
 import 'onestop.dart';
@@ -6,6 +7,11 @@ import 'plato.dart';
 /// 학생지원시스템, Plato 동기화를 진행함.
 Future<bool> update({bool force = false, bool background = false}) async{
   if(UserData.id != ""){
+    if(await (Connectivity().checkConnectivity()) == ConnectivityResult.none){
+      UserData.lastSyncTime = DateTime.now();
+      UserData.lastSyncInfo = "${UserData.lastSyncTime.day}일 ${UserData.lastSyncTime.hour}:${UserData.lastSyncTime.minute} - 네트워크 오류";
+      return false;
+    }
     if(DateTime.now().day != UserData.oneStopLastSyncDay)
       if(await Onestop.login() && await Onestop.getTestTimeTable() && await Onestop.logout()){}
     UserData.oneStopLastSyncDay = DateTime.now().day;
