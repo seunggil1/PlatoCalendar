@@ -14,9 +14,6 @@ class Onestop {
 
   static Future<bool> login() async{
     Response response;
-    dom.Document document;
-
-    List<dom.Element> list;
     String body = '';
 
     String studentNumber = UserData.id;
@@ -43,7 +40,7 @@ class Onestop {
             "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
           }
         ),
-        data: 'username=${studentNumber}&password=${Uri.encodeQueryComponent(password)}',
+        data: 'username=$studentNumber&password=${Uri.encodeQueryComponent(password)}',
       );
     }catch(e){
       if(e.runtimeType == DioError && e.error == "Http status error [302]")

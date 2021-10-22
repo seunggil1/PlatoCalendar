@@ -11,6 +11,7 @@ import '../utility.dart';
 
 //FirebaseMessaging _message = FirebaseMessaging.instance;
 
+/// 백그라운드에서 fcm 수신 준비
 Future<bool> firebaseInit() async{
   try{
     await Firebase.initializeApp();

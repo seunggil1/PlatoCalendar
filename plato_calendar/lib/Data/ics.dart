@@ -231,7 +231,7 @@ class CalendarData{
       UserData.defaultColor[classCode] = UserData.defaultColor.length;
     color = 10;
   }
-
+  /// sf calendar에서 사용하는 일정 타입으로 변환.
   Appointment toAppointment(){
     return Appointment(
       startTime: start.day == end.day ? start : end,
@@ -242,6 +242,7 @@ class CalendarData{
       resourceIds: <int>[hashCode]
     );
   }
+  /// google calendar에서 사용하는 일정 타입으로 변환
   Event toEvent(){
     Event t = Event();
     t.iCalUID = this.uid;

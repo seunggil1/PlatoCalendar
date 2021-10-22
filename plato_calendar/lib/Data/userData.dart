@@ -16,7 +16,7 @@ SortMethod sortMethod = SortMethod.sortByDue;
 
 class UserData{
   /// App build 날짜
-  static double version = 20211003;
+  static double version = 20211022;
 
   /// 마지막으로 봤던 tapIndex
   static int _tapIndex;
