@@ -6,7 +6,7 @@ import 'package:icalendar_parser/icalendar_parser.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-import './else.dart';
+import 'etc.dart';
 import './subjectCode.dart';
 import './userData.dart';
 import 'package:hive/hive.dart';

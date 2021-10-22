@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:plato_calendar/Data/else.dart';
+import 'package:plato_calendar/Data/etc.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../Data/subjectCode.dart';

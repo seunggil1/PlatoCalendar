@@ -8,7 +8,7 @@ import 'package:plato_calendar/Page/widget/adBanner.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../Data/else.dart';
+import '../Data/etc.dart';
 import '../Data/subjectCode.dart';
 import '../Data/userData.dart';
 import '../Data/database.dart';

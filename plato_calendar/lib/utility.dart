@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-import 'Data/else.dart';
+import 'Data/etc.dart';
 import 'Data/userData.dart';
 
 // #1 하단에 잠시 텍스트 뜨게 하는 코드
