@@ -52,7 +52,7 @@ class Database{
     try{
       secureStorage = const FlutterSecureStorage();
       if(!(await lock()))
-        throw HiveError("database lock"); 
+        throw HiveError("Database is locked"); 
       await release();
       
       if (!(await secureStorage.containsKey(key: 'key'))) {
@@ -67,7 +67,7 @@ class Database{
     }
     catch(e){
       if(retry < 10){
-        showToastMessageCenter("데이터를 불러오고 있습니다..($retry/10)");
+        showToastMessageCenter("${e.toString()}\nTrying again..($retry/10)");
         await Future.delayed(const Duration(seconds: 2));
       }else{
         await secureStorage.deleteAll();
