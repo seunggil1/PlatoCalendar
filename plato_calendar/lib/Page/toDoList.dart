@@ -413,7 +413,7 @@ class _ToDoList extends State<ToDoList>{
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               text: TextSpan(
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.white : Colors.black),
                 text: ' '+data.summary +(data.description != "" ? ' : ${data.description}'  : ""))
             )
           ),

@@ -58,6 +58,7 @@ class MyApp extends StatelessWidget {
         // primarySwatch: Typography.white,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      darkTheme: ThemeData.dark(),
       home: MyHomePage(),
     );
   }
@@ -89,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white,
+          //backgroundColor: Colors.white,
           selectedItemColor: Colors.blueAccent[100],
           unselectedItemColor: Colors.grey[400].withOpacity(1),
           currentIndex: UserData.tapIndex,
