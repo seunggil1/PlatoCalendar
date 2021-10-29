@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:plato_calendar/Page/widget/adBanner.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
@@ -119,54 +121,112 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                 child: Column(
                   children: [
                     ListTile(
-                        minLeadingWidth: 10,
-                        leading: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[ Icon(Icons.warning_amber_outlined, size: 18)]
-                        ),
-                        title: Text('오류 메세지가 나왔을 때',style: TextStyle(color: Colors.grey, fontSize: 14),),
-                        subtitle: Text('- ID/PW 오류 : 로그아웃 버튼을 누르고 다시 시도해주세요.\n- 로그인 오류 : Plato 서버나 일시적인 네트워크 문제로, 인터넷 연결을 확인한 뒤에 앱을 재시작해보세요.\n- 동기화 오류 : 데이터 분석중 오류가 발생했습니다. 지속적인 오류 발생시 앱스토어를 통해 알려주세요.',style: TextStyle(color: Colors.grey, fontSize: 12)),
-                        isThreeLine: false
+                      minLeadingWidth: 10,
+                      leading: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[ Icon(Icons.warning_amber_outlined, size: 18)]
+                      ),
+                      title: Text('오류 메세지가 나왔을 때',style: TextStyle(color: Colors.grey, fontSize: 14),),
+                      subtitle: Text('- ID/PW 오류 : 로그아웃 버튼을 누르고 다시 시도해주세요.\n- 로그인 오류 : Plato 서버나 일시적인 네트워크 문제로, 인터넷 연결을 확인한 뒤에 앱을 재시작해보세요.\n- 동기화 오류 : 데이터 분석중 오류가 발생했습니다. 지속적인 오류 발생시 앱스토어를 통해 알려주세요.',style: TextStyle(color: Colors.grey, fontSize: 12)),
+                      isThreeLine: false
                     ),
                   ],
                 )
               )
               : Container(),
+              UserData.isSaveGoogleToken
+              ?Card(
+                child: ListTile(
+                  title: Text('캘린더 앱과 동기화'),
+                  subtitle: Text('Google 동기화 진행중'),
+                  trailing: TextButton(
+                        onPressed: () async { 
+                          await UserData.googleCalendar.logOutGoogleAccount();
+                          setState(() { });
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(0),
+                          width: 70,
+                          decoration: BoxDecoration(color: Colors.blueAccent[100],borderRadius: BorderRadius.circular(10)),
+                          child: Text("Logout", style: TextStyle(color: Colors.white))
+                        )
+                      ),
+                ),
+              )
+              :Card(
+                child: ListTile(
+                  leading: Container(
+                    padding: EdgeInsets.symmetric(vertical: 2),
+                    child: Text('캘린더 앱과 동기화')),
+                  title: SignInButton(
+                      Buttons.GoogleDark,
+                      onPressed: () async{
+                        if(UserData.id == "")
+                          showToastMessageCenter('먼저 Plato 로그인을 진행해주세요.');
+                        else{
+                          await UserData.googleCalendar.authUsingGoogleAccount();
+                          setState(() { });
+                        }
+                      },
+                  ),
+                ),
+              ),
               Card(
                 child: Column(
                   children: [
                     ListTile(
-                        title: Text('완료된 일정 표시'),
-                        subtitle: Text(
-                          UserData.showFinished ? '완료된 일정을 달력에 표시합니다' : '완료된 일정을 달력에 표시하지 않습니다. '
-                        ),
-                        trailing: Switch(
-                          activeColor: Colors.blueAccent[100],
-                          value: UserData.showFinished, 
-                          onChanged: (value){
-                            setState(() {
-                              UserData.showFinished = value;
-                            });
-                          }),
-                        isThreeLine: false
+                      title: Text('완료된 일정 표시'),
+                      subtitle: Text(
+                        UserData.showFinished ? '완료된 일정을 달력에 표시합니다' : '완료된 일정을 달력에 표시하지 않습니다. '
+                      ),
+                      trailing: Switch(
+                        activeColor: Colors.blueAccent[100],
+                        value: UserData.showFinished, 
+                        onChanged: (value){
+                          setState(() {
+                            UserData.showFinished = value;
+                          });
+                        }),
+                      isThreeLine: false
                     ),
                     ListTile(
-                          title: Text('시작 요일'),
-                          subtitle: Text('달력에서 한 주의 시작을 ${weekdayLocaleKR[UserData.firstDayOfWeek]}요일로 합니다'),
-                          trailing:
-                            DropdownButton(
-                              underline: Container(
-                                height: 2,
-                                color: Colors.grey[350]),
-                              value: UserData.firstDayOfWeek,
-                              items: weekdayLocaleKR.entries.map<DropdownMenuItem<int>>(
-                                (e) => DropdownMenuItem<int>(value: e.key, child: Text(e.value))).toList(),
-                              onChanged: (newValue){
-                                setState(() {
-                                    UserData.firstDayOfWeek = newValue;
-                                });
-                              }),
-                          isThreeLine: false
+                      title: Text('달력 종류'),
+                      subtitle: UserData.calendarType == CalendarType.integrated ? Text('달력과 시간 별 일정을 한 페이지에 표시합니다') : Text('달력과 시간별 일정을 두 페이지로 나눠서 표시합니다'),
+                      trailing:
+                        DropdownButton(
+                          underline: Container(
+                            height: 2,
+                            color: Colors.grey[350]),
+                          value: UserData.calendarType,
+                          items: [
+                              DropdownMenuItem<CalendarType>(value: CalendarType.split, child: Text('Type1')),
+                              DropdownMenuItem<CalendarType>(value: CalendarType.integrated, child: Text('Type2'))
+                          ],
+                          onChanged: (newValue){
+                            setState(() {
+                                UserData.calendarType = newValue;
+                            });
+                          }),
+                      isThreeLine: true
+                    ),
+                    ListTile(
+                      title: Text('시작 요일'),
+                      subtitle: Text('달력에서 한 주의 시작을 ${weekdayLocaleKR[UserData.firstDayOfWeek]}요일로 합니다'),
+                      trailing:
+                        DropdownButton(
+                          underline: Container(
+                            height: 2,
+                            color: Colors.grey[350]),
+                          value: UserData.firstDayOfWeek,
+                          items: weekdayLocaleKR.entries.map<DropdownMenuItem<int>>(
+                            (e) => DropdownMenuItem<int>(value: e.key, child: Text(e.value))).toList(),
+                          onChanged: (newValue){
+                            setState(() {
+                                UserData.firstDayOfWeek = newValue;
+                            });
+                          }),
+                      isThreeLine: false
                     )
                   ],
                 )
@@ -175,55 +235,40 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                 child: Column(
                   children: [
                     ListTile(
-                          title: Text('달력 종류'),
-                          subtitle: UserData.calendarType == CalendarType.integrated ? Text('달력과 시간 별 일정을 한 페이지에 표시합니다') : Text('달력과 시간별 일정을 두 페이지로 나눠서 표시합니다'),
-                          trailing:
-                            DropdownButton(
-                              underline: Container(
-                                height: 2,
-                                color: Colors.grey[350]),
-                              value: UserData.calendarType,
-                              items: [
-                                  DropdownMenuItem<CalendarType>(value: CalendarType.split, child: Text('Type1')),
-                                  DropdownMenuItem<CalendarType>(value: CalendarType.integrated, child: Text('Type2'))
-                              ],
-                              onChanged: (newValue){
-                                setState(() {
-                                    UserData.calendarType = newValue;
-                                });
-                              }),
-                          isThreeLine: true
-                    ),
-                    ListTile(
-                          title: Text('테마'),
-                          subtitle: Text(((){
-                            switch (UserData.themeMode) {
-                              case ThemeMode.system:
-                                return "시스템 디스플레이 설정에 따라\n라이트/다크모드로 자동 적용됩니다.";
-                              case ThemeMode.light:
-                                return "밝은 테마를 적용합니다.";
-                              case ThemeMode.dark:
-                                return "어두운 테마를 적용합니다.";
-                            }
-                          })()),
-                          trailing:
-                            DropdownButton(
-                              underline: Container(
-                                height: 2,
-                                color: Colors.grey[350]),
-                              value: UserData.themeMode,
-                              items: [
-                                  DropdownMenuItem<ThemeMode>(value: ThemeMode.system, child: Text('시스템 설정')),
-                                  DropdownMenuItem<ThemeMode>(value: ThemeMode.light, child: Text('라이트 모드')),
-                                  DropdownMenuItem<ThemeMode>(value: ThemeMode.dark, child: Text('다크 모드')),
-                              ],
-                              onChanged: (newValue){
-                                setState(() {
-                                    UserData.themeMode = newValue;
-                                    showToastMessageCenter("어플 재시작시 적용됩니다.");
-                                });
-                              }),
-                          isThreeLine: true
+                      title: Text('테마'),
+                      subtitle: Text(((){
+                        switch (UserData.themeMode) {
+                          case ThemeMode.system:
+                            return "시스템 디스플레이 설정에 따라\n라이트/다크모드로 자동 적용됩니다.";
+                          case ThemeMode.light:
+                            return "밝은 테마를 적용합니다.";
+                          case ThemeMode.dark:
+                            return "어두운 테마를 적용합니다.";
+                        }
+                      })()),
+                      trailing:
+                        DropdownButton(
+                          underline: Container(
+                            height: 2,
+                            color: Colors.grey[350]),
+                          value: UserData.themeMode,
+                          items: [
+                              DropdownMenuItem<ThemeMode>(value: ThemeMode.system, child: Text('시스템 설정')),
+                              DropdownMenuItem<ThemeMode>(value: ThemeMode.light, child: Text('라이트 모드')),
+                              DropdownMenuItem<ThemeMode>(value: ThemeMode.dark, child: Text('다크 모드')),
+                          ],
+                          onChanged: (newValue) async {
+                            setState(() {
+                                UserData.themeMode = newValue;
+                                showToastMessageCenter("변경사항을 적용하기 위해 어플을 종료합니다.");
+                            });
+                            await Future.delayed(Duration(seconds: 2));
+                            if(Platform.isAndroid)
+                              SystemNavigator.pop();
+                            else if(Platform.isIOS)
+                              exit(0);
+                          }),
+                      isThreeLine: true
                     )
                   ],
                 )
@@ -282,44 +327,6 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                 )
               )
               : Container(),
-              UserData.isSaveGoogleToken
-              ?Card(
-                child: ListTile(
-                  title: Text('캘린더 앱과 동기화'),
-                  subtitle: Text('Google 동기화 진행중'),
-                  trailing: TextButton(
-                        onPressed: () async { 
-                          await UserData.googleCalendar.logOutGoogleAccount();
-                          setState(() { });
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.all(0),
-                          width: 70,
-                          decoration: BoxDecoration(color: Colors.blueAccent[100],borderRadius: BorderRadius.circular(10)),
-                          child: Text("Logout", style: TextStyle(color: Colors.white))
-                        )
-                      ),
-                ),
-              )
-              :Card(
-                child: ListTile(
-                  leading: Container(
-                    padding: EdgeInsets.symmetric(vertical: 2),
-                    child: Text('캘린더 앱과 동기화')),
-                  title: SignInButton(
-                      Buttons.GoogleDark,
-                      onPressed: () async{
-                        if(UserData.id == "")
-                          showToastMessageCenter('먼저 Plato 로그인을 진행해주세요.');
-                        else{
-                          await UserData.googleCalendar.authUsingGoogleAccount();
-                          setState(() { });
-                        }
-                      },
-                  ),
-                ),
-              ),
               // Card(
               //   child: ListTile(
               //     title: Text('일정 내보내기'),

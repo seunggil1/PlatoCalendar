@@ -163,7 +163,17 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                                 .map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
-                                child: Text(subjectCode[value] ?? value, style: TextStyle(color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.white : Colors.black),),
+                                child: Text(subjectCode[value] ?? value, 
+                                          style: TextStyle(
+                                            color: (){
+                                              if(UserData.themeMode == ThemeMode.dark)
+                                                return Colors.white;
+                                              else if(UserData.themeMode == ThemeMode.system && MediaQuery.of(context).platformBrightness == Brightness.dark)
+                                                return Colors.white;
+                                              else
+                                                return Colors.black;
+                                            }()),
+                                        )
                               );
                             }).toList(),
                           ),

@@ -271,7 +271,7 @@ class UserData{
 
   static set themeMode(ThemeMode newValue) {
     bool update = true;
-    if(newValue == null)
+    if(_themeMode == null)
       update = false;
 
     if(newValue != null)
