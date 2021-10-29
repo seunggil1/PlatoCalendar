@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import '../google/calendar.dart';
 
@@ -67,6 +68,9 @@ class UserData{
   /// Google Calendar 연동을 위한 Token 정보.
   static GoogleCalendarToken googleCalendar; 
 
+  /// 다크모드 설정. (시스템 설정, 라이트 모드, 다크모드)
+  static ThemeMode _themeMode;
+
   static int get tapIndex => _tapIndex;
   static int get firstDayOfWeek => _firstDayOfWeek;
   static bool get showFinished => _showFinished;
@@ -81,6 +85,7 @@ class UserData{
   static int get oneStopLastSyncDay => _oneStopLastSyncDay;
   static int get notificationDay => _notificationDay;
   static bool get googleFirstLogin => _googleFirstLogin;
+  static ThemeMode get themeMode => _themeMode;
 
   static set tapIndex(int newValue){
     bool update = true;
@@ -262,5 +267,19 @@ class UserData{
 
     if(update)
       Database.userDataBox.put('googleFirstLogin', _googleFirstLogin);
+  }
+
+  static set themeMode(ThemeMode newValue) {
+    bool update = true;
+    if(newValue == null)
+      update = false;
+
+    if(newValue != null)
+      _themeMode = newValue;
+    else
+      _themeMode = ThemeMode.system;
+
+    if(update)
+      Database.userDataBox.put('themeMode', newValue);
   }
 }

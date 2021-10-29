@@ -43,6 +43,7 @@ class Database{
     try{
       Hive.registerAdapter(CalendarDataAdapter());
       Hive.registerAdapter(CalendarTypeAdapter());
+      Hive.registerAdapter(ThemeModeAdapter());
       Hive.registerAdapter(GoogleCalendarTokenAdapter());
     }catch(e){
       if(!e.message.toString().contains("There is already a TypeAdapter"))
@@ -171,6 +172,7 @@ class Database{
     UserData.notificationDay = userDataBox.get('notificationDay');
     UserData.oneStopLastSyncDay = userDataBox.get('oneStopLastSyncDay');
     UserData.semester = userDataBox.get('semester');
+    UserData.themeMode = userDataBox.get('themeMode');
     
   }
 

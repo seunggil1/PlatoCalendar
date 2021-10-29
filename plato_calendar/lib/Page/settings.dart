@@ -193,6 +193,37 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                                 });
                               }),
                           isThreeLine: true
+                    ),
+                    ListTile(
+                          title: Text('테마'),
+                          subtitle: Text(((){
+                            switch (UserData.themeMode) {
+                              case ThemeMode.system:
+                                return "시스템 디스플레이 설정에 따라\n라이트/다크모드로 자동 적용됩니다.";
+                              case ThemeMode.light:
+                                return "밝은 테마를 적용합니다.";
+                              case ThemeMode.dark:
+                                return "어두운 테마를 적용합니다.";
+                            }
+                          })()),
+                          trailing:
+                            DropdownButton(
+                              underline: Container(
+                                height: 2,
+                                color: Colors.grey[350]),
+                              value: UserData.themeMode,
+                              items: [
+                                  DropdownMenuItem<ThemeMode>(value: ThemeMode.system, child: Text('시스템 설정')),
+                                  DropdownMenuItem<ThemeMode>(value: ThemeMode.light, child: Text('라이트 모드')),
+                                  DropdownMenuItem<ThemeMode>(value: ThemeMode.dark, child: Text('다크 모드')),
+                              ],
+                              onChanged: (newValue){
+                                setState(() {
+                                    UserData.themeMode = newValue;
+                                    showToastMessageCenter("어플 재시작시 적용됩니다.");
+                                });
+                              }),
+                          isThreeLine: true
                     )
                   ],
                 )

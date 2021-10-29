@@ -59,6 +59,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       darkTheme: ThemeData.dark(),
+      themeMode: UserData.themeMode,
       home: MyHomePage(),
     );
   }
