@@ -63,7 +63,6 @@ class Database{
 
       var encryptionKey = base64Url.decode(await secureStorage.read(key: 'key'));
       calendarBox = await Hive.openBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
-      calendarBox = await Hive.openBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
       userDataBox = await Hive.openBox('userDataBox', encryptionCipher: HiveAesCipher(encryptionKey));
     }
     catch(e){
@@ -100,6 +99,7 @@ class Database{
         try{
           Hive.registerAdapter(CalendarDataAdapter());
           Hive.registerAdapter(CalendarTypeAdapter());
+          Hive.registerAdapter(ThemeModeAdapter());
           Hive.registerAdapter(GoogleCalendarTokenAdapter());
         }catch(e){
           if(!e.message.toString().contains("There is already a TypeAdapter"))
