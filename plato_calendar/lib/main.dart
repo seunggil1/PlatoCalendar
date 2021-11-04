@@ -44,7 +44,7 @@ void main() async{
   // for test
   // await icsParser("");
   await initializeDateFormatting('ko_KR', null);
-  firebaseInit();
+  //firebaseInit();
   runApp(MyApp());
 }
 
@@ -76,7 +76,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    update();
+    update().then((value) { // update 한 뒤에, 6시간마다 update 다시 진행.
+      Stream.periodic(Duration(hours: 1, minutes: 1),(x)=>x).forEach((element) { 
+        update();
+      });
+    });
   }
 
   @override
