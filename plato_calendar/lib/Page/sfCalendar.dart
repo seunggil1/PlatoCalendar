@@ -103,11 +103,12 @@ class _Calendar extends State<Calendar>{
           ),
         ),
       onWillPop: () async {
-        if(_calendarController.view == CalendarView.schedule)
+        if(_calendarController.view == CalendarView.schedule){
           setState(() {
             _calendarController.view = CalendarView.month;
-            return false;
           });
+          return false;
+        }
         else
           return true;
       });
