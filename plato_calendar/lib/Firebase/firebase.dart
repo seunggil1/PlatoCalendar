@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart'; 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:hive/hive.dart';
 import 'package:plato_calendar/Data/database.dart';
 import 'package:plato_calendar/pnu/pnu.dart';
 
@@ -28,13 +29,13 @@ Future<bool> firebaseInit() async{
 bool _flag = false;
 /// fcm 수신시 background 동기화 시작
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+
   if(_flag)
     return;
   else
     _flag = true;
   try{
-    if(!await Database.lock())
-      return;
+    await Database.lock();
 
     await Firebase.initializeApp();
     await Database.backGroundInit().then((bool result) async {
@@ -59,13 +60,13 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       print("Handling a background message: ${message.messageId}");
       _flag = false;
     });
-
+    await Database.release();
   }
   catch(e){
     await notifyDebugInfo(e.toString());
     _flag = false;
+    if(e.runtimeType == HiveError && !e.toString().contains("Database is locked"))
+      await Database.release();
   }
-  await Database.release();
-
   return;
 }

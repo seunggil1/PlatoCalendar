@@ -35,16 +35,16 @@ void main() async{
   ]).then((value){
     pnuStream.sink.add(true);
   });
-  
-  
+
   await Database.init();
+  await Database.loadDatabase();
   Database.userDataLoad();
   Database.calendarDataLoad();
   Database.googleDataLoad();
   // for test
   // await icsParser("");
   await initializeDateFormatting('ko_KR', null);
-  //firebaseInit();
+  firebaseInit();
   runApp(MyApp());
 }
 
@@ -77,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     update().then((value) { // update 한 뒤에, 6시간마다 update 다시 진행.
+      Database.release();
       Stream.periodic(Duration(hours: 1, minutes: 1),(x)=>x).forEach((element) { 
         update();
       });

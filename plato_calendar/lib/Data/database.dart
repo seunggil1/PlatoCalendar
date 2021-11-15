@@ -16,31 +16,42 @@ class Database{
   static Box userDataBox;
   static Set<String> uidSet = {};
 
-  static Future<bool> lock() async{
+  static Future<void> lock([int retry = 1]) async{
     FlutterSecureStorage secureStorage = const FlutterSecureStorage();
     if (!(await secureStorage.containsKey(key: 'lock')))
       await secureStorage.write(key: 'lock', value: 'false');
 
     if((await secureStorage.read(key: 'lock')) == "true"){
-      return false;
-    }
-    await secureStorage.write(key: 'lock', value: 'true');
-    return true;
+      throw HiveError("Database is locked"); 
+    }else
+      await secureStorage.write(key: 'lock', value: 'true');
+
   }
-  static Future<bool> release() async{
+  static Future<void> release() async{
     FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-    if (!(await secureStorage.containsKey(key: 'lock')))
-      await secureStorage.write(key: 'lock', value: 'false');
     if((await secureStorage.read(key: 'lock')) == "true"){
       await secureStorage.write(key: 'lock', value: 'false');
-      return false;
+    }else{
+      showToastMessageCenter("Database isn't locked.\nPlease report issue.");
+      throw HiveError("Database isn't locked");
     }
-    return true;
-
   }
   static Future init([int retry = 1]) async {
-    await Hive.initFlutter();
     try{
+      // background와 동시 접근을 막기위한 mutex
+      await lock();
+    }catch(e){
+      if(retry <= 8){
+        showToastMessageCenter("${e.toString()}\nTrying again..($retry/10)");
+        await Future.delayed(const Duration(seconds: 2));
+      }else if(retry <= 10)
+        await release();
+      else
+        await deleteAll();
+      await init(retry+1);
+    }
+    try{
+      await Hive.initFlutter();
       Hive.registerAdapter(CalendarDataAdapter());
       Hive.registerAdapter(CalendarTypeAdapter());
       Hive.registerAdapter(ThemeModeAdapter());
@@ -49,13 +60,11 @@ class Database{
       if(!e.message.toString().contains("There is already a TypeAdapter"))
         throw HiveError("register Adapter failed : "+ e.message.toString());
     }
+  }
+  static Future<void> loadDatabase([int retry = 1]) async {
     FlutterSecureStorage secureStorage;
     try{
       secureStorage = const FlutterSecureStorage();
-      if(!(await lock()))
-        throw HiveError("Database is locked"); 
-      await release();
-      
       if (!(await secureStorage.containsKey(key: 'key'))) {
         var key = Hive.generateSecureKey();
         await secureStorage.write(key: 'key', value: base64UrlEncode(key));
@@ -66,20 +75,17 @@ class Database{
       userDataBox = await Hive.openBox('userDataBox', encryptionCipher: HiveAesCipher(encryptionKey));
     }
     catch(e){
-      if(retry < 10){
-        showToastMessageCenter("${e.toString()}\nTrying again..($retry/10)");
+      if(retry <= 3){
+        showToastMessageCenter("${e.toString()}\nTrying again..($retry/3)");
         await Future.delayed(const Duration(seconds: 2));
-      }else{
-        await secureStorage.deleteAll();
-        await Hive.deleteBoxFromDisk('calendarBox');
-        await Hive.deleteBoxFromDisk('userDataBox');
-        showToastMessageCenter("저장된 데이터 복원에 실패했습니다.");
-      }
+      }else
+        await deleteAll();
       await init(retry+1);
     }
   }
-
-  /// Background Process에서 Database 준비가 되었으면 True.
+  /// Background Process에서만 사용
+  /// 
+  /// backGroundInit()을 이미 호출했을 경우 True.
   static bool _backgroundInit = false;
   /// 백그라운드에서 init함수 대신 사용
   /// 
@@ -128,9 +134,12 @@ class Database{
     return true;
   }
 
-  static Future clear() async{
-    await calendarBox.clear();
-    await userDataBox.clear();
+  static Future deleteAll() async{
+    FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+    await secureStorage.deleteAll();
+    await Hive.deleteBoxFromDisk('calendarBox');
+    await Hive.deleteBoxFromDisk('userDataBox');
+    showToastMessageCenter("저장된 데이터 복원에 실패했습니다.");
   }
 
   static void uidSetSave(){
