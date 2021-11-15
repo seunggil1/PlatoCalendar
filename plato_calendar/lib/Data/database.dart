@@ -134,7 +134,7 @@ class Database{
     return true;
   }
 
-  static Future deleteAll() async{
+  static Future<void> deleteAll() async{
     FlutterSecureStorage secureStorage = const FlutterSecureStorage();
     await secureStorage.deleteAll();
     await Hive.deleteBoxFromDisk('calendarBox');
@@ -142,11 +142,11 @@ class Database{
     showToastMessageCenter("저장된 데이터 복원에 실패했습니다.");
   }
 
-  static void uidSetSave(){
-    calendarBox.put('uidList', Database.uidSet.toList());
+  static Future<void> uidSetSave() async {
+    await calendarBox.put('uidList', Database.uidSet.toList());
   }
   static Future<void> calendarDataSave(CalendarData data) async {
-    calendarBox.put(data.uid,data);
+    await calendarBox.put(data.uid,data);
     if(data.disable || data.finished) // (UserData.showFinished && data.finished)
       await UserData.googleCalendar.deleteCalendar(data.toEvent());
     else
@@ -158,12 +158,12 @@ class Database{
       UserData.data.add(calendarBox.get(iter));
   }
 
-  static void subjectCodeThisSemesterSave(){
-    userDataBox.put('subjectCodeThisSemester', UserData.subjectCodeThisSemester.toList());
+  static Future<void> subjectCodeThisSemesterSave() async {
+    await userDataBox.put('subjectCodeThisSemester', UserData.subjectCodeThisSemester.toList());
   }
 
-  static void defaultColorSave(){
-    userDataBox.put('defaultColor', UserData.defaultColor);
+  static Future<void> defaultColorSave() async {
+    await userDataBox.put('defaultColor', UserData.defaultColor);
   }
 
   static void userDataLoad(){
