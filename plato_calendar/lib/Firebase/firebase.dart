@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart'; 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:plato_calendar/Data/database.dart';
 import 'package:plato_calendar/pnu/pnu.dart';
@@ -35,8 +36,12 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   else
     _flag = true;
   try{
+    FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+    DateTime recentlyAccess = DateTime.parse(await secureStorage.read(key: 'time'));
+    if(DateTime.now().difference(recentlyAccess).inMinutes <= 5)
+      throw Exception("Database is recently used");
+    
     await Database.lock();
-
     await Firebase.initializeApp();
     await Database.backGroundInit().then((bool result) async {
       if(!result){

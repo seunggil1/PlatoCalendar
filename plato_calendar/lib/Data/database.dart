@@ -16,6 +16,12 @@ class Database{
   static Box userDataBox;
   static Set<String> uidSet = {};
 
+  /// db 마지막 접근 시간 기록
+  static Future<void> updateTime() async{
+    FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+    await secureStorage.write(key: 'time', value: DateTime.now().toString());
+  }
+  /// background와 동시 접근을 막기위한 mutex
   static Future<void> lock([int retry = 1]) async{
     FlutterSecureStorage secureStorage = const FlutterSecureStorage();
     if (!(await secureStorage.containsKey(key: 'lock')))
@@ -123,7 +129,7 @@ class Database{
     try{
       FlutterSecureStorage secureStorage = const FlutterSecureStorage();
       if (!(await secureStorage.containsKey(key: 'key'))) {
-        throw Exception();
+        throw Exception("No encryptionKey");
       }
       var encryptionKey = base64Url.decode(await secureStorage.read(key: 'key'));
       calendarBox = await Hive.openBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));

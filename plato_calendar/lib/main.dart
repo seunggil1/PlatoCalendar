@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:plato_calendar/utility.dart';
 import 'Data/database.dart';
 import 'Data/ics.dart';
 import 'Firebase/firebase.dart';
@@ -23,6 +24,8 @@ import 'pnu/pnu.dart';
 
 /// Plato 동기화 완료됐을경우 화면 갱신 요청하는 Stream
 StreamController pnuStream = StreamController<bool>.broadcast();
+StreamSubscription<bool> timerSubScription;
+// Database.updateTime();
 List<Widget> _widgets = [Calendar(), ToDoList(), Setting()];
 void main() async{
   // HttpOverrides.global = new MyHttpOverrides();
@@ -35,7 +38,7 @@ void main() async{
   ]).then((value){
     pnuStream.sink.add(true);
   });
-
+  
   await Database.init();
   await Database.loadDatabase();
   Database.userDataLoad();
@@ -76,11 +79,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    update().then((value) { // update 한 뒤에, 6시간마다 update 다시 진행.
+    timerSubScription = timer(10).listen((event) async { 
+      await Database.updateTime();
+    });
+    update().then((value) {
       Database.release();
-      Stream.periodic(Duration(hours: 1, minutes: 1),(x)=>x).forEach((element) { 
-        update();
-      });
     });
   }
 
