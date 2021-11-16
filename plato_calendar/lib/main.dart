@@ -38,7 +38,7 @@ void main() async{
   ]).then((value){
     pnuStream.sink.add(true);
   });
-  
+
   await Database.init();
   await Database.loadDatabase();
   Database.userDataLoad();
@@ -75,20 +75,20 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
     timerSubScription = timer(10).listen((event) async { 
       await Database.updateTime();
     });
-    update().then((value) {
-      Database.release();
-    });
+    update();
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     adBanner1.dispose();
     adBanner2.dispose();
     super.dispose();
@@ -121,4 +121,23 @@ class _MyHomePageState extends State<MyHomePage> {
         body: _widgets[UserData.tapIndex]
       );
   }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        showToastMessageCenter("resumed");
+        timerSubScription.resume();
+        break;
+      case AppLifecycleState.inactive:
+        showToastMessageCenter("paused");
+        timerSubScription.pause();
+        break;
+      case AppLifecycleState.paused:
+        break;
+      case AppLifecycleState.detached:
+        break;
+    }
+  }
+
 }

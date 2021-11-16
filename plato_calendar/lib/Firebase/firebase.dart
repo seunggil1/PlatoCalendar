@@ -30,7 +30,6 @@ Future<bool> firebaseInit() async{
 bool _flag = false;
 /// fcm 수신시 background 동기화 시작
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-
   if(_flag)
     return;
   else

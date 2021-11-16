@@ -22,6 +22,10 @@ class Database{
     await secureStorage.write(key: 'time', value: DateTime.now().toString());
   }
   /// background와 동시 접근을 막기위한 mutex
+  /// 
+  /// background는 맨 처음 lock을 걸고 동기화가 마무리되면 release처리를 진행하고,
+  /// 
+  /// foreground의 경우 앱 처음 켤 때 lock걸고 바로 release처리함.
   static Future<void> lock([int retry = 1]) async{
     FlutterSecureStorage secureStorage = const FlutterSecureStorage();
     if (!(await secureStorage.containsKey(key: 'lock')))
@@ -45,7 +49,9 @@ class Database{
   static Future init([int retry = 1]) async {
     try{
       // background와 동시 접근을 막기위한 mutex
+      // 앱의 경우 언제 종료되는지 알 수 없으므로 lock으로 권한 획득만 진행하고 즉시 release처리한다.
       await lock();
+      await release();
     }catch(e){
       if(retry <= 8){
         showToastMessageCenter("${e.toString()}\nTrying again..($retry/10)");
