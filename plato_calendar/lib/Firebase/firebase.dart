@@ -37,6 +37,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   try{
     FlutterSecureStorage secureStorage = const FlutterSecureStorage();
     DateTime recentlyAccess = DateTime.parse(await secureStorage.read(key: 'time'));
+    await notificationInit();
     if(DateTime.now().difference(recentlyAccess).inMinutes <= 5)
       throw Exception("Database is recently used");
     

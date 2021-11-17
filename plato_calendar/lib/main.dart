@@ -24,8 +24,7 @@ import 'pnu/pnu.dart';
 
 /// Plato 동기화 완료됐을경우 화면 갱신 요청하는 Stream
 StreamController pnuStream = StreamController<bool>.broadcast();
-StreamSubscription<bool> timerSubScription;
-// Database.updateTime();
+
 List<Widget> _widgets = [Calendar(), ToDoList(), Setting()];
 void main() async{
   // HttpOverrides.global = new MyHttpOverrides();
@@ -76,6 +75,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
+  /// Loading 여부 표시, Loading중에는 터치 비활성화
+  bool loading = false;
+  StreamSubscription<bool> timerSubScription;
+
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
@@ -96,7 +99,9 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     //a.login().then((value) => a.getCalendar());
-    return Scaffold(
+    return AbsorbPointer(
+      absorbing: loading,
+      child: Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           //backgroundColor: Colors.white,
@@ -116,17 +121,29 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),
               label: "설정"),
-          ],
+          ]
         ),
         body: _widgets[UserData.tapIndex]
-      );
+      ));
+
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     switch (state) {
       case AppLifecycleState.resumed:
         showToastMessageCenter("resumed");
+        setState(() {
+          loading = true;
+        });
+        
+        await Database.init();
+        DateTime beforeSync = UserData.lastSyncTime;
+        //Database.userDataLoad();
+        DateTime nowSync = UserData.lastSyncTime;
+        setState(() {
+          loading = false;
+        });
         timerSubScription.resume();
         break;
       case AppLifecycleState.inactive:

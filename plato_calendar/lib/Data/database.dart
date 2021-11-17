@@ -112,7 +112,6 @@ class Database{
         _backgroundInit = true;
         WidgetsFlutterBinding.ensureInitialized();
         await initializeDateFormatting('ko_KR', null);
-        await notificationInit();
         await Hive.initFlutter();
         try{
           Hive.registerAdapter(CalendarDataAdapter());
