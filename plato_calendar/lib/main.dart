@@ -37,12 +37,11 @@ void main() async{
   ]).then((value){
     pnuStream.sink.add(true);
   });
-
   await Database.init();
   await Database.loadDatabase();
-  Database.userDataLoad();
-  Database.calendarDataLoad();
-  Database.googleDataLoad();
+  await Database.userDataLoad();
+  await Database.calendarDataLoad();
+  await Database.googleDataLoad();
   // for test
   // await icsParser("");
   await initializeDateFormatting('ko_KR', null);
@@ -137,9 +136,10 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
           loading = true;
         });
         
-        await Database.init();
+        await Database.closeAll();
+        await Database.loadDatabase();
         DateTime beforeSync = UserData.lastSyncTime;
-        //Database.userDataLoad();
+        await Database.userDataLoad();
         DateTime nowSync = UserData.lastSyncTime;
         setState(() {
           loading = false;

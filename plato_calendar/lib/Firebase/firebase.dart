@@ -49,9 +49,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
         return;
       }
 
-      Database.userDataLoad();
-      Database.calendarDataLoad();
-      Database.googleDataLoad();
+      await Database.userDataLoad();
+      await Database.calendarDataLoad();
+      await Database.googleDataLoad();
       if(!message.data.containsKey("func"))
         print("firebase Debug Success.");
       else if(message.data["func"] == "sync"){
@@ -70,7 +70,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   catch(e){
     await notifyDebugInfo(e.toString());
     _flag = false;
-    if(e.runtimeType == HiveError && !e.toString().contains("Database is locked"))
+    if(!(e.runtimeType == HiveError && e.toString().contains("Database is locked")))
       await Database.release();
   }
   return;

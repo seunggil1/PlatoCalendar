@@ -141,9 +141,11 @@ class Plato {
 
       UserData.lastSyncTime = DateTime.now();
       UserData.lastSyncInfo = "${UserData.lastSyncTime.day}일 ${UserData.lastSyncTime.hour}:${UserData.lastSyncTime.minute} - 동기화 성공";
-      Database.subjectCodeThisSemesterSave();
-      Database.defaultColorSave();
-      Database.uidSetSave();
+      await Future.wait([
+        Database.subjectCodeThisSemesterSave(),
+        Database.defaultColorSave(),
+        Database.uidSetSave()
+      ]);
     }
     catch(e){
       DateTime now = DateTime.now();

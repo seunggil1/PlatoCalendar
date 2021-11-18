@@ -12,8 +12,8 @@ import '../google/calendar.dart';
 import '../utility.dart';
 
 class Database{
-  static Box calendarBox;
-  static Box userDataBox;
+  static LazyBox calendarBox;
+  static LazyBox userDataBox;
   static Set<String> uidSet = {};
 
   /// db 마지막 접근 시간 기록
@@ -83,8 +83,8 @@ class Database{
       }
 
       var encryptionKey = base64Url.decode(await secureStorage.read(key: 'key'));
-      calendarBox = await Hive.openBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
-      userDataBox = await Hive.openBox('userDataBox', encryptionCipher: HiveAesCipher(encryptionKey));
+      calendarBox = await Hive.openLazyBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
+      userDataBox = await Hive.openLazyBox('userDataBox', encryptionCipher: HiveAesCipher(encryptionKey));
     }
     catch(e){
       if(retry <= 3){
@@ -92,7 +92,7 @@ class Database{
         await Future.delayed(const Duration(seconds: 2));
       }else
         await deleteAll();
-      await init(retry+1);
+      await loadDatabase(retry+1);
     }
   }
   /// Background Process에서만 사용
@@ -137,8 +137,8 @@ class Database{
         throw Exception("No encryptionKey");
       }
       var encryptionKey = base64Url.decode(await secureStorage.read(key: 'key'));
-      calendarBox = await Hive.openBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
-      userDataBox = await Hive.openBox('userDataBox', encryptionCipher: HiveAesCipher(encryptionKey));
+      calendarBox = await Hive.openLazyBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
+      userDataBox = await Hive.openLazyBox('userDataBox', encryptionCipher: HiveAesCipher(encryptionKey));
     }catch(e){
       return false;
     }
@@ -153,6 +153,10 @@ class Database{
     showToastMessageCenter("저장된 데이터 복원에 실패했습니다.");
   }
 
+  static Future<void> closeAll() async{
+    await calendarBox.close();
+    await userDataBox.close();
+  }
   static Future<void> uidSetSave() async {
     await calendarBox.put('uidList', Database.uidSet.toList());
   }
@@ -163,10 +167,10 @@ class Database{
     else
       await UserData.googleCalendar.updateCalendar(data.toEvent());
   }
-  static void calendarDataLoad(){
-    uidSet = (calendarBox.get('uidList') ?? <String>[]).toSet();
+  static Future<void> calendarDataLoad() async {
+    uidSet = (await calendarBox.get('uidList') ?? <String>[]).toSet();
     for(var iter in uidSet)
-      UserData.data.add(calendarBox.get(iter));
+      UserData.data.add(await calendarBox.get(iter));
   }
 
   static Future<void> subjectCodeThisSemesterSave() async {
@@ -177,22 +181,22 @@ class Database{
     await userDataBox.put('defaultColor', UserData.defaultColor);
   }
 
-  static void userDataLoad(){
-    UserData.tapIndex = userDataBox.get('tapIndex');
-    UserData.firstDayOfWeek = userDataBox.get('firstDayOfWeek');
-    UserData.calendarType = userDataBox.get('calendarType');
-    UserData.showFinished = userDataBox.get('showFinished');
-    UserData.id = userDataBox.get('id');
-    UserData.pw = userDataBox.get('pw');
-    UserData.lastSyncTime = userDataBox.get('lastSyncTime');
-    UserData.lastSyncInfo = userDataBox.get('lastSyncInfo');
-    UserData.subjectCodeThisSemester = (userDataBox.get('subjectCodeThisSemester') ?? ["전체"]).toSet();
-    UserData.defaultColor = userDataBox.get('defaultColor') ?? {};
-    UserData.showToDoList = userDataBox.get('showToDoList');
-    UserData.notificationDay = userDataBox.get('notificationDay');
-    UserData.oneStopLastSyncDay = userDataBox.get('oneStopLastSyncDay');
-    UserData.semester = userDataBox.get('semester');
-    UserData.themeMode = userDataBox.get('themeMode');
+  static Future<void> userDataLoad() async {
+    UserData.tapIndex = await userDataBox.get('tapIndex');
+    UserData.firstDayOfWeek = await userDataBox.get('firstDayOfWeek');
+    UserData.calendarType = await userDataBox.get('calendarType');
+    UserData.showFinished = await userDataBox.get('showFinished');
+    UserData.id = await userDataBox.get('id');
+    UserData.pw = await userDataBox.get('pw');
+    UserData.lastSyncTime = await userDataBox.get('lastSyncTime');
+    UserData.lastSyncInfo = await userDataBox.get('lastSyncInfo');
+    UserData.subjectCodeThisSemester = (await userDataBox.get('subjectCodeThisSemester') ?? ["전체"]).toSet();
+    UserData.defaultColor = await userDataBox.get('defaultColor') ?? {};
+    UserData.showToDoList = await userDataBox.get('showToDoList');
+    UserData.notificationDay = await userDataBox.get('notificationDay');
+    UserData.oneStopLastSyncDay = await userDataBox.get('oneStopLastSyncDay');
+    UserData.semester = await userDataBox.get('semester');
+    UserData.themeMode = await userDataBox.get('themeMode');
     
   }
 
@@ -205,11 +209,11 @@ class Database{
       await userDataBox.delete('googleToken');
   }
 
-  static void googleDataLoad(){
-    UserData.isSaveGoogleToken = userDataBox.get('isSaveGoogleToken') ?? false;
-    UserData.googleFirstLogin = userDataBox.get('googleFirstLogin');
+  static Future<void> googleDataLoad() async {
+    UserData.isSaveGoogleToken = await userDataBox.get('isSaveGoogleToken') ?? false;
+    UserData.googleFirstLogin = await userDataBox.get('googleFirstLogin');
     if(UserData.isSaveGoogleToken){
-      UserData.googleCalendar = userDataBox.get('googleToken');
+      UserData.googleCalendar = await userDataBox.get('googleToken');
       UserData.isSaveGoogleToken = UserData.googleCalendar.restoreAutoRefreshingAuthClient();
       if(UserData.isSaveGoogleToken && UserData.googleFirstLogin)
         UserData.googleCalendar.updateCalendarFull();
