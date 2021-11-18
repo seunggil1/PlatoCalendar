@@ -48,10 +48,11 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
         _flag = false;
         return;
       }
-
+      Database.setLoadMode();
       await Database.userDataLoad();
       await Database.calendarDataLoad();
       await Database.googleDataLoad();
+      Database.setUpdateMode();
       if(!message.data.containsKey("func"))
         print("firebase Debug Success.");
       else if(message.data["func"] == "sync"){

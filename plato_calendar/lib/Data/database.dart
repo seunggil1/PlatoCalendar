@@ -11,7 +11,20 @@ import 'ics.dart';
 import '../google/calendar.dart';
 import '../utility.dart';
 
+/// load : 앱 처음 시작후 DB에서 값 불러오는 상황
+/// 
+/// update : 데이터 변경사항 있을 경우 DB에 업데이트
+enum Mode {load, update}
 class Database{
+  static Mode mode = Mode.load;
+
+  static void setLoadMode(){
+    mode = Mode.load;
+  }
+  static void setUpdateMode(){
+    mode = Mode.update;
+  }
+
   static LazyBox calendarBox;
   static LazyBox userDataBox;
   static Set<String> uidSet = {};
@@ -32,7 +45,7 @@ class Database{
       await secureStorage.write(key: 'lock', value: 'false');
 
     if((await secureStorage.read(key: 'lock')) == "true"){
-      throw HiveError("Database is locked"); 
+      throw HiveError("데이터 동기화중입니다.."); 
     }else
       await secureStorage.write(key: 'lock', value: 'true');
 

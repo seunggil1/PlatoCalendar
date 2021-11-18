@@ -37,11 +37,13 @@ void main() async{
   ]).then((value){
     pnuStream.sink.add(true);
   });
+  Database.setLoadMode();
   await Database.init();
   await Database.loadDatabase();
   await Database.userDataLoad();
   await Database.calendarDataLoad();
   await Database.googleDataLoad();
+  Database.setUpdateMode();
   // for test
   // await icsParser("");
   await initializeDateFormatting('ko_KR', null);
@@ -135,12 +137,19 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         setState(() {
           loading = true;
         });
-        
+        await Database.init();
         await Database.closeAll();
         await Database.loadDatabase();
+        Database.setLoadMode();
         DateTime beforeSync = UserData.lastSyncTime;
         await Database.userDataLoad();
         DateTime nowSync = UserData.lastSyncTime;
+        if(beforeSync != nowSync){
+          showToastMessageCenter("데이터를 불러오고 있습니다..");
+          await Database.calendarDataLoad();
+          pnuStream.sink.add(true);
+        }
+        Database.setUpdateMode();
         setState(() {
           loading = false;
         });

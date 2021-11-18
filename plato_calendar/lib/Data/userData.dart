@@ -15,7 +15,7 @@ SortMethod sortMethod = SortMethod.sortByDue;
 
 class UserData{
   /// App build 날짜
-  static double version = 20211030;
+  static double version = 20211119;
 
   /// 마지막으로 봤던 tapIndex
   static int _tapIndex;
@@ -88,128 +88,65 @@ class UserData{
   static ThemeMode get themeMode => _themeMode;
 
   static set tapIndex(int newValue){
-    bool update = true;
-    if(_tapIndex == null)
-      update = false;
-    
-    if(newValue != null)
-      _tapIndex = newValue;
-    else
-      _tapIndex = 0;
+    _tapIndex = newValue ?? 0;
 
-    if(update)
+    if(Database.mode == Mode.update)
       Database.userDataBox.put('tapIndex', _tapIndex);
   }
 
-  static set firstDayOfWeek(int newValue){
-    bool update = true;
-    if(_firstDayOfWeek == null)
-      update = false;
-    
-    if(newValue != null)
-      _firstDayOfWeek = newValue;
-    else
-      _firstDayOfWeek = 7;
+  static set firstDayOfWeek(int newValue){   
+    _firstDayOfWeek = newValue ?? 7;
 
-    if(update)
+    if(Database.mode == Mode.update)
       Database.userDataBox.put('firstDayOfWeek', _firstDayOfWeek);
   }
 
-  static set showFinished(bool newValue){
-    bool update = true;
-    if(_showFinished == null)
-      update = false;
-    
-    if(newValue != null)
-      _showFinished = newValue;
-    else
-      _showFinished = true;
+  static set showFinished(bool newValue){ 
+    _showFinished = newValue ?? true;
 
-    if(update)
+    if(Database.mode == Mode.update)
       Database.userDataBox.put('showFinished', _showFinished);
   }
 
   static set calendarType(CalendarType newValue){
-    bool update = true;
-    if(_calendarType == null)
-      update = false;
-    
-    if(newValue != null)
-      _calendarType = newValue;
-    else
-      _calendarType = CalendarType.split;
+    _calendarType = newValue ?? CalendarType.split;
 
-    if(update)
+    if(Database.mode == Mode.update)
       Database.userDataBox.put('calendarType', _calendarType);
   }
 
-  static set id(String newValue){
-    bool update = true;
-    if(_id == null)
-      update = false;
-    
-    if(newValue != null)
-      _id = newValue;
-    else
-      _id = "";
+  static set id(String newValue){ 
+    _id = newValue ?? "";
 
-    if(update)
+    if(Database.mode == Mode.update)
       Database.userDataBox.put('id', _id);
   }
 
   static set pw(String newValue){
-    bool update = true;
-    if(_pw == null)
-      update = false;
-    
-    if(newValue != null)
-      _pw = newValue;
-    else
-      _pw = "";
+    _pw = newValue ?? "";
 
-    if(update)
+    if(Database.mode == Mode.update)
       Database.userDataBox.put('pw', _pw);
   }
 
-  static set lastSyncTime(DateTime newValue){
-    bool update = true;
-    if(_lastSyncTime == null)
-      update = false;
-    
-    if(newValue != null)
-      _lastSyncTime = newValue;
-    else
-      _lastSyncTime = DateTime(1999);
+  static set lastSyncTime(DateTime newValue){   
+    _lastSyncTime = newValue ?? DateTime(1999);
 
-    if(update)
+    if(Database.mode == Mode.update)
       Database.userDataBox.put('lastSyncTime', _lastSyncTime);
   }
 
   static set lastSyncInfo(String newValue){
-    bool update = true;
-    if(_lastSyncInfo == null)
-      update = false;
+    _lastSyncInfo = newValue ?? "로그인이 필요합니다";
 
-    if(newValue != null)
-      _lastSyncInfo = newValue;
-    else
-      _lastSyncInfo = "로그인이 필요합니다";
-
-    if(update)
+    if(Database.mode == Mode.update)
       Database.userDataBox.put('lastSyncInfo', _lastSyncInfo);
   }
 
   static set showToDoList(List<bool> newValue){
-    bool update = true;
-    if(_showToDoList == null)
-      update = false;
+    _showToDoList = newValue ?? [true,true,true,true,true,true,true,true,true];
 
-    if(newValue != null)
-      _showToDoList = newValue;
-    else
-      _showToDoList = [true,true,true,true,true,true,true,true,true];
-
-    if(update)
+    if(Database.mode == Mode.update)
       Database.userDataBox.put('showToDoList', _showToDoList);
   }
 
@@ -220,66 +157,41 @@ class UserData{
       Database.subjectCodeThisSemesterSave();
       Database.userDataBox.put('semester', semester);
     }
-    
   }
+
   static void showToDoListByIndex(int index, bool newvalue){
     _showToDoList[index] = newvalue;
     Database.userDataBox.put('showToDoList', _showToDoList);
   }
 
   static set oneStopLastSyncDay(int newValue){
-    bool update = true;
-    if(_oneStopLastSyncDay == null)
-      update = false;
+    _oneStopLastSyncDay = newValue ?? -1;
 
-    if(newValue != null)
-      _oneStopLastSyncDay = newValue;
-    else
-      _oneStopLastSyncDay = -1;
-
-    if(update)
+    if(Database.mode == Mode.update)
       Database.userDataBox.put('oneStopLastSyncDay', _oneStopLastSyncDay);
   }
 
   static set notificationDay(int newValue){
-    bool update = true;
-    if(_notificationDay == null)
-      update = false;
-
     if(newValue != null)
       _notificationDay = newValue;
     else
       _notificationDay = 0;
 
-    if(update)
+    if(Database.mode == Mode.update)
       Database.userDataBox.put('notificationDay', _notificationDay);
   }
 
   static set googleFirstLogin(bool newValue) {
-    bool update = true;
-    if(_googleFirstLogin == null)
-      update = false;
+    _googleFirstLogin = newValue ?? false;
 
-    if(newValue != null)
-      _googleFirstLogin = newValue;
-    else
-      _googleFirstLogin = false;
-
-    if(update)
+    if(Database.mode == Mode.update)
       Database.userDataBox.put('googleFirstLogin', _googleFirstLogin);
   }
 
   static set themeMode(ThemeMode newValue) {
-    bool update = true;
-    if(_themeMode == null)
-      update = false;
+    _themeMode = newValue ?? ThemeMode.system;
 
-    if(newValue != null)
-      _themeMode = newValue;
-    else
-      _themeMode = ThemeMode.system;
-
-    if(update)
+    if(Database.mode == Mode.update)
       Database.userDataBox.put('themeMode', newValue);
   }
 }
