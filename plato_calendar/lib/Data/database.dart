@@ -223,7 +223,7 @@ class Database{
   }
 
   static Future<void> googleDataLoad() async {
-    UserData.isSaveGoogleToken = await userDataBox.get('isSaveGoogleToken');
+    UserData.isSaveGoogleToken = await userDataBox.get('isSaveGoogleToken') ?? false;
     UserData.googleFirstLogin = await userDataBox.get('googleFirstLogin');
     if(UserData.isSaveGoogleToken){
       UserData.googleCalendar = await userDataBox.get('googleToken');
