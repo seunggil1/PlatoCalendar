@@ -51,7 +51,7 @@ class UserData{
   static List<bool> _showToDoList;
   
   /// 이전 날짜가 먼저 오는 CalendarData set
-  static OrderedSet<CalendarData> data = OrderedSet<CalendarData>(Comparing.on((CalendarData a) => a.end));
+  static Set<CalendarData> data = {};
 
   /// 이번학기 수강하는 subjectCode
   static Set<String> subjectCodeThisSemester;

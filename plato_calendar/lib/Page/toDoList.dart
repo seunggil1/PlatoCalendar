@@ -65,7 +65,11 @@ class _ToDoList extends State<ToDoList>{
     toDoList6Hour.clear();
     toDoListFinished.clear();
     DateTime now = DateTime.now();
-    UserData.data.forEach((element) {
+    List<CalendarData> icsList = UserData.data.toList();
+    icsList.sort((CalendarData a,CalendarData b){
+      return a.end.compareTo(b.end);
+    });
+    icsList.forEach((element) {
       Duration diff = element.end.difference(now);
       if(dropdownValue == '전체' || element.classCode == dropdownValue)
         if(!element.disable){ // 유저가 삭제 처리
