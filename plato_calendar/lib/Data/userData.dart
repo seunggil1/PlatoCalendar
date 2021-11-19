@@ -184,8 +184,8 @@ class UserData{
   static set googleFirstLogin(bool newValue) {
     _googleFirstLogin = newValue ?? false;
 
-    if(Database.mode == Mode.update)
-      Database.userDataBox.put('googleFirstLogin', _googleFirstLogin);
+    //if(Database.mode == Mode.update)
+    Database.userDataBox.put('googleFirstLogin', _googleFirstLogin);
   }
 
   static set themeMode(ThemeMode newValue) {
