@@ -99,7 +99,7 @@ Future<void> notifyTodaySchedule() async{
   UserData.notificationDay = DateTime.now().day;
 }
 
-Future<void> notifyDebugInfo(String e) async{
+Future<void> notifyDebugInfo(String e, [int id = 1]) async{
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   const AndroidNotificationDetails androidPlatformChannelSpecifics =
@@ -110,7 +110,7 @@ Future<void> notifyDebugInfo(String e) async{
         ticker: 'ticker',
         styleInformation: const BigTextStyleInformation(''));
   const NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
-  await flutterLocalNotificationsPlugin.show(1, 'Error', e, platformChannelSpecifics, payload: 'item x');
+  await flutterLocalNotificationsPlugin.show(id, 'Error', e, platformChannelSpecifics, payload: 'item x');
 }
 
 /// 지정된 초마다 신호 보내는 timer
