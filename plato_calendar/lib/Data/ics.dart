@@ -262,7 +262,7 @@ class CalendarData{
       t.start = EventDateTime(dateTime: this.start, timeZone: "Asia/Seoul");
 
     t.colorId = "${(this.color > 10 ? 10 : this.color)+ 1}";
-
+    t.status = "confirmed";
     return t;
   }
 

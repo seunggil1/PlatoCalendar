@@ -67,6 +67,7 @@ class GoogleCalendarToken{
       tokenStream = client.credentialUpdates;
     }
     catch(e){
+      notifyDebugInfo(e.toString());
       return false;
     }
     return true;
@@ -99,6 +100,7 @@ class GoogleCalendarToken{
       else if(Platform.isIOS)
         exit(0);
     }catch(e){
+      notifyDebugInfo(e.toString());
       return false;
     }
       return true;
@@ -133,7 +135,7 @@ class GoogleCalendarToken{
 
     try{
       CalendarApi mycalendar = CalendarApi(client);
-      List<Event> searchResult = (await mycalendar.events.list("primary", iCalUID: newEvent.iCalUID)).items;
+      List<Event> searchResult = (await mycalendar.events.list("primary", iCalUID: newEvent.iCalUID, showDeleted: true)).items;
 
       if(searchResult != null && searchResult.length >=1 && searchResult[0].id != null)
         await mycalendar.events.patch(newEvent, "primary", searchResult[0].id);
@@ -141,6 +143,7 @@ class GoogleCalendarToken{
         await mycalendar.events.insert(newEvent, "primary");
       return true;
     }catch(e){
+      notifyDebugInfo(e.toString());
       return false;
     }
     
@@ -159,6 +162,7 @@ class GoogleCalendarToken{
       
       return true;
     }catch(e){
+      notifyDebugInfo(e.toString());
       return false;
     }
     
