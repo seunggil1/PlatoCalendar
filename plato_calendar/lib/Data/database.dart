@@ -69,7 +69,7 @@ class Database{
       if(retry <= 8){
         showToastMessageCenter("${e.toString()}\nTrying again..($retry/10)");
         await Future.delayed(const Duration(seconds: 2));
-      }else if(retry <= 10)
+      }else if(retry <= 10 && e.toString().contains("데이터 동기화중입니다.."))
         await release();
       else
         await deleteAll();
@@ -125,6 +125,7 @@ class Database{
         _backgroundInit = true;
         WidgetsFlutterBinding.ensureInitialized();
         await initializeDateFormatting('ko_KR', null);
+      }
         await Hive.initFlutter();
         try{
           Hive.registerAdapter(CalendarDataAdapter());
@@ -135,7 +136,6 @@ class Database{
           if(!e.message.toString().contains("There is already a TypeAdapter"))
             throw HiveError("register Adapter failed : "+ e.message.toString());
         }
-      }
     }catch(e){
       if(e.runtimeType != HiveError){
         return false;
@@ -153,6 +153,7 @@ class Database{
       calendarBox = await Hive.openLazyBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
       userDataBox = await Hive.openLazyBox('userDataBox', encryptionCipher: HiveAesCipher(encryptionKey));
     }catch(e){
+      notifyDebugInfo(e.toString());
       return false;
     }
     return true;
