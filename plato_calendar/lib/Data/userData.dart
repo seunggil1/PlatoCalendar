@@ -4,8 +4,6 @@ import '../google/calendar.dart';
 
 import './database.dart';
 import './ics.dart';
-import 'package:ordered_set/ordered_set.dart';
-import 'package:ordered_set/comparing.dart';
 
 part 'userData.g.dart';
 
