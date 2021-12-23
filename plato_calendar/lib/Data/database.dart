@@ -153,7 +153,7 @@ class Database{
       calendarBox = await Hive.openLazyBox('calendarBox', encryptionCipher: HiveAesCipher(encryptionKey));
       userDataBox = await Hive.openLazyBox('userDataBox', encryptionCipher: HiveAesCipher(encryptionKey));
     }catch(e){
-      notifyDebugInfo(e.toString());
+      //notifyDebugInfo(e.toString());
       return false;
     }
     return true;

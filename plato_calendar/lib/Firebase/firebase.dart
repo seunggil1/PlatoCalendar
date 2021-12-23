@@ -16,8 +16,8 @@ import '../utility.dart';
 Future<bool> firebaseInit() async{
   try{
     await Firebase.initializeApp();
-    await FirebaseMessaging.instance.subscribeToTopic("all");
-    //await FirebaseMessaging.instance.subscribeToTopic("debug");
+    //await FirebaseMessaging.instance.subscribeToTopic("all");
+    await FirebaseMessaging.instance.subscribeToTopic("debug");
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
     return true;
@@ -36,11 +36,13 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     _flag = true;
   try{
     FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-    DateTime recentlyAccess = DateTime.parse(await secureStorage.read(key: 'time'));
     await notificationInit();
-    if(DateTime.now().difference(recentlyAccess).inMinutes <= 3)
-      throw Exception("Database is recently used");
     await Database.lock();
+    DateTime recentlyAccess = DateTime.parse(await secureStorage.read(key: 'time'));
+    if(DateTime.now().difference(recentlyAccess).inMinutes <= -1)
+      throw Exception("Database is recently used");
+    //await notifyDebugInfo("background Start : ${DateTime.now().toString()}", 2);
+    
     await Firebase.initializeApp();
     await Database.backGroundInit().then((bool result) async {
       if(!result){
@@ -69,6 +71,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     await Database.release();
   }
   catch(e){
+    //await notifyDebugInfo(e.toString());
     _flag = false;
     if(!(e.runtimeType == HiveError && e.toString().contains("Database is locked")))
       await Database.release();
