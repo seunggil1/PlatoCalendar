@@ -38,6 +38,7 @@ void main() async{
     pnuStream.sink.add(true);
   });
   Database.setLoadMode();
+  await notificationInit();
   await Database.init();
   await Database.loadDatabase();
   await Database.userDataLoad();
@@ -57,8 +58,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       //debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.white,
-        // primarySwatch: Typography.white,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       darkTheme: ThemeData.dark(),

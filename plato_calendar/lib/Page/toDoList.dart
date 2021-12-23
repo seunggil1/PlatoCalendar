@@ -103,6 +103,7 @@ class _ToDoList extends State<ToDoList>{
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark ? Theme.of(context).bottomAppBarColor : Colors.white,
         title: Row(
           children: [
             SizedBox(width: 5),

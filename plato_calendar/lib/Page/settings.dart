@@ -58,7 +58,8 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('설정'),
+        title: Text('설정', style: TextStyle(color : Colors.blueAccent[100], fontWeight: FontWeight.bold, fontSize: 14)),
+        backgroundColor: Theme.of(context).brightness == Brightness.dark ? Theme.of(context).bottomAppBarColor : Colors.white,
       ),
       body: ListView(
         children: [
