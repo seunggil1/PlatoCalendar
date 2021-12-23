@@ -16,8 +16,8 @@ import '../utility.dart';
 Future<bool> firebaseInit() async{
   try{
     await Firebase.initializeApp();
-    //await FirebaseMessaging.instance.subscribeToTopic("all");
-    await FirebaseMessaging.instance.subscribeToTopic("debug");
+    await FirebaseMessaging.instance.subscribeToTopic("all");
+    //await FirebaseMessaging.instance.subscribeToTopic("debug");
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
     return true;
