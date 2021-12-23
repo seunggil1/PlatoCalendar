@@ -36,7 +36,7 @@ void showToastMessageTop(String message){
 // #3 push message
 Future<void> notificationInit() async{
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  const AndroidInitializationSettings initSettingsAndroid = AndroidInitializationSettings('@mipmap/calender_icon');
+  const AndroidInitializationSettings initSettingsAndroid = AndroidInitializationSettings('@drawable/ic_stat_name');
   final initSettingsIOS = IOSInitializationSettings(
     requestSoundPermission: false,
     requestBadgePermission: false,
