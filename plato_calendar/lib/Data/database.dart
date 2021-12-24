@@ -74,6 +74,7 @@ class Database{
       else
         await deleteAll();
       await init(retry+1);
+      return;
     }
     try{
       await Hive.initFlutter();
