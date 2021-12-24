@@ -149,7 +149,7 @@ class Plato {
       ]);
     }
     catch(e){
-      //notifyDebugInfo(e.toString());
+      notifyDebugInfo(e.toString());
       DateTime now = DateTime.now();
       UserData.lastSyncInfo = "${now.day}일 ${now.hour}:${now.minute} - 동기화 오류\n${e.toString()}";
       return false;

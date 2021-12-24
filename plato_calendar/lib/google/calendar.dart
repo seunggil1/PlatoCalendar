@@ -67,7 +67,7 @@ class GoogleCalendarToken{
       tokenStream = client.credentialUpdates;
     }
     catch(e){
-      //notifyDebugInfo(e.toString());
+      notifyDebugInfo(e.toString());
       return false;
     }
     return true;
@@ -100,7 +100,7 @@ class GoogleCalendarToken{
       else if(Platform.isIOS)
         exit(0);
     }catch(e){
-      //notifyDebugInfo(e.toString());
+      notifyDebugInfo(e.toString());
       return false;
     }
       return true;
@@ -143,7 +143,7 @@ class GoogleCalendarToken{
         await mycalendar.events.insert(newEvent, "primary");
       return true;
     }catch(e){
-      //notifyDebugInfo(e.toString());
+      notifyDebugInfo(e.toString());
       return false;
     }
     
@@ -162,7 +162,7 @@ class GoogleCalendarToken{
       
       return true;
     }catch(e){
-      //notifyDebugInfo(e.toString());
+      notifyDebugInfo(e.toString());
       return false;
     }
     

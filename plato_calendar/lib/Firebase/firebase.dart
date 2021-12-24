@@ -41,7 +41,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     DateTime recentlyAccess = DateTime.parse(await secureStorage.read(key: 'time'));
     if(DateTime.now().difference(recentlyAccess).inMinutes <= -1)
       throw Exception("Database is recently used");
-    //await notifyDebugInfo("background Start : ${DateTime.now().toString()}", 2);
+    await notifyDebugInfo("background Start : ${DateTime.now().toString()}", 2);
     
     await Firebase.initializeApp();
     await Database.backGroundInit().then((bool result) async {
@@ -71,7 +71,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     await Database.release();
   }
   catch(e){
-    //await notifyDebugInfo(e.toString());
+    await notifyDebugInfo(e.toString());
     _flag = false;
     if(!(e.runtimeType == HiveError && e.toString().contains("Database is locked")))
       await Database.release();

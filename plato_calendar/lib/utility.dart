@@ -100,6 +100,8 @@ Future<void> notifyTodaySchedule() async{
 }
 
 Future<void> notifyDebugInfo(String e, [int id = 1]) async{
+  if(UserData.buildType == BuildType.release)
+    return;
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   const AndroidNotificationDetails androidPlatformChannelSpecifics =
