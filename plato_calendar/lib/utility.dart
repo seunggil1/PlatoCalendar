@@ -92,6 +92,7 @@ Future<void> notifyTodaySchedule() async{
           importance: Importance.defaultImportance,
           priority: Priority.defaultPriority,
           ticker: 'ticker',
+          color: Colors.blue,
           styleInformation: const BigTextStyleInformation(''));
     const NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(0, '오늘의 일정', body, platformChannelSpecifics, payload: 'item x');
@@ -110,6 +111,7 @@ Future<void> notifyDebugInfo(String e, [int id = 1]) async{
         importance: Importance.defaultImportance,
         priority: Priority.defaultPriority,
         ticker: 'ticker',
+        color: Colors.blue,
         styleInformation: const BigTextStyleInformation(''));
   const NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
   await flutterLocalNotificationsPlugin.show(id, 'Error', e, platformChannelSpecifics, payload: 'item x');
