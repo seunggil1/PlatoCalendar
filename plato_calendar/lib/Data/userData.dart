@@ -9,17 +9,10 @@ part 'userData.g.dart';
 
 enum SortMethod {sortByDue, sortByRegister}
 enum CalendarType {split,integrated}
-enum BuildType {debug, release}
+
 SortMethod sortMethod = SortMethod.sortByDue;
 
 class UserData{
-  /// release, debug 여부 표시
-  /// debug 모드일때 오류, 백그라운드 동기화를 상단 알림으로 표시함.
-  static BuildType buildType = BuildType.debug;
-
-  /// App build 날짜
-  static double version = 2021225;
-
   /// 마지막으로 봤던 tapIndex
   static int _tapIndex;
   
