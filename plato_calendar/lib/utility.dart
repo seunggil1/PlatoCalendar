@@ -4,6 +4,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'Data/etc.dart';
 import 'Data/userData.dart';
+import 'Data/appinfo.dart';
 
 // #1 하단에 잠시 텍스트 뜨게 하는 코드
 void showMessage(BuildContext context, String msg) {
@@ -101,7 +102,7 @@ Future<void> notifyTodaySchedule() async{
 }
 
 Future<void> notifyDebugInfo(String e, [int id = 1]) async{
-  if(UserData.buildType == BuildType.release)
+  if(Appinfo.buildType == BuildType.release)
     return;
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
