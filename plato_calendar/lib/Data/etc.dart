@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-Map<int, String> weekdayLocaleKR = {
+final Map<int, String> weekdayLocaleKR = {
   1 : "월",
   2 : "화",
   3 : "수",
