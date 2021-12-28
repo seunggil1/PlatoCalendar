@@ -44,7 +44,7 @@ class BackgroundDatabase extends Database{
         await release();
       }else{
         notifyDebugInfo("Fail to lock Background Database.\n All Database is deleted.", 3);
-        await deleteAll();      
+        await Database.deleteAll();      
       }
     }
     await secureStorage.write(key: _lock, value: 'true');
@@ -75,7 +75,7 @@ class BackgroundDatabase extends Database{
 
     }catch(e){
       notifyDebugInfo(e.toString());
-      await deleteAll();
+      await Database.deleteAll();
       await loadDatabase();
       return;
     }

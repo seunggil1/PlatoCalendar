@@ -55,7 +55,7 @@ class ForegroundDatabase extends Database{
     }
     catch(e){
       notifyDebugInfo(e.toString());
-      await deleteAll();
+      await Database.deleteAll();
       await loadDatabase();
     }
   }

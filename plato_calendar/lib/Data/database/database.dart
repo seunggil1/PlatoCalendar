@@ -63,6 +63,27 @@ abstract class Database{
       return BackgroundDatabase();
   }
 
+  static Future<void> deleteAll() async{
+    FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+    await secureStorage.deleteAll();
+    try{
+      await Hive.deleteBoxFromDisk('foregroundCalendarBox');
+      await Hive.deleteBoxFromDisk('foregroundUserDataBox');
+    }
+    catch(e){
+      if(!(e is ArgumentError))
+        return e;
+    }
+    try{
+      await Hive.deleteBoxFromDisk('backgroundCalendarBox');
+      await Hive.deleteBoxFromDisk('backgroundUserDataBox');
+    }
+    catch(e){
+      if(!(e is ArgumentError))
+        return e;
+    }
+    showToastMessageCenter("저장된 데이터 복원에 실패했습니다.");
+  }
   /// db 마지막 접근 시간 기록
   Future<void> updateTime();
   Future<DateTime> getTime();
@@ -75,16 +96,6 @@ abstract class Database{
     await calendarBox.close();
     await userDataBox.close();
   }
-  Future<void> deleteAll() async{
-    FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-    await secureStorage.deleteAll();
-    await Hive.deleteBoxFromDisk('backgroundCalendarBox');
-    await Hive.deleteBoxFromDisk('backgroundUserDataBox');
-    await Hive.deleteBoxFromDisk('foregroundCalendarBox');
-    await Hive.deleteBoxFromDisk('foregroundUserDataBox');
-    showToastMessageCenter("저장된 데이터 복원에 실패했습니다.");
-  }
-
 
   Future<void> uidSetSave() async {
     await calendarBox.put('uidList', uidSet.toList());
