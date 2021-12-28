@@ -21,6 +21,7 @@ Future<bool> update({bool force = false, bool background = false}) async{
       if(await Plato.login() && await Plato.getCalendar()){
         if(!background)
           pnuStream.sink.add(true);
+        await UserData.writeDatabase.updateTime();
         return true;
       }
       return false;

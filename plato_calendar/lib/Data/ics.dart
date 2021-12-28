@@ -11,7 +11,7 @@ import './subjectCode.dart';
 import './userData.dart';
 import 'package:hive/hive.dart';
 import 'package:open_file/open_file.dart';
-import 'database.dart';
+import 'database/database.dart';
 
 part 'ics.g.dart';
 // UID	      일정의 고유한 ID 값. 단일 캘린더 ID에서는 iCalendar의 UID가 고유해야 한다.
@@ -61,8 +61,8 @@ Future<void> icsParser(String bytes) async{
   for(var iter in iCalendar.data){
     CalendarData data = CalendarData.byMap(iter);
     if(!UserData.data.contains(data)){
-      Database.uidSet.add(data.uid);
-      await Database.calendarDataSave(data);
+      UserData.writeDatabase.uidSet.add(data.uid);
+      await UserData.writeDatabase.calendarDataSave(data);
       UserData.data.add(data);
     }
   }
@@ -114,8 +114,8 @@ Future<void> testTimeParser(dynamic dataList,List<String> requestInfo) async {
   for(var iter in dataList){
     CalendarData data = CalendarData.byTestTime(iter, requestInfo);
     if(!UserData.data.contains(data)){
-      Database.uidSet.add(data.uid);
-      Database.calendarDataSave(data);
+      UserData.writeDatabase.uidSet.add(data.uid);
+      UserData.writeDatabase.calendarDataSave(data);
       UserData.data.add(data);
     }
   }

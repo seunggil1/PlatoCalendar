@@ -1,10 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:plato_calendar/utility.dart';
-import 'Data/database.dart';
+
+import 'Data/database/database.dart';
+import 'Data/database/foregroundDatabase.dart';
+import 'Data/database/backgroundDatabase.dart';
 import 'Data/ics.dart';
 import 'Firebase/firebase.dart';
 import 'Page/widget/adBanner.dart';
@@ -37,14 +41,25 @@ void main() async{
   ]).then((value){
     pnuStream.sink.add(true);
   });
-  Database.setLoadMode();
-  await notificationInit();
+  
   await Database.init();
-  await Database.loadDatabase();
-  await Database.userDataLoad();
-  await Database.calendarDataLoad();
-  await Database.googleDataLoad();
-  Database.setUpdateMode();
+  UserData.writeDatabase = ForegroundDatabase();
+  UserData.readDatabase = await Database.recentlyUsedDatabase();
+
+  await notificationInit();
+  await UserData.readDatabase.lock();
+  await UserData.writeDatabase.loadDatabase();
+  await UserData.readDatabase.loadDatabase();
+
+  UserData.readDatabase.userDataLoad();
+  UserData.readDatabase.calendarDataLoad();
+  UserData.readDatabase.googleDataLoad();
+
+  await UserData.readDatabase.release();
+
+  if(UserData.readDatabase is BackgroundDatabase)
+    await UserData.readDatabase.closeDatabase();
+
   // for test
   // await icsParser("");
   await initializeDateFormatting('ko_KR', null);
@@ -84,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     super.initState();
     timerSubScription = timer(10).listen((event) async { 
-      await Database.updateTime();
+      await UserData.writeDatabase.updateTime();
     });
     update();
   }
@@ -136,22 +151,28 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         setState(() {
           loading = true;
         });
-        await Database.init();
-        await Database.closeAll();
-        await Database.loadDatabase();
-        Database.setLoadMode();
-        DateTime beforeSync = UserData.lastSyncTime;
-        await Database.userDataLoad();
-        DateTime nowSync = UserData.lastSyncTime;
-        if(beforeSync != nowSync){
+        UserData.readDatabase = BackgroundDatabase();
+        DateTime beforeSync = await UserData.writeDatabase.getTime();
+        DateTime nowSync = await UserData.readDatabase.getTime();
+        
+        if(nowSync.difference(beforeSync).inSeconds > 0){
           showToastMessageCenter("데이터를 불러오고 있습니다..");
-          await Database.calendarDataLoad();
+          
+          await UserData.readDatabase.lock();
+          await UserData.readDatabase.loadDatabase();
+
+          UserData.readDatabase.calendarDataLoad();
+          UserData.readDatabase.userDataLoad();
+
+          await UserData.readDatabase.closeDatabase();
+          UserData.readDatabase.release();
           pnuStream.sink.add(true);
         }
-        Database.setUpdateMode();
+
         setState(() {
           loading = false;
         });
+        closeToastMessage();
         timerSubScription.resume();
         break;
       case AppLifecycleState.inactive:

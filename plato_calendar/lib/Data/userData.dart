@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import '../google/calendar.dart';
 
-import './database.dart';
+import 'database/database.dart';
 import './ics.dart';
 
 part 'userData.g.dart';
@@ -13,6 +13,14 @@ enum CalendarType {split,integrated}
 SortMethod sortMethod = SortMethod.sortByDue;
 
 class UserData{
+  /// read Only Database.
+  /// 
+  /// 다른 프로세스에서 작정한 데이터베이스랑 연결됨.
+  static Database readDatabase;
+
+  /// 변경 사항을 기록할 Database.
+  static Database writeDatabase;
+
   /// 마지막으로 봤던 tapIndex
   static int _tapIndex;
   
@@ -85,86 +93,66 @@ class UserData{
 
   static set tapIndex(int newValue){
     _tapIndex = newValue ?? 0;
-
-    if(Database.mode == Mode.update)
-      Database.userDataBox.put('tapIndex', _tapIndex);
+    writeDatabase.userDataBox.put('tapIndex', _tapIndex);
   }
 
   static set firstDayOfWeek(int newValue){   
     _firstDayOfWeek = newValue ?? 7;
-
-    if(Database.mode == Mode.update)
-      Database.userDataBox.put('firstDayOfWeek', _firstDayOfWeek);
+    writeDatabase.userDataBox.put('firstDayOfWeek', _firstDayOfWeek);
   }
 
   static set showFinished(bool newValue){ 
     _showFinished = newValue ?? true;
-
-    if(Database.mode == Mode.update)
-      Database.userDataBox.put('showFinished', _showFinished);
+    writeDatabase.userDataBox.put('showFinished', _showFinished);
   }
 
   static set calendarType(CalendarType newValue){
     _calendarType = newValue ?? CalendarType.split;
-
-    if(Database.mode == Mode.update)
-      Database.userDataBox.put('calendarType', _calendarType);
+    writeDatabase.userDataBox.put('calendarType', _calendarType);
   }
 
   static set id(String newValue){ 
     _id = newValue ?? "";
-
-    if(Database.mode == Mode.update)
-      Database.userDataBox.put('id', _id);
+    writeDatabase.userDataBox.put('id', _id);
   }
 
   static set pw(String newValue){
     _pw = newValue ?? "";
-
-    if(Database.mode == Mode.update)
-      Database.userDataBox.put('pw', _pw);
+    writeDatabase.userDataBox.put('pw', _pw);
   }
 
   static set lastSyncTime(DateTime newValue){   
     _lastSyncTime = newValue ?? DateTime(1999);
-
-    if(Database.mode == Mode.update)
-      Database.userDataBox.put('lastSyncTime', _lastSyncTime);
+    writeDatabase.userDataBox.put('lastSyncTime', _lastSyncTime);
   }
 
   static set lastSyncInfo(String newValue){
     _lastSyncInfo = newValue ?? "로그인이 필요합니다";
-
-    if(Database.mode == Mode.update)
-      Database.userDataBox.put('lastSyncInfo', _lastSyncInfo);
+    writeDatabase.userDataBox.put('lastSyncInfo', _lastSyncInfo);
   }
 
   static set showToDoList(List<bool> newValue){
     _showToDoList = newValue ?? [true,true,true,true,true,true,true,true,true];
-
-    if(Database.mode == Mode.update)
-      Database.userDataBox.put('showToDoList', _showToDoList);
+    writeDatabase.userDataBox.put('showToDoList', _showToDoList);
   }
 
   static set semester(int newValue){
     if(newValue == null || newValue != semester){
       subjectCodeThisSemester.clear();
       subjectCodeThisSemester.add("전체");
-      Database.subjectCodeThisSemesterSave();
-      Database.userDataBox.put('semester', semester);
+      writeDatabase.subjectCodeThisSemesterSave();
+      writeDatabase.userDataBox.put('semester', semester);
     }
   }
 
   static void showToDoListByIndex(int index, bool newvalue){
     _showToDoList[index] = newvalue;
-    Database.userDataBox.put('showToDoList', _showToDoList);
+    writeDatabase.userDataBox.put('showToDoList', _showToDoList);
   }
 
   static set oneStopLastSyncDay(int newValue){
     _oneStopLastSyncDay = newValue ?? -1;
-
-    if(Database.mode == Mode.update)
-      Database.userDataBox.put('oneStopLastSyncDay', _oneStopLastSyncDay);
+    writeDatabase.userDataBox.put('oneStopLastSyncDay', _oneStopLastSyncDay);
   }
 
   static set notificationDay(int newValue){
@@ -173,21 +161,19 @@ class UserData{
     else
       _notificationDay = 0;
 
-    if(Database.mode == Mode.update)
-      Database.userDataBox.put('notificationDay', _notificationDay);
+    writeDatabase.userDataBox.put('notificationDay', _notificationDay);
   }
 
   static set googleFirstLogin(bool newValue) {
     _googleFirstLogin = newValue ?? false;
 
     //if(Database.mode == Mode.update)
-    Database.userDataBox.put('googleFirstLogin', _googleFirstLogin);
+    writeDatabase.userDataBox.put('googleFirstLogin', _googleFirstLogin);
   }
 
   static set themeMode(ThemeMode newValue) {
     _themeMode = newValue ?? ThemeMode.system;
 
-    if(Database.mode == Mode.update)
-      Database.userDataBox.put('themeMode', newValue);
+    writeDatabase.userDataBox.put('themeMode', newValue);
   }
 }

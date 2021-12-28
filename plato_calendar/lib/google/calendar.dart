@@ -9,7 +9,7 @@ import 'package:plato_calendar/utility.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../Data/privateKey.dart';
 
-import '../Data/database.dart';
+import '../Data/database/database.dart';
 import '../Data/userData.dart';
 
 part 'calendar.g.dart';
@@ -93,7 +93,7 @@ class GoogleCalendarToken{
       
       UserData.isSaveGoogleToken = true;
       UserData.googleFirstLogin = true;
-      await Database.googleDataSave();
+      await UserData.writeDatabase.googleDataSave();
       await Future.delayed(Duration(seconds: 2));
       if(Platform.isAndroid)
         SystemNavigator.pop();
@@ -113,7 +113,7 @@ class GoogleCalendarToken{
       this.expiry = DateTime(1990);
       this.refreshToken = "";
       this.scopes = [];
-      await Database.googleDataSave();
+      await UserData.writeDatabase.googleDataSave();
   }
   Future<bool> updateCalendarFull() async {
     showToastMessageCenter("Google 동기화를 진행중입니다. 앱을 종료하지 말아 주세요.");

@@ -34,6 +34,10 @@ void showToastMessageTop(String message){
   });
 }
 
+void closeToastMessage(){
+  Fluttertoast.cancel();
+}
+
 // #3 push message
 Future<void> notificationInit() async{
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();

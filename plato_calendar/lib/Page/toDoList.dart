@@ -9,7 +9,7 @@ import '../Data/subjectCode.dart';
 import '../Data/userData.dart';
 import 'widget/adBanner.dart';
 import 'widget/appointmentEditor.dart';
-import '../Data/database.dart';
+import '../Data/database/database.dart';
 import '../Data/ics.dart';
 import '../main.dart';
 import '../utility.dart';
@@ -146,10 +146,10 @@ class _ToDoList extends State<ToDoList>{
                       }).then((value) {
                         if(value != null){
                           setState((){
-                            Database.uidSet.add(value.uid);
+                            UserData.writeDatabase.uidSet.add(value.uid);
                             UserData.data.add(value);
                           });
-                          Database.uidSetSave();
+                          UserData.writeDatabase.uidSetSave();
                         }
                       });
                   },
@@ -403,7 +403,7 @@ class _ToDoList extends State<ToDoList>{
                 setState(() {
                   data.finished = value;
                 });
-                Database.calendarDataSave(data);
+                UserData.writeDatabase.calendarDataSave(data);
                 if(value)
                   showMessage(context, "완료된 일정으로 변경했습니다.");
             }),

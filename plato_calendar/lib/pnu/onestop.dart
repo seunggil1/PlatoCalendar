@@ -5,7 +5,7 @@ import 'package:html/dom.dart' as dom;
 import 'package:plato_calendar/Data/ics.dart';
 import 'package:dio/dio.dart';
 
-import '../Data/database.dart';
+import '../Data/database/database.dart';
 import '../Data/userData.dart';
 
 class Onestop {
@@ -271,9 +271,9 @@ class Onestop {
       return false;
     }
     UserData.oneStopLastSyncDay = DateTime.now().day;
-    Database.subjectCodeThisSemesterSave();
-    Database.defaultColorSave();
-    Database.uidSetSave();
+    UserData.writeDatabase.subjectCodeThisSemesterSave();
+    UserData.writeDatabase.defaultColorSave();
+    UserData.writeDatabase.uidSetSave();
     return true;
   }
   static Future<bool> logout() async {

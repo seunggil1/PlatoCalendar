@@ -9,7 +9,7 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import '../Data/etc.dart';
 import '../Data/subjectCode.dart';
 import '../Data/userData.dart';
-import '../Data/database.dart';
+import '../Data/database/database.dart';
 import '../utility.dart';
 import 'widget/appointmentEditor.dart';
 import '../main.dart';
@@ -295,7 +295,7 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                                     }).then((value) {
                                       if(value != null){
                                         setState((){ UserData.defaultColor[data] = value;});
-                                        Database.defaultColorSave();
+                                        UserData.writeDatabase.defaultColorSave();
                                       }
                                     });
                           },
