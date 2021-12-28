@@ -6,6 +6,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:plato_calendar/utility.dart';
 
+import 'Data/appinfo.dart';
 import 'Data/database/database.dart';
 import 'Data/database/foregroundDatabase.dart';
 import 'Data/database/backgroundDatabase.dart';
@@ -41,8 +42,8 @@ void main() async{
   ]).then((value){
     pnuStream.sink.add(true);
   });
-  
   await Database.init();
+  await Appinfo.loadAppinfo();
   UserData.writeDatabase = ForegroundDatabase();
   UserData.readDatabase = await Database.recentlyUsedDatabase();
 
