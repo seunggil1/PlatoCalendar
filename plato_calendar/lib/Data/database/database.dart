@@ -48,14 +48,18 @@ abstract class Database{
     DateTime backgroundTime;
 
     if (await secureStorage.containsKey(key: "foregroundTime"))
-      foregroundTime = DateTime.parse(await (secureStorage.read(key: "foregroundTime")));
-    else
+      foregroundTime = DateTime.parse(await secureStorage.read(key: "foregroundTime"));
+    else{
       foregroundTime = DateTime(1990);
+      await (secureStorage.write(key: "foregroundTime", value: DateTime(1990).toString()));
+    }
 
     if (await secureStorage.containsKey(key: "backgroundTime"))
       backgroundTime = DateTime.parse(await (secureStorage.read(key: "backgroundTime")));
-    else
+    else{
       backgroundTime = DateTime(1990);
+      await (secureStorage.write(key: "backgroundTime", value: DateTime(1990).toString()));
+    }
 
     if(foregroundTime.difference(backgroundTime).inSeconds >= 0)
       return ForegroundDatabase();
