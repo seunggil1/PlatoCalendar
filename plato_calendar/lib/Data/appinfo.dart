@@ -1,6 +1,8 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:plato_calendar/Data/database/database.dart';
 
+import 'package:plato_calendar/utility.dart';
+
 enum BuildType {debug, release}
 
 class Appinfo{
@@ -20,15 +22,22 @@ class Appinfo{
   
   static Future<void> loadAppinfo() async {
     FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-    if(await secureStorage.containsKey(key: "databaseVersion")){
-      final String nowDBVersion = await secureStorage.read(key: "databaseVersion") ?? 2.0;
-      if(databaseVersion != nowDBVersion){
+    try{
+      if(await secureStorage.containsKey(key: "databaseVersion")){
+        final String nowDBVersion = await secureStorage.read(key: "databaseVersion") ?? 2.0;
+        if(databaseVersion != nowDBVersion){
+          await Database.deleteAll();
+          await secureStorage.write(key: "databaseVersion", value: databaseVersion);
+        }
+      }else{
         await Database.deleteAll();
         await secureStorage.write(key: "databaseVersion", value: databaseVersion);
       }
-    }else{
+    }catch(e){
+      notifyDebugInfo(e);
       await Database.deleteAll();
       await secureStorage.write(key: "databaseVersion", value: databaseVersion);
     }
+
   }
 }
