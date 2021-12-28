@@ -63,7 +63,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     // 충돌 방지를 위해 5분안에 앱 사용한 적이 있을 경우 동기화x
     DateTime recentlyAccess = await UserData.readDatabase.getTime();
     if(DateTime.now().difference(recentlyAccess).inMinutes <= 5)
-      throw Exception("Database is recently used");
+      throw HiveError("Database is recently used");
     await notifyDebugInfo("background Start : ${DateTime.now().toString()}", 2);
 
     await UserData.writeDatabase.lock();
@@ -96,7 +96,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   catch(e){
     await notifyDebugInfo(e.toString());
     _flag = false;
-    if(!(e.runtimeType == HiveError && e.toString().contains("Database is locked")))
+    if(e.runtimeType != HiveError || !(e.toString().contains("Database is locked") || e.toString().contains("Database is recently used")))
       await UserData.writeDatabase.release();
   }
   return;
