@@ -368,21 +368,24 @@ class _ToDoList extends State<ToDoList>{
   Widget _getDurationWidget(String str, int index){
     return Container(
       margin: const EdgeInsets.all(5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(str, style: TextStyle(fontSize: 15)),
-          GestureDetector(
-            onTap: (){
-              setState(() {
-                UserData.showToDoListByIndex(index, !UserData.showToDoList[index]);
-              });
-            },
-            child: Icon(UserData.showToDoList[index] ? Icons.keyboard_arrow_up_sharp : Icons.keyboard_arrow_down_sharp, color: Colors.blueAccent[100], size: 27),
-          )
-        ],
+      child: GestureDetector(
+        // child 없는 빈 Container도 터치 감지.
+        behavior: HitTestBehavior.opaque,
+        onTap: (){
+          setState(() {
+            UserData.showToDoListByIndex(index, !UserData.showToDoList[index]);
+          });
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(str, style: TextStyle(fontSize: 15)),
+            Expanded(child: Container()),
+            Icon(UserData.showToDoList[index] ? Icons.keyboard_arrow_up_sharp : Icons.keyboard_arrow_down_sharp, color: Colors.blueAccent[100], size: 27),
+          ],
+        )
       )
-      );
+    );
   }
   Widget _getTodoWidget(CalendarData data){
     return FlatButton(
