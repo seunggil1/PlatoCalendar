@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 
 import '../Data/etc.dart';
@@ -9,7 +8,6 @@ import '../Data/subjectCode.dart';
 import '../Data/userData.dart';
 import 'widget/adBanner.dart';
 import 'widget/appointmentEditor.dart';
-import '../Data/database/database.dart';
 import '../Data/ics.dart';
 import '../main.dart';
 import '../utility.dart';
