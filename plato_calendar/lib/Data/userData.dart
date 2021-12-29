@@ -54,7 +54,10 @@ class UserData{
   /// [지남, 6, 12, 오늘, 내일, 1주일 이하, 1주일 이상, 날짜 없음, 완료]
   static List<bool> _showToDoList;
   
-  /// 이전 날짜가 먼저 오는 CalendarData set
+  /// CalendarData set에 있는 Uid 목록
+  static Set<String> uidSet = {};
+  
+  /// CalendarData set
   static Set<CalendarData> data = {};
 
   /// 이번학기 수강하는 subjectCode

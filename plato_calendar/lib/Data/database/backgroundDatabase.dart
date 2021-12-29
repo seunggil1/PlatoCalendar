@@ -24,11 +24,9 @@ class BackgroundDatabase extends Database{
     FlutterSecureStorage secureStorage = const FlutterSecureStorage();
     return DateTime.parse(await secureStorage.read(key: _syncTime));
   }
-  /// background와 동시 접근을 막기위한 mutex
+  /// backgroundDB 동시 접근을 막기위한 mutex
   /// 
-  /// background는 맨 처음 lock을 걸고 동기화가 마무리되면 release처리를 진행하고,
-  /// 
-  /// foreground의 경우 앱 처음 켤 때 lock걸고 바로 release처리함.
+  /// backgroundDB 읽거나 쓸 때, 우선 lock을 걸고  마무리되면 release처리를 진행하고,
   Future<void> lock() async{
     FlutterSecureStorage secureStorage = const FlutterSecureStorage();
     if (!(await secureStorage.containsKey(key: _lock)))

@@ -271,9 +271,11 @@ class Onestop {
       return false;
     }
     UserData.oneStopLastSyncDay = DateTime.now().day;
-    UserData.writeDatabase.subjectCodeThisSemesterSave();
-    UserData.writeDatabase.defaultColorSave();
-    UserData.writeDatabase.uidSetSave();
+    await Future.wait([
+        UserData.writeDatabase.subjectCodeThisSemesterSave(),
+        UserData.writeDatabase.defaultColorSave(),
+        UserData.writeDatabase.uidSetSave()
+    ]);
     return true;
   }
   static Future<bool> logout() async {

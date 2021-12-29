@@ -146,7 +146,7 @@ class _ToDoList extends State<ToDoList>{
                       }).then((value) {
                         if(value != null){
                           setState((){
-                            UserData.writeDatabase.uidSet.add(value.uid);
+                            UserData.uidSet.add(value.uid);
                             UserData.data.add(value);
                           });
                           UserData.writeDatabase.uidSetSave();

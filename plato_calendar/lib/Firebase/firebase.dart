@@ -74,6 +74,15 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     UserData.readDatabase.userDataLoad();
     UserData.readDatabase.calendarDataLoad();
     UserData.readDatabase.googleDataLoad();
+
+  // 자동으로 Save 안되는 부분은 수동으로 해주기.
+  await Future.wait([
+      UserData.writeDatabase.subjectCodeThisSemesterSave(),
+      UserData.writeDatabase.defaultColorSave(),
+      UserData.writeDatabase.uidSetSave(),
+      UserData.writeDatabase.calendarDataFullSave()
+  ]);
+
     await UserData.writeDatabase.updateTime();
     if(!message.data.containsKey("func"))
       print("firebase Debug Success.");
@@ -90,8 +99,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
     await Future.delayed(Duration(seconds: 1));
     await UserData.writeDatabase.release();
-      if(UserData.readDatabase is BackgroundDatabase)
-    await UserData.readDatabase.closeDatabase();
+    if(UserData.readDatabase is BackgroundDatabase)
+      await UserData.readDatabase.closeDatabase();
   }
   catch(e){
     await notifyDebugInfo(e.toString());

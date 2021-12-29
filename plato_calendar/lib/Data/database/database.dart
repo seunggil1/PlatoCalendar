@@ -14,7 +14,6 @@ import '../../utility.dart';
 abstract class Database{
   Box calendarBox;
   Box userDataBox;
-  Set<String> uidSet = {};
 
   /// Database 사용전 한번 호출.
   static Future<void> init() async {
@@ -75,16 +74,18 @@ abstract class Database{
       await Hive.deleteBoxFromDisk('foregroundUserDataBox');
     }
     catch(e){
+      notifyDebugInfo(e.toString(),5);
       if(!(e is ArgumentError))
-        return e;
+        throw e;
     }
     try{
       await Hive.deleteBoxFromDisk('backgroundCalendarBox');
       await Hive.deleteBoxFromDisk('backgroundUserDataBox');
     }
     catch(e){
+      notifyDebugInfo(e.toString(),5);
       if(!(e is ArgumentError))
-        return e;
+        throw e;
     }
     showToastMessageCenter("저장된 데이터 복원에 실패했습니다.");
   }
@@ -102,7 +103,12 @@ abstract class Database{
   }
 
   Future<void> uidSetSave() async {
-    await calendarBox.put('uidList', uidSet.toList());
+    await calendarBox.put('uidList', UserData.uidSet.toList());
+  }
+
+  Future<void> calendarDataFullSave() async{
+    for(CalendarData data in UserData.data)
+      await calendarBox.put(data.uid,data);
   }
   Future<void> calendarDataSave(CalendarData data) async {
     await calendarBox.put(data.uid,data);
@@ -112,8 +118,8 @@ abstract class Database{
       await UserData.googleCalendar.updateCalendar(data.toEvent());
   }
   void calendarDataLoad() {
-    uidSet = (calendarBox.get('uidList') ?? <String>[]).toSet();
-    for(var iter in uidSet)
+    UserData.uidSet = (calendarBox.get('uidList') ?? <String>[]).toSet();
+    for(var iter in UserData.uidSet)
       UserData.data.add(calendarBox.get(iter));
   }
 

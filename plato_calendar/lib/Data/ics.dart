@@ -61,7 +61,7 @@ Future<void> icsParser(String bytes) async{
   for(var iter in iCalendar.data){
     CalendarData data = CalendarData.byMap(iter);
     if(!UserData.data.contains(data)){
-      UserData.writeDatabase.uidSet.add(data.uid);
+      UserData.uidSet.add(data.uid);
       await UserData.writeDatabase.calendarDataSave(data);
       UserData.data.add(data);
     }
@@ -114,7 +114,7 @@ Future<void> testTimeParser(dynamic dataList,List<String> requestInfo) async {
   for(var iter in dataList){
     CalendarData data = CalendarData.byTestTime(iter, requestInfo);
     if(!UserData.data.contains(data)){
-      UserData.writeDatabase.uidSet.add(data.uid);
+      UserData.uidSet.add(data.uid);
       UserData.writeDatabase.calendarDataSave(data);
       UserData.data.add(data);
     }

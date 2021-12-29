@@ -46,7 +46,7 @@ void main() async{
   await Appinfo.loadAppinfo();
   UserData.writeDatabase = ForegroundDatabase();
   UserData.readDatabase = await Database.recentlyUsedDatabase();
-
+ 
   await notificationInit();
   await UserData.readDatabase.lock();
   await UserData.writeDatabase.loadDatabase();
@@ -56,6 +56,13 @@ void main() async{
   UserData.readDatabase.calendarDataLoad();
   UserData.readDatabase.googleDataLoad();
 
+  // 자동으로 Save 안되는 부분은 수동으로 해주기.
+  await Future.wait([
+      UserData.writeDatabase.subjectCodeThisSemesterSave(),
+      UserData.writeDatabase.defaultColorSave(),
+      UserData.writeDatabase.uidSetSave(),
+      UserData.writeDatabase.calendarDataFullSave()
+  ]);
   await UserData.readDatabase.release();
 
   if(UserData.readDatabase is BackgroundDatabase)
@@ -165,6 +172,14 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
           UserData.readDatabase.calendarDataLoad();
           UserData.readDatabase.userDataLoad();
 
+          // 자동으로 Save 안되는 부분은 수동으로 해주기.
+          await Future.wait([
+              UserData.writeDatabase.subjectCodeThisSemesterSave(),
+              UserData.writeDatabase.defaultColorSave(),
+              UserData.writeDatabase.uidSetSave(),
+              UserData.writeDatabase.calendarDataFullSave()
+          ]);
+          
           await UserData.readDatabase.closeDatabase();
           UserData.readDatabase.release();
           pnuStream.sink.add(true);
