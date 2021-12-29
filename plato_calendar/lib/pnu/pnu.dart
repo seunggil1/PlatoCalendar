@@ -8,8 +8,8 @@ import 'plato.dart';
 Future<bool> update({bool force = false, bool background = false}) async{
   if(UserData.id != ""){
     if(await (Connectivity().checkConnectivity()) == ConnectivityResult.none){
-      UserData.lastSyncTime = DateTime.now();
-      UserData.lastSyncInfo = "${UserData.lastSyncTime.day}일 ${UserData.lastSyncTime.hour}:${UserData.lastSyncTime.minute} - 네트워크 오류";
+      DateTime now = DateTime.now();
+      UserData.lastSyncInfo = "${now.day}일 ${now.hour}:${now.minute} - 네트워크 오류";
       return false;
     }
     if(DateTime.now().day != UserData.oneStopLastSyncDay)
