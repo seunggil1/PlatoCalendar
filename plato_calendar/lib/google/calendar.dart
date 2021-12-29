@@ -122,7 +122,7 @@ class GoogleCalendarToken{
       Duration diff = nowTime.difference(element.end);
       if(!element.disable && !element.finished && diff.inDays <= 5){
         await updateCalendar(element.toEvent());
-        await Future.delayed(const Duration(milliseconds: 100)); // 403 오류 : Rate Limit Exceeded 방지.
+        await Future.delayed(const Duration(milliseconds: 300)); // 403 오류 : Rate Limit Exceeded 방지.
       }
     });
     UserData.googleFirstLogin = false;
