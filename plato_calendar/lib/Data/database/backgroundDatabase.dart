@@ -16,13 +16,23 @@ class BackgroundDatabase extends Database{
   /// db 마지막 접근 시간 기록
   @override
   Future<void> updateTime() async {
-    FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-    await secureStorage.write(key: _syncTime, value: DateTime.now().toString());
+    try{
+      FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+      await secureStorage.write(key: _syncTime, value: DateTime.now().toString());
+    }catch(e){
+      notifyDebugInfo("updateTime Error\n ${e.toString()}",1);
+    }
   }
   @override
   Future<DateTime> getTime() async{
-    FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-    return DateTime.parse(await secureStorage.read(key: _syncTime));
+    try{
+      FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+      return DateTime.parse(await secureStorage.read(key: _syncTime));
+    }catch(e){
+      notifyDebugInfo("getTime Error\n ${e.toString()}",2);
+      return DateTime(1990);
+    }
+    
   }
   /// backgroundDB 동시 접근을 막기위한 mutex
   /// 

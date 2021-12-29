@@ -4,6 +4,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:googleapis/calendar/v3.dart';
 import 'package:icalendar_parser/icalendar_parser.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:plato_calendar/utility.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import 'etc.dart';
@@ -41,34 +42,39 @@ final Set<String> _calendarReserved=
         ,"CLASS","LAST-MODIFIED","DTSTAMP","DTSTART","DTEND","CATEGORIES","END"}; 
 
 Future<void> icsParser(String bytes) async{
-  // For Test
-  // String bytes = await rootBundle.loadString('icalexport.ics');
-  List<String> linebytes = bytes.split('\r\n');
-  // 일정 내용에 :가 있을 경우 오류가 발생하는 경우가 있어서 : -> ####로 교체하고 파싱진행.
-  for(int i = 0; i<linebytes.length; i++){
-    int index = linebytes[i].indexOf(':');
-    if(index != -1){
-      String first = linebytes[i].substring(0,index);
-      if(_calendarReserved.contains(first))
-        linebytes[i] = first + ':' + linebytes[i].substring(index+1).replaceAll(':', "####");
-      else
-        linebytes[i] = linebytes[i].replaceAll(':', "####");
+  try{
+    // For Test
+    // String bytes = await rootBundle.loadString('icalexport.ics');
+    List<String> linebytes = bytes.split('\r\n');
+    // 일정 내용에 :가 있을 경우 오류가 발생하는 경우가 있어서 : -> ####로 교체하고 파싱진행.
+    for(int i = 0; i<linebytes.length; i++){
+      int index = linebytes[i].indexOf(':');
+      if(index != -1){
+        String first = linebytes[i].substring(0,index);
+        if(_calendarReserved.contains(first))
+          linebytes[i] = first + ':' + linebytes[i].substring(index+1).replaceAll(':', "####");
+        else
+          linebytes[i] = linebytes[i].replaceAll(':', "####");
+      }
     }
-  }
-  bytes = linebytes.join('\r\n');
-  ICalendar iCalendar = ICalendar.fromString(bytes);
+    bytes = linebytes.join('\r\n');
+    ICalendar iCalendar = ICalendar.fromString(bytes);
 
-  for(var iter in iCalendar.data){
-    CalendarData data = CalendarData.byMap(iter);
-    if(!UserData.data.contains(data)){
-      UserData.uidSet.add(data.uid);
-      await UserData.writeDatabase.calendarDataSave(data);
-      UserData.data.add(data);
+    for(var iter in iCalendar.data){
+      CalendarData data = CalendarData.byMap(iter);
+      if(!UserData.data.contains(data)){
+        UserData.uidSet.add(data.uid);
+        await UserData.writeDatabase.calendarDataSave(data);
+        UserData.data.add(data);
+      }
     }
+    // For test
+    // Database.uidSetSave();
+    // Database.subjectCodeThisSemesterSave();
+  }catch(e){
+    notifyDebugInfo("icsParser Error\n ${e.toString()}",4);
   }
-  // For test
-  // Database.uidSetSave();
-  // Database.subjectCodeThisSemesterSave();
+
 }
 
 Future<bool> icsExport() async {
