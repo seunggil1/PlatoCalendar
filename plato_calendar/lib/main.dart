@@ -109,12 +109,22 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     timerSubScription = timer(10).listen((event) async { 
       await UserData.writeDatabase.updateTime();
     });
+    UserData.googleCalendar.googleAsyncQueue = StreamController<CalendarData>();
+    UserData.googleCalendar.googleAsyncQueue.stream.asyncMap((CalendarData data) async{
+      print("Google Calendar Update");
+      if(data.disable || data.finished) // (UserData.showFinished && data.finished)
+        await UserData.googleCalendar.deleteCalendar(data.toEvent());
+      else
+        await UserData.googleCalendar.updateCalendar(data.toEvent());
+      await Future.delayed(const Duration(milliseconds: 500));
+    }).listen((event) { });
     update();
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    UserData.googleCalendar.closeStream();
     adBanner1.dispose();
     adBanner2.dispose();
     super.dispose();

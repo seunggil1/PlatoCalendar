@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
@@ -5,6 +6,7 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import "package:googleapis_auth/auth_io.dart";
 import 'package:googleapis/calendar/v3.dart';
+import 'package:plato_calendar/Data/ics.dart';
 import 'package:plato_calendar/utility.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../Data/privateKey.dart';
@@ -39,7 +41,17 @@ class GoogleCalendarToken{
   AccessCredentials token;
   AutoRefreshingAuthClient client;
 
-  // db에서 null 체크하고 null일 경우 enable = false로 변경필요.
+  /// Google API 통신담당 queue
+  /// 
+  /// Queue에 Event calendar를 넣으면
+  /// 
+  /// 0.5초에 하나씩 처리함(Rate Limit Exceeded 방지).
+  StreamController<CalendarData> googleAsyncQueue;
+
+  Future<void> closeStream() async {
+    await googleAsyncQueue.close();
+  }
+  // db에서 null 체크하고 null일 경우 UserData.isSaveGoogleToken = false로 변경필요.
   GoogleCalendarToken(
     this.type,
     this.data, 
@@ -122,7 +134,7 @@ class GoogleCalendarToken{
       Duration diff = nowTime.difference(element.end);
       if(!element.disable && !element.finished && diff.inDays <= 5){
         await updateCalendar(element.toEvent());
-        await Future.delayed(const Duration(milliseconds: 300)); // 403 오류 : Rate Limit Exceeded 방지.
+        await Future.delayed(const Duration(milliseconds: 1000)); // 403 오류 : Rate Limit Exceeded 방지.
       }
     });
     UserData.googleFirstLogin = false;
