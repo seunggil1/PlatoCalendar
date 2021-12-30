@@ -103,6 +103,7 @@ Future<void> notifyTodaySchedule() async{
     await flutterLocalNotificationsPlugin.show(0, '오늘의 일정', body, platformChannelSpecifics, payload: 'item x');
   }
   UserData.notificationDay = DateTime.now().day;
+  await UserData.writeDatabase.updateTime();
 }
 
 Future<void> notifyDebugInfo(String e, [int id = 1]) async{
