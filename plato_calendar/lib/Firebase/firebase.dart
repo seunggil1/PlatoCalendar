@@ -75,13 +75,13 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     UserData.readDatabase.calendarDataLoad();
     UserData.readDatabase.googleDataLoad();
 
-  // 자동으로 Save 안되는 부분은 수동으로 해주기.
-  await Future.wait([
-      UserData.writeDatabase.subjectCodeThisSemesterSave(),
-      UserData.writeDatabase.defaultColorSave(),
-      UserData.writeDatabase.uidSetSave(),
-      UserData.writeDatabase.calendarDataFullSave()
-  ]);
+    // 자동으로 Save 안되는 부분은 수동으로 해주기.
+    await Future.wait([
+        UserData.writeDatabase.subjectCodeThisSemesterSave(),
+        UserData.writeDatabase.defaultColorSave(),
+        UserData.writeDatabase.uidSetSave(),
+        UserData.writeDatabase.calendarDataFullSave()
+    ]);
 
     await UserData.writeDatabase.updateTime();
     if(!message.data.containsKey("func"))

@@ -26,10 +26,12 @@ class Appinfo{
       if(await secureStorage.containsKey(key: "databaseVersion")){
         final String nowDBVersion = await secureStorage.read(key: "databaseVersion") ?? 2.0;
         if(databaseVersion != nowDBVersion){
+          notifyDebugInfo("DB version isn't same. $databaseVersion, $nowDBVersion");
           await Database.deleteAll();
           await secureStorage.write(key: "databaseVersion", value: databaseVersion);
         }
       }else{
+        notifyDebugInfo("databaseVersion is not Exist.");
         await Database.deleteAll();
         await secureStorage.write(key: "databaseVersion", value: databaseVersion);
       }
