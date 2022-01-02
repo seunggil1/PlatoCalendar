@@ -127,24 +127,52 @@ class GoogleCalendarToken{
       this.scopes = [];
       await UserData.writeDatabase.googleDataSave();
   }
+
+  /// Google Calendar 업데이트를 delayTime 초 마다 한번 씩 진행.
+  ///
+  /// success면 delayTime이 1초로,
+  ///
+  /// Fail처리가 될 경우 delayTime이 2의 지수 승으로 증가함.
+  int delayTime = 1;
+
+  /// Google Calendar 업데이트를 연속으로 failCount만큼 실패함.
+  ///
+  /// Fail처리가 될 경우 delayTime이 2의 지수 승으로 증가함.
+  int failCount = 0;
+
+  /// asyncQueueSize에 들어있는 데이터 갯수.
+  int asyncQueueSize = 0;
+
+  /// google 계정 연동 직후 데이터 전체 Google Calendar로 update
+  /// 그 외의 경우 그냥 함수 종료.
   Future<bool> updateCalendarFull() async {
-    showToastMessageCenter("Google 동기화를 진행중입니다. 앱을 종료하지 말아 주세요.");
+    if(!(UserData.isSaveGoogleToken && UserData.googleFirstLogin))
+      return false;
+    
+    int total = 0;
     DateTime nowTime = DateTime.now();
-    UserData.data.forEach((element) async { 
-      Duration diff = nowTime.difference(element.end);
-      if(!element.disable && !element.finished && diff.inDays <= 5){
-        await updateCalendar(element.toEvent());
-        await Future.delayed(const Duration(milliseconds: 1000)); // 403 오류 : Rate Limit Exceeded 방지.
+    
+    UserData.data.forEach((CalendarData data) async {
+      Duration diff = nowTime.difference(data.end);
+      if(!data.disable && !data.finished && diff.inDays <= 5){
+        googleAsyncQueue.add(data);
+        total++;
+        asyncQueueSize++;
       }
     });
+    await Future.delayed((Duration(seconds: 1)));
+    while(asyncQueueSize != 0){
+      showToastMessageCenter("Google 동기화를 진행중입니다. 앱을 종료하지 말아 주세요.(${total-asyncQueueSize}/$total)");
+      await Future.delayed((Duration(seconds: 3)));
+    }
     UserData.googleFirstLogin = false;
     showToastMessageCenter("Google 동기화 완료!");
     return true;
   }
   Future<bool> updateCalendar(Event newEvent) async{
     if(!UserData.isSaveGoogleToken)
-        return false;
-
+        return true;
+    
     try{
       CalendarApi mycalendar = CalendarApi(client);
       List<Event> searchResult = (await mycalendar.events.list("primary", iCalUID: newEvent.iCalUID, showDeleted: true)).items;
@@ -153,17 +181,21 @@ class GoogleCalendarToken{
         await mycalendar.events.patch(newEvent, "primary", searchResult[0].id);
       else
         await mycalendar.events.insert(newEvent, "primary");
+      delayTime = 1;
+      failCount = 0;
       return true;
     }catch(e){
       notifyDebugInfo(e.toString());
+      failCount += 1;
+      delayTime *= 2;
       return false;
     }
     
   }
 
-    Future<bool> deleteCalendar(Event newEvent) async{
+  Future<bool> deleteCalendar(Event newEvent) async{
     if(!UserData.isSaveGoogleToken)
-        return false;
+        return true;
 
     try{
       CalendarApi mycalendar = CalendarApi(client);
@@ -171,10 +203,13 @@ class GoogleCalendarToken{
 
       if(searchResult != null && searchResult.length >=1 && searchResult[0].id != null)
         mycalendar.events.delete("primary", searchResult[0].id);
-      
+      delayTime = 1;
+      failCount = 0;
       return true;
     }catch(e){
       notifyDebugInfo(e.toString());
+      failCount += 1;
+      delayTime *= 2;
       return false;
     }
     

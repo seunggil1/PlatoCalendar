@@ -113,6 +113,7 @@ abstract class Database{
   Future<void> calendarDataSave(CalendarData data) async {
     await calendarBox.put(data.uid,data);
     UserData.googleCalendar.googleAsyncQueue.add(data);
+    UserData.googleCalendar.asyncQueueSize++;
   }
   void calendarDataLoad() {
     UserData.uidSet = (calendarBox.get('uidList') ?? <String>[]).toSet();
@@ -162,8 +163,6 @@ abstract class Database{
     if(UserData.isSaveGoogleToken){
       UserData.googleCalendar = userDataBox.get('googleToken');
       UserData.isSaveGoogleToken = UserData.googleCalendar.restoreAutoRefreshingAuthClient();
-      if(UserData.isSaveGoogleToken && UserData.googleFirstLogin)
-        UserData.googleCalendar.updateCalendarFull();
     }else
       UserData.googleCalendar = GoogleCalendarToken("","",DateTime(1990),"",[]);
   }
