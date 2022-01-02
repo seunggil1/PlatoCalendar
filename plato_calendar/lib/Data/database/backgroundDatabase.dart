@@ -13,7 +13,7 @@ final _lock = "backgroundLock";
 final _calendar = "backgroundCalendarBox";
 final _userData = "backgroundUserDataBox";
 class BackgroundDatabase extends Database{
-  /// db 마지막 접근 시간 기록
+  /// 마지막 DB 접근 시간 기록.
   @override
   Future<void> updateTime() async {
     try{
@@ -23,6 +23,7 @@ class BackgroundDatabase extends Database{
       notifyDebugInfo("updateTime Error\n ${e.toString()}",1);
     }
   }
+
   @override
   Future<DateTime> getTime() async{
     try{
@@ -32,8 +33,8 @@ class BackgroundDatabase extends Database{
       notifyDebugInfo("getTime Error\n ${e.toString()}",2);
       return DateTime(1990);
     }
-    
   }
+
   /// backgroundDB 동시 접근을 막기위한 mutex
   /// 
   /// backgroundDB 읽거나 쓸 때, 우선 lock을 걸고  마무리되면 release처리를 진행하고,
@@ -87,7 +88,6 @@ class BackgroundDatabase extends Database{
       await loadDatabase();
       return;
     }
-
   }
 
 }
