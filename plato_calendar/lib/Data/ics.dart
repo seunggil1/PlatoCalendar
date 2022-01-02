@@ -108,7 +108,7 @@ Future<bool> icsExport() async {
     icsFile.writeAsString(data);
     OpenResult result = await OpenFile.open("$dir/data.ics");
     if(result.type != ResultType.done)
-      throw Error();
+      throw Exception();
 
     return true;
   } catch(e){
@@ -147,10 +147,12 @@ class CalendarData{
 
   int color;
 
+  /// DB에 저장된 데이터로 일정 생성.
   CalendarData(this.uid, this.summary,this.description, this.start, this.end,
               this.isPeriod, this.year, this.semester, this.classCode, this.className,
               this.disable, this.finished, this.color);
 
+  /// Plato에서 받아온 데이터로 일정 생성.
   CalendarData.byMap(Map<String,dynamic> data){
     uid = data["uid"];
     summary = data["summary"];
@@ -198,11 +200,10 @@ class CalendarData{
         start = start.subtract(Duration(minutes: 1));
       end = end.subtract(Duration(minutes: 1));
     }
-
     color = UserData.defaultColor[classCode] ?? 18; // colorCollection[18] = Colors.lightGreen
-
   }
 
+  /// 학생지원시스템 시험정보로 일정 생성.
   CalendarData.byTestTime(Map<String,dynamic> data, List<String> requestInfo){
     // requestInfo = [2021, 10, 중간/기말고사]
     data = data.map((key, value) {

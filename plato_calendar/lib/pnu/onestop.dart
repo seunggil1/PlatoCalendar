@@ -63,9 +63,9 @@ class Onestop {
     return true;
   }
 
-  /// Deprecated.
-  ///
+
   /// 학생지원시스템 변경전 로그인 함수
+  @deprecated
   static Future<bool> loginDeprecated() async {
     http.Response response;
     dom.Document document;

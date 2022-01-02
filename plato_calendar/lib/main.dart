@@ -19,6 +19,7 @@ import 'Page/toDoList.dart';
 import 'Data/userData.dart';
 import 'pnu/pnu.dart';
 // 프록시 사용할 떄 주석 해제 처리.
+// Burp suite로 트래픽 체크 할 때 사용.
 // class MyHttpOverrides extends HttpOverrides{
 //   @override
 //   HttpClient createHttpClient(SecurityContext context){
@@ -27,13 +28,15 @@ import 'pnu/pnu.dart';
 //   }
 // }
 
-/// Plato 동기화 완료됐을경우 화면 갱신 요청하는 Stream
+/// 화면 갱신 요청하는 Stream
 StreamController pnuStream = StreamController<bool>.broadcast();
 
 List<Widget> _widgets = [Calendar(), ToDoList(), Setting()];
 void main() async{
   // HttpOverrides.global = new MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Google Admob 세팅을 하지 않았을 경우 주석처리하면 앱 정상 실행 가능(광고 기능 비활성화).
   await MobileAds.instance.initialize();
   Future.wait([
     adBanner1.load(),
@@ -42,6 +45,8 @@ void main() async{
   ]).then((value){
     pnuStream.sink.add(true);
   });
+
+  
   await Database.init();
   await Appinfo.loadAppinfo();
   UserData.writeDatabase = ForegroundDatabase();
@@ -68,9 +73,14 @@ void main() async{
   if(UserData.readDatabase is BackgroundDatabase)
     await UserData.readDatabase.closeDatabase();
 
-  // for test
+  // 테스트할 때 사용하는 로컬 동기화.
   // await icsParser("");
+
   await initializeDateFormatting('ko_KR', null);
+
+  // firebase 세팅을 하지 않았을 경우 주석처리하면 앱 정상 실행 가능(백그라운드 동기화 기능 비활성화).
+  // 
+  // https://firebase.flutter.dev/docs/overview
   firebaseInit();
   runApp(MyApp());
 }
@@ -113,7 +123,6 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     UserData.googleCalendar.googleAsyncQueue = StreamController<CalendarData>();
     
     UserData.googleCalendar.googleAsyncQueue.stream.asyncMap((CalendarData data) async{
-      print("Google Calendar Update");
       bool result;
       if(data.disable || data.finished) // (UserData.showFinished && data.finished)
         result = await UserData.googleCalendar.deleteCalendar(data.toEvent());

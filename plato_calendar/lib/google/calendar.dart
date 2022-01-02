@@ -107,6 +107,8 @@ class GoogleCalendarToken{
       UserData.googleFirstLogin = true;
       await UserData.writeDatabase.googleDataSave();
       await Future.delayed(Duration(seconds: 2));
+      // 로그인 완료 후 앱으로 화면 전환이 안됨.
+      // 어플 종료 후 다음 실행 때 Google Calendar로 일정 업로드 시작.
       if(Platform.isAndroid)
         SystemNavigator.pop();
       else if(Platform.isIOS)
@@ -203,13 +205,16 @@ class GoogleCalendarToken{
 
       if(searchResult != null && searchResult.length >=1 && searchResult[0].id != null)
         mycalendar.events.delete("primary", searchResult[0].id);
+      
       delayTime = 1;
       failCount = 0;
+
       return true;
     }catch(e){
       notifyDebugInfo(e.toString());
       failCount += 1;
       delayTime *= 2;
+
       return false;
     }
     

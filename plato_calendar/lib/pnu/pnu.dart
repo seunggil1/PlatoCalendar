@@ -24,7 +24,7 @@ Future<bool> update({bool force = false, bool background = false}) async{
     // 수동 동기화 or 동기화 6시간 경과 or 백그라운드 동기화 3시간 경과
     if(force || foregroundUpdate || backgroundUpdate){
       if(await Plato.login() && await Plato.getCalendar()){
-        if(!background)
+        if(!background) // 백그라운드 아닐 경우 화면 갱신.
           pnuStream.sink.add(true);
         await UserData.writeDatabase.updateTime();
         return true;

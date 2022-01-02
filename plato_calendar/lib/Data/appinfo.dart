@@ -19,7 +19,6 @@ class Appinfo{
   /// Database 버전
   static String databaseVersion = "3.0";
   
-  
   static Future<void> loadAppinfo() async {
     FlutterSecureStorage secureStorage = const FlutterSecureStorage();
     try{
@@ -40,6 +39,5 @@ class Appinfo{
       await Database.deleteAll();
       await secureStorage.write(key: "databaseVersion", value: databaseVersion);
     }
-
   }
 }

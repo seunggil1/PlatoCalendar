@@ -41,6 +41,10 @@ class ForegroundDatabase extends Database{
   Future<void> lock() async{
     print("this method is not used");
   }
+
+  /// backgroundDB 동시 접근을 막기 위한 lock release.
+  /// 
+  /// foregroundDB에서는 사용하지 않음.
   @override
   Future<void> release() async{
     print("this method is not used");

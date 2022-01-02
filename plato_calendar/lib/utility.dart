@@ -106,6 +106,9 @@ Future<void> notifyTodaySchedule() async{
   await UserData.writeDatabase.updateTime();
 }
 
+/// 오류 메세지 상단 알림으로 표시.(Appinfo.buildType이 Debug Mode 일때만)
+/// 
+/// id가 같은건 동시에 하나만 표시되는 것으로 추정.
 Future<void> notifyDebugInfo(String e, [int id = 1]) async{
   if(Appinfo.buildType == BuildType.release)
     return;

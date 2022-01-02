@@ -52,18 +52,26 @@ class UserData{
   /// toDoList 각 항목 접힘, 열림 여부
   /// 
   /// [지남, 6, 12, 오늘, 내일, 1주일 이하, 1주일 이상, 날짜 없음, 완료]
+  /// 
+  /// 변경사항이 있을 경우 showToDoListByIndex 함수를 통해 변경필요.
   static List<bool> _showToDoList;
   
   /// CalendarData set에 있는 Uid 목록
+  /// 
+  /// Database.uidSetSave함수를 통해 수동으로 DB에 저장 필요.
   static Set<String> uidSet = {};
   
   /// CalendarData set
   static Set<CalendarData> data = {};
 
   /// 이번학기 수강하는 subjectCode
+  /// 
+  ///  Database.subjectCodeThisSemesterSave 함수를 통해 수동으로 DB에 저장 필요.
   static Set<String> subjectCodeThisSemester;
 
   /// 과목별 default Color
+  /// 
+  /// Database.defaultColorSave 함수를 통해 수동으로 DB에 저장 필요.
   static Map defaultColor; // classCode, colorCollectionIndex
 
   /// Google Token 저장 여부.
