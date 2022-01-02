@@ -193,7 +193,7 @@ class CalendarData{
       className = "";
     }
     
-    if(end.hour == 0 && end.minute == 0){
+    if(end.minute == 0){
       if(start == end)
         start = start.subtract(Duration(minutes: 1));
       end = end.subtract(Duration(minutes: 1));
@@ -248,6 +248,7 @@ class CalendarData{
       resourceIds: <int>[hashCode]
     );
   }
+
   /// google calendar에서 사용하는 일정 타입으로 변환
   Event toEvent(){
     Event t = Event();
@@ -255,14 +256,17 @@ class CalendarData{
     t.summary = this.summary + " : " + (this.className != "" ? this.className : this.classCode);
     t.description = (this.className != "" ? this.className : this.classCode) + '\n' +this.description;
 
+    // 마감기한, 녹화 수업(5시간 이상)
+    bool notLive = (this.start == this.end) || (this.end.difference(this.start).inHours > 5);
+
     // 동영상 강의 or 과제 마감 => 2시간전 알림
-    if (this.start.day != this.end.day || this.start == this.end) 
+    if (notLive) 
       t.reminders = EventReminders(overrides : [EventReminder(method: "popup", minutes: 120)], useDefault: false);
     else // 실시간 zoom 수업 => 1시간전 알림
       t.reminders = EventReminders(overrides : [EventReminder(method: "popup", minutes: 60)], useDefault: false);
     t.end = EventDateTime(dateTime: this.end, timeZone: "Asia/Seoul");
 
-    if(this.end.day != this.start.day)
+    if(notLive)
       t.start = EventDateTime(dateTime: this.end, timeZone: "Asia/Seoul");
     else
       t.start = EventDateTime(dateTime: this.start, timeZone: "Asia/Seoul");
