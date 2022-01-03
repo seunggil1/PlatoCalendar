@@ -77,7 +77,9 @@ class UserData{
   /// Google Token 저장 여부.
   static bool isSaveGoogleToken;
 
-  /// Google Login 직후 최초 앱실행. Calendar 동기화 필요.
+  /// Google Login 직후 최초 앱실행. 
+  /// 
+  /// True일 경우 Google Calendar 전체 동기화 필요.
   static bool _googleFirstLogin;
 
   /// Google Calendar 연동을 위한 Token 정보.

@@ -66,7 +66,8 @@ void main() async{
       UserData.writeDatabase.subjectCodeThisSemesterSave(),
       UserData.writeDatabase.defaultColorSave(),
       UserData.writeDatabase.uidSetSave(),
-      UserData.writeDatabase.calendarDataFullSave()
+      UserData.writeDatabase.calendarDataFullSave(),
+      UserData.writeDatabase.googleDataSave()
   ]);
   await UserData.readDatabase.release();
 

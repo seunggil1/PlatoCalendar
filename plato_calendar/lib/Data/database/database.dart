@@ -106,7 +106,9 @@ abstract class Database{
     await calendarBox.put('uidList', UserData.uidSet.toList());
   }
 
-  /// 일정 전체 google calendar 동기화 없이 save.
+  /// 모든 일정 DB에 저장
+  /// 
+  /// google calendar와 동기화를 하지 않음.
   /// 
   /// 데이터베이스 동기화를 위해 사용
   Future<void> calendarDataFullSave() async{
@@ -135,6 +137,8 @@ abstract class Database{
   /// 과목 목록 DB에 저장.
   /// 
   /// 해당 Data는 변경사항 있을때마다 DB에 수동으로 저장해야 됨.
+  /// 
+  /// DB에서 Load할때는 Database.userDataLoad()에서 일괄적으로 불러옴.
   Future<void> subjectCodeThisSemesterSave() async {
     await userDataBox.put('subjectCodeThisSemester', UserData.subjectCodeThisSemester.toList());
   }
@@ -142,6 +146,8 @@ abstract class Database{
   /// 과목 별 기본 색상 지정
   /// 
   /// 해당 Data는 변경사항 있을때마다 DB에 수동으로 저장해야 됨.
+  /// 
+  /// DB에서 Load할때는 Database.userDataLoad()에서 일괄적으로 불러옴.
   Future<void> defaultColorSave() async {
     await userDataBox.put('defaultColor', UserData.defaultColor);
   }
@@ -165,6 +171,9 @@ abstract class Database{
     
   }
 
+  /// Google 정보를 DB에 저장.
+  /// 
+  /// 해당 Data는 변경사항 있을때마다 DB에 수동으로 저장해야 됨.
   Future<void> googleDataSave() async{
     await userDataBox.put('isSaveGoogleToken', UserData.isSaveGoogleToken);
     if(UserData.isSaveGoogleToken){
