@@ -3,17 +3,17 @@ import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:plato_calendar/Page/widget/Loading.dart';
+import 'package:plato_calendar/Page/widget/LoginPage.dart';
 import 'package:plato_calendar/Page/widget/adBanner.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 import '../Data/etc.dart';
 import '../Data/subjectCode.dart';
 import '../Data/userData.dart';
-import '../Data/database.dart';
 import '../utility.dart';
 import 'widget/appointmentEditor.dart';
 import '../main.dart';
-import '../pnu/pnu.dart';
 
 
 class Setting extends StatefulWidget{
@@ -295,7 +295,7 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
                                     }).then((value) {
                                       if(value != null){
                                         setState((){ UserData.defaultColor[data] = value;});
-                                        Database.defaultColorSave();
+                                        UserData.writeDatabase.defaultColorSave();
                                       }
                                     });
                           },
@@ -358,133 +358,5 @@ class _Settings extends State<Setting> with TickerProviderStateMixin{
           )
         ],
       ));
-  }
-}
-
-// 로그인 창
-class LoginPage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  TextEditingController idController = TextEditingController();
-  TextEditingController pwController = TextEditingController();
-  bool loginStatus = false;
-  void checkIdPw(String data){
-    if(idController.text != "" && pwController.text != "")
-      setState(() {});
-  }
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      contentPadding : const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
-      backgroundColor: Colors.grey[350],
-      content: Container(
-        alignment: Alignment.center,
-        width: (colorCollection.length * 100).toDouble(),
-        height: 150.0,
-        //color: Colors.grey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: TextField(
-                decoration: InputDecoration(
-                  labelText: '아이디',
-                  labelStyle: TextStyle(color: Colors.grey),
-                  filled: true ,
-                  fillColor: Colors.white, 
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey[200])
-                  )
-                ),
-                style: TextStyle(color: Colors.black),
-                controller: idController,
-                onChanged: checkIdPw,
-              )
-            ),
-            SizedBox(height: 10),
-            Expanded(
-              child: TextField(
-                obscureText : true,
-                decoration: InputDecoration(
-                  labelText: '비밀번호',
-                  labelStyle: TextStyle(color: Colors.grey),
-                  filled: true ,
-                  fillColor: Colors.white, 
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey[200])
-                  )
-                ),
-                style: TextStyle(color: Colors.black),
-                controller: pwController,
-                onChanged: checkIdPw,
-              )
-            ),
-            TextButton(
-              onPressed: idController.text == "" && pwController.text == "" && !loginStatus
-              ? null
-              :() async {
-                setState(() {
-                  loginStatus = true;
-                });
-                UserData.id = idController.text;
-                UserData.pw = pwController.text;
-                await update(force: true);
-                Navigator.pop(context, true);
-              },
-              child: Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.all(10),
-                width: 90,
-                decoration: BoxDecoration(
-                  color: idController.text != "" && pwController.text != "" && !loginStatus
-                    ? Colors.blue[900]
-                    : Colors.grey,
-                  borderRadius: BorderRadius.circular(10)),
-                child: Text("로그인", style: TextStyle(color: Colors.white)))
-            ),
-          ],
-        )
-      )
-    );
-  }
-}
-
-// Loading Icon
-class Loading extends AnimatedWidget{
-  AnimationController controller;
-  static DateTime _manualUpdateTime = DateTime.utc(0);
-  Loading({Key key, Animation<double> animation, AnimationController control}) : super(key: key, listenable: animation){
-    controller = control;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final animation = listenable as Animation<double>;
-    return Transform.rotate(
-        angle: animation.value,
-        child: Container(
-          padding: EdgeInsets.zero,
-            child: IconButton(
-              iconSize: 28,
-              padding: EdgeInsets.zero,
-              onPressed: () async{
-                if(!controller.isAnimating)
-                  if(DateTime.now().difference(_manualUpdateTime).inMinutes > 4){
-                    controller.repeat();
-                    await update(force : true).then((value) {
-                        if(value) _manualUpdateTime = DateTime.now();
-                    });
-                    controller.stop();
-                  }else{
-                    showToastMessageTop("동기화는 5분에 한 번씩만 가능합니다.");
-                  }
-              }, 
-              icon: Icon(Icons.refresh_rounded, color: Colors.blueAccent[100])
-            )
-        )
-    );
   }
 }

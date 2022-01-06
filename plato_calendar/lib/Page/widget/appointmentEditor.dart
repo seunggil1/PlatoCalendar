@@ -6,7 +6,6 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../Data/subjectCode.dart';
 import '../../Data/userData.dart';
-import '../../Data/database.dart';
 import '../../Data/ics.dart';
 
 
@@ -94,7 +93,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                             if(value != null && value){
                               widget.calendarData.disable = true;
                               Navigator.pop(context);
-                              Database.calendarDataSave(widget.calendarData);
+                              UserData.writeDatabase.calendarDataSave(widget.calendarData);
                             }
                           });
                       },
@@ -122,7 +121,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                           Navigator.pop(context,widget.calendarData); // calendarData 전달
                         else
                           Navigator.pop(context);
-                        Database.calendarDataSave(widget.calendarData);
+                        UserData.writeDatabase.calendarDataSave(widget.calendarData);
                       },
                       child: Text('저장',style: TextStyle(color: Colors.white),)),
                   )
@@ -340,7 +339,7 @@ class _SimplePopUpAppointmentEditorState extends State<SimplePopUpAppointmentEdi
               TextButton(
                 onPressed: (){
                   calendarData.finished = true;
-                  Database.calendarDataSave(calendarData);
+                  UserData.writeDatabase.calendarDataSave(calendarData);
                   Navigator.pop(context,true);
                 },
                 child: Text("일정 완료처리 하기",
@@ -349,7 +348,7 @@ class _SimplePopUpAppointmentEditorState extends State<SimplePopUpAppointmentEdi
               TextButton(
                 onPressed: (){
                   calendarData.disable = true;
-                  Database.calendarDataSave(calendarData);
+                  UserData.writeDatabase.calendarDataSave(calendarData);
                   Navigator.pop(context,false);
                 },
                 child: Text("일정 삭제하기",

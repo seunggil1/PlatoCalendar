@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 
 import '../Data/etc.dart';
@@ -9,7 +8,6 @@ import '../Data/subjectCode.dart';
 import '../Data/userData.dart';
 import 'widget/adBanner.dart';
 import 'widget/appointmentEditor.dart';
-import '../Data/database.dart';
 import '../Data/ics.dart';
 import '../main.dart';
 import '../utility.dart';
@@ -146,10 +144,10 @@ class _ToDoList extends State<ToDoList>{
                       }).then((value) {
                         if(value != null){
                           setState((){
-                            Database.uidSet.add(value.uid);
+                            UserData.uidSet.add(value.uid);
                             UserData.data.add(value);
                           });
-                          Database.uidSetSave();
+                          UserData.writeDatabase.uidSetSave();
                         }
                       });
                   },
@@ -368,21 +366,24 @@ class _ToDoList extends State<ToDoList>{
   Widget _getDurationWidget(String str, int index){
     return Container(
       margin: const EdgeInsets.all(5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(str, style: TextStyle(fontSize: 15)),
-          GestureDetector(
-            onTap: (){
-              setState(() {
-                UserData.showToDoListByIndex(index, !UserData.showToDoList[index]);
-              });
-            },
-            child: Icon(UserData.showToDoList[index] ? Icons.keyboard_arrow_up_sharp : Icons.keyboard_arrow_down_sharp, color: Colors.blueAccent[100], size: 27),
-          )
-        ],
+      child: GestureDetector(
+        // child 없는 빈 Container도 터치 감지.
+        behavior: HitTestBehavior.opaque,
+        onTap: (){
+          setState(() {
+            UserData.showToDoListByIndex(index, !UserData.showToDoList[index]);
+          });
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(str, style: TextStyle(fontSize: 15)),
+            Expanded(child: Container()),
+            Icon(UserData.showToDoList[index] ? Icons.keyboard_arrow_up_sharp : Icons.keyboard_arrow_down_sharp, color: Colors.blueAccent[100], size: 27),
+          ],
+        )
       )
-      );
+    );
   }
   Widget _getTodoWidget(CalendarData data){
     return FlatButton(
@@ -403,7 +404,7 @@ class _ToDoList extends State<ToDoList>{
                 setState(() {
                   data.finished = value;
                 });
-                Database.calendarDataSave(data);
+                UserData.writeDatabase.calendarDataSave(data);
                 if(value)
                   showMessage(context, "완료된 일정으로 변경했습니다.");
             }),

@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
-import '../Data/database.dart';
+import '../Data/database/database.dart';
 import '../Data/userData.dart';
 import '../Data/ics.dart';
+import '../notify.dart';
 import '../utility.dart';
 
 class Plato {
@@ -143,13 +144,13 @@ class Plato {
       UserData.lastSyncTime = DateTime.now();
       UserData.lastSyncInfo = "${UserData.lastSyncTime.day}일 ${UserData.lastSyncTime.hour}:${UserData.lastSyncTime.minute} - 동기화 성공";
       await Future.wait([
-        Database.subjectCodeThisSemesterSave(),
-        Database.defaultColorSave(),
-        Database.uidSetSave()
+        UserData.writeDatabase.subjectCodeThisSemesterSave(),
+        UserData.writeDatabase.defaultColorSave(),
+        UserData.writeDatabase.uidSetSave()
       ]);
     }
     catch(e){
-      notifyDebugInfo(e.toString());
+      Notify.notifyDebugInfo(e.toString());
       DateTime now = DateTime.now();
       UserData.lastSyncInfo = "${now.day}일 ${now.hour}:${now.minute} - 동기화 오류\n${e.toString()}";
       return false;

@@ -1,10 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:plato_calendar/utility.dart';
-import 'Data/database.dart';
+
+import 'Data/appinfo.dart';
+import 'Data/database/database.dart';
+import 'Data/database/foregroundDatabase.dart';
+import 'Data/database/backgroundDatabase.dart';
 import 'Data/ics.dart';
 import 'Firebase/firebase.dart';
 import 'Page/widget/adBanner.dart';
@@ -13,7 +18,10 @@ import 'Page/sfCalendar.dart';
 import 'Page/toDoList.dart';
 import 'Data/userData.dart';
 import 'pnu/pnu.dart';
+import 'notify.dart';
+
 // 프록시 사용할 떄 주석 해제 처리.
+// Burp suite로 트래픽 체크 할 때 사용.
 // class MyHttpOverrides extends HttpOverrides{
 //   @override
 //   HttpClient createHttpClient(SecurityContext context){
@@ -22,13 +30,15 @@ import 'pnu/pnu.dart';
 //   }
 // }
 
-/// Plato 동기화 완료됐을경우 화면 갱신 요청하는 Stream
+/// 화면 갱신 요청하는 Stream
 StreamController pnuStream = StreamController<bool>.broadcast();
 
 List<Widget> _widgets = [Calendar(), ToDoList(), Setting()];
 void main() async{
   // HttpOverrides.global = new MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Google Admob 세팅을 하지 않았을 경우 주석처리하면 앱 정상 실행 가능(광고 기능 비활성화).
   await MobileAds.instance.initialize();
   Future.wait([
     adBanner1.load(),
@@ -37,17 +47,43 @@ void main() async{
   ]).then((value){
     pnuStream.sink.add(true);
   });
-  Database.setLoadMode();
-  await notificationInit();
+
+  
   await Database.init();
-  await Database.loadDatabase();
-  await Database.userDataLoad();
-  await Database.calendarDataLoad();
-  await Database.googleDataLoad();
-  Database.setUpdateMode();
-  // for test
+  await Appinfo.loadAppinfo();
+  UserData.writeDatabase = ForegroundDatabase();
+  UserData.readDatabase = await Database.recentlyUsedDatabase();
+ 
+  await Notify.notificationInit();
+  await UserData.readDatabase.lock();
+  await UserData.writeDatabase.loadDatabase();
+  await UserData.readDatabase.loadDatabase();
+
+  UserData.readDatabase.userDataLoad();
+  UserData.readDatabase.calendarDataLoad();
+  UserData.readDatabase.googleDataLoad();
+
+  // 자동으로 Save 안되는 부분은 수동으로 해주기.
+  await Future.wait([
+      UserData.writeDatabase.subjectCodeThisSemesterSave(),
+      UserData.writeDatabase.defaultColorSave(),
+      UserData.writeDatabase.uidSetSave(),
+      UserData.writeDatabase.calendarDataFullSave(),
+      UserData.writeDatabase.googleDataSave()
+  ]);
+  await UserData.readDatabase.release();
+
+  if(UserData.readDatabase is BackgroundDatabase)
+    await UserData.readDatabase.closeDatabase();
+
+  // 테스트할 때 사용하는 로컬 동기화.
   // await icsParser("");
+
   await initializeDateFormatting('ko_KR', null);
+
+  // firebase 세팅을 하지 않았을 경우 주석처리하면 앱 정상 실행 가능(백그라운드 동기화 기능 비활성화).
+  // 
+  // https://firebase.flutter.dev/docs/overview
   firebaseInit();
   runApp(MyApp());
 }
@@ -84,14 +120,35 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     super.initState();
     timerSubScription = timer(10).listen((event) async { 
-      await Database.updateTime();
+      await UserData.writeDatabase.updateTime();
     });
+    
+    UserData.googleCalendar.googleAsyncQueue = StreamController<CalendarData>();
+    
+    UserData.googleCalendar.googleAsyncQueue.stream.asyncMap((CalendarData data) async{
+      bool result;
+      if(data.disable || data.finished) // (UserData.showFinished && data.finished)
+        result = await UserData.googleCalendar.deleteCalendar(data.toEvent());
+      else
+        result = await UserData.googleCalendar.updateCalendar(data.toEvent());
+      if(!result){
+        if(UserData.googleCalendar.failCount >= 9)
+          UserData.googleCalendar.googleAsyncQueue.close();
+        else
+          UserData.googleCalendar.googleAsyncQueue.add(data);
+      }
+      UserData.googleCalendar.asyncQueueSize--;
+      await Future.delayed(Duration(seconds: UserData.googleCalendar.delayTime));
+    }).listen((event) { });
+
+    UserData.googleCalendar.updateCalendarFull();
     update();
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    UserData.googleCalendar.closeStream();
     adBanner1.dispose();
     adBanner2.dispose();
     super.dispose();
@@ -136,22 +193,36 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         setState(() {
           loading = true;
         });
-        await Database.init();
-        await Database.closeAll();
-        await Database.loadDatabase();
-        Database.setLoadMode();
-        DateTime beforeSync = UserData.lastSyncTime;
-        await Database.userDataLoad();
-        DateTime nowSync = UserData.lastSyncTime;
-        if(beforeSync != nowSync){
+        UserData.readDatabase = BackgroundDatabase();
+        DateTime beforeSync = await UserData.writeDatabase.getTime();
+        DateTime nowSync = await UserData.readDatabase.getTime();
+        
+        if(nowSync.difference(beforeSync).inSeconds > 0){
           showToastMessageCenter("데이터를 불러오고 있습니다..");
-          await Database.calendarDataLoad();
+          
+          await UserData.readDatabase.lock();
+          await UserData.readDatabase.loadDatabase();
+
+          UserData.readDatabase.calendarDataLoad();
+          UserData.readDatabase.userDataLoad();
+
+          // 자동으로 Save 안되는 부분은 수동으로 해주기.
+          await Future.wait([
+              UserData.writeDatabase.subjectCodeThisSemesterSave(),
+              UserData.writeDatabase.defaultColorSave(),
+              UserData.writeDatabase.uidSetSave(),
+              UserData.writeDatabase.calendarDataFullSave()
+          ]);
+          
+          await UserData.readDatabase.closeDatabase();
+          UserData.readDatabase.release();
           pnuStream.sink.add(true);
         }
-        Database.setUpdateMode();
+
         setState(() {
           loading = false;
         });
+        closeToastMessage();
         timerSubScription.resume();
         break;
       case AppLifecycleState.inactive:

@@ -5,7 +5,7 @@ import 'package:html/dom.dart' as dom;
 import 'package:plato_calendar/Data/ics.dart';
 import 'package:dio/dio.dart';
 
-import '../Data/database.dart';
+import '../Data/database/database.dart';
 import '../Data/userData.dart';
 
 class Onestop {
@@ -63,9 +63,9 @@ class Onestop {
     return true;
   }
 
-  /// Deprecated.
-  ///
+
   /// 학생지원시스템 변경전 로그인 함수
+  @deprecated
   static Future<bool> loginDeprecated() async {
     http.Response response;
     dom.Document document;
@@ -271,9 +271,11 @@ class Onestop {
       return false;
     }
     UserData.oneStopLastSyncDay = DateTime.now().day;
-    Database.subjectCodeThisSemesterSave();
-    Database.defaultColorSave();
-    Database.uidSetSave();
+    await Future.wait([
+        UserData.writeDatabase.subjectCodeThisSemesterSave(),
+        UserData.writeDatabase.defaultColorSave(),
+        UserData.writeDatabase.uidSetSave()
+    ]);
     return true;
   }
   static Future<bool> logout() async {

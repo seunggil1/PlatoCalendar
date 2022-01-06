@@ -4,14 +4,16 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:googleapis/calendar/v3.dart';
 import 'package:icalendar_parser/icalendar_parser.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:plato_calendar/utility.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+import '../notify.dart';
 import 'etc.dart';
 import './subjectCode.dart';
 import './userData.dart';
 import 'package:hive/hive.dart';
 import 'package:open_file/open_file.dart';
-import 'database.dart';
+import 'database/database.dart';
 
 part 'ics.g.dart';
 // UID	      일정의 고유한 ID 값. 단일 캘린더 ID에서는 iCalendar의 UID가 고유해야 한다.
@@ -41,34 +43,39 @@ final Set<String> _calendarReserved=
         ,"CLASS","LAST-MODIFIED","DTSTAMP","DTSTART","DTEND","CATEGORIES","END"}; 
 
 Future<void> icsParser(String bytes) async{
-  // For Test
-  // String bytes = await rootBundle.loadString('icalexport.ics');
-  List<String> linebytes = bytes.split('\r\n');
-  // 일정 내용에 :가 있을 경우 오류가 발생하는 경우가 있어서 : -> ####로 교체하고 파싱진행.
-  for(int i = 0; i<linebytes.length; i++){
-    int index = linebytes[i].indexOf(':');
-    if(index != -1){
-      String first = linebytes[i].substring(0,index);
-      if(_calendarReserved.contains(first))
-        linebytes[i] = first + ':' + linebytes[i].substring(index+1).replaceAll(':', "####");
-      else
-        linebytes[i] = linebytes[i].replaceAll(':', "####");
+  try{
+    // For Test
+    // String bytes = await rootBundle.loadString('icalexport.ics');
+    List<String> linebytes = bytes.split('\r\n');
+    // 일정 내용에 :가 있을 경우 오류가 발생하는 경우가 있어서 : -> ####로 교체하고 파싱진행.
+    for(int i = 0; i<linebytes.length; i++){
+      int index = linebytes[i].indexOf(':');
+      if(index != -1){
+        String first = linebytes[i].substring(0,index);
+        if(_calendarReserved.contains(first))
+          linebytes[i] = first + ':' + linebytes[i].substring(index+1).replaceAll(':', "####");
+        else
+          linebytes[i] = linebytes[i].replaceAll(':', "####");
+      }
     }
-  }
-  bytes = linebytes.join('\r\n');
-  ICalendar iCalendar = ICalendar.fromString(bytes);
+    bytes = linebytes.join('\r\n');
+    ICalendar iCalendar = ICalendar.fromString(bytes);
 
-  for(var iter in iCalendar.data){
-    CalendarData data = CalendarData.byMap(iter);
-    if(!UserData.data.contains(data)){
-      Database.uidSet.add(data.uid);
-      await Database.calendarDataSave(data);
-      UserData.data.add(data);
+    for(var iter in iCalendar.data){
+      CalendarData data = CalendarData.byMap(iter);
+      if(!UserData.data.contains(data)){
+        UserData.uidSet.add(data.uid);
+        await UserData.writeDatabase.calendarDataSave(data);
+        UserData.data.add(data);
+      }
     }
+    // For test
+    // Database.uidSetSave();
+    // Database.subjectCodeThisSemesterSave();
+  }catch(e){
+    Notify.notifyDebugInfo("icsParser Error\n ${e.toString()}");
   }
-  // For test
-  // Database.uidSetSave();
-  // Database.subjectCodeThisSemesterSave();
+
 }
 
 Future<bool> icsExport() async {
@@ -102,7 +109,7 @@ Future<bool> icsExport() async {
     icsFile.writeAsString(data);
     OpenResult result = await OpenFile.open("$dir/data.ics");
     if(result.type != ResultType.done)
-      throw Error();
+      throw Exception();
 
     return true;
   } catch(e){
@@ -114,8 +121,8 @@ Future<void> testTimeParser(dynamic dataList,List<String> requestInfo) async {
   for(var iter in dataList){
     CalendarData data = CalendarData.byTestTime(iter, requestInfo);
     if(!UserData.data.contains(data)){
-      Database.uidSet.add(data.uid);
-      Database.calendarDataSave(data);
+      UserData.uidSet.add(data.uid);
+      UserData.writeDatabase.calendarDataSave(data);
       UserData.data.add(data);
     }
   }
@@ -141,10 +148,12 @@ class CalendarData{
 
   int color;
 
+  /// DB에 저장된 데이터로 일정 생성.
   CalendarData(this.uid, this.summary,this.description, this.start, this.end,
               this.isPeriod, this.year, this.semester, this.classCode, this.className,
               this.disable, this.finished, this.color);
 
+  /// Plato에서 받아온 데이터로 일정 생성.
   CalendarData.byMap(Map<String,dynamic> data){
     uid = data["uid"];
     summary = data["summary"];
@@ -187,16 +196,15 @@ class CalendarData{
       className = "";
     }
     
-    if(end.hour == 0 && end.minute == 0){
+    if(end.minute == 0){
       if(start == end)
         start = start.subtract(Duration(minutes: 1));
       end = end.subtract(Duration(minutes: 1));
     }
-
     color = UserData.defaultColor[classCode] ?? 18; // colorCollection[18] = Colors.lightGreen
-
   }
 
+  /// 학생지원시스템 시험정보로 일정 생성.
   CalendarData.byTestTime(Map<String,dynamic> data, List<String> requestInfo){
     // requestInfo = [2021, 10, 중간/기말고사]
     data = data.map((key, value) {
@@ -242,6 +250,7 @@ class CalendarData{
       resourceIds: <int>[hashCode]
     );
   }
+
   /// google calendar에서 사용하는 일정 타입으로 변환
   Event toEvent(){
     Event t = Event();
@@ -249,14 +258,17 @@ class CalendarData{
     t.summary = this.summary + " : " + (this.className != "" ? this.className : this.classCode);
     t.description = (this.className != "" ? this.className : this.classCode) + '\n' +this.description;
 
+    // 마감기한, 녹화 수업(5시간 이상)
+    bool notLive = (this.start == this.end) || (this.end.difference(this.start).inHours > 5);
+
     // 동영상 강의 or 과제 마감 => 2시간전 알림
-    if (this.start.day != this.end.day || this.start == this.end) 
+    if (notLive) 
       t.reminders = EventReminders(overrides : [EventReminder(method: "popup", minutes: 120)], useDefault: false);
     else // 실시간 zoom 수업 => 1시간전 알림
       t.reminders = EventReminders(overrides : [EventReminder(method: "popup", minutes: 60)], useDefault: false);
     t.end = EventDateTime(dateTime: this.end, timeZone: "Asia/Seoul");
 
-    if(this.end.day != this.start.day)
+    if(notLive)
       t.start = EventDateTime(dateTime: this.end, timeZone: "Asia/Seoul");
     else
       t.start = EventDateTime(dateTime: this.start, timeZone: "Asia/Seoul");
