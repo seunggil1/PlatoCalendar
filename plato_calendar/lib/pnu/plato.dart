@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import '../Data/database/database.dart';
 import '../Data/userData.dart';
 import '../Data/ics.dart';
+import '../notify.dart';
 import '../utility.dart';
 
 class Plato {
@@ -149,7 +150,7 @@ class Plato {
       ]);
     }
     catch(e){
-      notifyDebugInfo(e.toString());
+      Notify.notifyDebugInfo(e.toString());
       DateTime now = DateTime.now();
       UserData.lastSyncInfo = "${now.day}일 ${now.hour}:${now.minute} - 동기화 오류\n${e.toString()}";
       return false;

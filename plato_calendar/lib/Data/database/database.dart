@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:plato_calendar/Data/database/backgroundDatabase.dart';
 import 'package:plato_calendar/Data/database/foregroundDatabase.dart';
 
+import '../../notify.dart';
 import '../userData.dart';
 import '../ics.dart';
 import '../../google/calendar.dart';
@@ -30,11 +31,11 @@ abstract class Database{
       }
     }catch(e){
       if(e.runtimeType != HiveError){
-        notifyDebugInfo(e.toString());
+        Notify.notifyDebugInfo(e.toString());
         throw Exception(e.toString());
       }
       if(!(e.message.contains("There is already a TypeAdapter") && e.message != "Instance has already been initialized.")){
-            notifyDebugInfo(e.toString());
+            Notify.notifyDebugInfo(e.toString());
             throw HiveError(e.toString());
       }
     }
@@ -74,7 +75,7 @@ abstract class Database{
       await Hive.deleteBoxFromDisk('foregroundUserDataBox');
     }
     catch(e){
-      notifyDebugInfo(e.toString(),5);
+      Notify.notifyDebugInfo(e.toString());
       if(!(e is ArgumentError))
         throw e;
     }
@@ -83,7 +84,7 @@ abstract class Database{
       await Hive.deleteBoxFromDisk('backgroundUserDataBox');
     }
     catch(e){
-      notifyDebugInfo(e.toString(),5);
+      Notify.notifyDebugInfo(e.toString());
       if(!(e is ArgumentError))
         throw e;
     }

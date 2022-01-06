@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:plato_calendar/utility.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+import '../notify.dart';
 import 'etc.dart';
 import './subjectCode.dart';
 import './userData.dart';
@@ -72,7 +73,7 @@ Future<void> icsParser(String bytes) async{
     // Database.uidSetSave();
     // Database.subjectCodeThisSemesterSave();
   }catch(e){
-    notifyDebugInfo("icsParser Error\n ${e.toString()}",4);
+    Notify.notifyDebugInfo("icsParser Error\n ${e.toString()}");
   }
 
 }

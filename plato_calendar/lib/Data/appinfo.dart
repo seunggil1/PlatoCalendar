@@ -1,7 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:plato_calendar/Data/database/database.dart';
 
-import 'package:plato_calendar/utility.dart';
+import '../notify.dart';
 
 enum BuildType {debug, release}
 
@@ -14,7 +14,7 @@ class Appinfo{
   static String appVersion = "3.0.0";
 
   /// App build 날짜
-  static String buildversion = "202201040";
+  static String buildversion = "202201050";
 
   /// Database 버전
   static String databaseVersion = "3.0";
@@ -25,17 +25,17 @@ class Appinfo{
       if(await secureStorage.containsKey(key: "databaseVersion")){
         final String nowDBVersion = await secureStorage.read(key: "databaseVersion") ?? 2.0;
         if(databaseVersion != nowDBVersion){
-          notifyDebugInfo("DB version isn't same. $databaseVersion, $nowDBVersion");
+          Notify.notifyDebugInfo("DB version isn't same. $databaseVersion, $nowDBVersion");
           await Database.deleteAll();
           await secureStorage.write(key: "databaseVersion", value: databaseVersion);
         }
       }else{
-        notifyDebugInfo("databaseVersion is not Exist.");
+        Notify.notifyDebugInfo("databaseVersion is not Exist.");
         await Database.deleteAll();
         await secureStorage.write(key: "databaseVersion", value: databaseVersion);
       }
     }catch(e){
-      notifyDebugInfo(e);
+      Notify.notifyDebugInfo(e);
       await Database.deleteAll();
       await secureStorage.write(key: "databaseVersion", value: databaseVersion);
     }

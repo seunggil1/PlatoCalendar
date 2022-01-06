@@ -3,14 +3,13 @@ import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:firebase_messaging/firebase_messaging.dart'; 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:plato_calendar/Data/database/backgroundDatabase.dart';
 import 'package:plato_calendar/Data/database/database.dart';
 import '../Data/userData.dart';
 import 'package:plato_calendar/pnu/pnu.dart';
 
-import '../utility.dart';
+import '../notify.dart';
 
 // 아래 페이지를 따라갈 것.
 // https://firebase.flutter.dev/docs/overview
@@ -41,9 +40,9 @@ bool _backgroundInit = false;
 bool _flag = false;
 /// fcm 수신시 background 동기화 시작
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await notificationInit();
+  await Notify.notificationInit();
   if(_flag){
-    notifyDebugInfo("firebaseMessagingBackgroundHandler is working.");
+    Notify.notifyDebugInfo("firebaseMessagingBackgroundHandler is working.");
     return;
   }
   else
@@ -64,7 +63,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     DateTime recentlyAccess = await UserData.readDatabase.getTime();
     if(DateTime.now().difference(recentlyAccess).inMinutes <= 5)
       throw HiveError("Database is recently used");
-    await notifyDebugInfo("background Start : ${DateTime.now().toString()}", 2);
+    await Notify.notifyDebugInfo("background Start : ${DateTime.now().toString()}");
 
     await UserData.writeDatabase.lock();
     
@@ -89,7 +88,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       print("firebase Debug Success.");
     else if(message.data["func"] == "sync"){
       await update(background: true);
-      await notifyTodaySchedule();
+      await Notify.notifyTodaySchedule();
     }else if(message.data["func"] == "notifiy"){
 
     }else{
@@ -104,7 +103,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       await UserData.readDatabase.closeDatabase();
   }
   catch(e){
-    await notifyDebugInfo(e.toString());
+    await Notify.notifyDebugInfo(e.toString());
     _flag = false;
     if(e.runtimeType != HiveError || !(e.toString().contains("Database is locked") || e.toString().contains("Database is recently used")))
       await UserData.writeDatabase.release();

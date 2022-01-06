@@ -18,6 +18,8 @@ import 'Page/sfCalendar.dart';
 import 'Page/toDoList.dart';
 import 'Data/userData.dart';
 import 'pnu/pnu.dart';
+import 'notify.dart';
+
 // 프록시 사용할 떄 주석 해제 처리.
 // Burp suite로 트래픽 체크 할 때 사용.
 // class MyHttpOverrides extends HttpOverrides{
@@ -52,7 +54,7 @@ void main() async{
   UserData.writeDatabase = ForegroundDatabase();
   UserData.readDatabase = await Database.recentlyUsedDatabase();
  
-  await notificationInit();
+  await Notify.notificationInit();
   await UserData.readDatabase.lock();
   await UserData.writeDatabase.loadDatabase();
   await UserData.readDatabase.loadDatabase();

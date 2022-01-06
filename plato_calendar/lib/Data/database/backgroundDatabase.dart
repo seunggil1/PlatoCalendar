@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 
 import 'database.dart';
+import '../../notify.dart';
 import '../../utility.dart';
 
 final _syncTime = "backgroundTime";
@@ -20,7 +21,7 @@ class BackgroundDatabase extends Database{
       FlutterSecureStorage secureStorage = const FlutterSecureStorage();
       await secureStorage.write(key: _syncTime, value: DateTime.now().toString());
     }catch(e){
-      notifyDebugInfo("updateTime Error\n ${e.toString()}",1);
+      Notify.notifyDebugInfo("updateTime Error\n ${e.toString()}");
     }
   }
 
@@ -30,7 +31,7 @@ class BackgroundDatabase extends Database{
       FlutterSecureStorage secureStorage = const FlutterSecureStorage();
       return DateTime.parse(await secureStorage.read(key: _syncTime));
     }catch(e){
-      notifyDebugInfo("getTime Error\n ${e.toString()}",2);
+      Notify.notifyDebugInfo("getTime Error\n ${e.toString()}");
       return DateTime(1990);
     }
   }
@@ -49,10 +50,10 @@ class BackgroundDatabase extends Database{
         showToastMessageCenter("데이터 동기화중입니다....(${retry++}/10)");
         await Future.delayed(const Duration(seconds: 2));
       }else if(retry <= 10){
-        notifyDebugInfo("Force release.", 2);
+        Notify.notifyDebugInfo("Force release.");
         await release();
       }else{
-        notifyDebugInfo("Fail to lock Background Database.\n All Database is deleted.", 3);
+        Notify.notifyDebugInfo("Fail to lock Background Database.\n All Database is deleted.");
         await Database.deleteAll();      
       }
     }
@@ -83,7 +84,7 @@ class BackgroundDatabase extends Database{
       userDataBox = await Hive.openBox(_userData, encryptionCipher: HiveAesCipher(encryptionKey));
 
     }catch(e){
-      notifyDebugInfo(e.toString());
+      Notify.notifyDebugInfo(e.toString());
       await Database.deleteAll();
       await loadDatabase();
       return;

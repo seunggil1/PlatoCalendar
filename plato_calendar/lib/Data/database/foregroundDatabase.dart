@@ -4,8 +4,8 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../../notify.dart';
 import 'database.dart';
-import '../../utility.dart';
 
 final _syncTime = "foregroundTime";
 final _lock = "notUse";
@@ -20,7 +20,7 @@ class ForegroundDatabase extends Database{
       FlutterSecureStorage secureStorage = const FlutterSecureStorage();
       await secureStorage.write(key: _syncTime, value: DateTime.now().toString());
     }catch(e){
-      notifyDebugInfo("updateTime Error\n ${e.toString()}",1);
+      Notify.notifyDebugInfo("updateTime Error\n ${e.toString()}");
     }
   }
 
@@ -30,7 +30,7 @@ class ForegroundDatabase extends Database{
       FlutterSecureStorage secureStorage = const FlutterSecureStorage();
       return DateTime.parse(await secureStorage.read(key: _syncTime));
     }catch(e){
-      notifyDebugInfo("getTime Error\n ${e.toString()}",2);
+      Notify.notifyDebugInfo("getTime Error\n ${e.toString()}");
       return DateTime(1990);
     }
   }
@@ -65,7 +65,7 @@ class ForegroundDatabase extends Database{
       userDataBox = await Hive.openBox(_userData, encryptionCipher: HiveAesCipher(encryptionKey));
     }
     catch(e){
-      notifyDebugInfo(e.toString());
+      Notify.notifyDebugInfo(e.toString());
       await Database.deleteAll();
       await loadDatabase();
     }

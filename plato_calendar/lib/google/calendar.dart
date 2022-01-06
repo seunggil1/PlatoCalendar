@@ -13,6 +13,7 @@ import '../Data/privateKey.dart';
 
 import '../Data/database/database.dart';
 import '../Data/userData.dart';
+import '../notify.dart';
 
 part 'calendar.g.dart';
 
@@ -79,7 +80,7 @@ class GoogleCalendarToken{
       tokenStream = client.credentialUpdates;
     }
     catch(e){
-      notifyDebugInfo(e.toString());
+      Notify.notifyDebugInfo(e.toString());
       return false;
     }
     return true;
@@ -114,7 +115,7 @@ class GoogleCalendarToken{
       else if(Platform.isIOS)
         exit(0);
     }catch(e){
-      notifyDebugInfo(e.toString());
+      Notify.notifyDebugInfo(e.toString());
       return false;
     }
       return true;
@@ -187,7 +188,7 @@ class GoogleCalendarToken{
       failCount = 0;
       return true;
     }catch(e){
-      notifyDebugInfo(e.toString());
+      Notify.notifyDebugInfo(e.toString());
       failCount += 1;
       delayTime *= 2;
       return false;
@@ -211,7 +212,7 @@ class GoogleCalendarToken{
 
       return true;
     }catch(e){
-      notifyDebugInfo(e.toString());
+      Notify.notifyDebugInfo(e.toString());
       failCount += 1;
       delayTime *= 2;
 
