@@ -90,7 +90,7 @@ class Notify{
           color: Colors.blue,
           styleInformation: const BigTextStyleInformation(''));
     const NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(notificationId, 'Error', e, platformChannelSpecifics, payload: 'item x');
+    await flutterLocalNotificationsPlugin.show(notificationId, 'Error', '$notificationId.' + e, platformChannelSpecifics, payload: 'item x');
     notificationId++;
   }
 }

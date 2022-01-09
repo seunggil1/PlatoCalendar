@@ -61,10 +61,14 @@ abstract class Database{
       await (secureStorage.write(key: "backgroundTime", value: DateTime(1990).toString()));
     }
 
-    if(foregroundTime.difference(backgroundTime).inSeconds >= 0)
+    if(foregroundTime.difference(backgroundTime).inSeconds >= 0){
+      Notify.notifyDebugInfo("foregroundDB");
       return ForegroundDatabase();
-    else
+    }
+    else{
+      Notify.notifyDebugInfo("backgroundDB");
       return BackgroundDatabase();
+    }
   }
 
   static Future<void> deleteAll() async{
