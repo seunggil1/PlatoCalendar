@@ -62,11 +62,11 @@ abstract class Database{
     }
 
     if(foregroundTime.difference(backgroundTime).inSeconds >= 0){
-      Notify.notifyDebugInfo("foregroundDB");
+      Notify.notifyDebugInfo("Loading foregroundDB..");
       return ForegroundDatabase();
     }
     else{
-      Notify.notifyDebugInfo("backgroundDB");
+      Notify.notifyDebugInfo("Loading backgroundDB..");
       return BackgroundDatabase();
     }
   }
