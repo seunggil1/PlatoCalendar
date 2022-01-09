@@ -3,7 +3,7 @@ import 'Data/etc.dart';
 import 'Data/userData.dart';
 import 'Data/appinfo.dart';
 import 'package:flutter/material.dart';
-import 'package:plato_calendar/logcat.dart';
+import 'package:plato_calendar/logger.dart';
 
 class Notify{
   static int notificationId = 0;
