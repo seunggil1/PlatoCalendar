@@ -20,8 +20,8 @@ class BackgroundDatabase extends Database{
     try{
       FlutterSecureStorage secureStorage = const FlutterSecureStorage();
       await secureStorage.write(key: _syncTime, value: DateTime.now().toString());
-    }catch(e){
-      Notify.notifyDebugInfo("updateTime Error\n ${e.toString()}");
+    }catch(e, trace){
+      Notify.notifyDebugInfo("updateTime Error\n ${e.toString()}", sendLog: true, trace: trace);
     }
   }
 
@@ -30,8 +30,8 @@ class BackgroundDatabase extends Database{
     try{
       FlutterSecureStorage secureStorage = const FlutterSecureStorage();
       return DateTime.parse(await secureStorage.read(key: _syncTime));
-    }catch(e){
-      Notify.notifyDebugInfo("getTime Error\n ${e.toString()}");
+    }catch(e, trace){
+      Notify.notifyDebugInfo("getTime Error\n ${e.toString()}", sendLog: true, trace: trace);
       return DateTime(1990);
     }
   }
@@ -53,7 +53,7 @@ class BackgroundDatabase extends Database{
         Notify.notifyDebugInfo("Force release.");
         await release();
       }else{
-        Notify.notifyDebugInfo("Fail to lock Background Database.\n All Database is deleted.");
+        Notify.notifyDebugInfo("Fail to lock Background Database.\n All Database is deleted.", sendLog: true);
         await Database.deleteAll();      
       }
     }
@@ -83,8 +83,8 @@ class BackgroundDatabase extends Database{
       calendarBox = await Hive.openBox(_calendar, encryptionCipher: HiveAesCipher(encryptionKey));
       userDataBox = await Hive.openBox(_userData, encryptionCipher: HiveAesCipher(encryptionKey));
 
-    }catch(e){
-      Notify.notifyDebugInfo(e.toString());
+    }catch(e, trace){
+      Notify.notifyDebugInfo(e.toString(), sendLog: true, trace: trace);
       await Database.deleteAll();
       await loadDatabase();
       return;

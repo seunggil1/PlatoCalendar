@@ -72,8 +72,8 @@ Future<void> icsParser(String bytes) async{
     // For test
     // Database.uidSetSave();
     // Database.subjectCodeThisSemesterSave();
-  }catch(e){
-    Notify.notifyDebugInfo("icsParser Error\n ${e.toString()}");
+  }catch(e, trace){
+    Notify.notifyDebugInfo("icsParser Error\n ${e.toString()}", sendLog: true, trace : trace, additionalInfo: bytes);
   }
 
 }

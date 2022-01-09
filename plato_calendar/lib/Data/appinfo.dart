@@ -34,8 +34,8 @@ class Appinfo{
         await Database.deleteAll();
         await secureStorage.write(key: "databaseVersion", value: databaseVersion);
       }
-    }catch(e){
-      Notify.notifyDebugInfo(e);
+    }catch(e, trace){
+      Notify.notifyDebugInfo(e,sendLog : true, trace : trace);
       await Database.deleteAll();
       await secureStorage.write(key: "databaseVersion", value: databaseVersion);
     }

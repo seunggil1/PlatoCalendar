@@ -29,13 +29,13 @@ abstract class Database{
         if(!e.message.toString().contains("There is already a TypeAdapter"))
           throw HiveError("register Adapter failed : "+ e.message.toString());
       }
-    }catch(e){
+    }catch(e, trace){
       if(e.runtimeType != HiveError){
-        Notify.notifyDebugInfo(e.toString());
+        Notify.notifyDebugInfo(e.toString(), sendLog: true, trace : trace);
         throw Exception(e.toString());
       }
       if(!(e.message.contains("There is already a TypeAdapter") && e.message != "Instance has already been initialized.")){
-            Notify.notifyDebugInfo(e.toString());
+            Notify.notifyDebugInfo(e.toString(), sendLog: true, trace : trace);
             throw HiveError(e.toString());
       }
     }
@@ -78,8 +78,8 @@ abstract class Database{
       await Hive.deleteBoxFromDisk('foregroundCalendarBox');
       await Hive.deleteBoxFromDisk('foregroundUserDataBox');
     }
-    catch(e){
-      Notify.notifyDebugInfo(e.toString());
+    catch(e, trace){
+      Notify.notifyDebugInfo(e.toString(), sendLog: true, trace : trace);
       if(!(e is ArgumentError))
         throw e;
     }
@@ -87,8 +87,8 @@ abstract class Database{
       await Hive.deleteBoxFromDisk('backgroundCalendarBox');
       await Hive.deleteBoxFromDisk('backgroundUserDataBox');
     }
-    catch(e){
-      Notify.notifyDebugInfo(e.toString());
+    catch(e,trace){
+      Notify.notifyDebugInfo(e.toString(), sendLog: true, trace : trace);
       if(!(e is ArgumentError))
         throw e;
     }

@@ -20,6 +20,7 @@ import 'Data/userData.dart';
 import 'pnu/pnu.dart';
 import 'notify.dart';
 
+
 // 프록시 사용할 떄 주석 해제 처리.
 // Burp suite로 트래픽 체크 할 때 사용.
 // class MyHttpOverrides extends HttpOverrides{
@@ -43,11 +44,10 @@ void main() async{
   Future.wait([
     adBanner1.load(),
     adBanner2.load(),
-    Future.delayed(Duration(seconds: 2))
+    Future.delayed(Duration(seconds: 3))
   ]).then((value){
     pnuStream.sink.add(true);
   });
-
   
   await Database.init();
   await Appinfo.loadAppinfo();

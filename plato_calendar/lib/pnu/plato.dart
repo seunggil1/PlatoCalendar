@@ -149,8 +149,8 @@ class Plato {
         UserData.writeDatabase.uidSetSave()
       ]);
     }
-    catch(e){
-      Notify.notifyDebugInfo(e.toString());
+    catch(e,trace){
+      Notify.notifyDebugInfo(e.toString(), sendLog: true, trace : trace);
       DateTime now = DateTime.now();
       UserData.lastSyncInfo = "${now.day}일 ${now.hour}:${now.minute} - 동기화 오류\n${e.toString()}";
       return false;

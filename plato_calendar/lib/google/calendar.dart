@@ -79,8 +79,8 @@ class GoogleCalendarToken{
       
       tokenStream = client.credentialUpdates;
     }
-    catch(e){
-      Notify.notifyDebugInfo(e.toString());
+    catch(e, trace){
+      Notify.notifyDebugInfo(e.toString(), sendLog: true, trace : trace);
       return false;
     }
     return true;
@@ -114,8 +114,8 @@ class GoogleCalendarToken{
         SystemNavigator.pop();
       else if(Platform.isIOS)
         exit(0);
-    }catch(e){
-      Notify.notifyDebugInfo(e.toString());
+    }catch(e,trace){
+      Notify.notifyDebugInfo(e.toString(), sendLog: true, trace : trace);
       return false;
     }
       return true;
@@ -187,8 +187,8 @@ class GoogleCalendarToken{
       delayTime = 1;
       failCount = 0;
       return true;
-    }catch(e){
-      Notify.notifyDebugInfo(e.toString());
+    }catch(e, trace){
+      Notify.notifyDebugInfo(e.toString(), sendLog: true, trace : trace);
       failCount += 1;
       delayTime *= 2;
       return false;
@@ -211,8 +211,8 @@ class GoogleCalendarToken{
       failCount = 0;
 
       return true;
-    }catch(e){
-      Notify.notifyDebugInfo(e.toString());
+    }catch(e, trace){
+      Notify.notifyDebugInfo(e.toString(), sendLog: true, trace : trace);
       failCount += 1;
       delayTime *= 2;
 

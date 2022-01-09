@@ -102,8 +102,12 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     if(UserData.readDatabase is BackgroundDatabase)
       await UserData.readDatabase.closeDatabase();
   }
-  catch(e){
-    await Notify.notifyDebugInfo(e.toString());
+  catch(e, trace){
+    if((e.runtimeType == HiveError) && e.toString().contains("Database is recently used"))
+      await Notify.notifyDebugInfo(e.toString());
+    else
+      await Notify.notifyDebugInfo(e.toString(), sendLog: true, trace : trace);
+
     _flag = false;
     if(e.runtimeType != HiveError || !(e.toString().contains("Database is locked") || e.toString().contains("Database is recently used")))
       await UserData.writeDatabase.release();
