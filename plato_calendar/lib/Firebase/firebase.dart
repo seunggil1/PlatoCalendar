@@ -64,7 +64,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     if(DateTime.now().difference(recentlyAccess).inMinutes <= 5)
       throw HiveError("Database is recently used");
     await Notify.notifyDebugInfo("background Start : ${DateTime.now().toString()}");
-    UserData.googleCalendar.openStream();
+
     await UserData.writeDatabase.lock();
     
     await UserData.writeDatabase.loadDatabase();
@@ -73,6 +73,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     UserData.readDatabase.userDataLoad();
     UserData.readDatabase.calendarDataLoad();
     UserData.readDatabase.googleDataLoad();
+
+    UserData.googleCalendar.openStream();
 
     // 자동으로 Save 안되는 부분은 수동으로 해주기.
     await Future.wait([
@@ -97,6 +99,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     print("Handling a background message: ${message.messageId}");
     _flag = false;
 
+    //await UserData.googleCalendar.closeStream();
     await Future.delayed(Duration(seconds: 1));
     await UserData.writeDatabase.release();
     if(UserData.readDatabase is BackgroundDatabase)
