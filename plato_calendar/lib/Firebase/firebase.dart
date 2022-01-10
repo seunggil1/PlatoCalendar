@@ -64,7 +64,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     if(DateTime.now().difference(recentlyAccess).inMinutes <= 5)
       throw HiveError("Database is recently used");
     await Notify.notifyDebugInfo("background Start : ${DateTime.now().toString()}");
-
+    UserData.googleCalendar.openStream();
     await UserData.writeDatabase.lock();
     
     await UserData.writeDatabase.loadDatabase();
@@ -82,7 +82,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
         UserData.writeDatabase.calendarDataFullSave(),
         UserData.writeDatabase.googleDataSave()
     ]);
-
+    
     await UserData.writeDatabase.updateTime();
     if(!message.data.containsKey("func"))
       print("firebase Debug Success.");
@@ -105,8 +105,10 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   catch(e, trace){
     if((e.runtimeType == HiveError) && e.toString().contains("Database is recently used"))
       await Notify.notifyDebugInfo(e.toString());
-    else
+    else{
+      //await UserData.googleCalendar.closeStream();
       await Notify.notifyDebugInfo(e.toString(), sendLog: true, trace : trace);
+    }
 
     _flag = false;
     if(e.runtimeType != HiveError || !(e.toString().contains("Database is locked") || e.toString().contains("Database is recently used")))

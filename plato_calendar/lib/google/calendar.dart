@@ -49,6 +49,29 @@ class GoogleCalendarToken{
   /// 0.5초에 하나씩 처리함(Rate Limit Exceeded 방지).
   StreamController<CalendarData> googleAsyncQueue;
 
+  /// googleAsyncQueue open
+  void openStream() {
+    googleAsyncQueue = StreamController<CalendarData>();
+    googleAsyncQueue.stream.asyncMap((CalendarData data) async{
+      bool result;
+      if(data.disable || data.finished) // (UserData.showFinished && data.finished)
+        result = await UserData.googleCalendar.deleteCalendar(data.toEvent());
+      else
+        result = await UserData.googleCalendar.updateCalendar(data.toEvent());
+      if(!result){
+        if(UserData.googleCalendar.failCount >= 9){
+          UserData.googleCalendar.googleAsyncQueue.close();
+          Notify.notifyDebugInfo("googleCalendar.failCount is exceeded limit.", sendLog: true);
+        }
+        else
+          UserData.googleCalendar.googleAsyncQueue.add(data);
+      }
+      UserData.googleCalendar.asyncQueueSize--;
+      await Future.delayed(Duration(seconds: UserData.googleCalendar.delayTime));
+    }).listen((event) { });
+  }
+
+  /// googleAsyncQueue close
   Future<void> closeStream() async {
     await googleAsyncQueue.close();
   }
