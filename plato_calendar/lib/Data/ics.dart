@@ -78,55 +78,55 @@ Future<void> icsParser(String bytes) async{
 
 }
 
-Future<bool> icsExport() async {
-  try{
-    final dir = (await getApplicationDocumentsDirectory()).path;
-    File icsFile = File("$dir/data.ics");
-    String data = "";
-    data += ('BEGIN:VCALENDAR\n');
-    data +=('METHOD:PUBLISH\n');
-    data +=('PRODID:-//Moodle Pty Ltd//NONSGML Moodle Version 2018051709//EN\n');
-    data +=('VERSION:2.0\n');
-    for(var iter in UserData.data)
-      if(DateTime.now().difference(iter.end).inDays < 35 && iter.finished == false){
-        data += ('BEGIN:VEVENT\n');
-        data += ('UID:${iter.uid}\n');
-        data += ('SUMMARY:${iter.summary}\n');
-        String description = iter.description.replaceAll('\n', '\\n');
-        data += ('DESCRIPTION:$description\n');
-        data += ('\n');
-        data += ('CLASS:PUBLIC\n');
-        data += ('LAST-MODIFIED:20201108T053930Z\n');
-        data += ('DTSTAMP:${toISO8601(iter.end)}\n');
-        DateTime start = iter.start.day == iter.end.day ? iter.start : iter.end;
-        data += ('DTSTART:${toISO8601(start)}\n');
-        data += ('DTEND:${toISO8601(iter.end)}\n');
-        data += ('CATEGORIES:${iter.classCode}\n');
-        data += ('END:VEVENT\n');
-      }  
-    data +=('END:VCALENDAR\n');
-
-    icsFile.writeAsString(data);
-    OpenResult result = await OpenFile.open("$dir/data.ics");
-    if(result.type != ResultType.done)
-      throw Exception();
-
-    return true;
-  } catch(e){
-    return false;
-  }
-}
-
 Future<void> testTimeParser(dynamic dataList,List<String> requestInfo) async {
   for(var iter in dataList){
     CalendarData data = CalendarData.byTestTime(iter, requestInfo);
     if(!UserData.data.contains(data)){
       UserData.uidSet.add(data.uid);
-      UserData.writeDatabase.calendarDataSave(data);
+      await UserData.writeDatabase.calendarDataSave(data);
       UserData.data.add(data);
     }
   }
 }
+
+// Future<bool> icsExport() async {
+//   try{
+//     final dir = (await getApplicationDocumentsDirectory()).path;
+//     File icsFile = File("$dir/data.ics");
+//     String data = "";
+//     data += ('BEGIN:VCALENDAR\n');
+//     data +=('METHOD:PUBLISH\n');
+//     data +=('PRODID:-//Moodle Pty Ltd//NONSGML Moodle Version 2018051709//EN\n');
+//     data +=('VERSION:2.0\n');
+//     for(var iter in UserData.data)
+//       if(DateTime.now().difference(iter.end).inDays < 35 && iter.finished == false){
+//         data += ('BEGIN:VEVENT\n');
+//         data += ('UID:${iter.uid}\n');
+//         data += ('SUMMARY:${iter.summary}\n');
+//         String description = iter.description.replaceAll('\n', '\\n');
+//         data += ('DESCRIPTION:$description\n');
+//         data += ('\n');
+//         data += ('CLASS:PUBLIC\n');
+//         data += ('LAST-MODIFIED:20201108T053930Z\n');
+//         data += ('DTSTAMP:${toISO8601(iter.end)}\n');
+//         DateTime start = iter.start.day == iter.end.day ? iter.start : iter.end;
+//         data += ('DTSTART:${toISO8601(start)}\n');
+//         data += ('DTEND:${toISO8601(iter.end)}\n');
+//         data += ('CATEGORIES:${iter.classCode}\n');
+//         data += ('END:VEVENT\n');
+//       }  
+//     data +=('END:VCALENDAR\n');
+
+//     icsFile.writeAsString(data);
+//     OpenResult result = await OpenFile.open("$dir/data.ics");
+//     if(result.type != ResultType.done)
+//       throw Exception();
+
+//     return true;
+//   } catch(e){
+//     return false;
+//   }
+// }
 
 class CalendarData{
 
