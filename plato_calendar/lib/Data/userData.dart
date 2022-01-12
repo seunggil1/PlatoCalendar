@@ -151,7 +151,8 @@ class UserData{
   }
 
   static set semester(int newValue){
-    if(newValue == null || newValue != semester){
+    if((newValue == null || newValue != semester) 
+      && readDatabase.runtimeType == writeDatabase.runtimeType){
       subjectCodeThisSemester.clear();
       subjectCodeThisSemester.add("전체");
       writeDatabase.subjectCodeThisSemesterSave();
