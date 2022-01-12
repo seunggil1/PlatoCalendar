@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:plato_calendar/Data/appinfo.dart';
 import '../google/calendar.dart';
 
 import 'database/database.dart';
@@ -188,5 +189,49 @@ class UserData{
     _themeMode = newValue ?? ThemeMode.system;
 
     writeDatabase.userDataBox.put('themeMode', newValue);
+  }
+
+
+  /// 디버깅용 코드
+  /// 
+  /// Database의 모든 data 추출해서 반환.
+  static String getAllData(){
+    // release 버전에서 사용되면 안됨.
+    if(Appinfo.buildType == BuildType.release)
+      return "";
+
+    String result = DateTime.now().toString() + '\n';
+
+    result += "readDatabase : " + readDatabase.runtimeType.toString() + '\n';
+    result += "writeDatabase : " + writeDatabase.runtimeType.toString() + '\n';
+    result += "tapIndex : " + _tapIndex.toString() + '\n';
+    result += "firstDayOfWeek : " + _firstDayOfWeek.toString() + '\n';
+    result += "showFinished : " + _showFinished.toString() + '\n';
+    result += "calendarType : " + _calendarType.toString() + '\n';
+    result += "year : " + _year.toString() + '\n';
+    result += "semester : " + _semester.toString() + '\n';
+    result += "lastSyncTime : " + _lastSyncTime.toString() + '\n';
+    result += "lastSyncInfo : " + _lastSyncInfo.toString() + '\n';
+    result += "oneStopLastSyncDay : " + _oneStopLastSyncDay.toString() + '\n';
+    result += "notificationDay : " + _notificationDay.toString() + '\n';
+    result += "showToDoList : " + _showToDoList.toString() + '\n';
+    result += "uidSet : " + uidSet.toString() + '\n';
+    result += "subjectCodeThisSemester : " + subjectCodeThisSemester.toString() + '\n';
+    result += "isSaveGoogleToken : " + isSaveGoogleToken.toString() + '\n';
+    result += "themeMode : " + _themeMode.toString() + '\n';
+
+    result += "Calendar" + '\n\n';
+    int i = 1;
+    for(CalendarData d in data){
+      result += '${i.toString()}. ' + d.summary + '\n';
+      result += d.classCode + ' ';
+      result += d.className + '\n';
+      result += d.description + '\n';
+      result += 'finished : ' + d.finished.toString() + '\n';
+      result += 'disabled : ' + d.disable.toString() + '\n\n\n\n';
+      i++;
+    }
+
+    return result;
   }
 }
