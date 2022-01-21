@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:hive/hive.dart';
 import 'package:plato_calendar/Data/database/backgroundDatabase.dart';
 import 'package:plato_calendar/Data/database/database.dart';
+import 'package:plato_calendar/Data/database/foregroundDatabase.dart';
 import '../Data/userData.dart';
 import 'package:plato_calendar/pnu/pnu.dart';
 
@@ -74,8 +75,12 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     UserData.readDatabase.calendarDataLoad();
     UserData.readDatabase.googleDataLoad();
 
+    if(UserData.readDatabase is ForegroundDatabase)
+      await UserData.readDatabase.closeDatabase();
+    
     UserData.googleCalendar.openStream();
 
+    //await Notify.notifyDebugInfo(UserData.getAllData(), sendLog: true);
     // 자동으로 Save 안되는 부분은 수동으로 해주기.
     await Future.wait([
         UserData.writeDatabase.subjectCodeThisSemesterSave(),
@@ -102,8 +107,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     //await UserData.googleCalendar.closeStream();
     await Future.delayed(Duration(seconds: 1));
     await UserData.writeDatabase.release();
-    if(UserData.readDatabase is BackgroundDatabase)
-      await UserData.readDatabase.closeDatabase();
   }
   catch(e, trace){
     if((e.runtimeType == HiveError) && e.toString().contains("Database is recently used"))

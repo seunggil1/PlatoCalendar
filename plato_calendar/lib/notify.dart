@@ -57,7 +57,7 @@ class Notify{
       }
     });
     body = body.trim();
-
+    UserData.notificationDay = DateTime.now().day;
     if(body.length != 0){
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
@@ -72,7 +72,7 @@ class Notify{
       const NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
       await flutterLocalNotificationsPlugin.show(0, '오늘의 일정', body, platformChannelSpecifics, payload: 'item x');
     }
-    UserData.notificationDay = DateTime.now().day;
+    
     await UserData.writeDatabase.updateTime();
   }
 
