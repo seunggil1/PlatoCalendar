@@ -8,13 +8,13 @@ enum BuildType {debug, release}
 class Appinfo{
   /// release, debug 여부 표시
   /// debug 모드일때 오류, 백그라운드 동기화를 상단 알림으로 표시함.
-  static BuildType buildType = BuildType.debug;
+  static BuildType buildType = BuildType.release;
 
   /// App 버전
   static String appVersion = "3.0.1";
 
   /// App build 날짜
-  static String buildversion = "202201102";
+  static String buildversion = "202201220";
 
   /// Database 버전
   static String databaseVersion = "3.0";
