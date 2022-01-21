@@ -51,6 +51,13 @@ void main() async{
   
   await Database.init();
   await Appinfo.loadAppinfo();
+
+  // background에서 동기화 중이면 완료될때까지 대기
+  // lock을 시도하고 lock 성공시 바로 release하는 식으로 진행.
+  var mutex = BackgroundDatabase();
+  await mutex.lock();
+  await mutex.release();
+
   UserData.writeDatabase = ForegroundDatabase();
   UserData.readDatabase = await Database.recentlyUsedDatabase();
  
