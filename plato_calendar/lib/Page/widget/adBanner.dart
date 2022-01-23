@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../../Data/privateKey.dart';
-
+import '../../main.dart';
 
 BannerAdListener listener = BannerAdListener(
-  onAdLoaded: (Ad ad) => print('Ad loaded.'),
+  onAdLoaded: (Ad ad) => pnuStream.sink.add(true),
   onAdFailedToLoad: (Ad ad, LoadAdError error) {
     ad.dispose();
     print('Ad failed to load: $error');
@@ -17,14 +17,14 @@ BannerAd adBanner1 = BannerAd(
   adUnitId: PrivateKey.adUnitId1,
   size: AdSize.banner,
   request: AdRequest(),
-  listener: BannerAdListener(),
+  listener: listener,
 );
 
 BannerAd adBanner2 = BannerAd(
   adUnitId: PrivateKey.adUnitId2,
   size: AdSize.banner,
   request: AdRequest(),
-  listener: BannerAdListener(),
+  listener: listener,
 );
 
 class AdBanner extends StatelessWidget{
