@@ -62,11 +62,18 @@ Future<void> icsParser(String bytes) async{
     ICalendar iCalendar = ICalendar.fromString(bytes);
 
     for(var iter in iCalendar.data){
-      CalendarData data = CalendarData.byMap(iter);
-      if(!UserData.data.contains(data)){
-        UserData.uidSet.add(data.uid);
-        await UserData.writeDatabase.calendarDataSave(data);
-        UserData.data.add(data);
+      CalendarData newData = CalendarData.byMap(iter);
+      CalendarData oldData = UserData.data.lookup(newData);
+      if(oldData != null){ // 기존에 있는 데이터면 update
+        // 비교 시간 줄이기 위해 hashcode로
+        if(oldData.icsDataHashCode != newData.icsDataHashCode){
+          oldData.updateData(newData);
+          await UserData.writeDatabase.calendarDataSave(oldData);
+        }
+      }else{ // 없으면 새로 추가.
+        UserData.uidSet.add(newData.uid);
+        await UserData.writeDatabase.calendarDataSave(newData);
+        UserData.data.add(newData);
       }
     }
     // For test
@@ -80,11 +87,18 @@ Future<void> icsParser(String bytes) async{
 
 Future<void> testTimeParser(dynamic dataList,List<String> requestInfo) async {
   for(var iter in dataList){
-    CalendarData data = CalendarData.byTestTime(iter, requestInfo);
-    if(!UserData.data.contains(data)){
-      UserData.uidSet.add(data.uid);
-      await UserData.writeDatabase.calendarDataSave(data);
-      UserData.data.add(data);
+    CalendarData newData = CalendarData.byTestTime(iter, requestInfo);
+    CalendarData oldData = UserData.data.lookup(newData);
+    if(oldData != null){ // 기존에 있는 데이터면 update
+      // 비교 시간 줄이기 위해 hashcode로
+      if(oldData.icsDataHashCode != newData.icsDataHashCode){
+        oldData.updateData(newData);
+        await UserData.writeDatabase.calendarDataSave(oldData);
+      }
+    }else{ // 없으면 새로 추가.
+      UserData.uidSet.add(newData.uid);
+      await UserData.writeDatabase.calendarDataSave(newData);
+      UserData.data.add(newData);
     }
   }
 }
@@ -230,7 +244,7 @@ class CalendarData{
       className = "";
     }
     
-    if(end.minute == 0){
+    if(end.hour == 0 && end.minute == 0){
       if(start == end)
         start = start.subtract(Duration(minutes: 1));
       end = end.subtract(Duration(minutes: 1));
@@ -323,6 +337,58 @@ class CalendarData{
     if(!(other is CalendarData))
       return false;
     return this.uid == other.uid;
+  }
+
+  @override
+  String toString(){
+    return """
+    uid : $uid
+    summary : $summary
+    description : $description
+    memo : $memo
+
+    DateTime start : ${start.toString()}
+    DateTime end : ${end.toString()}
+
+    isPeriod : $isPeriod
+
+    year : $year
+    semester : $semester
+    classCode : $classCode
+    className : $className
+
+    disable : $disable
+
+    finished : $finished
+
+    isPlato : $isPlato
+
+    color : $color
+    """;
+  }
+  
+
+  int get icsDataHashCode => uid.hashCode ^ description.hashCode ^ start.hashCode ^ end.hashCode;
+
+  bool updateData(CalendarData other){
+    try{
+      summary = other.summary;
+      description = other.description;
+      start = other.start;
+      end = other.end;
+      return true;
+    }catch(e, trace){
+      Notify.notifyDebugInfo(e, sendLog: true, trace: trace, 
+        additionalInfo: 
+          """
+          1. old data
+          ${this.toString()}
+          2. new data
+          ${other.toString()}
+          """
+      );
+      return false;
+    }
   }
 }
 
