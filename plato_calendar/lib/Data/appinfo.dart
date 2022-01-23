@@ -7,6 +7,7 @@ enum BuildType {debug, release}
 
 class Appinfo{
   /// release, debug 여부 표시
+  /// 
   /// debug 모드일때 오류, 백그라운드 동기화를 상단 알림으로 표시함.
   static BuildType buildType = BuildType.release;
 
@@ -17,7 +18,7 @@ class Appinfo{
   static String buildversion = "202201220";
 
   /// Database 버전
-  static String databaseVersion = "3.0";
+  static String databaseVersion = "3.1";
   
   static Future<void> loadAppinfo() async {
     FlutterSecureStorage secureStorage = const FlutterSecureStorage();

@@ -127,15 +127,18 @@ Future<void> testTimeParser(dynamic dataList,List<String> requestInfo) async {
 //     return false;
 //   }
 // }
-
 class CalendarData{
 
   String uid;
   String summary;
   String description;
+  String memo = "";
 
   DateTime start, end;
 
+  /// 시작시간과 종료 시간이 다른 일정
+  /// 
+  /// (사용하지 않는 데이터)
   bool isPeriod = true;
 
   String year;
@@ -143,18 +146,49 @@ class CalendarData{
   String classCode;
   String className;
 
+  /// 삭제처리한 일정
   bool disable = false;
+
+  /// 완료처리한 일정
   bool finished = false;
 
+  /// 학교에서 받아온 일정
+  bool isPlato = false;
+
+  /// 달력에 표시할 색상
   int color;
 
   /// DB에 저장된 데이터로 일정 생성.
-  CalendarData(this.uid, this.summary,this.description, this.start, this.end,
+  CalendarData(this.uid, this.summary,this.description, this.memo, this.start, this.end,
               this.isPeriod, this.year, this.semester, this.classCode, this.className,
-              this.disable, this.finished, this.color);
+              this.disable, this.finished, this.isPlato, this.color);
+
+  /// 사용자가 새로운 일정 생성
+  CalendarData.newIcs(){
+    isPlato = false;
+
+    uid = DateTime.now().toUtc().toString()+'_userAppointment';
+    summary = "";
+    description = "";
+    DateTime time = DateTime.now();
+    time = time.subtract(Duration(seconds: time.second, milliseconds: time.millisecond, microseconds: time.microsecond));
+    
+    start = time;
+    end = time.add(Duration(hours: 1));
+
+    isPeriod = false;
+    year = UserData.year.toString();
+    semester =  UserData.semester.toString();
+    classCode = "과목 분류 없음";
+    className = "";
+    disable = false;
+    finished = false;
+    color = 18;
+  }
 
   /// Plato에서 받아온 데이터로 일정 생성.
   CalendarData.byMap(Map<String,dynamic> data){
+    isPlato = true;
     uid = data["uid"];
     summary = data["summary"];
     summary = summary.replaceAll("####",":");
@@ -206,6 +240,7 @@ class CalendarData{
 
   /// 학생지원시스템 시험정보로 일정 생성.
   CalendarData.byTestTime(Map<String,dynamic> data, List<String> requestInfo){
+    isPlato = true;
     // requestInfo = [2021, 10, 중간/기말고사]
     data = data.map((key, value) {
       value = value ?? "";
@@ -228,6 +263,7 @@ class CalendarData{
     List<int> time = List<int>.from((data["시험시작시간"].split(':') + data["시험종료시간"].split(':')).map(int.parse));
     start = DateTime(day[0], day[1],day[2], time[0], time[1]);
     end = DateTime(day[0], day[1],day[2], time[2], time[3]);
+    isPeriod = !(start == end);
 
     classCode = data["교과목번호"];
     className = subjectCode[classCode] ?? data["교과목명"];

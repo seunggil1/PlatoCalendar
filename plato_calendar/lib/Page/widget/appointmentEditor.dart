@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:plato_calendar/Data/etc.dart';
+import 'package:plato_calendar/utility.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../Data/subjectCode.dart';
@@ -23,11 +24,7 @@ class PopUpAppointmentEditor extends StatefulWidget{
   PopUpAppointmentEditor.newAppointment(){
     DateTime time = DateTime.now();
     time = time.subtract(Duration(seconds: time.second, milliseconds: time.millisecond, microseconds: time.microsecond));
-    calendarData = CalendarData(
-      DateTime.now().toUtc().toString()+'_userAppointment',
-      '','', time, time ,false,
-      UserData.year.toString(), UserData.semester.toString(),
-      "과목 분류 없음","",false,false,18);
+    calendarData = CalendarData.newIcs();
       newData = true;
   }
   @override
@@ -36,21 +33,25 @@ class PopUpAppointmentEditor extends StatefulWidget{
 class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
   TextEditingController summaryController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController memoController = TextEditingController();
   String _classCode;
   DateTime _start;
   DateTime _end;
   int _color;
+  bool _isPlato;
   @override
   void initState() {
     super.initState();
     summaryController.text = widget.calendarData.summary;
     descriptionController.text = widget.calendarData.description;
+    memoController.text = widget.calendarData.memo;
     _classCode =  UserData.subjectCodeThisSemester.contains(widget.calendarData.classCode)
                   ? widget.calendarData.classCode
-                  : UserData.subjectCodeThisSemester.first;
+                  : UserData.subjectCodeThisSemester.first; // 특정 과목이 아닐 경우 "전체"로 표시.
     _start = widget.calendarData.start;
     _end = widget.calendarData.end;
     _color = widget.calendarData.color;
+    _isPlato = widget.calendarData.isPlato;
   }
   @override
   Widget build(BuildContext context) {
@@ -107,6 +108,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                       onPressed: (){
                         widget.calendarData.summary = summaryController.text;
                         widget.calendarData.description = descriptionController.text;
+                        widget.calendarData.memo = memoController.text;
                         if(_classCode != "전체"){
                           widget.calendarData.classCode = _classCode;
                           widget.calendarData.className = subjectCode[_classCode];
@@ -117,6 +119,8 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                         widget.calendarData.start = _start;
                         widget.calendarData.end = _end;
                         widget.calendarData.color = _color;
+                        widget.calendarData.isPeriod = (_start != _end) ? true : false;
+
                         if(widget.newData) // 신규 추가인 경우
                           Navigator.pop(context,widget.calendarData); // calendarData 전달
                         else
@@ -189,14 +193,32 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                       ),
                       leading: Icon(Icons.calendar_today_rounded ,color: colorCollection[_color]),
                     ),
+                    descriptionController.text.length != 0 ? Text("\n", style: TextStyle(fontSize: 3),) : Container(),
                     ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: 300.0,
-                      ),
-                      child: TextField(
-                        controller: descriptionController,
-                        maxLines: null,
-                        style: TextStyle(fontSize: 14),
+                      constraints: BoxConstraints(maxHeight: 300.0),
+                      child: Row(
+                        children: [
+                          Expanded(child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: Text(descriptionController.text,style : TextStyle(fontSize: 14)),
+                          ))
+                        ]
+                      )
+                    ),
+                    descriptionController.text.length != 0 ? Text("\n", style: TextStyle(fontSize: 5)) : Container(),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(maxHeight: 300.0),
+                      child: Row(
+                        children: [
+                          const Text("Memo   ", textAlign: TextAlign.left, style: TextStyle(fontSize: 14)),
+                          Expanded(child: 
+                            TextField(
+                              controller: memoController,
+                              maxLines: null,
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          )
+                        ],
                       ),
                     ),
                     Container(
@@ -205,7 +227,9 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             FlatButton(
-                              onPressed: (){
+                              onPressed: _isPlato 
+                                ? (){ showToastMessageCenter("Plato 일정은 시간 변경이 불가합니다.");} // Plato 일정이면 날짜 변경 x
+                                : (){
                                 DatePicker.showDateTimePicker(
                                   context,
                                   locale: LocaleType.ko,
@@ -222,19 +246,21 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
                             ),
                             //Text('~',style: TextStyle( fontSize: 30)),
                             FlatButton(
-                              onPressed: (){
-                                DatePicker.showDateTimePicker(
-                                  context,
-                                  locale: LocaleType.ko,
-                                  currentTime: _end,
-                                  onConfirm: (DateTime time){
-                                    setState(() {
-                                      _end = time;
-                                      if(_start.difference(_end).inSeconds > 0)
-                                        _start = _end.subtract(Duration(hours: 1));
-                                    });
-                                });
-                              },
+                              onPressed: _isPlato 
+                                ? (){ showToastMessageCenter("Plato 일정은 시간 변경이 불가합니다.");} // Plato 일정이면 날짜 변경 x
+                                : (){
+                                  DatePicker.showDateTimePicker(
+                                    context,
+                                    locale: LocaleType.ko,
+                                    currentTime: _end,
+                                    onConfirm: (DateTime time){
+                                      setState(() {
+                                        _end = time;
+                                        if(_start.difference(_end).inSeconds > 0)
+                                          _start = _end.subtract(Duration(hours: 1));
+                                      });
+                                  });
+                                },
                               child: AutoSizeText("종료 시간 :  "+getDateTimeLocaleKR(_end))
                             ),
                           ]),
@@ -258,6 +284,8 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor>{
   }
 
 }
+
+/// 일정 색상을 지정하는 팝업 창
 class CalendarColorPicker extends StatefulWidget {
   CalendarColorPicker(this.calendarColor);
 
@@ -311,6 +339,7 @@ class _CalendarColorPickerState extends State<CalendarColorPicker> {
   }
 }
 
+/// 일정 완료, 삭제만 가능한 간단 팝업 창
 class SimplePopUpAppointmentEditor extends StatefulWidget {
   final CalendarData calendarData;
 
