@@ -306,7 +306,7 @@ class CalendarData{
     Event t = Event();
     t.iCalUID = this.uid;
     t.summary = this.summary + " : " + (this.className != "" ? this.className : this.classCode);
-    t.description = (this.className != "" ? this.className : this.classCode) + '\n' +this.description;
+    t.description = (this.className != "" ? this.className : this.classCode) + '\n' + this.description + '\n' + this.memo;
 
     // 마감기한, 녹화 수업(5시간 이상)
     bool notLive = (this.start == this.end) || (this.end.difference(this.start).inHours > 5);
