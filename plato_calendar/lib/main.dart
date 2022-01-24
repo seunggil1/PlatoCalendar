@@ -178,11 +178,13 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     switch (state) {
       case AppLifecycleState.resumed:
-        showToastMessageCenter("resumed");
+        //showToastMessageCenter("resumed");
         setState(() {
           loading = true;
         });
         UserData.readDatabase = BackgroundDatabase();
+        await UserData.readDatabase.lock();
+        await UserData.readDatabase.release();
         DateTime beforeSync = await UserData.writeDatabase.getTime();
         DateTime nowSync = await UserData.readDatabase.getTime();
         
@@ -206,16 +208,17 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
           await UserData.readDatabase.closeDatabase();
           UserData.readDatabase.release();
           pnuStream.sink.add(true);
+          closeToastMessage();
         }
 
         setState(() {
           loading = false;
         });
-        closeToastMessage();
+        
         timerSubScription.resume();
         break;
       case AppLifecycleState.inactive:
-        showToastMessageCenter("paused");
+        //howToastMessageCenter("paused");
         timerSubScription.pause();
         break;
       case AppLifecycleState.paused:
