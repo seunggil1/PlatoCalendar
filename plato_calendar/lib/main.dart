@@ -49,6 +49,7 @@ void main() async{
     pnuStream.sink.add(true);
   });
   
+  await Notify.notificationInit();
   await Database.init();
   await Appinfo.loadAppinfo();
 
@@ -61,7 +62,6 @@ void main() async{
   UserData.writeDatabase = ForegroundDatabase();
   UserData.readDatabase = await Database.recentlyUsedDatabase();
  
-  await Notify.notificationInit();
   await UserData.readDatabase.lock();
   await UserData.writeDatabase.loadDatabase();
   await UserData.readDatabase.loadDatabase();
