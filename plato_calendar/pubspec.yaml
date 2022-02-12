@@ -39,7 +39,6 @@ dependencies:
   # DateFormat("MM-dd HH:mm:ss").format(data),
   intl: ^0.17.0
   flutter_datetime_picker: ^1.5.0
-  flutter_secure_storage:
 
   # toast 메세지, 알림 메세지
   fluttertoast: ^8.0.8
@@ -49,6 +48,7 @@ dependencies:
   hive: ^2.0.5
   hive_flutter: ^1.1.0
   path_provider: ^2.0.8
+  flutter_secure_storage: ^5.0.2
 
   open_file:
   

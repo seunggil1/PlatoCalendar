@@ -32,7 +32,7 @@ class BackgroundDatabase extends Database{
   Future<DateTime> getTime() async{
     try{
       FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-      return DateTime.parse(await secureStorage.read(key: _syncTime, iOptions: options));
+      return DateTime.parse(await secureStorage.read(key: _syncTime, iOptions: options) ?? "1990-01-01");
     }catch(e, trace){
       Notify.notifyDebugInfo("getTime Error\n ${e.toString()}", sendLog: true, trace: trace);
       return DateTime(1990);
@@ -44,9 +44,9 @@ class BackgroundDatabase extends Database{
   /// backgroundDB 읽거나 쓸 때, 우선 lock을 걸고  마무리되면 release처리를 진행하고,
   Future<void> lock() async{
     FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-    if (!(await secureStorage.containsKey(key: _lock, iOptions: options)))
+    if (!(await secureStorage.containsKey(key: _lock, iOptions: options)) || (await secureStorage.read(key: _lock, iOptions: options)) == null){
       await secureStorage.write(key: _lock, value: 'false', iOptions: options);
-
+    }
     int retry = 1;
     while((await secureStorage.read(key: _lock, iOptions: options)) == "true"){
       if(retry <= 8){
@@ -77,7 +77,7 @@ class BackgroundDatabase extends Database{
   Future<void> loadDatabase() async {
     try{
       FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-      if (!(await secureStorage.containsKey(key: 'key', iOptions: options))) {
+      if (!(await secureStorage.containsKey(key: 'key', iOptions: options)) || (await secureStorage.read(key: 'key', iOptions: options) == null)) {
         var key = Hive.generateSecureKey();
         await secureStorage.write(key: 'key', value: base64UrlEncode(key), iOptions: options);
       }

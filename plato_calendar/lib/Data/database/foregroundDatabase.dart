@@ -57,7 +57,7 @@ class ForegroundDatabase extends Database{
     FlutterSecureStorage secureStorage;
     try{
       secureStorage = const FlutterSecureStorage();
-      if (!(await secureStorage.containsKey(key: 'key', iOptions: options))) {
+      if (!(await secureStorage.containsKey(key: 'key', iOptions: options)) || (await secureStorage.read(key: 'key', iOptions: options) == null)) {
         var key = Hive.generateSecureKey();
         await secureStorage.write(key: 'key', value: base64UrlEncode(key), iOptions: options);
       }

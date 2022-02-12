@@ -49,18 +49,20 @@ abstract class Database{
     DateTime foregroundTime;
     DateTime backgroundTime;
     
-    if (await secureStorage.containsKey(key: "foregroundTime", iOptions: options))
-      foregroundTime = DateTime.parse(await secureStorage.read(key: "foregroundTime", iOptions: options));
-    else{
+    if ((!await secureStorage.containsKey(key: "foregroundTime", iOptions: options)) || (await secureStorage.read(key: "foregroundTime", iOptions: options) == null)){
       foregroundTime = DateTime(1990);
-      await (secureStorage.write(key: "foregroundTime", value: DateTime(1990).toString(), iOptions: options));
+      await (secureStorage.write(key: "foregroundTime", value: "1990-01-01", iOptions: options));
+    }
+    else{
+      foregroundTime = DateTime.parse(await secureStorage.read(key: "foregroundTime", iOptions: options));
     }
 
-    if (await secureStorage.containsKey(key: "backgroundTime", iOptions: options))
-      backgroundTime = DateTime.parse(await (secureStorage.read(key: "backgroundTime", iOptions: options)));
-    else{
+    if ((!await secureStorage.containsKey(key: "backgroundTime", iOptions: options)) || (await secureStorage.read(key: "backgroundTime", iOptions: options) == null)){
       backgroundTime = DateTime(1990);
-      await (secureStorage.write(key: "backgroundTime", value: DateTime(1990).toString(), iOptions: options));
+      await (secureStorage.write(key: "backgroundTime", value: "1990-01-01", iOptions: options));
+    }
+    else{
+      backgroundTime = DateTime.parse(await secureStorage.read(key: "backgroundTime", iOptions: options));
     }
 
     if(foregroundTime.difference(backgroundTime).inSeconds >= 0){
