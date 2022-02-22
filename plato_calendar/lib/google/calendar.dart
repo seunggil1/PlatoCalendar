@@ -46,7 +46,9 @@ class GoogleCalendarToken{
   /// 
   /// Queue에 Event calendar를 넣으면
   /// 
-  /// 0.5초에 하나씩 처리함(Rate Limit Exceeded 방지).
+  /// 1초에 하나씩 처리함(Rate Limit Exceeded 방지)
+  /// 
+  /// 실패할 때마다 대기시간을 2의 지수승으로 증가시킴.
   StreamController<CalendarData> googleAsyncQueue;
 
   /// googleAsyncQueue open
@@ -63,8 +65,10 @@ class GoogleCalendarToken{
           UserData.googleCalendar.googleAsyncQueue.close();
           Notify.notifyDebugInfo("googleCalendar.failCount is exceeded limit.", sendLog: true);
         }
-        else
+        else{
           UserData.googleCalendar.googleAsyncQueue.add(data);
+          UserData.googleCalendar.asyncQueueSize++;
+        }
       }
       UserData.googleCalendar.asyncQueueSize--;
       await Future.delayed(Duration(seconds: UserData.googleCalendar.delayTime));
@@ -132,7 +136,8 @@ class GoogleCalendarToken{
       await UserData.writeDatabase.googleDataSave();
       await Future.delayed(Duration(seconds: 2));
       // 로그인 완료 후 앱으로 화면 전환이 안됨.
-      // 어플 종료 후 다음 실행 때 Google Calendar로 일정 업로드 시작.
+      // 따라서 로그인 토큰 기록후 어플 종료.
+      // 다음 실행 때 Google Calendar로 일정 업로드 시작.
       if(Platform.isAndroid)
         SystemNavigator.pop();
       else if(Platform.isIOS)
