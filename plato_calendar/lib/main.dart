@@ -38,8 +38,7 @@ List<Widget> _widgets = [Calendar(), ToDoList(), Setting()];
 void main() async{
   // HttpOverrides.global = new MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Google Admob 세팅을 하지 않았을 경우 주석처리하면 앱 정상 실행 가능(광고 기능 비활성화).
+  // Google Admob 세팅을 하지 않았을 경우 주석 처리필요.(광고 기능 비활성화됨.)
   await MobileAds.instance.initialize();
   Future.wait([
     adBanner1.load(),
@@ -88,8 +87,7 @@ void main() async{
 
   await initializeDateFormatting('ko_KR', null);
 
-  // firebase 세팅을 하지 않았을 경우 주석처리하면 앱 정상 실행 가능(백그라운드 동기화 기능 비활성화).
-  // 
+  // firebase 세팅을 하지 않았을 경우 해당 코드를 주석처리 필요.(백그라운드 동기화 기능 비활성화 됨.)
   // https://firebase.flutter.dev/docs/overview
   firebaseInit();
   runApp(MyApp());
@@ -218,7 +216,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         timerSubScription.resume();
         break;
       case AppLifecycleState.inactive:
-        //howToastMessageCenter("paused");
+        //showToastMessageCenter("paused");
         timerSubScription.pause();
         break;
       case AppLifecycleState.paused:
