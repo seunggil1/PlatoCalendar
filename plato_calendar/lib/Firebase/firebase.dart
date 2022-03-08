@@ -20,6 +20,7 @@ import '../notify.dart';
 /// 백그라운드에서 fcm 수신 준비
 Future<bool> firebaseInit() async{
   try{
+    // await FirebaseMessaging.instance.getToken();
     await Firebase.initializeApp();
     await FirebaseMessaging.instance.subscribeToTopic("all");
     //await FirebaseMessaging.instance.subscribeToTopic("debug");
@@ -41,6 +42,7 @@ bool _backgroundInit = false;
 bool _flag = false;
 /// fcm 수신시 background 동기화 시작
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  //await Firebase.initializeApp();
   await Notify.notificationInit();
   if(_flag){
     Notify.notifyDebugInfo("firebaseMessagingBackgroundHandler is working.");
@@ -62,6 +64,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
     // 충돌 방지를 위해 5분안에 앱 사용한 적이 있을 경우 동기화x
     DateTime recentlyAccess = await UserData.readDatabase.getTime();
+    await Notify.notifyDebugInfo("recentlyAccess : ${recentlyAccess.toString()}");
     if(DateTime.now().difference(recentlyAccess).inMinutes <= 5)
       throw HiveError("Database is recently used");
     await Notify.notifyDebugInfo("background Start : ${DateTime.now().toString()}");
@@ -80,7 +83,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     
     UserData.googleCalendar.openStream();
 
-    //await Notify.notifyDebugInfo(UserData.getAllData(), sendLog: true);
     // 자동으로 Save 안되는 부분은 수동으로 해주기.
     await Future.wait([
         UserData.writeDatabase.subjectCodeThisSemesterSave(),
@@ -120,5 +122,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     if(e.runtimeType != HiveError || !(e.toString().contains("Database is locked") || e.toString().contains("Database is recently used")))
       await UserData.writeDatabase.release();
   }
+  await Notify.notifyDebugInfo("backgroundSync Finished");
   return;
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -89,7 +90,8 @@ void main() async{
 
   // firebase 세팅을 하지 않았을 경우 해당 코드를 주석처리 필요.(백그라운드 동기화 기능 비활성화 됨.)
   // https://firebase.flutter.dev/docs/overview
-  firebaseInit();
+  if(Platform.isAndroid)
+    firebaseInit();
   runApp(MyApp());
 }
 
