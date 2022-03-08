@@ -12,6 +12,8 @@ import '../ics.dart';
 import '../../google/calendar.dart';
 import '../../utility.dart';
 
+final options = IOSOptions(accessibility: IOSAccessibility.first_unlock);
+
 abstract class Database{
   Box calendarBox;
   Box userDataBox;
@@ -46,19 +48,21 @@ abstract class Database{
     FlutterSecureStorage secureStorage = const FlutterSecureStorage();
     DateTime foregroundTime;
     DateTime backgroundTime;
-
-    if (await secureStorage.containsKey(key: "foregroundTime"))
-      foregroundTime = DateTime.parse(await secureStorage.read(key: "foregroundTime"));
-    else{
+    
+    if ((!await secureStorage.containsKey(key: "foregroundTime", iOptions: options)) || (await secureStorage.read(key: "foregroundTime", iOptions: options) == null)){
       foregroundTime = DateTime(1990);
-      await (secureStorage.write(key: "foregroundTime", value: DateTime(1990).toString()));
+      await (secureStorage.write(key: "foregroundTime", value: "1990-01-01", iOptions: options));
+    }
+    else{
+      foregroundTime = DateTime.parse(await secureStorage.read(key: "foregroundTime", iOptions: options));
     }
 
-    if (await secureStorage.containsKey(key: "backgroundTime"))
-      backgroundTime = DateTime.parse(await (secureStorage.read(key: "backgroundTime")));
-    else{
+    if ((!await secureStorage.containsKey(key: "backgroundTime", iOptions: options)) || (await secureStorage.read(key: "backgroundTime", iOptions: options) == null)){
       backgroundTime = DateTime(1990);
-      await (secureStorage.write(key: "backgroundTime", value: DateTime(1990).toString()));
+      await (secureStorage.write(key: "backgroundTime", value: "1990-01-01", iOptions: options));
+    }
+    else{
+      backgroundTime = DateTime.parse(await secureStorage.read(key: "backgroundTime", iOptions: options));
     }
 
     if(foregroundTime.difference(backgroundTime).inSeconds >= 0){

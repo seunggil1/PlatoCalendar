@@ -62,11 +62,18 @@ Future<void> icsParser(String bytes) async{
     ICalendar iCalendar = ICalendar.fromString(bytes);
 
     for(var iter in iCalendar.data){
-      CalendarData data = CalendarData.byMap(iter);
-      if(!UserData.data.contains(data)){
-        UserData.uidSet.add(data.uid);
-        await UserData.writeDatabase.calendarDataSave(data);
-        UserData.data.add(data);
+      CalendarData newData = CalendarData.byMap(iter);
+      CalendarData oldData = UserData.data.lookup(newData);
+      if(oldData != null){ // 기존에 있는 데이터면 update
+        // 비교 시간 줄이기 위해 hashcode로
+        if(oldData.icsDataHashCode != newData.icsDataHashCode){
+          oldData.updateData(newData);
+          await UserData.writeDatabase.calendarDataSave(oldData);
+        }
+      }else{ // 없으면 새로 추가.
+        UserData.uidSet.add(newData.uid);
+        await UserData.writeDatabase.calendarDataSave(newData);
+        UserData.data.add(newData);
       }
     }
     // For test
@@ -80,11 +87,18 @@ Future<void> icsParser(String bytes) async{
 
 Future<void> testTimeParser(dynamic dataList,List<String> requestInfo) async {
   for(var iter in dataList){
-    CalendarData data = CalendarData.byTestTime(iter, requestInfo);
-    if(!UserData.data.contains(data)){
-      UserData.uidSet.add(data.uid);
-      await UserData.writeDatabase.calendarDataSave(data);
-      UserData.data.add(data);
+    CalendarData newData = CalendarData.byTestTime(iter, requestInfo);
+    CalendarData oldData = UserData.data.lookup(newData);
+    if(oldData != null){ // 기존에 있는 데이터면 update
+      // 비교 시간 줄이기 위해 hashcode로
+      if(oldData.icsDataHashCode != newData.icsDataHashCode){
+        oldData.updateData(newData);
+        await UserData.writeDatabase.calendarDataSave(oldData);
+      }
+    }else{ // 없으면 새로 추가.
+      UserData.uidSet.add(newData.uid);
+      await UserData.writeDatabase.calendarDataSave(newData);
+      UserData.data.add(newData);
     }
   }
 }
@@ -127,15 +141,18 @@ Future<void> testTimeParser(dynamic dataList,List<String> requestInfo) async {
 //     return false;
 //   }
 // }
-
 class CalendarData{
 
   String uid;
   String summary;
   String description;
+  String memo = "";
 
   DateTime start, end;
 
+  /// 시작시간과 종료 시간이 다른 일정
+  /// 
+  /// (사용하지 않는 데이터)
   bool isPeriod = true;
 
   String year;
@@ -143,18 +160,49 @@ class CalendarData{
   String classCode;
   String className;
 
+  /// 삭제처리한 일정
   bool disable = false;
+
+  /// 완료처리한 일정
   bool finished = false;
 
+  /// 학교에서 받아온 일정
+  bool isPlato = false;
+
+  /// 달력에 표시할 색상
   int color;
 
   /// DB에 저장된 데이터로 일정 생성.
-  CalendarData(this.uid, this.summary,this.description, this.start, this.end,
+  CalendarData(this.uid, this.summary,this.description, this.memo, this.start, this.end,
               this.isPeriod, this.year, this.semester, this.classCode, this.className,
-              this.disable, this.finished, this.color);
+              this.disable, this.finished, this.isPlato, this.color);
+
+  /// 사용자가 새로운 일정 생성
+  CalendarData.newIcs(){
+    isPlato = false;
+
+    uid = DateTime.now().toUtc().toString()+'_userAppointment';
+    summary = "";
+    description = "";
+    DateTime time = DateTime.now();
+    time = time.subtract(Duration(seconds: time.second, milliseconds: time.millisecond, microseconds: time.microsecond));
+    
+    start = time;
+    end = time.add(Duration(hours: 1));
+
+    isPeriod = false;
+    year = UserData.year.toString();
+    semester =  UserData.semester.toString();
+    classCode = "과목 분류 없음";
+    className = "";
+    disable = false;
+    finished = false;
+    color = 18;
+  }
 
   /// Plato에서 받아온 데이터로 일정 생성.
   CalendarData.byMap(Map<String,dynamic> data){
+    isPlato = true;
     uid = data["uid"];
     summary = data["summary"];
     summary = summary.replaceAll("####",":");
@@ -196,7 +244,7 @@ class CalendarData{
       className = "";
     }
     
-    if(end.minute == 0){
+    if(end.hour == 0 && end.minute == 0){
       if(start == end)
         start = start.subtract(Duration(minutes: 1));
       end = end.subtract(Duration(minutes: 1));
@@ -206,6 +254,7 @@ class CalendarData{
 
   /// 학생지원시스템 시험정보로 일정 생성.
   CalendarData.byTestTime(Map<String,dynamic> data, List<String> requestInfo){
+    isPlato = true;
     // requestInfo = [2021, 10, 중간/기말고사]
     data = data.map((key, value) {
       value = value ?? "";
@@ -228,6 +277,7 @@ class CalendarData{
     List<int> time = List<int>.from((data["시험시작시간"].split(':') + data["시험종료시간"].split(':')).map(int.parse));
     start = DateTime(day[0], day[1],day[2], time[0], time[1]);
     end = DateTime(day[0], day[1],day[2], time[2], time[3]);
+    isPeriod = !(start == end);
 
     classCode = data["교과목번호"];
     className = subjectCode[classCode] ?? data["교과목명"];
@@ -256,7 +306,7 @@ class CalendarData{
     Event t = Event();
     t.iCalUID = this.uid;
     t.summary = this.summary + " : " + (this.className != "" ? this.className : this.classCode);
-    t.description = (this.className != "" ? this.className : this.classCode) + '\n' +this.description;
+    t.description = (this.className != "" ? this.className : this.classCode) + '\n' + this.description + '\n' + this.memo;
 
     // 마감기한, 녹화 수업(5시간 이상)
     bool notLive = (this.start == this.end) || (this.end.difference(this.start).inHours > 5);
@@ -287,6 +337,58 @@ class CalendarData{
     if(!(other is CalendarData))
       return false;
     return this.uid == other.uid;
+  }
+
+  @override
+  String toString(){
+    return """
+    uid : $uid
+    summary : $summary
+    description : $description
+    memo : $memo
+
+    DateTime start : ${start.toString()}
+    DateTime end : ${end.toString()}
+
+    isPeriod : $isPeriod
+
+    year : $year
+    semester : $semester
+    classCode : $classCode
+    className : $className
+
+    disable : $disable
+
+    finished : $finished
+
+    isPlato : $isPlato
+
+    color : $color
+    """;
+  }
+  
+
+  int get icsDataHashCode => uid.hashCode ^ description.hashCode ^ start.hashCode ^ end.hashCode;
+
+  bool updateData(CalendarData other){
+    try{
+      summary = other.summary;
+      description = other.description;
+      start = other.start;
+      end = other.end;
+      return true;
+    }catch(e, trace){
+      Notify.notifyDebugInfo(e, sendLog: true, trace: trace, 
+        additionalInfo: 
+          """
+          1. old data
+          ${this.toString()}
+          2. new data
+          ${other.toString()}
+          """
+      );
+      return false;
+    }
   }
 }
 

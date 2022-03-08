@@ -20,23 +20,25 @@ class CalendarDataAdapter extends TypeAdapter<CalendarData> {
       fields[0] as String,
       fields[1] as String,
       fields[2] as String,
-      fields[3] as DateTime,
+      fields[3] as String,
       fields[4] as DateTime,
-      fields[5] as bool,
-      fields[6] as String,
+      fields[5] as DateTime,
+      fields[6] as bool,
       fields[7] as String,
       fields[8] as String,
       fields[9] as String,
-      fields[10] as bool,
+      fields[10] as String,
       fields[11] as bool,
-      fields[12] as int,
+      fields[12] as bool,
+      fields[13] as bool,
+      fields[14] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, CalendarData obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(15)
       ..writeByte(0)
       ..write(obj.uid)
       ..writeByte(1)
@@ -44,24 +46,28 @@ class CalendarDataAdapter extends TypeAdapter<CalendarData> {
       ..writeByte(2)
       ..write(obj.description)
       ..writeByte(3)
-      ..write(obj.start)
+      ..write(obj.memo)
       ..writeByte(4)
-      ..write(obj.end)
+      ..write(obj.start)
       ..writeByte(5)
-      ..write(obj.isPeriod)
+      ..write(obj.end)
       ..writeByte(6)
-      ..write(obj.year)
+      ..write(obj.isPeriod)
       ..writeByte(7)
-      ..write(obj.semester)
+      ..write(obj.year)
       ..writeByte(8)
-      ..write(obj.classCode)
+      ..write(obj.semester)
       ..writeByte(9)
-      ..write(obj.className)
+      ..write(obj.classCode)
       ..writeByte(10)
-      ..write(obj.disable)
+      ..write(obj.className)
       ..writeByte(11)
-      ..write(obj.finished)
+      ..write(obj.disable)
       ..writeByte(12)
+      ..write(obj.finished)
+      ..writeByte(13)
+      ..write(obj.isPlato)
+      ..writeByte(14)
       ..write(obj.color);
   }
 
