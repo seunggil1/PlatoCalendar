@@ -27,28 +27,26 @@ BannerAd adBanner2 = BannerAd(
   listener: listener,
 );
 
-class AdBanner extends StatelessWidget{
+class AdBanner extends StatelessWidget {
   final int bannerLocation;
   AdBanner({@required this.bannerLocation});
   @override
   Widget build(BuildContext context) {
-    if(bannerLocation == 1)
-      if(adBanner1.responseInfo == null)
-        return Container();
-      else{
-        return Container(
+    if (bannerLocation == 1) if (adBanner1.responseInfo == null)
+      return Container();
+    else {
+      return Container(
           alignment: Alignment.center,
           child: AdWidget(ad: adBanner1),
           height: adBanner1.size.height.toDouble() * 1.45);
-      }
-    else
-      if(adBanner2.responseInfo == null)
-        return Container();
-      else{
-        return Container(
+    }
+    else if (adBanner2.responseInfo == null)
+      return Container();
+    else {
+      return Container(
           alignment: Alignment.center,
           child: AdWidget(ad: adBanner2),
           height: adBanner2.size.height.toDouble() * 1.45);
-      }
+    }
   }
 }

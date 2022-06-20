@@ -44,7 +44,8 @@ class CalendarTypeAdapter extends TypeAdapter<CalendarType> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
-class ThemeModeAdapter extends TypeAdapter<ThemeMode>{
+
+class ThemeModeAdapter extends TypeAdapter<ThemeMode> {
   @override
   final int typeId = 4;
 
@@ -76,7 +77,7 @@ class ThemeModeAdapter extends TypeAdapter<ThemeMode>{
         break;
     }
   }
-  
+
   @override
   int get hashCode => typeId.hashCode;
 

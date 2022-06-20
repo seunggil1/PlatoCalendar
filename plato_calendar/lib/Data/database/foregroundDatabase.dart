@@ -14,63 +14,71 @@ final _userData = "foregroundUserDataBox";
 
 final options = IOSOptions(accessibility: IOSAccessibility.first_unlock);
 
-class ForegroundDatabase extends Database{
+class ForegroundDatabase extends Database {
   /// db 마지막 접근 시간 기록
   @override
-  Future<void> updateTime() async{
-    try{
+  Future<void> updateTime() async {
+    try {
       FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-      await secureStorage.write(key: _syncTime, value: DateTime.now().toString(), iOptions: options);
-    }catch(e, trace){
-      Notify.notifyDebugInfo("updateTime Error\n ${e.toString()}", sendLog: true, trace : trace);
+      await secureStorage.write(
+          key: _syncTime, value: DateTime.now().toString(), iOptions: options);
+    } catch (e, trace) {
+      Notify.notifyDebugInfo("updateTime Error\n ${e.toString()}",
+          sendLog: true, trace: trace);
     }
   }
 
   @override
-  Future<DateTime> getTime() async{
-    try{
+  Future<DateTime> getTime() async {
+    try {
       FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-      return DateTime.parse(await secureStorage.read(key: _syncTime, iOptions: options));
-    }catch(e, trace){
-      Notify.notifyDebugInfo("getTime Error\n ${e.toString()}", sendLog: true, trace : trace);
+      return DateTime.parse(
+          await secureStorage.read(key: _syncTime, iOptions: options));
+    } catch (e, trace) {
+      Notify.notifyDebugInfo("getTime Error\n ${e.toString()}",
+          sendLog: true, trace: trace);
       return DateTime(1990);
     }
   }
+
   /// backgroundDB 동시 접근을 막기 위한 lock release.
-  /// 
+  ///
   /// foregroundDB에서는 사용하지 않음.
   @override
-  Future<void> lock() async{
+  Future<void> lock() async {
     print("this method is not used");
   }
 
   /// backgroundDB 동시 접근을 막기 위한 lock release.
-  /// 
+  ///
   /// foregroundDB에서는 사용하지 않음.
   @override
-  Future<void> release() async{
+  Future<void> release() async {
     print("this method is not used");
   }
 
   @override
   Future<void> loadDatabase() async {
     FlutterSecureStorage secureStorage;
-    try{
+    try {
       secureStorage = const FlutterSecureStorage();
-      if (!(await secureStorage.containsKey(key: 'key', iOptions: options)) || (await secureStorage.read(key: 'key', iOptions: options) == null)) {
+      if (!(await secureStorage.containsKey(key: 'key', iOptions: options)) ||
+          (await secureStorage.read(key: 'key', iOptions: options) == null)) {
         var key = Hive.generateSecureKey();
-        await secureStorage.write(key: 'key', value: base64UrlEncode(key), iOptions: options);
+        await secureStorage.write(
+            key: 'key', value: base64UrlEncode(key), iOptions: options);
       }
 
-      var encryptionKey = base64Url.decode(await secureStorage.read(key: 'key', iOptions: options));
-      calendarBox = await Hive.openBox(_calendar, encryptionCipher: HiveAesCipher(encryptionKey));
-      userDataBox = await Hive.openBox(_userData, encryptionCipher: HiveAesCipher(encryptionKey));
-    }
-    catch(e,trace){
-      Notify.notifyDebugInfo(e.toString(), sendLog: true, trace : trace);
+      var encryptionKey = base64Url
+          .decode(await secureStorage.read(key: 'key', iOptions: options));
+      calendarBox = await Hive.openBox(_calendar,
+          encryptionCipher: HiveAesCipher(encryptionKey));
+      userDataBox = await Hive.openBox(_userData,
+          encryptionCipher: HiveAesCipher(encryptionKey));
+    } catch (e, trace) {
+      Notify.notifyDebugInfo(e.toString(), sendLog: true, trace: trace);
       await Database.deleteAll();
       await loadDatabase();
     }
   }
-
 }

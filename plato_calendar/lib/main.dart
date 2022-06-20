@@ -21,7 +21,6 @@ import 'Data/userData.dart';
 import 'pnu/pnu.dart';
 import 'notify.dart';
 
-
 // 프록시 사용할 떄 주석 해제 처리.
 // Burp suite로 트래픽 체크 할 때 사용.
 // class MyHttpOverrides extends HttpOverrides{
@@ -36,7 +35,7 @@ import 'notify.dart';
 StreamController pnuStream = StreamController<bool>.broadcast();
 
 List<Widget> _widgets = [Calendar(), ToDoList(), Setting()];
-void main() async{
+void main() async {
   // HttpOverrides.global = new MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   // Google Admob 세팅을 하지 않았을 경우 주석 처리필요.(광고 기능 비활성화됨.)
@@ -45,10 +44,10 @@ void main() async{
     adBanner1.load(),
     adBanner2.load(),
     Future.delayed(Duration(seconds: 3))
-  ]).then((value){
+  ]).then((value) {
     pnuStream.sink.add(true);
   });
-  
+
   await Notify.notificationInit();
   await Database.init();
   await Appinfo.loadAppinfo();
@@ -61,7 +60,7 @@ void main() async{
 
   UserData.writeDatabase = ForegroundDatabase();
   UserData.readDatabase = await Database.recentlyUsedDatabase();
- 
+
   await UserData.readDatabase.lock();
   await UserData.writeDatabase.loadDatabase();
   await UserData.readDatabase.loadDatabase();
@@ -72,15 +71,15 @@ void main() async{
 
   // 자동으로 Save 안되는 부분은 수동으로 해주기.
   await Future.wait([
-      UserData.writeDatabase.subjectCodeThisSemesterSave(),
-      UserData.writeDatabase.defaultColorSave(),
-      UserData.writeDatabase.uidSetSave(),
-      UserData.writeDatabase.calendarDataFullSave(),
-      UserData.writeDatabase.googleDataSave()
+    UserData.writeDatabase.subjectCodeThisSemesterSave(),
+    UserData.writeDatabase.defaultColorSave(),
+    UserData.writeDatabase.uidSetSave(),
+    UserData.writeDatabase.calendarDataFullSave(),
+    UserData.writeDatabase.googleDataSave()
   ]);
   await UserData.readDatabase.release();
 
-  if(UserData.readDatabase is BackgroundDatabase)
+  if (UserData.readDatabase is BackgroundDatabase)
     await UserData.readDatabase.closeDatabase();
 
   // 테스트할 때 사용하는 로컬 동기화.
@@ -90,8 +89,7 @@ void main() async{
 
   // firebase 세팅을 하지 않았을 경우 해당 코드를 주석처리 필요.(백그라운드 동기화 기능 비활성화 됨.)
   // https://firebase.flutter.dev/docs/overview
-  if(Platform.isAndroid)
-    firebaseInit();
+  if (Platform.isAndroid) firebaseInit();
   runApp(MyApp());
 }
 
@@ -126,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     super.initState();
-    timerSubScription = timer(10).listen((event) async { 
+    timerSubScription = timer(10).listen((event) async {
       await UserData.writeDatabase.updateTime();
     });
     UserData.googleCalendar.openStream();
@@ -142,36 +140,33 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     adBanner2.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     //a.login().then((value) => a.getCalendar());
     return AbsorbPointer(
-      absorbing: loading,
-      child: Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          //backgroundColor: Colors.white,
-          selectedItemColor: Colors.blueAccent[100],
-          unselectedItemColor: Colors.grey[400].withOpacity(1),
-          currentIndex: UserData.tapIndex,
-          onTap: (int i){
-            setState(() { UserData.tapIndex = i; });
-          },
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today_outlined),
-              label: "달력"),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.my_library_books_outlined),
-              label: "할일"),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: "설정"),
-          ]
-        ),
-        body: _widgets[UserData.tapIndex]
-      ));
-
+        absorbing: loading,
+        child: Scaffold(
+            bottomNavigationBar: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                //backgroundColor: Colors.white,
+                selectedItemColor: Colors.blueAccent[100],
+                unselectedItemColor: Colors.grey[400].withOpacity(1),
+                currentIndex: UserData.tapIndex,
+                onTap: (int i) {
+                  setState(() {
+                    UserData.tapIndex = i;
+                  });
+                },
+                items: [
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.calendar_today_outlined), label: "달력"),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.my_library_books_outlined), label: "할일"),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.settings), label: "설정"),
+                ]),
+            body: _widgets[UserData.tapIndex]));
   }
 
   @override
@@ -187,10 +182,10 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         await UserData.readDatabase.release();
         DateTime beforeSync = await UserData.writeDatabase.getTime();
         DateTime nowSync = await UserData.readDatabase.getTime();
-        
-        if(nowSync.difference(beforeSync).inSeconds > 0){
+
+        if (nowSync.difference(beforeSync).inSeconds > 0) {
           showToastMessageCenter("데이터를 불러오고 있습니다..");
-          
+
           await UserData.readDatabase.lock();
           await UserData.readDatabase.loadDatabase();
 
@@ -199,12 +194,12 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
           // 자동으로 Save 안되는 부분은 수동으로 해주기.
           await Future.wait([
-              UserData.writeDatabase.subjectCodeThisSemesterSave(),
-              UserData.writeDatabase.defaultColorSave(),
-              UserData.writeDatabase.uidSetSave(),
-              UserData.writeDatabase.calendarDataFullSave()
+            UserData.writeDatabase.subjectCodeThisSemesterSave(),
+            UserData.writeDatabase.defaultColorSave(),
+            UserData.writeDatabase.uidSetSave(),
+            UserData.writeDatabase.calendarDataFullSave()
           ]);
-          
+
           await UserData.readDatabase.closeDatabase();
           UserData.readDatabase.release();
           pnuStream.sink.add(true);
@@ -214,7 +209,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         setState(() {
           loading = false;
         });
-        
+
         timerSubScription.resume();
         break;
       case AppLifecycleState.inactive:
@@ -227,5 +222,4 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         break;
     }
   }
-
 }
