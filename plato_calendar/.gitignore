@@ -39,3 +39,9 @@ app.*.symbols
 
 # Obfuscation related
 app.*.map.json
+
+# flutter key
+android/app/src/main/AndroidManifest.xml
+android/app/google-services.json
+lib/Data/privateKey.dart
+pubspec.lock
