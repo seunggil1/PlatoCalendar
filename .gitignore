@@ -1,3 +1,7 @@
 
 .idea/workspace.xml
 .vscode/launch.json
+plato_calendar/android/app/src/main/AndroidManifest.xml
+plato_calendar/android/app/google-services.json
+plato_calendar/lib/Data/privateKey.dart
+plato_calendar/pubspec.lock
