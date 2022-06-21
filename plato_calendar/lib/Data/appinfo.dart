@@ -14,10 +14,10 @@ class Appinfo {
   static BuildType buildType = BuildType.release;
 
   /// App 버전
-  static String appVersion = "3.1.0";
+  static String appVersion = "3.1.1";
 
   /// App build 날짜
-  static String buildversion = "202203091";
+  static String buildversion = "202206210";
 
   /// Database 버전
   static String databaseVersion = "3.1";
