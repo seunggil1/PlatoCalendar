@@ -5,8 +5,8 @@ import 'package:plato_calendar/Data/subjectCode.dart';
 
 // 개발용 crawling code
 
-final int _YEAR = 2022;
-final int _SEMESTER = 10;
+const int _YEAR = 2022;
+const int _SEMESTER = 11;
 // 대학원 과목 list
 Future<void> getGraduateSubject() async {
   Map<String, String> result = {};
