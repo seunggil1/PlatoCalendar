@@ -4,6 +4,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/services.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
+import 'package:plato_calendar/Data/appinfo.dart';
 
 class Logger {
   bool _init = false;
@@ -38,7 +39,16 @@ class Logger {
       ..from = Address(_email, 'Plato Calendar')
       ..recipients.add('ksgg1navercom@gmail.com')
       ..subject = '[Plato Calendar Error $_uuid] ${DateTime.now()}'
-      ..text = e + '\n\n' + trace + '\n\n' + additionalInfo;
+      ..text = """
+Version Info: ${Appinfo.appVersion}+${Appinfo.buildversion} 
+${Appinfo.buildType}
+
+$e
+
+$trace
+
+$additionalInfo
+""";
 
     try {
       await send(message, _smtpServer);
