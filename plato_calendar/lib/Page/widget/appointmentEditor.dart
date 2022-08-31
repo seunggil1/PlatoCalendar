@@ -72,8 +72,10 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                         // 신규추가인 경우 삭제 버튼 표시 x
                         alignment: Alignment.centerLeft,
                         width: 50,
-                        child: FlatButton(
-                            padding: EdgeInsets.all(5),
+                        child: TextButton(
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.all(5),
+                            ),
                             onPressed: () {
                               showDialog(
                                   context: context,
@@ -115,8 +117,10 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                 Container(
                   alignment: Alignment.centerLeft,
                   width: 50,
-                  child: FlatButton(
-                      padding: EdgeInsets.all(5),
+                  child: TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.all(5),
+                      ),
                       onPressed: () {
                         widget.calendarData.summary = summaryController.text;
                         widget.calendarData.description =
@@ -258,7 +262,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          FlatButton(
+                          TextButton(
                               onPressed: _isPlato
                                   ? () {
                                       showToastMessageCenter(
@@ -283,7 +287,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                               child: AutoSizeText(
                                   "시작 시간 :  " + getDateTimeLocaleKR(_start))),
                           //Text('~',style: TextStyle( fontSize: 30)),
-                          FlatButton(
+                          TextButton(
                               onPressed: _isPlato
                                   ? () {
                                       showToastMessageCenter(
@@ -309,7 +313,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                                   "종료 시간 :  " + getDateTimeLocaleKR(_end))),
                         ]),
                   ),
-                  FlatButton(
+                  TextButton(
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -367,10 +371,12 @@ class _CalendarColorPickerState extends State<CalendarColorPicker> {
                   scrollDirection: Axis.horizontal,
                   itemCount: colorCollection.length,
                   itemBuilder: (context, i) {
-                    return FlatButton(
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        padding: EdgeInsets.all(2.2),
-                        minWidth: 10,
+                    return TextButton(
+                        style: TextButton.styleFrom(
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          padding: EdgeInsets.all(2.2),
+                          // minWidth: 10,
+                        ),
                         onPressed: () {
                           setState(() {
                             _calendarColor = i;

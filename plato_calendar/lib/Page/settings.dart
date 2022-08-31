@@ -325,7 +325,7 @@ class _Settings extends State<Setting> with TickerProviderStateMixin {
                                             child: Text(subjectCode[data]),
                                           ),
                                         ),
-                                        FlatButton(
+                                        TextButton(
                                             onPressed: () {
                                               showDialog(
                                                   context: context,
@@ -346,14 +346,16 @@ class _Settings extends State<Setting> with TickerProviderStateMixin {
                                                 }
                                               });
                                             },
-                                            materialTapTargetSize:
+                                            style: TextButton.styleFrom(
+                                              tapTargetSize:
                                                 MaterialTapTargetSize
                                                     .shrinkWrap,
-                                            minWidth: 3,
+                                            ),
                                             child: Icon(Icons.lens,
                                                 color: colorCollection[UserData
                                                         .defaultColor[data] ??
-                                                    18]))
+                                                    18])
+                                          )
                                       ],
                                     );
                                   }).toList()),

@@ -423,7 +423,7 @@ class _ToDoList extends State<ToDoList> {
   }
 
   Widget _getTodoWidget(CalendarData data) {
-    return FlatButton(
+    return TextButton(
         onPressed: () {
           showDialog(
               context: context,
@@ -431,7 +431,9 @@ class _ToDoList extends State<ToDoList> {
                 return PopUpAppointmentEditor(data);
               }).then((value) => setState(() {}));
         },
-        padding: EdgeInsets.all(0),
+        style: TextButton.styleFrom(
+          padding: EdgeInsets.all(0),
+        ),
         child: Row(
           children: [
             Checkbox(
