@@ -6,7 +6,7 @@ import 'package:plato_calendar/Data/subjectCode.dart';
 // 개발용 crawling code
 
 const int _YEAR = 2022;
-const int _SEMESTER = 11;
+const int _SEMESTER = 20; // 10,11,20,21
 // 대학원 과목 list
 Future<void> getGraduateSubject() async {
   Map<String, String> result = {};
@@ -46,7 +46,7 @@ Future<void> getGraduateSubject() async {
   // 현재 App에 없는 과목 데이터만 표시.
   result.forEach((key, value) {
     if (!subjectCode.containsKey(key)) {
-      print("'$key':'$value',");
+      print("'$key': '$value',");
     }
   });
 
@@ -226,7 +226,7 @@ Future<void> getDepartmentSubject() async {
   // 현재 App에 없는 과목 데이터만 표시.
   result.forEach((key, value) {
     if (!subjectCode.containsKey(key)) {
-      print("'$key':'$value',");
+      print("'$key': '$value',");
     }
   });
 
