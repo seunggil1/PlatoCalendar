@@ -11,8 +11,9 @@
 
 ## Download
 <div align="center">
-  <a href='https://play.google.com/store/apps/details?id=com.seunggil.plato_calendar&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="260"/></a><a href="https://apps.apple.com/us/app/plato-%EB%8B%AC%EB%A0%A5/id1566119188?itsct=apps_box_badge&amp;itscg=30200">
-  
+  <a href='https://play.google.com/store/apps/details?id=com.seunggil.plato_calendar&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="260"/></a> 
+  <br>
+  <a href="https://apps.apple.com/kr/app/plato-%EB%8B%AC%EB%A0%A5/id1566119188">
   <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1620345600&h=708feb434fe726f13a138457f1c85900" alt="Download on the App Store" width="220"/></a>
 </div>
 
