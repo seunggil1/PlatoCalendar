@@ -15,7 +15,7 @@ class Notify {
         FlutterLocalNotificationsPlugin();
     const AndroidInitializationSettings initSettingsAndroid =
         AndroidInitializationSettings('@drawable/ic_stat_name');
-    final initSettingsIOS = IOSInitializationSettings(
+    final initSettingsIOS = DarwinInitializationSettings(
       requestSoundPermission: false,
       requestBadgePermission: false,
       requestAlertPermission: true,

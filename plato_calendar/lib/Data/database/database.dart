@@ -12,7 +12,7 @@ import '../ics.dart';
 import '../../google/calendar.dart';
 import '../../utility.dart';
 
-final options = IOSOptions(accessibility: IOSAccessibility.first_unlock);
+final options = IOSOptions(accessibility: KeychainAccessibility.first_unlock);
 
 abstract class Database {
   Box calendarBox;

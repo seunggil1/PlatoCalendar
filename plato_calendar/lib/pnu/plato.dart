@@ -45,7 +45,8 @@ class Plato {
 
       return false;
     } catch (e) {
-      if (e.runtimeType == DioError && e.error == "Http status error [303]")
+      if (e.runtimeType == DioError &&
+          (e as DioError).response.statusCode == 303)
         response = e.response;
       else {
         print("plato Login Error: ${e.error}");
@@ -196,7 +197,8 @@ class Plato {
               }));
       return false;
     } catch (e) {
-      if (e.runtimeType == DioError && e.error == "Http status error [303]")
+      if (e.runtimeType == DioError &&
+          (e as DioError).response.statusCode == 303)
         response = e.response;
       else {
         print("plato Logout Error: ${e.error}");

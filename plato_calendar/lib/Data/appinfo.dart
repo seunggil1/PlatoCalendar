@@ -3,7 +3,7 @@ import 'package:plato_calendar/Data/database/database.dart';
 
 import '../notify.dart';
 
-final options = IOSOptions(accessibility: IOSAccessibility.first_unlock);
+final options = IOSOptions(accessibility: KeychainAccessibility.first_unlock);
 
 enum BuildType { debug, release }
 

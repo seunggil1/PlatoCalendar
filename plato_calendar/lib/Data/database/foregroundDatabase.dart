@@ -12,7 +12,7 @@ final _lock = "notUse";
 final _calendar = "foregroundCalendarBox";
 final _userData = "foregroundUserDataBox";
 
-final options = IOSOptions(accessibility: IOSAccessibility.first_unlock);
+final options = IOSOptions(accessibility: KeychainAccessibility.first_unlock);
 
 class ForegroundDatabase extends Database {
   /// db 마지막 접근 시간 기록

@@ -13,7 +13,7 @@ final _lock = "backgroundLock";
 final _calendar = "backgroundCalendarBox";
 final _userData = "backgroundUserDataBox";
 
-final options = IOSOptions(accessibility: IOSAccessibility.first_unlock);
+final options = IOSOptions(accessibility: KeychainAccessibility.first_unlock);
 
 class BackgroundDatabase extends Database {
   /// 마지막 DB 접근 시간 기록.

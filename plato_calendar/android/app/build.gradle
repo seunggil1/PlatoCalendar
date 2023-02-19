@@ -32,7 +32,7 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -67,7 +67,10 @@ android {
             signingConfig signingConfigs.release
             shrinkResources false
             minifyEnabled true
-            useProguard true
+
+            // Android 스튜디오 3.4 또는 Android Gradle 플러그인 3.4.0 이상은 R8 컴파일러를 통해 코드 축소, 리소스 축소, 난독화, 최적화를 한다.
+            // 따라서 해당 내용 주석 처리
+            // useProguard true
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
