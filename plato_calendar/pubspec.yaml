@@ -50,7 +50,7 @@ dependencies:
   path_provider: ^2.0.8
   flutter_secure_storage: ^5.0.2
 
-  open_file:
+  # open_file: ^3.2.1
   
   # google ad
   google_mobile_ads:
