@@ -322,7 +322,8 @@ class _Settings extends State<Setting> with TickerProviderStateMixin {
                                         Expanded(
                                           child: Container(
                                             alignment: Alignment.bottomLeft,
-                                            child: Text(subjectCode[data]),
+                                            child:
+                                                Text(subjectCode[data] ?? data),
                                           ),
                                         ),
                                         TextButton(
@@ -348,14 +349,13 @@ class _Settings extends State<Setting> with TickerProviderStateMixin {
                                             },
                                             style: TextButton.styleFrom(
                                               tapTargetSize:
-                                                MaterialTapTargetSize
-                                                    .shrinkWrap,
+                                                  MaterialTapTargetSize
+                                                      .shrinkWrap,
                                             ),
                                             child: Icon(Icons.lens,
                                                 color: colorCollection[UserData
                                                         .defaultColor[data] ??
-                                                    18])
-                                          )
+                                                    18]))
                                       ],
                                     );
                                   }).toList()),
