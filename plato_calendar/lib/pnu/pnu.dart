@@ -12,10 +12,13 @@ Future<bool> update({bool force = false, bool background = false}) async {
       UserData.lastSyncInfo = "${now.day}일 ${now.hour}:${now.minute} - 네트워크 오류";
       return false;
     }
-    if (now.day != UserData.oneStopLastSyncDay) if (await Onestop.login() &&
-        await Onestop.getTestTimeTable() &&
-        await Onestop.logout()) {}
-    UserData.oneStopLastSyncDay = now.day;
+    // if (now.day != UserData.oneStopLastSyncDay){
+    //   if (await Onestop.login() &&
+    //     await Onestop.getTestTimeTable() &&
+    //     await Onestop.logout()) {}
+    // }
+
+    // UserData.oneStopLastSyncDay = now.day;
 
     // foreground 상태에서 마지막 동기화로부터 6시간이 지나면 update
     bool foregroundUpdate = now.difference(UserData.lastSyncTime).inHours >= 6;
