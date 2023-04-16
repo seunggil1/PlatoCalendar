@@ -336,7 +336,7 @@ class CalendarData {
   /// sf calendar에서 사용하는 일정 타입으로 변환.
   Appointment toAppointment() {
     return Appointment(
-        startTime: start.day == end.day ? start : end,
+        startTime: start == end ? start : end,
         endTime: end,
         subject: summary,
         notes: description,
