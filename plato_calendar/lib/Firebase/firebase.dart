@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:plato_calendar/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hive/hive.dart';
 import 'package:plato_calendar/Data/database/backgroundDatabase.dart';
@@ -21,7 +22,9 @@ import '../notify.dart';
 Future<bool> firebaseInit() async {
   try {
     // await FirebaseMessaging.instance.getToken();
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform
+    );
     await FirebaseMessaging.instance.subscribeToTopic("all");
     //await FirebaseMessaging.instance.subscribeToTopic("debug");
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);

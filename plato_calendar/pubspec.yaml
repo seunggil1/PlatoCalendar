@@ -47,7 +47,7 @@ dependencies:
   # database
   hive: ^2.0.5
   hive_flutter: ^1.1.0
-  path_provider: ^2.0.8
+  # path_provider: ^2.0.8
   flutter_secure_storage: ^8.0.0
 
   # open_file: ^3.2.1
@@ -63,8 +63,8 @@ dependencies:
   url_launcher: ^6.0.9
 
   # firebase
-  firebase_core: ^2.6.1
-  firebase_messaging: ^14.2.4
+  firebase_core: ^2.9.0
+  firebase_messaging: ^14.4.0
 
   # logging
   device_info_plus: ^8.0.0
