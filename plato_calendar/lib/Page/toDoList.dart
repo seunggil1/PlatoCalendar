@@ -64,7 +64,11 @@ class _ToDoList extends State<ToDoList> {
     DateTime now = DateTime.now();
     List<CalendarData> icsList = UserData.data.toList();
     icsList.sort((CalendarData a, CalendarData b) {
-      return a.end.compareTo(b.end);
+      if(a.end != b.end){
+        return a.end.compareTo(b.end);
+      }else{
+        return a.summary.compareTo(b.summary);
+      }
     });
     icsList.forEach((element) {
       Duration diff = element.end.difference(now);
