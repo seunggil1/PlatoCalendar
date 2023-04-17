@@ -17,7 +17,7 @@ class Appinfo {
   static String appVersion = "3.3.2";
 
   /// App build 날짜
-  static String buildversion = "202304170";
+  static String buildversion = "202304171";
 
   /// Database 버전
   static String databaseVersion = "3.1";
