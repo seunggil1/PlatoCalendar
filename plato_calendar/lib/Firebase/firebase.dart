@@ -23,10 +23,10 @@ Future<bool> firebaseInit() async {
   try {
     // await FirebaseMessaging.instance.getToken();
     await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform
-    );
+        options: DefaultFirebaseOptions.currentPlatform);
     await FirebaseMessaging.instance.subscribeToTopic("all");
-    //await FirebaseMessaging.instance.subscribeToTopic("debug");
+    // await FirebaseMessaging.instance.subscribeToTopic("debug");
+    // FirebaseMessaging.onMessage.listen(_firebaseMessagingBackgroundHandler);
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
     return true;
@@ -44,6 +44,7 @@ bool _backgroundInit = false;
 bool _flag = false;
 
 /// fcm 수신시 background 동기화 시작
+@pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   //await Firebase.initializeApp();
   await Notify.notificationInit();
