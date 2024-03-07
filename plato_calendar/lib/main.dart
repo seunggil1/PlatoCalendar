@@ -67,7 +67,7 @@ void main() async {
 
   UserData.readDatabase.userDataLoad();
   UserData.readDatabase.calendarDataLoad();
-  UserData.readDatabase.googleDataLoad();
+  await UserData.readDatabase.googleDataLoad();
 
   // 자동으로 Save 안되는 부분은 수동으로 해주기.
   await Future.wait([
@@ -109,7 +109,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key}) : super(key: key);
+  MyHomePage({Key? key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -118,7 +118,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   /// Loading 여부 표시, Loading중에는 터치 비활성화
   bool loading = false;
-  StreamSubscription<bool> timerSubScription;
+  late StreamSubscription<bool> timerSubScription;
 
   @override
   void initState() {
@@ -151,7 +151,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                 type: BottomNavigationBarType.fixed,
                 //backgroundColor: Colors.white,
                 selectedItemColor: Colors.blueAccent[100],
-                unselectedItemColor: Colors.grey[400].withOpacity(1),
+                unselectedItemColor: Colors.grey[400]!.withOpacity(1),
                 currentIndex: UserData.tapIndex,
                 onTap: (int i) {
                   setState(() {
@@ -219,6 +219,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
       case AppLifecycleState.paused:
         break;
       case AppLifecycleState.detached:
+        break;
+      case AppLifecycleState.hidden:
         break;
     }
   }

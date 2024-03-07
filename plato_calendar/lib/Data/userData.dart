@@ -18,46 +18,46 @@ class UserData {
   /// read Only Database.
   ///
   /// 다른 프로세스에서 작정한 데이터베이스랑 연결됨.
-  static Database readDatabase;
+  static late Database readDatabase;
 
   /// 변경 사항을 기록할 Database.
-  static Database writeDatabase;
+  static late Database writeDatabase;
 
   /// 마지막으로 봤던 tapIndex
-  static int _tapIndex;
+  static late int _tapIndex;
 
   /// 한 주의 시작, Default : 7(일요일)
-  static int _firstDayOfWeek;
+  static late int _firstDayOfWeek;
 
   /// 완료된 일정 표시 여부
-  static bool _showFinished;
+  static late bool _showFinished;
 
   /// CalendarType : split(달력, 스케줄 분리 표시), integrated(한 페이지에 표시)
-  static CalendarType _calendarType;
+  static late CalendarType _calendarType;
 
-  static String _id;
-  static String _pw;
+  static late String _id;
+  static late String _pw;
 
   static int _year = DateTime.now().year;
   static int _semester =
       (2 < DateTime.now().month && DateTime.now().month < 9) ? 10 : 20;
 
   /// 마지막 동기화 시간, Default : DateTime(1999)
-  static DateTime _lastSyncTime;
-  static String _lastSyncInfo;
+  static late DateTime _lastSyncTime;
+  static late String _lastSyncInfo;
 
   /// 학생지원 시스템 마지막 동기화 날짜
   static int _oneStopLastSyncDay = 0;
 
   /// 마지막 notification 날짜
-  static int _notificationDay;
+  static late int _notificationDay;
 
   /// toDoList 각 항목 접힘, 열림 여부
   ///
   /// [지남, 6, 12, 오늘, 내일, 1주일 이하, 1주일 이상, 날짜 없음, 완료]
   ///
   /// 변경사항이 있을 경우 showToDoListByIndex 함수를 통해 변경필요.
-  static List<bool> _showToDoList;
+  static late List<bool> _showToDoList;
 
   /// CalendarData set에 있는 Uid 목록
   ///
@@ -70,26 +70,26 @@ class UserData {
   /// 이번학기 수강하는 subjectCode
   ///
   ///  Database.subjectCodeThisSemesterSave 함수를 통해 수동으로 DB에 저장 필요.
-  static Set<String> subjectCodeThisSemester;
+  static late Set<String> subjectCodeThisSemester;
 
   /// 과목별 default Color
   ///
   /// Database.defaultColorSave 함수를 통해 수동으로 DB에 저장 필요.
-  static Map defaultColor; // classCode, colorCollectionIndex
+  static late Map defaultColor; // classCode, colorCollectionIndex
 
   /// Google Token 저장 여부.
-  static bool isSaveGoogleToken;
+  static late bool isSaveGoogleToken;
 
   /// Google Login 직후 최초 앱실행.
   ///
   /// True일 경우 Google Calendar 전체 동기화 필요.
-  static bool _googleFirstLogin;
+  static late bool _googleFirstLogin;
 
   /// Google Calendar 연동을 위한 Token 정보.
-  static GoogleCalendarToken googleCalendar;
+  static late GoogleCalendarToken googleCalendar;
 
   /// 다크모드 설정. (시스템 설정, 라이트 모드, 다크모드)
-  static ThemeMode _themeMode;
+  static late ThemeMode _themeMode;
 
   static int get tapIndex => _tapIndex;
   static int get firstDayOfWeek => _firstDayOfWeek;
@@ -107,53 +107,53 @@ class UserData {
   static bool get googleFirstLogin => _googleFirstLogin;
   static ThemeMode get themeMode => _themeMode;
 
-  static set tapIndex(int newValue) {
+  static set tapIndex(int? newValue) {
     _tapIndex = newValue ?? 0;
     writeDatabase.userDataBox.put('tapIndex', _tapIndex);
   }
 
-  static set firstDayOfWeek(int newValue) {
+  static set firstDayOfWeek(int? newValue) {
     _firstDayOfWeek = newValue ?? 7;
     writeDatabase.userDataBox.put('firstDayOfWeek', _firstDayOfWeek);
   }
 
-  static set showFinished(bool newValue) {
+  static set showFinished(bool? newValue) {
     _showFinished = newValue ?? true;
     writeDatabase.userDataBox.put('showFinished', _showFinished);
   }
 
-  static set calendarType(CalendarType newValue) {
+  static set calendarType(CalendarType? newValue) {
     _calendarType = newValue ?? CalendarType.split;
     writeDatabase.userDataBox.put('calendarType', _calendarType);
   }
 
-  static set id(String newValue) {
+  static set id(String? newValue) {
     _id = newValue ?? "";
     writeDatabase.userDataBox.put('id', _id);
   }
 
-  static set pw(String newValue) {
+  static set pw(String? newValue) {
     _pw = newValue ?? "";
     writeDatabase.userDataBox.put('pw', _pw);
   }
 
-  static set lastSyncTime(DateTime newValue) {
+  static set lastSyncTime(DateTime? newValue) {
     _lastSyncTime = newValue ?? DateTime(1999);
     writeDatabase.userDataBox.put('lastSyncTime', _lastSyncTime);
   }
 
-  static set lastSyncInfo(String newValue) {
+  static set lastSyncInfo(String? newValue) {
     _lastSyncInfo = newValue ?? "로그인이 필요합니다";
     writeDatabase.userDataBox.put('lastSyncInfo', _lastSyncInfo);
   }
 
-  static set showToDoList(List<bool> newValue) {
+  static set showToDoList(List<bool>? newValue) {
     _showToDoList =
         newValue ?? [true, true, true, true, true, true, true, true, true];
     writeDatabase.userDataBox.put('showToDoList', _showToDoList);
   }
 
-  static set semester(int newValue) {
+  static set semester(int? newValue) {
     if ((newValue == null || newValue != semester) &&
         readDatabase.runtimeType == writeDatabase.runtimeType) {
       subjectCodeThisSemester.clear();
@@ -168,12 +168,12 @@ class UserData {
     writeDatabase.userDataBox.put('showToDoList', _showToDoList);
   }
 
-  static set oneStopLastSyncDay(int newValue) {
+  static set oneStopLastSyncDay(int? newValue) {
     _oneStopLastSyncDay = newValue ?? -1;
     writeDatabase.userDataBox.put('oneStopLastSyncDay', _oneStopLastSyncDay);
   }
 
-  static set notificationDay(int newValue) {
+  static set notificationDay(int? newValue) {
     if (newValue != null)
       _notificationDay = newValue;
     else
@@ -182,14 +182,14 @@ class UserData {
     writeDatabase.userDataBox.put('notificationDay', _notificationDay);
   }
 
-  static set googleFirstLogin(bool newValue) {
+  static set googleFirstLogin(bool? newValue) {
     _googleFirstLogin = newValue ?? false;
 
     //if(Database.mode == Mode.update)
     writeDatabase.userDataBox.put('googleFirstLogin', _googleFirstLogin);
   }
 
-  static set themeMode(ThemeMode newValue) {
+  static set themeMode(ThemeMode? newValue) {
     _themeMode = newValue ?? ThemeMode.system;
 
     writeDatabase.userDataBox.put('themeMode', newValue);

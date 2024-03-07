@@ -16,9 +16,9 @@ class Logger {
 
   String _email = "platocalendar@hotmail.com";
   String _password = "plato1234";
-  SmtpServer _smtpServer;
+  late SmtpServer _smtpServer;
 
-  DeviceData _deviceData;
+  late DeviceData _deviceData;
 
   Logger() {
     _loggerInit();
@@ -27,20 +27,20 @@ class Logger {
 
   Future<void> _loggerInit() async {
     await Future.wait([loadUUID(), loadDeviceData()]).then((value) {
-      _uuid = value[0];
-      _deviceData = value[1];
+      _uuid = (value[0] ?? "test") as String;
+      _deviceData = value[1] as DeviceData;
     });
     _init = true;
   }
 
-  Future<String> loadUUID() async {
+  Future<String?> loadUUID() async {
     final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
     // guid(uuid) 생성
     if (!(await secureStorage.containsKey(key: 'guid', iOptions: options)) ||
         (await secureStorage.read(key: 'guid', iOptions: options) == null)) {
       await secureStorage.write(key: 'guid', value: Guid.newGuid.toString());
     }
-    return await secureStorage.read(key: 'guid', iOptions: options);
+    return (secureStorage.read(key: 'guid', iOptions: options));
   }
 
   Future<DeviceData> loadDeviceData() async {

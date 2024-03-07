@@ -46,24 +46,24 @@ class Plato {
       return false;
     } catch (e) {
       if (e.runtimeType == DioError &&
-          (e as DioError).response.statusCode == 303)
-        response = e.response;
+          (e as DioError).response!.statusCode == 303)
+        response = e.response!;
       else {
-        print("plato Login Error: ${e.error}");
+        print("plato Login Error: ${e.toString()}");
         DateTime now = DateTime.now();
         UserData.lastSyncInfo =
             "${now.day}일 ${now.hour}:${now.minute} - 로그인 오류";
         return false;
       }
     }
-    if (response.headers.map["location"][0] ==
+    if (response.headers.map["location"]![0] ==
         "https://plato.pusan.ac.kr/login.php?errorcode=3") {
       print("ID,PW is incorrect");
       DateTime now = DateTime.now();
       UserData.lastSyncInfo =
           "${now.day}일 ${now.hour}:${now.minute} - ID/PW 오류";
     } else {
-      moodleSession = response.headers.map["set-cookie"][1];
+      moodleSession = response.headers.map["set-cookie"]![1];
       moodleSession = moodleSession.substring(0, moodleSession.indexOf(';'));
       return true;
     }
@@ -89,7 +89,7 @@ class Plato {
             "Cookie": moodleSession
           });
       String requestBody1, requestBody2;
-      requestBody1 = RegExp('"sesskey":".*?"').stringMatch(response.body);
+      requestBody1 = RegExp('"sesskey":".*?"').stringMatch(response.body)!;
       requestBody1 = '{' + requestBody1 + '}';
       sesskey = "sesskey=${jsonDecode(requestBody1)["sesskey"]}";
 
@@ -198,16 +198,16 @@ class Plato {
       return false;
     } catch (e) {
       if (e.runtimeType == DioError &&
-          (e as DioError).response.statusCode == 303)
-        response = e.response;
+          (e as DioError).response!.statusCode == 303)
+        response = e.response!;
       else {
-        print("plato Logout Error: ${e.error}");
+        print("plato Logout Error: ${e.toString()}");
         return false;
       }
     }
 
-    if (response.headers.map["location"][0] == "https://plato.pusan.ac.kr/") {
-      moodleSession = response.headers.map["set-cookie"][0];
+    if (response.headers.map["location"]![0] == "https://plato.pusan.ac.kr/") {
+      moodleSession = response.headers.map["set-cookie"]![0];
       moodleSession = moodleSession.substring(0, moodleSession.indexOf(';'));
       return true;
     }

@@ -16,7 +16,7 @@ class Calendar extends StatefulWidget {
 class _Calendar extends State<Calendar> {
   CalendarView viewType = CalendarView.month;
   CalendarController _calendarController = CalendarController();
-  StreamSubscription<bool> listener;
+  late StreamSubscription<dynamic> listener;
   @override
   void initState() {
     super.initState();
@@ -81,7 +81,7 @@ class _Calendar extends State<Calendar> {
                             context: context,
                             builder: (BuildContext context) {
                               return PopUpAppointmentEditor.appointment(
-                                  data.appointments[0]);
+                                  data.appointments![0]);
                             }).then((value) => setState(() {}));
                       }
                     } else if (UserData.calendarType ==
@@ -91,7 +91,7 @@ class _Calendar extends State<Calendar> {
                             context: context,
                             builder: (BuildContext context) {
                               return PopUpAppointmentEditor.appointment(
-                                  data.appointments[0]);
+                                  data.appointments![0]);
                             }).then((value) => setState(() {}));
                       }
                     }
@@ -102,7 +102,7 @@ class _Calendar extends State<Calendar> {
                           context: context,
                           builder: (BuildContext context) {
                             return SimplePopUpAppointmentEditor(
-                                data.appointments[0]);
+                                data.appointments![0]);
                           }).then((value) => setState(() {
                             if (value == true) {
                               // 일정 완료
@@ -135,19 +135,19 @@ class DataSource extends CalendarDataSource {
   }
 
   @override
-  DateTime getStartTime(int index) => appointments[index].from;
+  DateTime getStartTime(int index) => appointments![index].from;
 
   @override
-  DateTime getEndTime(int index) => appointments[index].to;
+  DateTime getEndTime(int index) => appointments![index].to;
 
   @override
-  String getSubject(int index) => appointments[index].eventName;
+  String getSubject(int index) => appointments![index].eventName;
 
   @override
-  Color getColor(int index) => appointments[index].background;
+  Color getColor(int index) => appointments![index].background;
 
   @override
-  bool isAllDay(int index) => appointments[index].isAllDay;
+  bool isAllDay(int index) => appointments![index].isAllDay;
 }
 
 Future<DataSource> _getCalendarDataSource() async {

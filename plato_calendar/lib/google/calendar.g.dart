@@ -21,7 +21,7 @@ class GoogleCalendarTokenAdapter extends TypeAdapter<GoogleCalendarToken> {
       fields[1] as String,
       fields[2] as DateTime,
       fields[3] as String,
-      (fields[4] as List)?.cast<String>(),
+      (fields[4] as List)!.cast<String>(),
     );
   }
 

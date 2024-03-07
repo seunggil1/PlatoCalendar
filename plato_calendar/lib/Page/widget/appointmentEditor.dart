@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:plato_calendar/Data/etc.dart';
 import 'package:plato_calendar/utility.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -11,12 +11,12 @@ import '../../Data/ics.dart';
 
 class PopUpAppointmentEditor extends StatefulWidget {
   bool newData = false;
-  CalendarData calendarData;
+  late CalendarData calendarData;
 
   CalendarData get scalendarData => calendarData;
   PopUpAppointmentEditor.appointment(Appointment data) {
     calendarData = UserData.data.firstWhere((value) {
-      return value.hashCode == data.resourceIds[0];
+      return value.hashCode == data.resourceIds![0];
     });
   }
   PopUpAppointmentEditor(this.calendarData);
@@ -37,11 +37,11 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
   TextEditingController summaryController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController memoController = TextEditingController();
-  String _classCode;
-  DateTime _start;
-  DateTime _end;
-  int _color;
-  bool _isPlato;
+  late String _classCode;
+  late DateTime _start;
+  late DateTime _end;
+  late int _color;
+  late bool _isPlato;
   @override
   void initState() {
     super.initState();
@@ -129,7 +129,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                         if (_classCode != "전체") {
                           widget.calendarData.classCode = _classCode;
                           widget.calendarData.className =
-                              subjectCode[_classCode];
+                              subjectCode[_classCode]!;
                         } else {
                           widget.calendarData.classCode = "과목 분류 없음";
                           widget.calendarData.className = "";
@@ -179,9 +179,9 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                             height: 1,
                             color: Colors.grey[600],
                           ),
-                          onChanged: (String newValue) {
+                          onChanged: (String? newValue) {
                             setState(() {
-                              _classCode = newValue;
+                              _classCode = newValue!;
                               if (UserData.defaultColor.containsKey(_classCode))
                                 _color = UserData.defaultColor[_classCode];
                             });
@@ -401,7 +401,7 @@ class SimplePopUpAppointmentEditor extends StatefulWidget {
 
   SimplePopUpAppointmentEditor(Appointment data)
       : calendarData = UserData.data.firstWhere((value) {
-          return value.hashCode == data.resourceIds[0];
+          return value.hashCode == data.resourceIds![0];
         });
   @override
   State<StatefulWidget> createState() =>

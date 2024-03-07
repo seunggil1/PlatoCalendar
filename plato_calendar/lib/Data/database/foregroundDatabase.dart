@@ -33,7 +33,7 @@ class ForegroundDatabase extends Database {
     try {
       FlutterSecureStorage secureStorage = const FlutterSecureStorage();
       return DateTime.parse(
-          await secureStorage.read(key: _syncTime, iOptions: options));
+          (await secureStorage.read(key: _syncTime, iOptions: options))!);
     } catch (e, trace) {
       Notify.notifyDebugInfo("getTime Error\n ${e.toString()}",
           sendLog: true, trace: trace);
@@ -70,7 +70,7 @@ class ForegroundDatabase extends Database {
       }
 
       var encryptionKey = base64Url
-          .decode(await secureStorage.read(key: 'key', iOptions: options));
+          .decode((await secureStorage.read(key: 'key', iOptions: options))!);
       calendarBox = await Hive.openBox(_calendar,
           encryptionCipher: HiveAesCipher(encryptionKey));
       userDataBox = await Hive.openBox(_userData,

@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey[200]))),
+                          borderSide: BorderSide(color: Colors.grey[200]!))),
                   style: TextStyle(color: Colors.black),
                   controller: idController,
                   onChanged: checkIdPw,
@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey[200]))),
+                          borderSide: BorderSide(color: Colors.grey[200]!))),
                   style: TextStyle(color: Colors.black),
                   controller: pwController,
                   onChanged: checkIdPw,

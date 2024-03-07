@@ -4,8 +4,10 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
-import "package:googleapis_auth/auth_io.dart";
-import 'package:googleapis/calendar/v3.dart';
+import 'package:googleapis_auth/googleapis_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:googleapis/calendar/v3.dart' as calendar;
+import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 import 'package:plato_calendar/Data/ics.dart';
 import 'package:plato_calendar/utility.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -14,6 +16,7 @@ import '../Data/privateKey.dart';
 import '../Data/database/database.dart';
 import '../Data/userData.dart';
 import '../notify.dart';
+import '../main.dart';
 
 part 'calendar.g.dart';
 
@@ -29,17 +32,17 @@ class GoogleCalendarToken {
   // AccessCredentials
 
   //AcessToken
-  String type;
-  String data;
-  DateTime expiry;
+  late String type;
+  late String data;
+  late DateTime expiry;
 
-  String refreshToken;
-  List<String> scopes;
+  late String refreshToken;
+  late List<String> scopes;
 
   // token 갱신 여부 check하고 update
-  Stream<AccessCredentials> tokenStream;
-  AccessCredentials token;
-  AutoRefreshingAuthClient client;
+  // late Stream<AccessCredentials> tokenStream;
+  late AccessCredentials token;
+  late AuthClient client;
 
   /// Google API 통신담당 queue
   ///
@@ -48,7 +51,7 @@ class GoogleCalendarToken {
   /// 1초에 하나씩 처리함(Rate Limit Exceeded 방지)
   ///
   /// 실패할 때마다 대기시간을 2의 지수승으로 증가시킴.
-  StreamController<CalendarData> googleAsyncQueue;
+  late StreamController<CalendarData> googleAsyncQueue;
 
   /// googleAsyncQueue open
   void openStream() {
@@ -91,17 +94,20 @@ class GoogleCalendarToken {
   );
 
   /// Must call this function after DB restores GoogleCalendarToken Data
-  bool restoreAutoRefreshingAuthClient() {
+  Future<bool> restoreAutoRefreshingAuthClient() async {
     try {
       if (!UserData.isSaveGoogleToken) return false;
+      final GoogleSignIn googleSignIn = GoogleSignIn(
+        // Google Cloud Console에서 생성한 OAuth 2.0 클라이언트 ID의 스코프를 지정하세요.
+        scopes: <String>[calendar.CalendarApi.calendarScope],
+      );
+      await googleSignIn.signInSilently();
+      // token = AccessCredentials(AccessToken(this.type, this.data, this.expiry),
+      //     this.refreshToken, this.scopes);
 
-      token = AccessCredentials(AccessToken(this.type, this.data, this.expiry),
-          this.refreshToken, this.scopes);
-
-      client = autoRefreshingClient(
-          ClientId(PrivateKey.clientIDIdentifier, ""), token, Client());
-
-      tokenStream = client.credentialUpdates;
+      // client = autoRefreshingClient(
+      //     ClientId(PrivateKey.clientIDIdentifier, ""), token, Client());
+      // token = client.credentials;
     } catch (e, trace) {
       Notify.notifyDebugInfo(e.toString(), sendLog: true, trace: trace);
       return false;
@@ -110,37 +116,50 @@ class GoogleCalendarToken {
   }
 
   Future<bool> authUsingGoogleAccount() async {
-    try {
-      await clientViaUserConsent(ClientId(PrivateKey.clientIDIdentifier, ""),
-              const [CalendarApi.calendarEventsScope], prompt)
-          .then((AutoRefreshingAuthClient newClient) {
-        //prompt("app://com.seunggil.plato_calendar/");
-        AccessCredentials newToken = newClient.credentials;
-        this.type = newToken.accessToken.type;
-        this.data = newToken.accessToken.data;
-        this.expiry = newToken.accessToken.expiry;
-        this.refreshToken = newToken.refreshToken;
-        this.scopes = newToken.scopes;
+    final GoogleSignIn googleSignIn = GoogleSignIn(
+      // Google Cloud Console에서 생성한 OAuth 2.0 클라이언트 ID의 스코프를 지정하세요.
+      scopes: <String>[calendar.CalendarApi.calendarScope],
+    );
+    googleSignIn.onCurrentUserChanged
+        .listen((GoogleSignInAccount? account) async {
+      print('login sucess : ${account?.email ?? 'empty'}');
+      try {
+        final client = await googleSignIn.authenticatedClient();
+        if (client != null) {
+          // final authClient = await account.
 
-        this.tokenStream = newClient.credentialUpdates;
-        this.token = newToken;
-        this.client = newClient;
-      });
+          final newToken = client.credentials;
+          this.type = newToken.accessToken.type;
+          this.data = newToken.accessToken.data;
+          this.expiry = newToken.accessToken.expiry;
+          this.refreshToken = newToken.refreshToken ?? "test";
+          this.scopes = newToken.scopes;
+          // this.tokenStream = newClient.credentialUpdates;
+          this.token = newToken;
+          this.client = client;
 
-      UserData.isSaveGoogleToken = true;
-      UserData.googleFirstLogin = true;
-      await UserData.writeDatabase.googleDataSave();
-      await Future.delayed(Duration(seconds: 2));
-      // 로그인 완료 후 앱으로 화면 전환이 안됨.
-      // 따라서 로그인 토큰 기록후 어플 종료.
-      // 다음 실행 때 Google Calendar로 일정 업로드 시작.
-      if (Platform.isAndroid)
-        SystemNavigator.pop();
-      else if (Platform.isIOS) exit(0);
-    } catch (e, trace) {
-      Notify.notifyDebugInfo(e.toString(), sendLog: true, trace: trace);
-      return false;
-    }
+          print('get client success');
+
+          //prompt("app://com.seunggil.plato_calendar/");
+          UserData.isSaveGoogleToken = true;
+          UserData.googleFirstLogin = true;
+          await UserData.writeDatabase.googleDataSave();
+          await Future.delayed(Duration(seconds: 2));
+          pnuStream.sink.add(true);
+          await updateCalendarFull();
+          // 로그인 완료 후 앱으로 화면 전환이 안됨.
+          // 따라서 로그인 토큰 기록후 어플 종료.
+          // 다음 실행 때 Google Calendar로 일정 업로드 시작.
+          // if (Platform.isAndroid)
+          //   SystemNavigator.pop();
+          // else if (Platform.isIOS) exit(0);
+        }
+      } catch (e, trace) {
+        Notify.notifyDebugInfo(e.toString(), sendLog: true, trace: trace);
+      }
+    });
+    await googleSignIn.signIn();
+
     return true;
   }
 
@@ -197,19 +216,19 @@ class GoogleCalendarToken {
     return true;
   }
 
-  Future<bool> updateCalendar(Event newEvent) async {
+  Future<bool> updateCalendar(calendar.Event newEvent) async {
     if (!UserData.isSaveGoogleToken) return true;
 
     try {
-      CalendarApi mycalendar = CalendarApi(client);
-      List<Event> searchResult = (await mycalendar.events
+      calendar.CalendarApi mycalendar = calendar.CalendarApi(client);
+      List<calendar.Event> searchResult = (await mycalendar.events
               .list("primary", iCalUID: newEvent.iCalUID, showDeleted: true))
-          .items;
+          .items!;
 
       if (searchResult != null &&
           searchResult.length >= 1 &&
           searchResult[0].id != null)
-        await mycalendar.events.patch(newEvent, "primary", searchResult[0].id);
+        await mycalendar.events.patch(newEvent, "primary", searchResult[0].id!);
       else
         await mycalendar.events.insert(newEvent, "primary");
       delayTime = 1;
@@ -223,19 +242,19 @@ class GoogleCalendarToken {
     }
   }
 
-  Future<bool> deleteCalendar(Event newEvent) async {
+  Future<bool> deleteCalendar(calendar.Event newEvent) async {
     if (!UserData.isSaveGoogleToken) return true;
 
     try {
-      CalendarApi mycalendar = CalendarApi(client);
-      List<Event> searchResult =
+      calendar.CalendarApi mycalendar = calendar.CalendarApi(client);
+      List<calendar.Event> searchResult =
           (await mycalendar.events.list("primary", iCalUID: newEvent.iCalUID))
-              .items;
+              .items!;
 
       if (searchResult != null &&
           searchResult.length >= 1 &&
           searchResult[0].id != null)
-        mycalendar.events.delete("primary", searchResult[0].id);
+        mycalendar.events.delete("primary", searchResult[0].id!);
 
       delayTime = 1;
       failCount = 0;

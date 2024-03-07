@@ -14,7 +14,7 @@ final Map<int, String> weekdayLocaleKR = {
 /// 한글 날짜 형식으로 변경
 String getDateTimeLocaleKR(DateTime time) =>
     DateFormat("yyyy년 M월 d일 (", "ko_KR").format(time) +
-    weekdayLocaleKR[time.weekday] +
+    weekdayLocaleKR[time.weekday]! +
     DateFormat(")  a h:mm", "ko_KR").format(time);
 String getTimeLocaleKR(DateTime time) => DateFormat("HH:mm").format(time);
 String toISO8601(DateTime data) {
@@ -35,16 +35,16 @@ final List<Color> colorCollection = [
   Color.fromRGBO(63, 81, 181, 1.0), // 블루베리
   Color.fromRGBO(11, 128, 67, 1.0), // 바질
   Color.fromRGBO(213, 0, 0, 1.0), // 토마토
-  Colors.red[200],
+  Colors.red[200]!,
   Colors.indigo,
   Colors.orange,
-  Colors.pink[300],
+  Colors.pink[300]!,
   Colors.green,
-  Colors.teal[200],
-  Colors.brown[400],
+  Colors.teal[200]!,
+  Colors.brown[400]!,
   Colors.lightGreen,
   Colors.blueGrey,
   Colors.blue,
-  Colors.purple[400],
+  Colors.purple[400]!,
   Colors.red,
 ];

@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 3.3.2+202304172
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
   flutter:
@@ -38,7 +38,7 @@ dependencies:
   auto_size_text: ^3.0.0
   # DateFormat("MM-dd HH:mm:ss").format(data),
   intl: ^0.18.0
-  flutter_datetime_picker: ^1.5.0
+  flutter_datetime_picker_plus: ^2.1.0
 
   # toast 메세지, 알림 메세지
   fluttertoast: ^8.0.8
@@ -53,18 +53,19 @@ dependencies:
   # open_file: ^3.2.1
   
   # google ad
-  google_mobile_ads:
+  google_mobile_ads: ^4.0.0
 
   # google calendar api
-  googleapis: ^10.1.0
-  googleapis_auth: ^1.1.0
-  flutter_signin_button: ^2.0.0
+  googleapis: 
+  google_sign_in: ^6.2.1
+  extension_google_sign_in_as_googleapis_auth: ^2.0.12
+  flutter_signin_button: 
   
   url_launcher: ^6.0.9
 
   # firebase
-  firebase_core: ^2.9.0
-  firebase_messaging: ^14.4.0
+  firebase_core: ^2.26.0
+  firebase_messaging: ^14.7.18
 
   # logging
   device_info_plus: ^8.0.0
@@ -81,7 +82,7 @@ dev_dependencies:
     sdk: flutter
   hive_generator: ^2.0.0
   build_runner: ^2.1.7
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.0
 
 flutter:
 

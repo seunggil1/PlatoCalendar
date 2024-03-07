@@ -5,11 +5,12 @@ import '../../pnu/pnu.dart';
 
 // Loading Icon
 class Loading extends AnimatedWidget {
-  AnimationController controller;
+  late AnimationController controller;
   static DateTime _manualUpdateTime = DateTime.utc(0);
-  Loading({Key key, Animation<double> animation, AnimationController control})
-      : super(key: key, listenable: animation) {
-    controller = control;
+  Loading(
+      {Key? key, Animation<double>? animation, AnimationController? control})
+      : super(key: key, listenable: animation as Animation<double>) {
+    controller = control!;
   }
 
   @override

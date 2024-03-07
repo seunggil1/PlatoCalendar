@@ -9,7 +9,7 @@ import '../Data/database/database.dart';
 import '../Data/userData.dart';
 
 class Onestop {
-  static String jsessionid;
+  static late String jsessionid;
   //static String wmonid;
 
   static Future<bool> login() async {
@@ -46,15 +46,16 @@ class Onestop {
             'username=$studentNumber&password=${Uri.encodeQueryComponent(password)}',
       );
     } catch (e) {
-      if (e.runtimeType == DioError && e.error == "Http status error [302]")
-        response = e.response;
+      if (e.runtimeType == DioError &&
+          (e as DioError).response!.statusCode == 302)
+        response = e.response!;
       else {
         return false;
       }
     }
 
     try {
-      body = response.headers.map['set-cookie'][0];
+      body = response.headers.map['set-cookie']![0];
       body = body.substring(0, body.indexOf(';'));
 
       jsessionid = body;
@@ -108,7 +109,8 @@ class Onestop {
 
       body = '';
       for (int i = 0; i < list.length; i++) {
-        body += list[i].attributes['name'] + '=' + list[i].attributes["value"];
+        body +=
+            list[i].attributes['name']! + '=' + list[i].attributes["value"]!;
         if (i < list.length - 1) body += '&';
       }
       response = await http.post(
@@ -122,7 +124,7 @@ class Onestop {
           body: body);
       document = parser.parse(response.body);
 
-      String cookiesOrigin = response.headers['set-cookie'];
+      String cookiesOrigin = response.headers['set-cookie']!;
       List<String> cookieList = cookiesOrigin.split('/,');
       for (int i = 0; i < cookieList.length; i++)
         cookieList[i] = cookieList[i].substring(0, cookieList[i].indexOf(';'));
@@ -134,7 +136,8 @@ class Onestop {
       list = document.getElementsByTagName('input');
       body = '';
       for (int i = 0; i < list.length; i++) {
-        body += list[i].attributes['name'] + '=' + list[i].attributes["value"];
+        body +=
+            list[i].attributes['name']! + '=' + list[i].attributes["value"]!;
         if (i < list.length - 1) body += '&';
       }
       response = await http.post(
@@ -152,7 +155,8 @@ class Onestop {
       list = document.getElementsByTagName('input');
       body = '';
       for (int i = 0; i < list.length; i++) {
-        body += list[i].attributes['name'] + '=' + list[i].attributes["value"];
+        body +=
+            list[i].attributes['name']! + '=' + list[i].attributes["value"]!;
         if (i < list.length - 1) body += '&';
       }
       response = await http.post(
@@ -170,7 +174,8 @@ class Onestop {
       list = document.getElementsByTagName('input');
       body = '';
       for (int i = 0; i < list.length; i++) {
-        body += list[i].attributes['name'] + '=' + list[i].attributes["value"];
+        body +=
+            list[i].attributes['name']! + '=' + list[i].attributes["value"]!;
         if (i < list.length - 1) body += '&';
       }
       response = await http.post(
@@ -185,14 +190,16 @@ class Onestop {
       );
       document = parser.parse(response.body);
 
-      list =
-          document.getElementById('ssoLoginForm').getElementsByTagName('input');
+      list = document
+          .getElementById('ssoLoginForm')!
+          .getElementsByTagName('input');
       body = '';
       for (int i = 0; i < 1; i++) {
-        body += list[i].attributes['name'] + '=' + list[i].attributes["value"];
+        body +=
+            list[i].attributes['name']! + '=' + list[i].attributes["value"]!;
         if (i < list.length - 1) body += '&';
       }
-      body += list[1].attributes['name'] + '=';
+      body += list[1].attributes['name']! + '=';
 
       response = await http.post(
         Uri.parse('https://e-onestop.pusan.ac.kr/j_spring_security_check'),
@@ -207,7 +214,7 @@ class Onestop {
         body: body,
       );
       document = parser.parse(response.body);
-      body = response.headers['set-cookie'];
+      body = response.headers['set-cookie']!;
       body = body.substring(0, body.indexOf(';'));
 
       jsessionid = body;
@@ -306,7 +313,7 @@ class Onestop {
             "Host": "sso.pusan.ac.kr",
           },
           body: "ssid=49&domain=.pusan.ac.kr");
-      String ntassessionid = response.headers["set-cookie"];
+      String ntassessionid = response.headers["set-cookie"]!;
       ntassessionid = ntassessionid.substring(0, ntassessionid.indexOf(';'));
 
       response =
@@ -320,7 +327,7 @@ class Onestop {
               },
               body: "ssid=49&secureSessionId=&method=logout");
 
-      ntassessionid = response.headers["set-cookie"];
+      ntassessionid = response.headers["set-cookie"]!;
       ntassessionid = ntassessionid.substring(0, ntassessionid.indexOf(';'));
 
       response = await http.post(
@@ -334,7 +341,7 @@ class Onestop {
           },
           body:
               "secureToken=&secureSessionId=&isToken=N&reTry=Y&method=checkToken&login_type=");
-      String result = response.headers["set-cookie"];
+      String result = response.headers["set-cookie"]!;
       jsessionid = result.substring(0, result.indexOf(';'));
     } catch (e) {
       return false;

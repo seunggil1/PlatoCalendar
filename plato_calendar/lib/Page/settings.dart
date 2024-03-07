@@ -24,10 +24,10 @@ class _Settings extends State<Setting> with TickerProviderStateMixin {
   Set<String> _subjectCodeThisSemester =
       Set<String>.from(UserData.subjectCodeThisSemester);
   bool expanded = false;
-  StreamSubscription<bool> listener;
+  late StreamSubscription<dynamic> listener;
 
-  AnimationController _controller;
-  Animation<double> animation;
+  late AnimationController _controller;
+  late Animation<double> animation;
   @override
   void initState() {
     super.initState();
@@ -63,7 +63,7 @@ class _Settings extends State<Setting> with TickerProviderStateMixin {
                   fontWeight: FontWeight.bold,
                   fontSize: 16)),
           backgroundColor: Theme.of(context).brightness == Brightness.dark
-              ? Theme.of(context).bottomAppBarColor
+              ? Colors.grey[900]
               : Colors.white,
         ),
         body: ListView(
@@ -198,7 +198,9 @@ class _Settings extends State<Setting> with TickerProviderStateMixin {
                                 else {
                                   await UserData.googleCalendar
                                       .authUsingGoogleAccount();
-                                  setState(() {});
+                                  setState(() {
+                                    print(1);
+                                  });
                                 }
                               },
                             ),
@@ -241,7 +243,7 @@ class _Settings extends State<Setting> with TickerProviderStateMixin {
                               ],
                               onChanged: (newValue) {
                                 setState(() {
-                                  UserData.calendarType = newValue;
+                                  UserData.calendarType = newValue!;
                                 });
                               }),
                           isThreeLine: true),
@@ -260,7 +262,7 @@ class _Settings extends State<Setting> with TickerProviderStateMixin {
                                   .toList(),
                               onChanged: (newValue) {
                                 setState(() {
-                                  UserData.firstDayOfWeek = newValue;
+                                  UserData.firstDayOfWeek = newValue!;
                                 });
                               }),
                           isThreeLine: false)
@@ -298,7 +300,7 @@ class _Settings extends State<Setting> with TickerProviderStateMixin {
                               ],
                               onChanged: (newValue) async {
                                 setState(() {
-                                  UserData.themeMode = newValue;
+                                  UserData.themeMode = newValue!;
                                   showToastMessageCenter(
                                       "변경사항을 적용하기 위해 어플을 종료합니다.");
                                 });

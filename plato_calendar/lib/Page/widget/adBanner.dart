@@ -29,7 +29,7 @@ BannerAd adBanner2 = BannerAd(
 
 class AdBanner extends StatelessWidget {
   final int bannerLocation;
-  AdBanner({@required this.bannerLocation});
+  AdBanner({required this.bannerLocation});
   @override
   Widget build(BuildContext context) {
     if (bannerLocation == 1) if (adBanner1.responseInfo == null)

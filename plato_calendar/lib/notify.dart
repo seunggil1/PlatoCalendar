@@ -7,7 +7,7 @@ import 'package:plato_calendar/logger.dart';
 
 class Notify {
   static int notificationId = 0;
-  static Logger _log;
+  static late Logger _log;
 
   // #3 push message
   static Future<void> notificationInit() async {
@@ -92,10 +92,10 @@ class Notify {
   /// id가 같은건 동시에 하나만 표시되는 것으로 추정.
   static Future<void> notifyDebugInfo(String e,
       {bool sendLog = false,
-      StackTrace trace,
+      StackTrace? trace,
       String additionalInfo = ""}) async {
     if (sendLog) {
-      _log.sendEmail(e, trace.toString() ?? "", additionalInfo);
+      _log.sendEmail(e, trace?.toString() ?? "", additionalInfo);
     }
     if (Appinfo.buildType == BuildType.release) return;
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =

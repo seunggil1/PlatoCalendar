@@ -78,7 +78,7 @@ Future<void> icsParser(String bytes) async {
 
     for (var iter in iCalendar.data) {
       CalendarData newData = CalendarData.byMap(iter);
-      CalendarData oldData = UserData.data.lookup(newData);
+      CalendarData? oldData = UserData.data.lookup(newData);
       if (oldData != null) {
         // 기존에 있는 데이터면 update
         // 비교 시간 줄이기 위해 hashcode로
@@ -105,7 +105,7 @@ Future<void> icsParser(String bytes) async {
 Future<void> testTimeParser(dynamic dataList, List<String> requestInfo) async {
   for (var iter in dataList) {
     CalendarData newData = CalendarData.byTestTime(iter, requestInfo);
-    CalendarData oldData = UserData.data.lookup(newData);
+    CalendarData? oldData = UserData.data.lookup(newData);
     if (oldData != null) {
       // 기존에 있는 데이터면 update
       // 비교 시간 줄이기 위해 hashcode로
@@ -161,22 +161,22 @@ Future<void> testTimeParser(dynamic dataList, List<String> requestInfo) async {
 //   }
 // }
 class CalendarData {
-  String uid;
-  String summary;
-  String description;
+  late String uid;
+  late String summary;
+  late String description;
   String memo = "";
 
-  DateTime start, end;
+  late DateTime start, end;
 
   /// 시작시간과 종료 시간이 다른 일정
   ///
   /// (사용하지 않는 데이터)
   bool isPeriod = true;
 
-  String year;
-  String semester;
-  String classCode;
-  String className;
+  late String year;
+  late String semester;
+  late String classCode;
+  late String className;
 
   /// 삭제처리한 일정
   bool disable = false;
@@ -188,7 +188,7 @@ class CalendarData {
   bool isPlato = false;
 
   /// 달력에 표시할 색상
-  int color;
+  late int color;
 
   /// DB에 저장된 데이터로 일정 생성.
   CalendarData(
@@ -430,7 +430,8 @@ class CalendarData {
       end = other.end;
       return true;
     } catch (e, trace) {
-      Notify.notifyDebugInfo(e, sendLog: true, trace: trace, additionalInfo: """
+      Notify.notifyDebugInfo(e.toString(),
+          sendLog: true, trace: trace, additionalInfo: """
           1. old data
           ${this.toString()}
           2. new data

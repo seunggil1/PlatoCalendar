@@ -93,7 +93,7 @@ class BackgroundDatabase extends Database {
       }
 
       var encryptionKey = base64Url
-          .decode(await secureStorage.read(key: 'key', iOptions: options));
+          .decode((await secureStorage.read(key: 'key', iOptions: options))!);
       calendarBox = await Hive.openBox(_calendar,
           encryptionCipher: HiveAesCipher(encryptionKey));
       userDataBox = await Hive.openBox(_userData,

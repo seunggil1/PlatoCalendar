@@ -34,7 +34,7 @@ class _ToDoList extends State<ToDoList> {
   List<Widget> toDoList6Hour = []; // 6시간 남음
   List<Widget> toDoListFinished = []; // 완료
 
-  StreamSubscription<bool> listener;
+  late StreamSubscription<dynamic> listener;
 
   @override
   void initState() {
@@ -64,9 +64,9 @@ class _ToDoList extends State<ToDoList> {
     DateTime now = DateTime.now();
     List<CalendarData> icsList = UserData.data.toList();
     icsList.sort((CalendarData a, CalendarData b) {
-      if(a.end != b.end){
+      if (a.end != b.end) {
         return a.end.compareTo(b.end);
-      }else{
+      } else {
         return a.summary.compareTo(b.summary);
       }
     });
@@ -109,7 +109,7 @@ class _ToDoList extends State<ToDoList> {
       appBar: AppBar(
           elevation: 0,
           backgroundColor: Theme.of(context).brightness == Brightness.dark
-              ? Theme.of(context).bottomAppBarColor
+              ? Colors.grey[900]
               : Colors.white,
           title: Row(
             children: [
@@ -127,9 +127,9 @@ class _ToDoList extends State<ToDoList> {
                     height: 2,
                     color: Colors.blueAccent[100],
                   ),
-                  onChanged: (String newValue) {
+                  onChanged: (String? newValue) {
                     setState(() {
-                      dropdownValue = newValue;
+                      dropdownValue = newValue!;
                     });
                   },
                   items: UserData.subjectCodeThisSemester
@@ -195,9 +195,9 @@ class _ToDoList extends State<ToDoList> {
                                         Radio(
                                           value: SortMethod.sortByDue,
                                           groupValue: _sortMethod,
-                                          onChanged: (SortMethod value) {
+                                          onChanged: (SortMethod? value) {
                                             setState(() {
-                                              _sortMethod = value;
+                                              _sortMethod = value!;
                                             });
                                           },
                                         ),
@@ -258,7 +258,7 @@ class _ToDoList extends State<ToDoList> {
                   padding: const EdgeInsets.symmetric(
                       vertical: 0.0, horizontal: 5.0),
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey[350], width: 1.5),
+                      border: Border.all(color: Colors.grey[350]!, width: 1.5),
                       borderRadius: BorderRadius.circular(5)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -273,7 +273,7 @@ class _ToDoList extends State<ToDoList> {
                   padding: const EdgeInsets.symmetric(
                       vertical: 0.0, horizontal: 5.0),
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey[350], width: 1.5),
+                      border: Border.all(color: Colors.grey[350]!, width: 1.5),
                       borderRadius: BorderRadius.circular(5)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -288,7 +288,7 @@ class _ToDoList extends State<ToDoList> {
                   padding: const EdgeInsets.symmetric(
                       vertical: 0.0, horizontal: 5.0),
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey[350], width: 1.5),
+                      border: Border.all(color: Colors.grey[350]!, width: 1.5),
                       borderRadius: BorderRadius.circular(5)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -303,7 +303,7 @@ class _ToDoList extends State<ToDoList> {
                   padding: const EdgeInsets.symmetric(
                       vertical: 0.0, horizontal: 5.0),
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey[350], width: 1.5),
+                      border: Border.all(color: Colors.grey[350]!, width: 1.5),
                       borderRadius: BorderRadius.circular(5)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -318,7 +318,7 @@ class _ToDoList extends State<ToDoList> {
                   padding: const EdgeInsets.symmetric(
                       vertical: 0.0, horizontal: 5.0),
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey[350], width: 1.5),
+                      border: Border.all(color: Colors.grey[350]!, width: 1.5),
                       borderRadius: BorderRadius.circular(5)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -331,7 +331,7 @@ class _ToDoList extends State<ToDoList> {
               padding:
                   const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
               decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey[350], width: 1.5),
+                  border: Border.all(color: Colors.grey[350]!, width: 1.5),
                   borderRadius: BorderRadius.circular(5)),
               child: AdBanner(bannerLocation: 1)),
           toDoListWeek.isEmpty
@@ -341,7 +341,7 @@ class _ToDoList extends State<ToDoList> {
                   padding: const EdgeInsets.symmetric(
                       vertical: 0.0, horizontal: 5.0),
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey[350], width: 1.5),
+                      border: Border.all(color: Colors.grey[350]!, width: 1.5),
                       borderRadius: BorderRadius.circular(5)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -356,7 +356,7 @@ class _ToDoList extends State<ToDoList> {
                   padding: const EdgeInsets.symmetric(
                       vertical: 0.0, horizontal: 5.0),
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey[350], width: 1.5),
+                      border: Border.all(color: Colors.grey[350]!, width: 1.5),
                       borderRadius: BorderRadius.circular(5)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -371,7 +371,7 @@ class _ToDoList extends State<ToDoList> {
                   padding: const EdgeInsets.symmetric(
                       vertical: 0.0, horizontal: 5.0),
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey[350], width: 1.5),
+                      border: Border.all(color: Colors.grey[350]!, width: 1.5),
                       borderRadius: BorderRadius.circular(5)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -386,7 +386,7 @@ class _ToDoList extends State<ToDoList> {
                   padding: const EdgeInsets.symmetric(
                       vertical: 0.0, horizontal: 5.0),
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey[350], width: 1.5),
+                      border: Border.all(color: Colors.grey[350]!, width: 1.5),
                       borderRadius: BorderRadius.circular(5)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -446,10 +446,10 @@ class _ToDoList extends State<ToDoList> {
                 value: data.finished,
                 onChanged: (value) {
                   setState(() {
-                    data.finished = value;
+                    data.finished = value!;
                   });
                   UserData.writeDatabase.calendarDataSave(data);
-                  if (value) showMessage(context, "완료된 일정으로 변경했습니다.");
+                  if (value!) showMessage(context, "완료된 일정으로 변경했습니다.");
                 }),
             Container(
                 width: 5, color: colorCollection[data.color], child: Text('')),
@@ -491,7 +491,7 @@ class _ToDoList extends State<ToDoList> {
                     ),
                     AutoSizeText(
                       DateFormat("MM-dd ").format(data.end) +
-                          weekdayLocaleKR[data.end.weekday] +
+                          weekdayLocaleKR[data.end.weekday]! +
                           DateFormat(" HH:mm").format(data.end),
                       maxLines: 1,
                       minFontSize: 7,

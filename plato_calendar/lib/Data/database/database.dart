@@ -15,8 +15,8 @@ import '../../utility.dart';
 final options = IOSOptions(accessibility: KeychainAccessibility.first_unlock);
 
 abstract class Database {
-  Box calendarBox;
-  Box userDataBox;
+  late Box calendarBox;
+  late Box userDataBox;
 
   /// Database 사용전 한번 호출.
   static Future<void> init() async {
@@ -28,16 +28,16 @@ abstract class Database {
         Hive.registerAdapter(ThemeModeAdapter());
         Hive.registerAdapter(GoogleCalendarTokenAdapter());
       } catch (e) {
-        if (!e.message.toString().contains("There is already a TypeAdapter"))
-          throw HiveError("register Adapter failed : " + e.message.toString());
+        if (!e.toString().contains("There is already a TypeAdapter"))
+          throw HiveError("register Adapter failed : " + e.toString());
       }
     } catch (e, trace) {
       if (e.runtimeType != HiveError) {
         Notify.notifyDebugInfo(e.toString(), sendLog: true, trace: trace);
         throw Exception(e.toString());
       }
-      if (!(e.message.contains("There is already a TypeAdapter") &&
-          e.message != "Instance has already been initialized.")) {
+      if (!(e.toString().contains("There is already a TypeAdapter") &&
+          e.toString() != "Instance has already been initialized.")) {
         Notify.notifyDebugInfo(e.toString(), sendLog: true, trace: trace);
         throw HiveError(e.toString());
       }
@@ -58,8 +58,8 @@ abstract class Database {
       await (secureStorage.write(
           key: "foregroundTime", value: "1990-01-01", iOptions: options));
     } else {
-      foregroundTime = DateTime.parse(
-          await secureStorage.read(key: "foregroundTime", iOptions: options));
+      foregroundTime = DateTime.parse((await secureStorage.read(
+          key: "foregroundTime", iOptions: options))!);
     }
 
     if ((!await secureStorage.containsKey(
@@ -70,8 +70,8 @@ abstract class Database {
       await (secureStorage.write(
           key: "backgroundTime", value: "1990-01-01", iOptions: options));
     } else {
-      backgroundTime = DateTime.parse(
-          await secureStorage.read(key: "backgroundTime", iOptions: options));
+      backgroundTime = DateTime.parse((await secureStorage.read(
+          key: "backgroundTime", iOptions: options))!);
     }
 
     if (foregroundTime.difference(backgroundTime).inSeconds >= 0) {
@@ -197,13 +197,13 @@ abstract class Database {
     }
   }
 
-  void googleDataLoad() {
+  Future<void> googleDataLoad() async {
     UserData.isSaveGoogleToken = userDataBox.get('isSaveGoogleToken') ?? false;
     UserData.googleFirstLogin = userDataBox.get('googleFirstLogin');
     if (UserData.isSaveGoogleToken) {
       UserData.googleCalendar = userDataBox.get('googleToken');
       UserData.isSaveGoogleToken =
-          UserData.googleCalendar.restoreAutoRefreshingAuthClient();
+          await UserData.googleCalendar.restoreAutoRefreshingAuthClient();
     } else
       UserData.googleCalendar =
           GoogleCalendarToken("", "", DateTime(1990), "", []);
