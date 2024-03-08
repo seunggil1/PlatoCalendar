@@ -102,6 +102,12 @@ class GoogleCalendarToken {
         scopes: <String>[calendar.CalendarApi.calendarScope],
       );
       await googleSignIn.signInSilently();
+      final client = await googleSignIn.authenticatedClient();
+      if (client != null) {
+        this.client = client;
+      } else {
+        logOutGoogleAccount();
+      }
       // token = AccessCredentials(AccessToken(this.type, this.data, this.expiry),
       //     this.refreshToken, this.scopes);
 
@@ -170,6 +176,11 @@ class GoogleCalendarToken {
     this.expiry = DateTime(1990);
     this.refreshToken = "";
     this.scopes = [];
+    final GoogleSignIn googleSignIn = GoogleSignIn(
+      // Google Cloud Console에서 생성한 OAuth 2.0 클라이언트 ID의 스코프를 지정하세요.
+      scopes: <String>[calendar.CalendarApi.calendarScope],
+    );
+    await googleSignIn.signOut();
     await UserData.writeDatabase.googleDataSave();
   }
 
