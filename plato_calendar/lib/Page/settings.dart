@@ -407,7 +407,7 @@ class _Settings extends State<Setting> with TickerProviderStateMixin {
                   //         ),
                   //   ),
                   // ),
-                  Card(child: AdBanner(bannerLocation: 2)),
+                  // Card(child: AdBanner(bannerLocation: 2)),
                 ],
               ),
             )

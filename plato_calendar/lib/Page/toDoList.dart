@@ -326,14 +326,14 @@ class _ToDoList extends State<ToDoList> {
                         (UserData.showToDoList[4] ? toDoListTomorrow : []),
                   ),
                 ),
-          Container(
-              margin: edgeInsetsMiddle,
-              padding:
-                  const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey[350]!, width: 1.5),
-                  borderRadius: BorderRadius.circular(5)),
-              child: AdBanner(bannerLocation: 1)),
+          // Container(
+          //     margin: edgeInsetsMiddle,
+          //     padding:
+          //         const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
+          //     decoration: BoxDecoration(
+          //         border: Border.all(color: Colors.grey[350]!, width: 1.5),
+          //         borderRadius: BorderRadius.circular(5)),
+          //     child: AdBanner(bannerLocation: 1)),
           toDoListWeek.isEmpty
               ? Container()
               : Container(

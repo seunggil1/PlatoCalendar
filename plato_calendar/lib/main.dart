@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:plato_calendar/utility.dart';
 
 import 'Data/appinfo.dart';
@@ -39,14 +39,14 @@ void main() async {
   // HttpOverrides.global = new MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   // Google Admob 세팅을 하지 않았을 경우 주석 처리필요.(광고 기능 비활성화됨.)
-  await MobileAds.instance.initialize();
-  Future.wait([
-    adBanner1.load(),
-    adBanner2.load(),
-    Future.delayed(Duration(seconds: 3))
-  ]).then((value) {
-    pnuStream.sink.add(true);
-  });
+  // await MobileAds.instance.initialize();
+  // Future.wait([
+  //   adBanner1.load(),
+  //   adBanner2.load(),
+  //   Future.delayed(Duration(seconds: 3))
+  // ]).then((value) {
+  //   pnuStream.sink.add(true);
+  // });
 
   await Notify.notificationInit();
   await Database.init();
@@ -136,8 +136,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     UserData.googleCalendar.closeStream();
-    adBanner1.dispose();
-    adBanner2.dispose();
+    // adBanner1.dispose();
+    // adBanner2.dispose();
     super.dispose();
   }
 

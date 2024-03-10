@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.3.2+202304172
+version: 3.3.3+202403100
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -53,7 +53,7 @@ dependencies:
   # open_file: ^3.2.1
   
   # google ad
-  google_mobile_ads: ^4.0.0
+  # google_mobile_ads: ^4.0.0
 
   # google calendar api
   googleapis: 
