@@ -1,9 +1,9 @@
 PODS:
-  - AppAuth (1.6.2):
-    - AppAuth/Core (= 1.6.2)
-    - AppAuth/ExternalUserAgent (= 1.6.2)
-  - AppAuth/Core (1.6.2)
-  - AppAuth/ExternalUserAgent (1.6.2):
+  - AppAuth (1.7.1):
+    - AppAuth/Core (= 1.7.1)
+    - AppAuth/ExternalUserAgent (= 1.7.1)
+  - AppAuth/Core (1.7.1)
+  - AppAuth/ExternalUserAgent (1.7.1):
     - AppAuth/Core
   - connectivity_plus (0.0.1):
     - Flutter
@@ -15,10 +15,10 @@ PODS:
   - Firebase/Messaging (10.22.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 10.22.0)
-  - firebase_core (2.26.0):
+  - firebase_core (2.27.0):
     - Firebase/CoreOnly (= 10.22.0)
     - Flutter
-  - firebase_messaging (14.7.18):
+  - firebase_messaging (14.7.19):
     - Firebase/Messaging (= 10.22.0)
     - firebase_core
     - Flutter
@@ -54,9 +54,9 @@ PODS:
     - Flutter
     - FlutterMacOS
     - GoogleSignIn (~> 7.0)
-  - GoogleDataTransport (9.4.0):
+  - GoogleDataTransport (9.4.1):
     - GoogleUtilities/Environment (~> 7.7)
-    - nanopb (< 2.30910.0, >= 2.30908.0)
+    - nanopb (< 2.30911.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
   - GoogleSignIn (7.0.0):
     - AppAuth (~> 1.5)
@@ -91,11 +91,11 @@ PODS:
     - AppAuth/Core (~> 1.6)
     - GTMSessionFetcher/Core (< 4.0, >= 1.5)
   - GTMSessionFetcher/Core (3.3.1)
-  - nanopb (2.30909.1):
-    - nanopb/decode (= 2.30909.1)
-    - nanopb/encode (= 2.30909.1)
-  - nanopb/decode (2.30909.1)
-  - nanopb/encode (2.30909.1)
+  - nanopb (2.30910.0):
+    - nanopb/decode (= 2.30910.0)
+    - nanopb/encode (= 2.30910.0)
+  - nanopb/decode (2.30910.0)
+  - nanopb/encode (2.30910.0)
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -161,12 +161,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
-  AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
+  AppAuth: e93b919be5dbcbba49555011ce94f7d716368574
   connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
   Firebase: 797fd7297b7e1be954432743a0b3f90038e45a71
-  firebase_core: 8e100adc478919c6f3224f854ce8fa0bd98e36fd
-  firebase_messaging: e41899318940eb03dd3d97f1c04de128019f92d6
+  firebase_core: 100945864b4aedce3cfef0c62ab864858bf013cf
+  firebase_messaging: e65050bf9b187511d80ea3a4de7cf5573d2c7543
   FirebaseCore: 0326ec9b05fbed8f8716cddbf0e36894a13837f7
   FirebaseCoreInternal: bca337352024b18424a61e478460547d46c4c753
   FirebaseInstallations: 763814908793c0da14c18b3dcffdec71e29ed55e
@@ -176,12 +176,12 @@ SPEC CHECKSUMS:
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
   fluttertoast: 31b00dabfa7fb7bacd9e7dbee580d7a2ff4bf265
   google_sign_in_ios: 989eea5abe94af62050782714daf920be883d4a2
-  GoogleDataTransport: bed3a36c04c8552479fbb9b76326e0fc69bddcb2
+  GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
   GoogleSignIn: b232380cf495a429b8095d3178a8d5855b42e842
   GoogleUtilities: d053d902a8edaa9904e1bd00c37535385b8ed152
   GTMAppAuth: 99fb010047ba3973b7026e45393f51f27ab965ae
   GTMSessionFetcher: 8a1b34ad97ebe6f909fb8b9b77fba99943007556
-  nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
+  nanopb: 438bc412db1928dac798aa6fd75726007be04262
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825

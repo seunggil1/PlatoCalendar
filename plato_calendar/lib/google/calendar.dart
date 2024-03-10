@@ -164,7 +164,11 @@ class GoogleCalendarToken {
         Notify.notifyDebugInfo(e.toString(), sendLog: true, trace: trace);
       }
     });
-    await googleSignIn.signIn();
+    try {
+      await googleSignIn.signIn();
+    } catch (e) {
+      print(e);
+    }
 
     return true;
   }
@@ -258,14 +262,15 @@ class GoogleCalendarToken {
 
     try {
       calendar.CalendarApi mycalendar = calendar.CalendarApi(client);
-      List<calendar.Event> searchResult =
+      List<calendar.Event>? searchResult =
           (await mycalendar.events.list("primary", iCalUID: newEvent.iCalUID))
-              .items!;
+              .items;
 
       if (searchResult != null &&
-          searchResult.length >= 1 &&
-          searchResult[0].id != null)
+          searchResult.isNotEmpty &&
+          searchResult[0].id != null) {
         mycalendar.events.delete("primary", searchResult[0].id!);
+      }
 
       delayTime = 1;
       failCount = 0;
