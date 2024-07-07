@@ -1,7 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:plato_calendar/util/bloc_observer.dart';
+import 'package:plato_calendar/view_model/bloc_model.dart';
+import 'package:plato_calendar/util/logger.dart';
+import 'dart:developer';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:plato_calendar/view_model/event/bloc_event.dart';
 
+
+// https://bloclibrary.dev/ko/flutter-bloc-concepts/
 void main() {
+  final logger = LoggerManager.getLogger('main');
+  initBloc();
+  CounterCubit test = CounterCubit(0);
+  CounterBloc test2 = CounterBloc();
+  print(test.state);
+
+
+  final subscription = test2.stream.listen((event) {
+    logger.info(event);
+  });
+
+  test2.add(CounterIncrementPressed());
   runApp(const MyApp());
+  // test.increment();
+  test2.add(CounterDecrementPressed());
+
+  subscription.cancel();
+  test.close();
+
 }
 
 class MyApp extends StatelessWidget {
