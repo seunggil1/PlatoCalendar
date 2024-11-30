@@ -3,6 +3,13 @@ import 'dart:developer' as dart_logger;
 import 'package:logging/logging.dart';
 
 class LoggerManager {
+  // Level.FINEST: 가장 상세한 로그
+  // Level.FINER: 중간 상세 로그
+  // Level.FINE: 디버그 용도로 주로 사용
+  // Level.INFO: 일반적인 정보
+  // Level.WARNING: 경고
+  // Level.SEVERE: 치명적 오류
+
   static bool _init = false;
 
   // Logger 설정 메서드
