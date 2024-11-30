@@ -3,9 +3,9 @@ import 'package:plato_calendar/util/bloc_observer.dart';
 import 'package:plato_calendar/util/logger.dart';
 import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:plato_calendar/view/calendar.dart';
+
 import 'package:plato_calendar/view/view.dart';
-import 'package:plato_calendar/view_model/cubit/bottom_navigation.dart';
+import 'package:plato_calendar/view_model/view_model.dart';
 
 // https://bloclibrary.dev/ko/architecture/
 void main() {
@@ -17,39 +17,43 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  // Provide Cubit.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MainPage(title: 'Flutter Demo Home Page'),
-    );
+    return MultiBlocProvider(providers: [
+      BlocProvider<BottomNavigationCubit>(
+          create: (BuildContext context) => BottomNavigationCubit()),
+      BlocProvider<PlatoThemeCubit>(
+          create: (BuildContext context) => PlatoThemeCubit())
+    ], child: const MaterialThemePage());
   }
 }
 
-class MainPage extends StatefulWidget {
-  const MainPage({super.key, required this.title});
-  final String title;
+class MaterialThemePage extends StatelessWidget {
+  const MaterialThemePage({super.key});
 
-  @override
-  State<MainPage> createState() => MainBlocPage();
-}
-
-class MainBlocPage extends State<MainPage> {
+  // Set theme.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => BottomNavigationCubit(),
-      child: _MainBlocPage(),
-    );
+    return BlocBuilder<PlatoThemeCubit, PlatoTheme>(builder: (context, state) {
+      return MaterialApp(
+          theme: ThemeData(
+              brightness: Brightness.light,
+              colorScheme: ColorScheme.fromSwatch(
+                  primarySwatch: Colors.blue, brightness: Brightness.light)),
+          darkTheme: ThemeData(
+              brightness: Brightness.dark,
+              colorScheme: ColorScheme.fromSwatch(
+                  primarySwatch: Colors.blueGrey, brightness: Brightness.dark)),
+          themeMode: state.platoTheme,
+          home: const MainBlocPage());
+    });
   }
 }
 
-class _MainBlocPage extends StatelessWidget {
+class MainBlocPage extends StatelessWidget {
+  const MainBlocPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final SelectedTab selectedTab =
@@ -57,7 +61,7 @@ class _MainBlocPage extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          backgroundColor: Theme.of(context).colorScheme.primary,
           title: const Text('Test'),
         ),
         body: IndexedStack(
