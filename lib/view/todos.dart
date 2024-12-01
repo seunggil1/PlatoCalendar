@@ -10,13 +10,11 @@ class TodoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final platoThemeCubit = context.read<PlatoThemeCubit>();
 
-    return Container(
-      child: Row(
-        children: [
-          TextButton(onPressed: platoThemeCubit.setLightTheme, child: const Text('set light')),
-          TextButton(onPressed: platoThemeCubit.setDarkTheme, child: const Text('set dark'))
-        ],
-      )
+    return Row(
+      children: [
+        TextButton(onPressed: platoThemeCubit.setLightTheme, child: const Text('set light')),
+        TextButton(onPressed: platoThemeCubit.setDarkTheme, child: const Text('set dark'))
+      ],
     );
     // return BlocProvider(
   }

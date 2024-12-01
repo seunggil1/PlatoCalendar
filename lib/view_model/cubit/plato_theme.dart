@@ -18,4 +18,5 @@ class PlatoThemeCubit extends Cubit<PlatoTheme> {
 
   void setLightTheme() => emit(const PlatoTheme(platoTheme: ThemeMode.light));
   void setDarkTheme() => emit(const PlatoTheme(platoTheme: ThemeMode.dark));
+  void setSystemTheme() => emit(const PlatoTheme(platoTheme: ThemeMode.system));
 }
