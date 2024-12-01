@@ -13,29 +13,26 @@ dependencies:
     sdk: flutter
 
   icalendar_parser: ^2.1.0
-  syncfusion_flutter_calendar: ^26.1.41   # calendar
+  syncfusion_flutter_calendar: ^27.2.4   # calendar
 
 
   flutter_bloc: ^8.1.6  # bloc 디자인 패턴 적용
   logging: ^1.2.0       # logging 라이브러리
 
   equatable: ^2.0.0
-  
-  
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+
   cupertino_icons: ^1.0.6
+  isar: ^3.1.0+1
+  isar_flutter_libs: ^3.1.0+1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
-  flutter_lints: ^3.0.0
+  flutter_lints: ^5.0.0
+
+  isar_generator: ^3.1.0+1
+  build_runner: ^2.4.13
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
