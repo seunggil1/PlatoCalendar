@@ -45,5 +45,10 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSDocumentsDirectoryUsageDescription</key>
+    <string>Documents directory access is required</string>
+    <key>NSDownloadsDirectoryUsageDescription</key>
+    <string>Downloads directory access is required</string>
+
 </dict>
 </plist>
