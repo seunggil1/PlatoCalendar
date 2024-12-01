@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:plato_calendar/repository/appointment_db.dart';
+import 'package:plato_calendar/model_repository/model_repository.dart';
 import 'package:plato_calendar/model/appointment.dart';
 
 void main() {

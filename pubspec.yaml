@@ -15,17 +15,21 @@ dependencies:
   icalendar_parser: ^2.1.0
   syncfusion_flutter_calendar: ^27.2.4   # calendar
 
-
   flutter_bloc: ^8.1.6  # bloc 디자인 패턴 적용
-  logging: ^1.2.0       # logging 라이브러리
-
-  equatable: ^2.0.0
+  path_provider: ^2.1.5
 
   cupertino_icons: ^1.0.6
+
+  encrypt: ^5.0.3       # 암호화 라이브러리
+  flutter_secure_storage: ^9.2.2 # 암호화 키 저장소
+  equatable: ^2.0.0
+
   isar: ^3.1.0+1
   isar_flutter_libs: ^3.1.0+1
 
-  path_provider: ^2.1.5
+  dio: ^5.7.0
+
+  logging: ^1.2.0       # logging 라이브러리
 
 dev_dependencies:
   flutter_test:

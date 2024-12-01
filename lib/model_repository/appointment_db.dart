@@ -1,41 +1,31 @@
 import 'package:isar/isar.dart';
-import 'package:path_provider/path_provider.dart';
 
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/util/logger.dart';
+
+import 'package:plato_calendar/model_repository/_isar_interface.dart';
 
 class AppointmentDB {
   static Isar? _isar;
   static final logger = LoggerManager.getLogger('AppointmentDBRepository');
 
   static Future<Isar> _initIsar() async {
-    try {
-      logger.fine('_initIsar() called');
-
-      final dir = await getApplicationDocumentsDirectory();
-      logger.fine('Database directory: ${dir.path}');
-      Isar dbInstance = await Isar.open(
-        [AppointmentSchema],
-        directory: dir.path,
-      );
-
-      _isar = dbInstance;
-
-      logger.fine('Isar is initialized');
-
-      return dbInstance;
-    } catch (e, stackTrace) {
-      logger.severe('Failed to initialize Isar: $e', stackTrace);
-      rethrow;
-    }
+    Isar dbInstance = await IsarInterface().initIsar(AppointmentSchema);
+    _isar = dbInstance;
+    return dbInstance;
   }
 
   static Future<void> closeIsar() async {
-    if (_isar?.isOpen ?? false) {
-      await _isar?.close();
-      logger.fine('Isar is closed');
-    } else {
-      logger.warning('Isar is already closed');
+    try {
+      if (_isar?.isOpen ?? false) {
+        await _isar?.close();
+        logger.fine('Isar is closed');
+      } else {
+        logger.warning('Isar is already closed');
+      }
+    } catch (e, stackTrace) {
+      logger.severe('Failed to close Isar: $e', stackTrace);
+      rethrow;
     }
   }
 
