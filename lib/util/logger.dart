@@ -1,6 +1,7 @@
 import 'dart:developer' as dart_logger;
 
 import 'package:logging/logging.dart';
+export 'package:logging/logging.dart';
 
 class LoggerManager {
   // Level.FINEST: 가장 상세한 로그
@@ -14,7 +15,7 @@ class LoggerManager {
 
   // Logger 설정 메서드
   static void _setupLogging() {
-    Logger.root.level = Level.ALL;
+    Logger.root.level = Level.INFO;
     Logger.root.onRecord.listen((record) {
       dart_logger.log('${record.level.name}: ${record.time}: "${record.loggerName}" - "${record.message}"');
     });
