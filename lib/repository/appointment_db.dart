@@ -59,7 +59,7 @@ class AppointmentDB {
       Isar db = _isar ?? await _initIsar();
       final result = await db.appointments.get(id);
 
-      logger.fine('Read appointment by id: ${result?.uuid}');
+      logger.fine('Read appointment by id: ${result?.uid}');
       return result!;
     } catch (e, stackTrace) {
       logger.severe('Failed to getAppointmentById: $e', stackTrace);

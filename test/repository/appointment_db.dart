@@ -28,7 +28,7 @@ void main() {
       );
 
       testAppointment = Appointment()
-        ..uuid = 'test'
+        ..uid = 'test'
         ..title = 'test'
         ..body = 'test'
         ..comment = 'test_comment'
@@ -54,7 +54,7 @@ void main() {
       final readData = await AppointmentDB.getAppointmentById(data.id);
 
       // 검증
-      expect(data.uuid, readData.uuid);
+      expect(data.uid, readData.uid);
       expect(data.title, readData.title);
       expect(data.body, readData.body);
       expect(data.comment, readData.comment);

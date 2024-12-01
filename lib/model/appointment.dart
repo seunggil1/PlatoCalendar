@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:isar/isar.dart';
 
 part 'appointment.g.dart';
@@ -11,20 +10,24 @@ enum DataType { school, etc }
 class Appointment {
   Id id = Isar.autoIncrement;
 
-  String? uuid;
+  @Index(unique: true, replace: true)
+  late String uid;
 
-  String? title;
-  String? body;
-  String? comment;
-  String? subjectCode;
+  late String title;
+  String body = '';
+  String comment = '';
 
-  DateTime? start;
-  DateTime? end;
+  @Index()
+  late String subjectCode;
+
+  late DateTime start;
+  late DateTime end;
 
   DateTime createdAt = DateTime.now();
   DateTime? deletedAt;
 
   @Enumerated(EnumType.name)
+  @Index()
   Status status = Status.enable;
 
   @Enumerated(EnumType.name)
@@ -47,7 +50,7 @@ class Appointment {
   }) {
     return Appointment()
       ..id = Isar.autoIncrement
-      ..uuid = uuid ?? this.uuid
+      ..uid = uuid ?? this.uid
       ..title = title ?? this.title
       ..body = body ?? this.body
       ..comment = comment ?? this.comment
@@ -61,18 +64,18 @@ class Appointment {
   }
 
   @override
-  int get hashCode => Object.hash(uuid, null);
+  int get hashCode => Object.hash(uid, null);
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other.runtimeType != runtimeType) return false;
 
-    return other is Appointment && other.uuid == uuid;
+    return other is Appointment && other.uid == uid;
   }
 
   @override
   String toString() {
-    return 'Appointment{uid: $id, uuid: $uuid, title: $title, body: $body, comment: $comment, subjectCode: $subjectCode, start: $start, end: $end, createdAt: $createdAt, deletedAt: $deletedAt, status: $status, dataType: $dataType}';
+    return 'Appointment{uid: $id, uid: $uid, title: $title, body: $body, comment: $comment, subjectCode: $subjectCode, start: $start, end: $end, createdAt: $createdAt, deletedAt: $deletedAt, status: $status, dataType: $dataType}';
   }
 }
