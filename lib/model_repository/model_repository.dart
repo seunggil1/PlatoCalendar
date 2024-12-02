@@ -1,4 +1,4 @@
-library repository;
+library;
 
 export './todos.dart';
 export './plato_credential_db.dart';

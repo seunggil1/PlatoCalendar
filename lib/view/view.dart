@@ -1,4 +1,4 @@
-library view;
+library;
 
 export './calendar.dart';
 export './todos.dart';

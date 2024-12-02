@@ -1,4 +1,4 @@
-library view_model;
+library;
 
 export './bloc/bloc.dart';
 export './cubit/cubit.dart';

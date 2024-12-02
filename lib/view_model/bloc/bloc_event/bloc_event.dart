@@ -1,3 +1,3 @@
-library bloc_event;
+library;
 
 // export 'counter_event.dart';
