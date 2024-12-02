@@ -36,7 +36,7 @@ class Appointment {
   /// CopyWith method
   Appointment copyWith({
     Id? id,
-    String? uuid,
+    String? uid,
     String? title,
     String? body,
     String? comment,
@@ -50,7 +50,7 @@ class Appointment {
   }) {
     return Appointment()
       ..id = Isar.autoIncrement
-      ..uid = uuid ?? this.uid
+      ..uid = uid ?? this.uid
       ..title = title ?? this.title
       ..body = body ?? this.body
       ..comment = comment ?? this.comment
