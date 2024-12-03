@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
 
   icalendar_parser: ^2.1.0
-  syncfusion_flutter_calendar: ^27.2.4   # calendar
+  syncfusion_flutter_calendar: ^27.2.5   # calendar
 
   flutter_bloc: ^8.1.6  # bloc 디자인 패턴 적용
   path_provider: ^2.1.5
