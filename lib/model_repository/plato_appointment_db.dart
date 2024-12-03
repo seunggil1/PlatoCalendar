@@ -3,7 +3,7 @@ import 'package:isar/isar.dart';
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/util/logger.dart';
 
-import 'package:plato_calendar/model_repository/_isar_interface.dart';
+import './_isar_interface.dart';
 
 class PlatoAppointmentDB {
   static Isar? _isar;

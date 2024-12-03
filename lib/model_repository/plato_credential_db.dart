@@ -1,14 +1,14 @@
 import 'package:isar/isar.dart';
-
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/util/logger.dart';
+import 'package:plato_calendar/service/service.dart';
 
-import 'package:plato_calendar/model_repository/_isar_interface.dart';
-import 'package:plato_calendar/model_repository/encrypt_db.dart';
+import './_isar_interface.dart';
 
 class PlatoCredentialDB {
   static Isar? _isar;
-  static final logger = LoggerManager.getLogger('PlatoCredentialDB');
+  static final logger =
+      LoggerManager.getLogger('model repository - PlatoCredentialDB');
 
   static Future<Isar> _initIsar() async {
     Isar dbInstance = await IsarInterface().initIsar(PlatoCredentialSchema);
@@ -19,7 +19,8 @@ class PlatoCredentialDB {
   static Future<void> write(PlatoCredential data) async {
     Isar db = _isar ?? await _initIsar();
 
-    String encryptedPassword = await EncryptDB.encryptPassword(data.password);
+    String encryptedPassword =
+        await PasswordEncryptors.encryptPassword(data.password);
     PlatoCredential encryptedData = PlatoCredential()
       ..username = data.username
       ..password = encryptedPassword;
@@ -42,7 +43,8 @@ class PlatoCredentialDB {
       final queryResult = await db.platoCredentials.where().findAll();
       PlatoCredential data = queryResult.first;
 
-      String plainPassword = await EncryptDB.decryptPassword(data.password);
+      String plainPassword =
+          await PasswordEncryptors.decryptPassword(data.password);
 
       PlatoCredential result = PlatoCredential()
         ..username = data.username
