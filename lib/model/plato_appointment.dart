@@ -1,7 +1,10 @@
 import 'package:isar/isar.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart'
+    as syncfusion_calendar;
 
 import 'package:plato_calendar/util/logger.dart';
 import 'package:plato_calendar/etc/school_data.dart' as school_data;
+import 'package:plato_calendar/etc/calendar_color.dart';
 
 part 'plato_appointment.g.dart';
 
@@ -49,7 +52,7 @@ class PlatoAppointment {
   // Constructor
   PlatoAppointment();
 
-  PlatoAppointment.byMap(Map<String, dynamic> data) {
+  PlatoAppointment.byIcsMap(Map<String, dynamic> data) {
     try {
       uid = data['uid'];
       title = data['summary'];
@@ -87,9 +90,12 @@ class PlatoAppointment {
         subjectCode = classInfo[0];
       }
 
-      if (end.hour == 0 && end.minute == 0) {
-        if (start == end) start = start.subtract(Duration(minutes: 1));
-        end = end.subtract(Duration(minutes: 1));
+      // 0분인 경우 1분 빼기, 00시 마감일 때, 전날 23시 59분로 변경하는 역할을 한다.
+      if (end.minute == 0) {
+        if (start == end) {
+          start = start.subtract(const Duration(minutes: 1));
+        }
+        end = end.subtract(const Duration(minutes: 1));
       }
     } catch (e, stacktrace) {
       logger.severe('Failed to create PlatoAppointment.byMap: $e', stacktrace);
@@ -129,6 +135,16 @@ class PlatoAppointment {
       ..deletedAt = deletedAt ?? this.deletedAt
       ..status = status ?? this.status
       ..dataType = dataType ?? this.dataType;
+  }
+
+  syncfusion_calendar.Appointment toAppointment() {
+    return syncfusion_calendar.Appointment(
+        startTime: start == end ? start : end,
+        endTime: end,
+        subject: title,
+        notes: body,
+        color: calendarColor[color],
+        resourceIds: <int>[hashCode]);
   }
 
   @override
