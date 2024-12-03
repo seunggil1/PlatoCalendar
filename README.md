@@ -1,16 +1,14 @@
-# platocalendar
+# <img src = "https://user-images.githubusercontent.com/38664481/115961026-9114f000-a54f-11eb-90c0-aab964dd9202.png" width="3%">Plato Calendar
+부산대학교 온라인 교육 플랫폼 Plato에와 호환되는 달력으로
+개인별로 Plato에 등록된 과제와 수업 정보를 표시해주는 달력입니다.
 
-A new Flutter project.
+부산대학교 공식 앱이 아닌 개인이 제작한 앱으로 오류가 있을 수도 있습니다.
+
+## Features
+- 달력 기능 제공
+- To do List 기능 제공
+- google calendar 자동동기화 (optional)
+
 
 ## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Flutter 3.24.5 이상
