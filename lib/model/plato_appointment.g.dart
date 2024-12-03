@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'appointment.dart';
+part of 'plato_appointment.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -9,81 +9,96 @@ part of 'appointment.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-extension GetAppointmentCollection on Isar {
-  IsarCollection<Appointment> get appointments => this.collection();
+extension GetPlatoAppointmentCollection on Isar {
+  IsarCollection<PlatoAppointment> get platoAppointments => this.collection();
 }
 
-const AppointmentSchema = CollectionSchema(
-  name: r'Appointment',
-  id: 2680450406379222733,
+const PlatoAppointmentSchema = CollectionSchema(
+  name: r'PlatoAppointment',
+  id: 4985738374315941308,
   properties: {
     r'body': PropertySchema(
       id: 0,
       name: r'body',
       type: IsarType.string,
     ),
-    r'comment': PropertySchema(
+    r'color': PropertySchema(
       id: 1,
+      name: r'color',
+      type: IsarType.long,
+    ),
+    r'comment': PropertySchema(
+      id: 2,
       name: r'comment',
       type: IsarType.string,
     ),
     r'createdAt': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'createdAt',
       type: IsarType.dateTime,
     ),
     r'dataType': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'dataType',
       type: IsarType.string,
-      enumMap: _AppointmentdataTypeEnumValueMap,
+      enumMap: _PlatoAppointmentdataTypeEnumValueMap,
     ),
     r'deletedAt': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'deletedAt',
       type: IsarType.dateTime,
     ),
     r'end': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'end',
       type: IsarType.dateTime,
     ),
     r'hashCode': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'hashCode',
       type: IsarType.long,
     ),
+    r'semester': PropertySchema(
+      id: 8,
+      name: r'semester',
+      type: IsarType.string,
+    ),
     r'start': PropertySchema(
-      id: 7,
+      id: 9,
       name: r'start',
       type: IsarType.dateTime,
     ),
     r'status': PropertySchema(
-      id: 8,
+      id: 10,
       name: r'status',
       type: IsarType.string,
-      enumMap: _AppointmentstatusEnumValueMap,
+      enumMap: _PlatoAppointmentstatusEnumValueMap,
     ),
     r'subjectCode': PropertySchema(
-      id: 9,
+      id: 11,
       name: r'subjectCode',
       type: IsarType.string,
     ),
     r'title': PropertySchema(
-      id: 10,
+      id: 12,
       name: r'title',
       type: IsarType.string,
     ),
     r'uid': PropertySchema(
-      id: 11,
+      id: 13,
       name: r'uid',
+      type: IsarType.string,
+    ),
+    r'year': PropertySchema(
+      id: 14,
+      name: r'year',
       type: IsarType.string,
     )
   },
-  estimateSize: _appointmentEstimateSize,
-  serialize: _appointmentSerialize,
-  deserialize: _appointmentDeserialize,
-  deserializeProp: _appointmentDeserializeProp,
+  estimateSize: _platoAppointmentEstimateSize,
+  serialize: _platoAppointmentSerialize,
+  deserialize: _platoAppointmentDeserialize,
+  deserializeProp: _platoAppointmentDeserializeProp,
   idName: r'id',
   indexes: {
     r'uid': IndexSchema(
@@ -112,6 +127,32 @@ const AppointmentSchema = CollectionSchema(
         )
       ],
     ),
+    r'year': IndexSchema(
+      id: -875522826430421864,
+      name: r'year',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'year',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
+    ),
+    r'semester': IndexSchema(
+      id: 2655078537473598341,
+      name: r'semester',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'semester',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
+    ),
     r'status': IndexSchema(
       id: -107785170620420283,
       name: r'status',
@@ -128,14 +169,14 @@ const AppointmentSchema = CollectionSchema(
   },
   links: {},
   embeddedSchemas: {},
-  getId: _appointmentGetId,
-  getLinks: _appointmentGetLinks,
-  attach: _appointmentAttach,
+  getId: _platoAppointmentGetId,
+  getLinks: _platoAppointmentGetLinks,
+  attach: _platoAppointmentAttach,
   version: '3.1.0+1',
 );
 
-int _appointmentEstimateSize(
-  Appointment object,
+int _platoAppointmentEstimateSize(
+  PlatoAppointment object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -143,60 +184,68 @@ int _appointmentEstimateSize(
   bytesCount += 3 + object.body.length * 3;
   bytesCount += 3 + object.comment.length * 3;
   bytesCount += 3 + object.dataType.name.length * 3;
+  bytesCount += 3 + object.semester.length * 3;
   bytesCount += 3 + object.status.name.length * 3;
   bytesCount += 3 + object.subjectCode.length * 3;
   bytesCount += 3 + object.title.length * 3;
   bytesCount += 3 + object.uid.length * 3;
+  bytesCount += 3 + object.year.length * 3;
   return bytesCount;
 }
 
-void _appointmentSerialize(
-  Appointment object,
+void _platoAppointmentSerialize(
+  PlatoAppointment object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.body);
-  writer.writeString(offsets[1], object.comment);
-  writer.writeDateTime(offsets[2], object.createdAt);
-  writer.writeString(offsets[3], object.dataType.name);
-  writer.writeDateTime(offsets[4], object.deletedAt);
-  writer.writeDateTime(offsets[5], object.end);
-  writer.writeLong(offsets[6], object.hashCode);
-  writer.writeDateTime(offsets[7], object.start);
-  writer.writeString(offsets[8], object.status.name);
-  writer.writeString(offsets[9], object.subjectCode);
-  writer.writeString(offsets[10], object.title);
-  writer.writeString(offsets[11], object.uid);
+  writer.writeLong(offsets[1], object.color);
+  writer.writeString(offsets[2], object.comment);
+  writer.writeDateTime(offsets[3], object.createdAt);
+  writer.writeString(offsets[4], object.dataType.name);
+  writer.writeDateTime(offsets[5], object.deletedAt);
+  writer.writeDateTime(offsets[6], object.end);
+  writer.writeLong(offsets[7], object.hashCode);
+  writer.writeString(offsets[8], object.semester);
+  writer.writeDateTime(offsets[9], object.start);
+  writer.writeString(offsets[10], object.status.name);
+  writer.writeString(offsets[11], object.subjectCode);
+  writer.writeString(offsets[12], object.title);
+  writer.writeString(offsets[13], object.uid);
+  writer.writeString(offsets[14], object.year);
 }
 
-Appointment _appointmentDeserialize(
+PlatoAppointment _platoAppointmentDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = Appointment();
+  final object = PlatoAppointment();
   object.body = reader.readString(offsets[0]);
-  object.comment = reader.readString(offsets[1]);
-  object.createdAt = reader.readDateTime(offsets[2]);
-  object.dataType =
-      _AppointmentdataTypeValueEnumMap[reader.readStringOrNull(offsets[3])] ??
-          DataType.school;
-  object.deletedAt = reader.readDateTimeOrNull(offsets[4]);
-  object.end = reader.readDateTime(offsets[5]);
+  object.color = reader.readLong(offsets[1]);
+  object.comment = reader.readString(offsets[2]);
+  object.createdAt = reader.readDateTime(offsets[3]);
+  object.dataType = _PlatoAppointmentdataTypeValueEnumMap[
+          reader.readStringOrNull(offsets[4])] ??
+      DataType.school;
+  object.deletedAt = reader.readDateTimeOrNull(offsets[5]);
+  object.end = reader.readDateTime(offsets[6]);
   object.id = id;
-  object.start = reader.readDateTime(offsets[7]);
-  object.status =
-      _AppointmentstatusValueEnumMap[reader.readStringOrNull(offsets[8])] ??
-          Status.enable;
-  object.subjectCode = reader.readString(offsets[9]);
-  object.title = reader.readString(offsets[10]);
-  object.uid = reader.readString(offsets[11]);
+  object.semester = reader.readString(offsets[8]);
+  object.start = reader.readDateTime(offsets[9]);
+  object.status = _PlatoAppointmentstatusValueEnumMap[
+          reader.readStringOrNull(offsets[10])] ??
+      Status.enable;
+  object.subjectCode = reader.readString(offsets[11]);
+  object.title = reader.readString(offsets[12]);
+  object.uid = reader.readString(offsets[13]);
+  object.year = reader.readString(offsets[14]);
   return object;
 }
 
-P _appointmentDeserializeProp<P>(
+P _platoAppointmentDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -206,71 +255,78 @@ P _appointmentDeserializeProp<P>(
     case 0:
       return (reader.readString(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 2:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 3:
-      return (_AppointmentdataTypeValueEnumMap[
+      return (reader.readDateTime(offset)) as P;
+    case 4:
+      return (_PlatoAppointmentdataTypeValueEnumMap[
               reader.readStringOrNull(offset)] ??
           DataType.school) as P;
-    case 4:
-      return (reader.readDateTimeOrNull(offset)) as P;
     case 5:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 6:
-      return (reader.readLong(offset)) as P;
-    case 7:
       return (reader.readDateTime(offset)) as P;
+    case 7:
+      return (reader.readLong(offset)) as P;
     case 8:
-      return (_AppointmentstatusValueEnumMap[reader.readStringOrNull(offset)] ??
-          Status.enable) as P;
+      return (reader.readString(offset)) as P;
     case 9:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 10:
-      return (reader.readString(offset)) as P;
+      return (_PlatoAppointmentstatusValueEnumMap[
+              reader.readStringOrNull(offset)] ??
+          Status.enable) as P;
     case 11:
+      return (reader.readString(offset)) as P;
+    case 12:
+      return (reader.readString(offset)) as P;
+    case 13:
+      return (reader.readString(offset)) as P;
+    case 14:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
-const _AppointmentdataTypeEnumValueMap = {
+const _PlatoAppointmentdataTypeEnumValueMap = {
   r'school': r'school',
   r'etc': r'etc',
 };
-const _AppointmentdataTypeValueEnumMap = {
+const _PlatoAppointmentdataTypeValueEnumMap = {
   r'school': DataType.school,
   r'etc': DataType.etc,
 };
-const _AppointmentstatusEnumValueMap = {
+const _PlatoAppointmentstatusEnumValueMap = {
   r'enable': r'enable',
   r'disable': r'disable',
 };
-const _AppointmentstatusValueEnumMap = {
+const _PlatoAppointmentstatusValueEnumMap = {
   r'enable': Status.enable,
   r'disable': Status.disable,
 };
 
-Id _appointmentGetId(Appointment object) {
+Id _platoAppointmentGetId(PlatoAppointment object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _appointmentGetLinks(Appointment object) {
+List<IsarLinkBase<dynamic>> _platoAppointmentGetLinks(PlatoAppointment object) {
   return [];
 }
 
-void _appointmentAttach(
-    IsarCollection<dynamic> col, Id id, Appointment object) {
+void _platoAppointmentAttach(
+    IsarCollection<dynamic> col, Id id, PlatoAppointment object) {
   object.id = id;
 }
 
-extension AppointmentByIndex on IsarCollection<Appointment> {
-  Future<Appointment?> getByUid(String uid) {
+extension PlatoAppointmentByIndex on IsarCollection<PlatoAppointment> {
+  Future<PlatoAppointment?> getByUid(String uid) {
     return getByIndex(r'uid', [uid]);
   }
 
-  Appointment? getByUidSync(String uid) {
+  PlatoAppointment? getByUidSync(String uid) {
     return getByIndexSync(r'uid', [uid]);
   }
 
@@ -282,12 +338,12 @@ extension AppointmentByIndex on IsarCollection<Appointment> {
     return deleteByIndexSync(r'uid', [uid]);
   }
 
-  Future<List<Appointment?>> getAllByUid(List<String> uidValues) {
+  Future<List<PlatoAppointment?>> getAllByUid(List<String> uidValues) {
     final values = uidValues.map((e) => [e]).toList();
     return getAllByIndex(r'uid', values);
   }
 
-  List<Appointment?> getAllByUidSync(List<String> uidValues) {
+  List<PlatoAppointment?> getAllByUidSync(List<String> uidValues) {
     final values = uidValues.map((e) => [e]).toList();
     return getAllByIndexSync(r'uid', values);
   }
@@ -302,35 +358,37 @@ extension AppointmentByIndex on IsarCollection<Appointment> {
     return deleteAllByIndexSync(r'uid', values);
   }
 
-  Future<Id> putByUid(Appointment object) {
+  Future<Id> putByUid(PlatoAppointment object) {
     return putByIndex(r'uid', object);
   }
 
-  Id putByUidSync(Appointment object, {bool saveLinks = true}) {
+  Id putByUidSync(PlatoAppointment object, {bool saveLinks = true}) {
     return putByIndexSync(r'uid', object, saveLinks: saveLinks);
   }
 
-  Future<List<Id>> putAllByUid(List<Appointment> objects) {
+  Future<List<Id>> putAllByUid(List<PlatoAppointment> objects) {
     return putAllByIndex(r'uid', objects);
   }
 
-  List<Id> putAllByUidSync(List<Appointment> objects, {bool saveLinks = true}) {
+  List<Id> putAllByUidSync(List<PlatoAppointment> objects,
+      {bool saveLinks = true}) {
     return putAllByIndexSync(r'uid', objects, saveLinks: saveLinks);
   }
 }
 
-extension AppointmentQueryWhereSort
-    on QueryBuilder<Appointment, Appointment, QWhere> {
-  QueryBuilder<Appointment, Appointment, QAfterWhere> anyId() {
+extension PlatoAppointmentQueryWhereSort
+    on QueryBuilder<PlatoAppointment, PlatoAppointment, QWhere> {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension AppointmentQueryWhere
-    on QueryBuilder<Appointment, Appointment, QWhereClause> {
-  QueryBuilder<Appointment, Appointment, QAfterWhereClause> idEqualTo(Id id) {
+extension PlatoAppointmentQueryWhere
+    on QueryBuilder<PlatoAppointment, PlatoAppointment, QWhereClause> {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterWhereClause> idEqualTo(
+      Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -339,8 +397,8 @@ extension AppointmentQueryWhere
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterWhereClause> idNotEqualTo(
-      Id id) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterWhereClause>
+      idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -362,8 +420,8 @@ extension AppointmentQueryWhere
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterWhereClause> idGreaterThan(Id id,
-      {bool include = false}) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterWhereClause>
+      idGreaterThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -371,8 +429,8 @@ extension AppointmentQueryWhere
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterWhereClause> idLessThan(Id id,
-      {bool include = false}) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterWhereClause>
+      idLessThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: id, includeUpper: include),
@@ -380,7 +438,7 @@ extension AppointmentQueryWhere
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterWhereClause> idBetween(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -396,8 +454,8 @@ extension AppointmentQueryWhere
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterWhereClause> uidEqualTo(
-      String uid) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterWhereClause>
+      uidEqualTo(String uid) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'uid',
@@ -406,8 +464,8 @@ extension AppointmentQueryWhere
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterWhereClause> uidNotEqualTo(
-      String uid) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterWhereClause>
+      uidNotEqualTo(String uid) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -441,8 +499,8 @@ extension AppointmentQueryWhere
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterWhereClause> subjectCodeEqualTo(
-      String subjectCode) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterWhereClause>
+      subjectCodeEqualTo(String subjectCode) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'subjectCode',
@@ -451,7 +509,7 @@ extension AppointmentQueryWhere
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterWhereClause>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterWhereClause>
       subjectCodeNotEqualTo(String subjectCode) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -486,8 +544,98 @@ extension AppointmentQueryWhere
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterWhereClause> statusEqualTo(
-      Status status) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterWhereClause>
+      yearEqualTo(String year) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'year',
+        value: [year],
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterWhereClause>
+      yearNotEqualTo(String year) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'year',
+              lower: [],
+              upper: [year],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'year',
+              lower: [year],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'year',
+              lower: [year],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'year',
+              lower: [],
+              upper: [year],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterWhereClause>
+      semesterEqualTo(String semester) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'semester',
+        value: [semester],
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterWhereClause>
+      semesterNotEqualTo(String semester) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'semester',
+              lower: [],
+              upper: [semester],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'semester',
+              lower: [semester],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'semester',
+              lower: [semester],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'semester',
+              lower: [],
+              upper: [semester],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterWhereClause>
+      statusEqualTo(Status status) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'status',
@@ -496,8 +644,8 @@ extension AppointmentQueryWhere
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterWhereClause> statusNotEqualTo(
-      Status status) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterWhereClause>
+      statusNotEqualTo(Status status) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -532,9 +680,10 @@ extension AppointmentQueryWhere
   }
 }
 
-extension AppointmentQueryFilter
-    on QueryBuilder<Appointment, Appointment, QFilterCondition> {
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> bodyEqualTo(
+extension PlatoAppointmentQueryFilter
+    on QueryBuilder<PlatoAppointment, PlatoAppointment, QFilterCondition> {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      bodyEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -547,7 +696,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> bodyGreaterThan(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      bodyGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -562,7 +712,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> bodyLessThan(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      bodyLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -577,7 +728,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> bodyBetween(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      bodyBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -596,7 +748,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> bodyStartsWith(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      bodyStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -609,7 +762,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> bodyEndsWith(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      bodyEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -622,9 +776,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> bodyContains(
-      String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      bodyContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'body',
@@ -634,9 +787,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> bodyMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      bodyMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'body',
@@ -646,7 +798,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> bodyIsEmpty() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      bodyIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'body',
@@ -655,7 +808,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       bodyIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -665,7 +818,64 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> commentEqualTo(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      colorEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'color',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      colorGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'color',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      colorLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'color',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      colorBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'color',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      commentEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -678,7 +888,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       commentGreaterThan(
     String value, {
     bool include = false,
@@ -694,7 +904,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> commentLessThan(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      commentLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -709,7 +920,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> commentBetween(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      commentBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -728,7 +940,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       commentStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -742,7 +954,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> commentEndsWith(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      commentEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -755,9 +968,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> commentContains(
-      String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      commentContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'comment',
@@ -767,9 +979,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> commentMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      commentMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'comment',
@@ -779,7 +990,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       commentIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -789,7 +1000,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       commentIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -799,7 +1010,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       createdAtEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -809,7 +1020,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       createdAtGreaterThan(
     DateTime value, {
     bool include = false,
@@ -823,7 +1034,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       createdAtLessThan(
     DateTime value, {
     bool include = false,
@@ -837,7 +1048,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       createdAtBetween(
     DateTime lower,
     DateTime upper, {
@@ -855,7 +1066,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> dataTypeEqualTo(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      dataTypeEqualTo(
     DataType value, {
     bool caseSensitive = true,
   }) {
@@ -868,7 +1080,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       dataTypeGreaterThan(
     DataType value, {
     bool include = false,
@@ -884,7 +1096,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       dataTypeLessThan(
     DataType value, {
     bool include = false,
@@ -900,7 +1112,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> dataTypeBetween(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      dataTypeBetween(
     DataType lower,
     DataType upper, {
     bool includeLower = true,
@@ -919,7 +1132,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       dataTypeStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -933,7 +1146,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       dataTypeEndsWith(
     String value, {
     bool caseSensitive = true,
@@ -947,7 +1160,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       dataTypeContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
@@ -958,9 +1171,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> dataTypeMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      dataTypeMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'dataType',
@@ -970,7 +1182,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       dataTypeIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -980,7 +1192,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       dataTypeIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -990,7 +1202,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       deletedAtIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -999,7 +1211,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       deletedAtIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -1008,7 +1220,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       deletedAtEqualTo(DateTime? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1018,7 +1230,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       deletedAtGreaterThan(
     DateTime? value, {
     bool include = false,
@@ -1032,7 +1244,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       deletedAtLessThan(
     DateTime? value, {
     bool include = false,
@@ -1046,7 +1258,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       deletedAtBetween(
     DateTime? lower,
     DateTime? upper, {
@@ -1064,8 +1276,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> endEqualTo(
-      DateTime value) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      endEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'end',
@@ -1074,7 +1286,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> endGreaterThan(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      endGreaterThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -1087,7 +1300,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> endLessThan(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      endLessThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -1100,7 +1314,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> endBetween(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      endBetween(
     DateTime lower,
     DateTime upper, {
     bool includeLower = true,
@@ -1117,8 +1332,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> hashCodeEqualTo(
-      int value) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      hashCodeEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'hashCode',
@@ -1127,7 +1342,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       hashCodeGreaterThan(
     int value, {
     bool include = false,
@@ -1141,7 +1356,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       hashCodeLessThan(
     int value, {
     bool include = false,
@@ -1155,7 +1370,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> hashCodeBetween(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      hashCodeBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -1172,8 +1388,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> idEqualTo(
-      Id value) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -1182,7 +1398,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -1195,7 +1412,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> idLessThan(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -1208,7 +1426,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> idBetween(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -1225,8 +1444,144 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> startEqualTo(
-      DateTime value) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      semesterEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'semester',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      semesterGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'semester',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      semesterLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'semester',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      semesterBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'semester',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      semesterStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'semester',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      semesterEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'semester',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      semesterContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'semester',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      semesterMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'semester',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      semesterIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'semester',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      semesterIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'semester',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      startEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'start',
@@ -1235,7 +1590,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       startGreaterThan(
     DateTime value, {
     bool include = false,
@@ -1249,7 +1604,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> startLessThan(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      startLessThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -1262,7 +1618,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> startBetween(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      startBetween(
     DateTime lower,
     DateTime upper, {
     bool includeLower = true,
@@ -1279,7 +1636,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> statusEqualTo(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      statusEqualTo(
     Status value, {
     bool caseSensitive = true,
   }) {
@@ -1292,7 +1650,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       statusGreaterThan(
     Status value, {
     bool include = false,
@@ -1308,7 +1666,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> statusLessThan(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      statusLessThan(
     Status value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1323,7 +1682,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> statusBetween(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      statusBetween(
     Status lower,
     Status upper, {
     bool includeLower = true,
@@ -1342,7 +1702,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       statusStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -1356,7 +1716,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> statusEndsWith(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      statusEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1369,9 +1730,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> statusContains(
-      String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      statusContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'status',
@@ -1381,9 +1741,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> statusMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      statusMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'status',
@@ -1393,7 +1752,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       statusIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1403,7 +1762,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       statusIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -1413,7 +1772,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       subjectCodeEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -1427,7 +1786,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       subjectCodeGreaterThan(
     String value, {
     bool include = false,
@@ -1443,7 +1802,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       subjectCodeLessThan(
     String value, {
     bool include = false,
@@ -1459,7 +1818,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       subjectCodeBetween(
     String lower,
     String upper, {
@@ -1479,7 +1838,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       subjectCodeStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -1493,7 +1852,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       subjectCodeEndsWith(
     String value, {
     bool caseSensitive = true,
@@ -1507,7 +1866,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       subjectCodeContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
@@ -1518,7 +1877,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       subjectCodeMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
@@ -1529,7 +1888,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       subjectCodeIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1539,7 +1898,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       subjectCodeIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -1549,7 +1908,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> titleEqualTo(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      titleEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1562,7 +1922,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       titleGreaterThan(
     String value, {
     bool include = false,
@@ -1578,7 +1938,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> titleLessThan(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      titleLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1593,7 +1954,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> titleBetween(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      titleBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -1612,7 +1974,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> titleStartsWith(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      titleStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1625,7 +1988,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> titleEndsWith(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      titleEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1638,9 +2002,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> titleContains(
-      String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      titleContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'title',
@@ -1650,9 +2013,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> titleMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      titleMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'title',
@@ -1662,7 +2024,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> titleIsEmpty() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      titleIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'title',
@@ -1671,7 +2034,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       titleIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -1681,7 +2044,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> uidEqualTo(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      uidEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1694,7 +2058,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> uidGreaterThan(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      uidGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1709,7 +2074,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> uidLessThan(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      uidLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1724,7 +2090,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> uidBetween(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      uidBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -1743,7 +2110,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> uidStartsWith(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      uidStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1756,7 +2124,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> uidEndsWith(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      uidEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1769,9 +2138,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> uidContains(
-      String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      uidContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'uid',
@@ -1781,9 +2149,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> uidMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      uidMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'uid',
@@ -1793,7 +2160,8 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition> uidIsEmpty() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      uidIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'uid',
@@ -1802,7 +2170,7 @@ extension AppointmentQueryFilter
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterFilterCondition>
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
       uidIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -1811,479 +2179,781 @@ extension AppointmentQueryFilter
       ));
     });
   }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      yearEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'year',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      yearGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'year',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      yearLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'year',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      yearBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'year',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      yearStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'year',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      yearEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'year',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      yearContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'year',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      yearMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'year',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      yearIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'year',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterFilterCondition>
+      yearIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'year',
+        value: '',
+      ));
+    });
+  }
 }
 
-extension AppointmentQueryObject
-    on QueryBuilder<Appointment, Appointment, QFilterCondition> {}
+extension PlatoAppointmentQueryObject
+    on QueryBuilder<PlatoAppointment, PlatoAppointment, QFilterCondition> {}
 
-extension AppointmentQueryLinks
-    on QueryBuilder<Appointment, Appointment, QFilterCondition> {}
+extension PlatoAppointmentQueryLinks
+    on QueryBuilder<PlatoAppointment, PlatoAppointment, QFilterCondition> {}
 
-extension AppointmentQuerySortBy
-    on QueryBuilder<Appointment, Appointment, QSortBy> {
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByBody() {
+extension PlatoAppointmentQuerySortBy
+    on QueryBuilder<PlatoAppointment, PlatoAppointment, QSortBy> {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy> sortByBody() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'body', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByBodyDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortByBodyDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'body', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByComment() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy> sortByColor() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'color', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortByColorDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'color', Sort.desc);
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortByComment() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'comment', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByCommentDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortByCommentDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'comment', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByCreatedAt() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByCreatedAtDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortByCreatedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByDataType() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortByDataType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dataType', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByDataTypeDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortByDataTypeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dataType', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByDeletedAt() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortByDeletedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'deletedAt', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByDeletedAtDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortByDeletedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'deletedAt', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByEnd() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy> sortByEnd() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'end', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByEndDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortByEndDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'end', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByHashCode() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortByHashCode() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hashCode', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByHashCodeDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortByHashCodeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hashCode', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByStart() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortBySemester() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'semester', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortBySemesterDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'semester', Sort.desc);
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy> sortByStart() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'start', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByStartDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortByStartDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'start', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByStatus() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortByStatus() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'status', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByStatusDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortByStatusDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'status', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortBySubjectCode() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortBySubjectCode() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'subjectCode', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortBySubjectCodeDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortBySubjectCodeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'subjectCode', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByTitle() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy> sortByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByTitleDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortByTitleDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByUid() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy> sortByUid() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'uid', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> sortByUidDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortByUidDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'uid', Sort.desc);
     });
   }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy> sortByYear() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'year', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      sortByYearDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'year', Sort.desc);
+    });
+  }
 }
 
-extension AppointmentQuerySortThenBy
-    on QueryBuilder<Appointment, Appointment, QSortThenBy> {
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByBody() {
+extension PlatoAppointmentQuerySortThenBy
+    on QueryBuilder<PlatoAppointment, PlatoAppointment, QSortThenBy> {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy> thenByBody() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'body', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByBodyDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenByBodyDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'body', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByComment() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy> thenByColor() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'color', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenByColorDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'color', Sort.desc);
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenByComment() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'comment', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByCommentDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenByCommentDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'comment', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByCreatedAt() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByCreatedAtDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenByCreatedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByDataType() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenByDataType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dataType', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByDataTypeDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenByDataTypeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dataType', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByDeletedAt() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenByDeletedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'deletedAt', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByDeletedAtDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenByDeletedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'deletedAt', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByEnd() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy> thenByEnd() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'end', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByEndDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenByEndDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'end', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByHashCode() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenByHashCode() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hashCode', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByHashCodeDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenByHashCodeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hashCode', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenById() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByStart() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenBySemester() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'semester', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenBySemesterDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'semester', Sort.desc);
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy> thenByStart() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'start', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByStartDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenByStartDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'start', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByStatus() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenByStatus() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'status', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByStatusDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenByStatusDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'status', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenBySubjectCode() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenBySubjectCode() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'subjectCode', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenBySubjectCodeDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenBySubjectCodeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'subjectCode', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByTitle() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy> thenByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByTitleDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenByTitleDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.desc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByUid() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy> thenByUid() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'uid', Sort.asc);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QAfterSortBy> thenByUidDesc() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenByUidDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'uid', Sort.desc);
     });
   }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy> thenByYear() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'year', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QAfterSortBy>
+      thenByYearDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'year', Sort.desc);
+    });
+  }
 }
 
-extension AppointmentQueryWhereDistinct
-    on QueryBuilder<Appointment, Appointment, QDistinct> {
-  QueryBuilder<Appointment, Appointment, QDistinct> distinctByBody(
+extension PlatoAppointmentQueryWhereDistinct
+    on QueryBuilder<PlatoAppointment, PlatoAppointment, QDistinct> {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QDistinct> distinctByBody(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'body', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QDistinct> distinctByComment(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QDistinct>
+      distinctByColor() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'color');
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QDistinct> distinctByComment(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'comment', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QDistinct> distinctByCreatedAt() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QDistinct>
+      distinctByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'createdAt');
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QDistinct> distinctByDataType(
-      {bool caseSensitive = true}) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QDistinct>
+      distinctByDataType({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'dataType', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QDistinct> distinctByDeletedAt() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QDistinct>
+      distinctByDeletedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'deletedAt');
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QDistinct> distinctByEnd() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QDistinct> distinctByEnd() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'end');
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QDistinct> distinctByHashCode() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QDistinct>
+      distinctByHashCode() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'hashCode');
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QDistinct> distinctByStart() {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QDistinct>
+      distinctBySemester({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'semester', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QDistinct>
+      distinctByStart() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'start');
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QDistinct> distinctByStatus(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QDistinct> distinctByStatus(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'status', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QDistinct> distinctBySubjectCode(
-      {bool caseSensitive = true}) {
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QDistinct>
+      distinctBySubjectCode({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'subjectCode', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QDistinct> distinctByTitle(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QDistinct> distinctByTitle(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'title', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Appointment, Appointment, QDistinct> distinctByUid(
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QDistinct> distinctByUid(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'uid', caseSensitive: caseSensitive);
     });
   }
+
+  QueryBuilder<PlatoAppointment, PlatoAppointment, QDistinct> distinctByYear(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'year', caseSensitive: caseSensitive);
+    });
+  }
 }
 
-extension AppointmentQueryProperty
-    on QueryBuilder<Appointment, Appointment, QQueryProperty> {
-  QueryBuilder<Appointment, int, QQueryOperations> idProperty() {
+extension PlatoAppointmentQueryProperty
+    on QueryBuilder<PlatoAppointment, PlatoAppointment, QQueryProperty> {
+  QueryBuilder<PlatoAppointment, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<Appointment, String, QQueryOperations> bodyProperty() {
+  QueryBuilder<PlatoAppointment, String, QQueryOperations> bodyProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'body');
     });
   }
 
-  QueryBuilder<Appointment, String, QQueryOperations> commentProperty() {
+  QueryBuilder<PlatoAppointment, int, QQueryOperations> colorProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'color');
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, String, QQueryOperations> commentProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'comment');
     });
   }
 
-  QueryBuilder<Appointment, DateTime, QQueryOperations> createdAtProperty() {
+  QueryBuilder<PlatoAppointment, DateTime, QQueryOperations>
+      createdAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'createdAt');
     });
   }
 
-  QueryBuilder<Appointment, DataType, QQueryOperations> dataTypeProperty() {
+  QueryBuilder<PlatoAppointment, DataType, QQueryOperations>
+      dataTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'dataType');
     });
   }
 
-  QueryBuilder<Appointment, DateTime?, QQueryOperations> deletedAtProperty() {
+  QueryBuilder<PlatoAppointment, DateTime?, QQueryOperations>
+      deletedAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'deletedAt');
     });
   }
 
-  QueryBuilder<Appointment, DateTime, QQueryOperations> endProperty() {
+  QueryBuilder<PlatoAppointment, DateTime, QQueryOperations> endProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'end');
     });
   }
 
-  QueryBuilder<Appointment, int, QQueryOperations> hashCodeProperty() {
+  QueryBuilder<PlatoAppointment, int, QQueryOperations> hashCodeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'hashCode');
     });
   }
 
-  QueryBuilder<Appointment, DateTime, QQueryOperations> startProperty() {
+  QueryBuilder<PlatoAppointment, String, QQueryOperations> semesterProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'semester');
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, DateTime, QQueryOperations> startProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'start');
     });
   }
 
-  QueryBuilder<Appointment, Status, QQueryOperations> statusProperty() {
+  QueryBuilder<PlatoAppointment, Status, QQueryOperations> statusProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'status');
     });
   }
 
-  QueryBuilder<Appointment, String, QQueryOperations> subjectCodeProperty() {
+  QueryBuilder<PlatoAppointment, String, QQueryOperations>
+      subjectCodeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'subjectCode');
     });
   }
 
-  QueryBuilder<Appointment, String, QQueryOperations> titleProperty() {
+  QueryBuilder<PlatoAppointment, String, QQueryOperations> titleProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'title');
     });
   }
 
-  QueryBuilder<Appointment, String, QQueryOperations> uidProperty() {
+  QueryBuilder<PlatoAppointment, String, QQueryOperations> uidProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'uid');
+    });
+  }
+
+  QueryBuilder<PlatoAppointment, String, QQueryOperations> yearProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'year');
     });
   }
 }

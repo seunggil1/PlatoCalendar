@@ -3,14 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:plato_calendar/model_repository/model_repository.dart';
-import 'package:plato_calendar/model/appointment.dart';
+import 'package:plato_calendar/model/plato_appointment.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   const MethodChannel channel =
       MethodChannel('plugins.flutter.io/path_provider');
 
-  late Appointment testAppointment;
+  late PlatoAppointment testAppointment;
 
   group('AppointmentDB Test', () {
     // 테스트 전 초기화
@@ -27,7 +27,7 @@ void main() {
         },
       );
 
-      testAppointment = Appointment()
+      testAppointment = PlatoAppointment()
         ..uid = 'test'
         ..title = 'test'
         ..body = 'test'
@@ -49,9 +49,9 @@ void main() {
         () async {
       // 실행
       final data = testAppointment.copyWith();
-      await AppointmentDB.writeAppointment(data);
+      await PlatoAppointmentDB.writeAppointment(data);
 
-      final readData = await AppointmentDB.getAppointmentById(data.id);
+      final readData = await PlatoAppointmentDB.getAppointmentById(data.id);
 
       // 검증
       expect(data.uid, readData.uid);
@@ -66,7 +66,7 @@ void main() {
       expect(data.status, readData.status);
       expect(data.dataType, readData.dataType);
 
-      await AppointmentDB.deleteAppointmentById(data.id);
+      await PlatoAppointmentDB.deleteAppointmentById(data.id);
     });
 
     test('readAllAppointment: Should return all appointments from the database',
@@ -74,16 +74,16 @@ void main() {
       // 데이터 미리 추가
       final data = testAppointment.copyWith();
 
-      final prevAppointments = await AppointmentDB.readAllAppointment();
-      await AppointmentDB.writeAppointment(data);
+      final prevAppointments = await PlatoAppointmentDB.readAllAppointment();
+      await PlatoAppointmentDB.writeAppointment(data);
 
       // 실행
-      final afterAppointments = await AppointmentDB.readAllAppointment();
+      final afterAppointments = await PlatoAppointmentDB.readAllAppointment();
 
       // 검증
       expect(prevAppointments.length + 1, afterAppointments.length);
 
-      await AppointmentDB.deleteAppointmentById(data.id);
+      await PlatoAppointmentDB.deleteAppointmentById(data.id);
     });
   });
 }

@@ -5,12 +5,12 @@ import 'package:plato_calendar/util/logger.dart';
 
 import 'package:plato_calendar/model_repository/_isar_interface.dart';
 
-class AppointmentDB {
+class PlatoAppointmentDB {
   static Isar? _isar;
-  static final logger = LoggerManager.getLogger('AppointmentDBRepository');
+  static final logger = LoggerManager.getLogger('model_repository - PlatoAppointmentDB');
 
   static Future<Isar> _initIsar() async {
-    Isar dbInstance = await IsarInterface().initIsar(AppointmentSchema);
+    Isar dbInstance = await IsarInterface().initIsar(PlatoAppointmentSchema);
     _isar = dbInstance;
     return dbInstance;
   }
@@ -29,12 +29,12 @@ class AppointmentDB {
     }
   }
 
-  static Future<void> writeAppointment(Appointment data) async {
+  static Future<void> writeAppointment(PlatoAppointment data) async {
     Isar db = _isar ?? await _initIsar();
 
     try {
       await db.writeTxn(() async {
-        await db.appointments.put(data);
+        await db.platoAppointments.put(data);
       });
 
       logger.fine('Write appointment: ${data.title}');
@@ -44,10 +44,10 @@ class AppointmentDB {
     }
   }
 
-  static Future<Appointment> getAppointmentById(int id) async {
+  static Future<PlatoAppointment> getAppointmentById(int id) async {
     try {
       Isar db = _isar ?? await _initIsar();
-      final result = await db.appointments.get(id);
+      final result = await db.platoAppointments.get(id);
 
       logger.fine('Read appointment by id: ${result?.uid}');
       return result!;
@@ -62,7 +62,7 @@ class AppointmentDB {
       Isar db = _isar ?? await _initIsar();
 
       await db.writeTxn(() async {
-        await db.appointments.delete(id);
+        await db.platoAppointments.delete(id);
       });
 
       logger.fine('Delete appointment by id: $id');
@@ -72,11 +72,11 @@ class AppointmentDB {
     }
   }
 
-  static Future<List<Appointment>> readAllAppointment() async {
+  static Future<List<PlatoAppointment>> readAllAppointment() async {
     Isar db = _isar ?? await _initIsar();
 
     try {
-      final result = await db.appointments.where().findAll();
+      final result = await db.platoAppointments.where().findAll();
 
       logger.fine('Read all appointments: ${result.length}');
       return result;
