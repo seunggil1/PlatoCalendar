@@ -25,5 +25,4 @@ class PlatoCredential {
   String toString() {
     return 'PlatoCredential{username: $username}';
   }
-
 }
