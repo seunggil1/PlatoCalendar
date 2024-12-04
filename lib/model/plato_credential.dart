@@ -10,6 +10,9 @@ class PlatoCredential {
   late String username;
   late String password;
 
+  @Index()
+  DateTime dbTimestamp = DateTime.now();
+
   @override
   int get hashCode => Object.hash(username, null);
 

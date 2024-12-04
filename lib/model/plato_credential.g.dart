@@ -17,18 +17,23 @@ const PlatoCredentialSchema = CollectionSchema(
   name: r'PlatoCredential',
   id: 6975083411879633438,
   properties: {
-    r'hashCode': PropertySchema(
+    r'dbTimestamp': PropertySchema(
       id: 0,
+      name: r'dbTimestamp',
+      type: IsarType.dateTime,
+    ),
+    r'hashCode': PropertySchema(
+      id: 1,
       name: r'hashCode',
       type: IsarType.long,
     ),
     r'password': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'password',
       type: IsarType.string,
     ),
     r'username': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'username',
       type: IsarType.string,
     )
@@ -49,6 +54,19 @@ const PlatoCredentialSchema = CollectionSchema(
           name: r'username',
           type: IndexType.hash,
           caseSensitive: true,
+        )
+      ],
+    ),
+    r'dbTimestamp': IndexSchema(
+      id: -4857539644237969184,
+      name: r'dbTimestamp',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'dbTimestamp',
+          type: IndexType.value,
+          caseSensitive: false,
         )
       ],
     )
@@ -78,9 +96,10 @@ void _platoCredentialSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeLong(offsets[0], object.hashCode);
-  writer.writeString(offsets[1], object.password);
-  writer.writeString(offsets[2], object.username);
+  writer.writeDateTime(offsets[0], object.dbTimestamp);
+  writer.writeLong(offsets[1], object.hashCode);
+  writer.writeString(offsets[2], object.password);
+  writer.writeString(offsets[3], object.username);
 }
 
 PlatoCredential _platoCredentialDeserialize(
@@ -90,9 +109,10 @@ PlatoCredential _platoCredentialDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = PlatoCredential();
+  object.dbTimestamp = reader.readDateTime(offsets[0]);
   object.id = id;
-  object.password = reader.readString(offsets[1]);
-  object.username = reader.readString(offsets[2]);
+  object.password = reader.readString(offsets[2]);
+  object.username = reader.readString(offsets[3]);
   return object;
 }
 
@@ -104,10 +124,12 @@ P _platoCredentialDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLong(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 2:
+      return (reader.readString(offset)) as P;
+    case 3:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -187,6 +209,14 @@ extension PlatoCredentialQueryWhereSort
   QueryBuilder<PlatoCredential, PlatoCredential, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
+    });
+  }
+
+  QueryBuilder<PlatoCredential, PlatoCredential, QAfterWhere> anyDbTimestamp() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'dbTimestamp'),
+      );
     });
   }
 }
@@ -305,10 +335,159 @@ extension PlatoCredentialQueryWhere
       }
     });
   }
+
+  QueryBuilder<PlatoCredential, PlatoCredential, QAfterWhereClause>
+      dbTimestampEqualTo(DateTime dbTimestamp) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'dbTimestamp',
+        value: [dbTimestamp],
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoCredential, PlatoCredential, QAfterWhereClause>
+      dbTimestampNotEqualTo(DateTime dbTimestamp) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'dbTimestamp',
+              lower: [],
+              upper: [dbTimestamp],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'dbTimestamp',
+              lower: [dbTimestamp],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'dbTimestamp',
+              lower: [dbTimestamp],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'dbTimestamp',
+              lower: [],
+              upper: [dbTimestamp],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<PlatoCredential, PlatoCredential, QAfterWhereClause>
+      dbTimestampGreaterThan(
+    DateTime dbTimestamp, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'dbTimestamp',
+        lower: [dbTimestamp],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoCredential, PlatoCredential, QAfterWhereClause>
+      dbTimestampLessThan(
+    DateTime dbTimestamp, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'dbTimestamp',
+        lower: [],
+        upper: [dbTimestamp],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoCredential, PlatoCredential, QAfterWhereClause>
+      dbTimestampBetween(
+    DateTime lowerDbTimestamp,
+    DateTime upperDbTimestamp, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'dbTimestamp',
+        lower: [lowerDbTimestamp],
+        includeLower: includeLower,
+        upper: [upperDbTimestamp],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
 }
 
 extension PlatoCredentialQueryFilter
     on QueryBuilder<PlatoCredential, PlatoCredential, QFilterCondition> {
+  QueryBuilder<PlatoCredential, PlatoCredential, QAfterFilterCondition>
+      dbTimestampEqualTo(DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'dbTimestamp',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoCredential, PlatoCredential, QAfterFilterCondition>
+      dbTimestampGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'dbTimestamp',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoCredential, PlatoCredential, QAfterFilterCondition>
+      dbTimestampLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'dbTimestamp',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PlatoCredential, PlatoCredential, QAfterFilterCondition>
+      dbTimestampBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'dbTimestamp',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<PlatoCredential, PlatoCredential, QAfterFilterCondition>
       hashCodeEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
@@ -703,6 +882,20 @@ extension PlatoCredentialQueryLinks
 extension PlatoCredentialQuerySortBy
     on QueryBuilder<PlatoCredential, PlatoCredential, QSortBy> {
   QueryBuilder<PlatoCredential, PlatoCredential, QAfterSortBy>
+      sortByDbTimestamp() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dbTimestamp', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlatoCredential, PlatoCredential, QAfterSortBy>
+      sortByDbTimestampDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dbTimestamp', Sort.desc);
+    });
+  }
+
+  QueryBuilder<PlatoCredential, PlatoCredential, QAfterSortBy>
       sortByHashCode() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hashCode', Sort.asc);
@@ -747,6 +940,20 @@ extension PlatoCredentialQuerySortBy
 
 extension PlatoCredentialQuerySortThenBy
     on QueryBuilder<PlatoCredential, PlatoCredential, QSortThenBy> {
+  QueryBuilder<PlatoCredential, PlatoCredential, QAfterSortBy>
+      thenByDbTimestamp() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dbTimestamp', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlatoCredential, PlatoCredential, QAfterSortBy>
+      thenByDbTimestampDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dbTimestamp', Sort.desc);
+    });
+  }
+
   QueryBuilder<PlatoCredential, PlatoCredential, QAfterSortBy>
       thenByHashCode() {
     return QueryBuilder.apply(this, (query) {
@@ -805,6 +1012,13 @@ extension PlatoCredentialQuerySortThenBy
 extension PlatoCredentialQueryWhereDistinct
     on QueryBuilder<PlatoCredential, PlatoCredential, QDistinct> {
   QueryBuilder<PlatoCredential, PlatoCredential, QDistinct>
+      distinctByDbTimestamp() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'dbTimestamp');
+    });
+  }
+
+  QueryBuilder<PlatoCredential, PlatoCredential, QDistinct>
       distinctByHashCode() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'hashCode');
@@ -831,6 +1045,13 @@ extension PlatoCredentialQueryProperty
   QueryBuilder<PlatoCredential, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<PlatoCredential, DateTime, QQueryOperations>
+      dbTimestampProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'dbTimestamp');
     });
   }
 
