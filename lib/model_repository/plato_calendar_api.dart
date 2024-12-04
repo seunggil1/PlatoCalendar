@@ -6,13 +6,13 @@ import 'package:plato_calendar/model/model.dart';
 
 typedef PlatoMoodleSession = String;
 
-class PlatoSyncException implements Exception {
+class PlatoCalendarAPIException implements Exception {
   final String message;
 
-  PlatoSyncException(this.message);
+  PlatoCalendarAPIException(this.message);
 }
 
-class PlatoSync {
+class PlatoCalendarAPI {
   static final logger = LoggerManager.getLogger('PlatoCalendarSync');
 
   static Future<PlatoMoodleSession> login(PlatoCredential credential) async {
@@ -42,7 +42,7 @@ class PlatoSync {
 
       logger.severe(
           'response.statusCode != 303 : status code=${response.statusCode}, body=${response.data}');
-      throw PlatoSyncException(
+      throw PlatoCalendarAPIException(
           'response.statusCode != 303 : status code=${response.statusCode}, body=${response.data}');
     } on DioException catch (e, stackTrace) {
       if (e.response != null && e.response?.statusCode == 303) {
@@ -59,7 +59,7 @@ class PlatoSync {
     try {
       if (response.headers.map['location']![0] ==
           'https://plato.pusan.ac.kr/login.php?errorcode=3') {
-        throw PlatoSyncException('ID,PW is incorrect');
+        throw PlatoCalendarAPIException('ID,PW is incorrect');
       } else {
         PlatoMoodleSession moodleSession =
             response.headers.map['set-cookie']![1];
