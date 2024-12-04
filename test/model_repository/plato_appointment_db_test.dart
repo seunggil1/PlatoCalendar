@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:plato_calendar/model_repository/model_repository.dart';
 import 'package:plato_calendar/model/plato_appointment.dart';
+import 'package:plato_calendar/model_repository/model_repository.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +12,7 @@ void main() {
 
   late PlatoAppointment testAppointment;
 
-  group('AppointmentDB Test', () {
+  group('Plato AppointmentDB Test', () {
     // 테스트 전 초기화
     setUp(() {
       // windows 환경에서 테스트할 수 있게, getApplicationDocumentsDirectory 대체
@@ -35,7 +35,9 @@ void main() {
         ..subjectCode = 'test_subjectCode'
         ..start = DateTime.now()
         ..end = DateTime.now()
-        ..deletedAt = DateTime.now();
+        ..deletedAt = DateTime.now()
+        ..year = '2024'
+        ..semester = '10';
     });
 
     // 테스트 후 정리
