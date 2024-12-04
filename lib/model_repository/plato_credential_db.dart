@@ -40,8 +40,8 @@ class PlatoCredentialDB {
   static Future<PlatoCredential> read() async {
     try {
       Isar db = _isar ?? await _initIsar();
-      final queryResult = await db.platoCredentials.where().findAll();
-      PlatoCredential data = queryResult.first;
+      final queryResult = await db.platoCredentials.where().sortByDbTimestampDesc().findFirst();
+      PlatoCredential data = queryResult!;
 
       String plainPassword =
           await PasswordEncryptors.decryptPassword(data.password);
@@ -54,6 +54,19 @@ class PlatoCredentialDB {
       return result;
     } catch (e, stackTrace) {
       logger.severe('Failed to read plato credential: $e', stackTrace);
+      rethrow;
+    }
+  }
+
+  static Future<bool> isEmpty() async{
+    try {
+      Isar db = _isar ?? await _initIsar();
+      final result = await db.platoCredentials.where().isEmpty();
+
+      logger.fine('isEmpty : $result');
+      return result;
+    } catch (e, stackTrace) {
+      logger.severe('Failed to check isEmpty : $e', stackTrace);
       rethrow;
     }
   }
