@@ -1,7 +1,7 @@
 import 'package:isar/isar.dart';
 import 'package:plato_calendar/model/model.dart';
-import 'package:plato_calendar/util/logger.dart';
 import 'package:plato_calendar/service/service.dart';
+import 'package:plato_calendar/util/logger.dart';
 
 import './_isar_interface.dart';
 
@@ -54,6 +54,21 @@ class PlatoCredentialDB {
       return result;
     } catch (e, stackTrace) {
       logger.severe('Failed to read plato credential: $e', stackTrace);
+      rethrow;
+    }
+  }
+
+  static Future<void> delete(PlatoCredential data) async {
+    Isar db = _isar ?? await _initIsar();
+
+    try {
+      await db.writeTxn(() async {
+        await db.platoCredentials.delete(data.id);
+      });
+
+      logger.fine('Write plato credential: ${data.username}');
+    } catch (e, stackTrace) {
+      logger.severe('Failed to write plato credential: $e', stackTrace);
       rethrow;
     }
   }

@@ -6,3 +6,4 @@ library;
 
 export 'plato_appointment.dart';
 export 'plato_credential.dart';
+export 'encrypt_key.dart';

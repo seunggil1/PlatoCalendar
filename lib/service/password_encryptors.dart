@@ -1,8 +1,9 @@
-import 'dart:convert';
 import 'dart:math';
+import 'dart:typed_data';
 
-import 'package:encrypt/encrypt.dart' as encrypt;
+import 'package:encrypt/encrypt.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/util/logger.dart';
 
 class PasswordEncryptors {
@@ -15,18 +16,15 @@ class PasswordEncryptors {
       if (await _EncryptKeyDB.hasEncryptionKey() == false) {
         logger.info('Encryption key does not exist');
 
-        String encryptionKey = _generateRandomKey(32);
-        await _EncryptKeyDB.saveEncryptionKey(encryptionKey);
+        final EncryptKey base64Key = _generateRandomKey(32);
+        await _EncryptKeyDB.saveEncryptionKey(base64Key);
       }
 
       // 암호화 키를 SECURE_STORAGE 에서 가져와서, 비밀번호 암호화
-      final key = await _EncryptKeyDB.getEncryptionKey();
+      final EncryptKey key = await _EncryptKeyDB.getEncryptionKey();
+      final encryptor = Encrypter(AES(key.key));
 
-      final keyBytes = encrypt.Key.fromUtf8(key.padRight(32));
-      final iv = encrypt.IV.fromLength(16);
-      final encrypter = encrypt.Encrypter(encrypt.AES(keyBytes));
-
-      return encrypter.encrypt(plainText, iv: iv).base64;
+      return encryptor.encrypt(plainText, iv: key.iv).base64;
     } catch (e, stackTrace) {
       logger.severe('Failed to encrypt password: $e', stackTrace);
       rethrow;
@@ -35,23 +33,28 @@ class PasswordEncryptors {
 
   static Future<String> decryptPassword(String encryptedText) async {
     try {
-      final key = await _EncryptKeyDB.getEncryptionKey();
+      final EncryptKey key = await _EncryptKeyDB.getEncryptionKey();
+      final encryptor = Encrypter(AES(key.key));
 
-      final keyBytes = encrypt.Key.fromUtf8(key.padRight(32));
-      final iv = encrypt.IV.fromLength(16);
-      final encryptor = encrypt.Encrypter(encrypt.AES(keyBytes));
-
-      return encryptor.decrypt64(encryptedText, iv: iv);
+      return encryptor.decrypt64(encryptedText, iv: key.iv);
     } catch (e, stackTrace) {
       logger.severe('Failed to decrypt password: $e', stackTrace);
       rethrow;
     }
   }
 
-  static String _generateRandomKey(int length) {
-    final random = Random.secure();
+  static EncryptKey _generateRandomKey(int length) {
+    // 허용되는 AES 키 길이 확인
+    if (length != 16 && length != 24 && length != 32) {
+      throw ArgumentError('Key length must be 16, 24, or 32 bytes for AES.');
+    }
+
+    final Random random = Random.secure();
     final values = List<int>.generate(length, (i) => random.nextInt(256));
-    return base64UrlEncode(values); // Base64로 인코딩
+    final key = Key(Uint8List.fromList(values));
+    final iv = IV.fromSecureRandom(16);
+
+    return EncryptKey(key, iv);
   }
 }
 
@@ -69,7 +72,7 @@ class _EncryptKeyDB {
       IOSOptions(accessibility: KeychainAccessibility.first_unlock);
   static final secureStorageKey = 'encryption_key';
 
-  static Future<void> saveEncryptionKey(String key) async {
+  static Future<void> saveEncryptionKey(EncryptKey key) async {
     if (await _EncryptKeyDB.hasEncryptionKey()) {
       const msg = 'Encryption key already exists';
       logger.severe(msg);
@@ -79,7 +82,7 @@ class _EncryptKeyDB {
 
       try {
         await storage.write(
-            key: 'encryption_key', value: key, iOptions: options);
+            key: 'encryption_key', value: key.toString(), iOptions: options);
       } catch (e, stackTrace) {
         logger.severe('Failed to save encryption key: $e', stackTrace);
         rethrow;
@@ -87,7 +90,7 @@ class _EncryptKeyDB {
     }
   }
 
-  static Future<String> getEncryptionKey() async {
+  static Future<EncryptKey> getEncryptionKey() async {
     logger.info('Get encryption key');
     try {
       if ((await _EncryptKeyDB.hasEncryptionKey()) == false) {
@@ -102,7 +105,7 @@ class _EncryptKeyDB {
           logger.severe(msg);
           throw EncryptDBException(msg);
         } else {
-          return key;
+          return EncryptKey.fromString(key);
         }
       }
     } catch (e, stackTrace) {
