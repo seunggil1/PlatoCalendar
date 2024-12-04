@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:plato_calendar/view_model/view_model.dart';
 
-class TodoPage extends StatelessWidget {
-  const TodoPage({super.key});
+class SettingPage extends StatelessWidget {
+  const SettingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
