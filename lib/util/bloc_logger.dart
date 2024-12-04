@@ -1,8 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:plato_calendar/util/logger.dart';
+
+import 'logger.dart';
 
 // https://bloclibrary.dev/ko/getting-started/
-class MainBlocObserver extends BlocObserver {
+class BlocLogger extends BlocObserver {
   final log = LoggerManager.getLogger('Bloc Observer');
   
   @override
@@ -31,6 +32,6 @@ class MainBlocObserver extends BlocObserver {
 
 }
 
-void initBloc(){
-  Bloc.observer = MainBlocObserver();
+void setupBlocLogger(){
+  Bloc.observer = BlocLogger();
 }
