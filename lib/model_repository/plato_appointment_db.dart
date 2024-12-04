@@ -29,7 +29,7 @@ class PlatoAppointmentDB {
     }
   }
 
-  static Future<void> writeAppointment(PlatoAppointment data) async {
+  static Future<void> write(PlatoAppointment data) async {
     Isar db = _isar ?? await _initIsar();
 
     try {
@@ -44,7 +44,7 @@ class PlatoAppointmentDB {
     }
   }
 
-  static Future<PlatoAppointment> getAppointmentById(int id) async {
+  static Future<PlatoAppointment> readById(int id) async {
     try {
       Isar db = _isar ?? await _initIsar();
       final result = await db.platoAppointments.get(id);
@@ -57,7 +57,7 @@ class PlatoAppointmentDB {
     }
   }
 
-  static Future<void> deleteAppointmentById(int id) async {
+  static Future<void> deleteById(int id) async {
     try {
       Isar db = _isar ?? await _initIsar();
 
@@ -72,7 +72,7 @@ class PlatoAppointmentDB {
     }
   }
 
-  static Future<List<PlatoAppointment>> readAllAppointment() async {
+  static Future<List<PlatoAppointment>> readAll() async {
     Isar db = _isar ?? await _initIsar();
 
     try {
