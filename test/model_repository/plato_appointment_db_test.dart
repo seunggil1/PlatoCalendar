@@ -51,9 +51,9 @@ void main() {
         () async {
       // 실행
       final data = testAppointment.copyWith();
-      await PlatoAppointmentDB.writeAppointment(data);
+      await PlatoAppointmentDB.write(data);
 
-      final readData = await PlatoAppointmentDB.getAppointmentById(data.id);
+      final readData = await PlatoAppointmentDB.readById(data.id);
 
       // 검증
       expect(data.uid, readData.uid);
@@ -68,7 +68,7 @@ void main() {
       expect(data.status, readData.status);
       expect(data.dataType, readData.dataType);
 
-      await PlatoAppointmentDB.deleteAppointmentById(data.id);
+      await PlatoAppointmentDB.deleteById(data.id);
     });
 
     test('readAllAppointment: Should return all appointments from the database',
@@ -76,16 +76,16 @@ void main() {
       // 데이터 미리 추가
       final data = testAppointment.copyWith();
 
-      final prevAppointments = await PlatoAppointmentDB.readAllAppointment();
-      await PlatoAppointmentDB.writeAppointment(data);
+      final prevAppointments = await PlatoAppointmentDB.readAll();
+      await PlatoAppointmentDB.write(data);
 
       // 실행
-      final afterAppointments = await PlatoAppointmentDB.readAllAppointment();
+      final afterAppointments = await PlatoAppointmentDB.readAll();
 
       // 검증
       expect(prevAppointments.length + 1, afterAppointments.length);
 
-      await PlatoAppointmentDB.deleteAppointmentById(data.id);
+      await PlatoAppointmentDB.deleteById(data.id);
     });
   });
 }
