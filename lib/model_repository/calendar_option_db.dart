@@ -46,7 +46,7 @@ class CalendarOptionDB {
       });
 
       logger.fine(
-          'Write CalendarOption: ${data.calendarType} ${data.viewType} ${data.appointmentDisplayMode}');
+          'Write CalendarOption: ${data.showAgenda} ${data.viewType} ${data.appointmentDisplayMode}');
     } catch (e, stackTrace) {
       logger.severe('Failed to write CalendarOption: $e', stackTrace);
       rethrow;

@@ -23,21 +23,20 @@ const CalendarOptionSchema = CollectionSchema(
       type: IsarType.string,
       enumMap: _CalendarOptionappointmentDisplayModeEnumValueMap,
     ),
-    r'calendarType': PropertySchema(
-      id: 1,
-      name: r'calendarType',
-      type: IsarType.string,
-      enumMap: _CalendarOptioncalendarTypeEnumValueMap,
-    ),
     r'dbTimestamp': PropertySchema(
-      id: 2,
+      id: 1,
       name: r'dbTimestamp',
       type: IsarType.dateTime,
     ),
     r'firstDayOfWeek': PropertySchema(
-      id: 3,
+      id: 2,
       name: r'firstDayOfWeek',
       type: IsarType.long,
+    ),
+    r'showAgenda': PropertySchema(
+      id: 3,
+      name: r'showAgenda',
+      type: IsarType.bool,
     ),
     r'showFinished': PropertySchema(
       id: 4,
@@ -86,7 +85,6 @@ int _calendarOptionEstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.appointmentDisplayMode.name.length * 3;
-  bytesCount += 3 + object.calendarType.name.length * 3;
   bytesCount += 3 + object.viewType.name.length * 3;
   return bytesCount;
 }
@@ -98,9 +96,9 @@ void _calendarOptionSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.appointmentDisplayMode.name);
-  writer.writeString(offsets[1], object.calendarType.name);
-  writer.writeDateTime(offsets[2], object.dbTimestamp);
-  writer.writeLong(offsets[3], object.firstDayOfWeek);
+  writer.writeDateTime(offsets[1], object.dbTimestamp);
+  writer.writeLong(offsets[2], object.firstDayOfWeek);
+  writer.writeBool(offsets[3], object.showAgenda);
   writer.writeBool(offsets[4], object.showFinished);
   writer.writeString(offsets[5], object.viewType.name);
 }
@@ -116,12 +114,10 @@ CalendarOption _calendarOptionDeserialize(
       _CalendarOptionappointmentDisplayModeValueEnumMap[
               reader.readStringOrNull(offsets[0])] ??
           MonthAppointmentDisplayMode.indicator;
-  object.calendarType = _CalendarOptioncalendarTypeValueEnumMap[
-          reader.readStringOrNull(offsets[1])] ??
-      CalendarType.split;
-  object.dbTimestamp = reader.readDateTime(offsets[2]);
-  object.firstDayOfWeek = reader.readLong(offsets[3]);
+  object.dbTimestamp = reader.readDateTime(offsets[1]);
+  object.firstDayOfWeek = reader.readLong(offsets[2]);
   object.id = id;
+  object.showAgenda = reader.readBool(offsets[3]);
   object.showFinished = reader.readBool(offsets[4]);
   object.viewType = _CalendarOptionviewTypeValueEnumMap[
           reader.readStringOrNull(offsets[5])] ??
@@ -141,13 +137,11 @@ P _calendarOptionDeserializeProp<P>(
               reader.readStringOrNull(offset)] ??
           MonthAppointmentDisplayMode.indicator) as P;
     case 1:
-      return (_CalendarOptioncalendarTypeValueEnumMap[
-              reader.readStringOrNull(offset)] ??
-          CalendarType.split) as P;
-    case 2:
       return (reader.readDateTime(offset)) as P;
-    case 3:
+    case 2:
       return (reader.readLong(offset)) as P;
+    case 3:
+      return (reader.readBool(offset)) as P;
     case 4:
       return (reader.readBool(offset)) as P;
     case 5:
@@ -168,14 +162,6 @@ const _CalendarOptionappointmentDisplayModeValueEnumMap = {
   r'indicator': MonthAppointmentDisplayMode.indicator,
   r'appointment': MonthAppointmentDisplayMode.appointment,
   r'none': MonthAppointmentDisplayMode.none,
-};
-const _CalendarOptioncalendarTypeEnumValueMap = {
-  r'split': r'split',
-  r'integrated': r'integrated',
-};
-const _CalendarOptioncalendarTypeValueEnumMap = {
-  r'split': CalendarType.split,
-  r'integrated': CalendarType.integrated,
 };
 const _CalendarOptionviewTypeEnumValueMap = {
   r'day': r'day',
@@ -536,142 +522,6 @@ extension CalendarOptionQueryFilter
   }
 
   QueryBuilder<CalendarOption, CalendarOption, QAfterFilterCondition>
-      calendarTypeEqualTo(
-    CalendarType value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'calendarType',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CalendarOption, CalendarOption, QAfterFilterCondition>
-      calendarTypeGreaterThan(
-    CalendarType value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'calendarType',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CalendarOption, CalendarOption, QAfterFilterCondition>
-      calendarTypeLessThan(
-    CalendarType value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'calendarType',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CalendarOption, CalendarOption, QAfterFilterCondition>
-      calendarTypeBetween(
-    CalendarType lower,
-    CalendarType upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'calendarType',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CalendarOption, CalendarOption, QAfterFilterCondition>
-      calendarTypeStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'calendarType',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CalendarOption, CalendarOption, QAfterFilterCondition>
-      calendarTypeEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'calendarType',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CalendarOption, CalendarOption, QAfterFilterCondition>
-      calendarTypeContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'calendarType',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CalendarOption, CalendarOption, QAfterFilterCondition>
-      calendarTypeMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'calendarType',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CalendarOption, CalendarOption, QAfterFilterCondition>
-      calendarTypeIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'calendarType',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<CalendarOption, CalendarOption, QAfterFilterCondition>
-      calendarTypeIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'calendarType',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<CalendarOption, CalendarOption, QAfterFilterCondition>
       dbTimestampEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -834,6 +684,16 @@ extension CalendarOptionQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<CalendarOption, CalendarOption, QAfterFilterCondition>
+      showAgendaEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'showAgenda',
+        value: value,
       ));
     });
   }
@@ -1008,20 +868,6 @@ extension CalendarOptionQuerySortBy
   }
 
   QueryBuilder<CalendarOption, CalendarOption, QAfterSortBy>
-      sortByCalendarType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'calendarType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<CalendarOption, CalendarOption, QAfterSortBy>
-      sortByCalendarTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'calendarType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<CalendarOption, CalendarOption, QAfterSortBy>
       sortByDbTimestamp() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dbTimestamp', Sort.asc);
@@ -1046,6 +892,20 @@ extension CalendarOptionQuerySortBy
       sortByFirstDayOfWeekDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'firstDayOfWeek', Sort.desc);
+    });
+  }
+
+  QueryBuilder<CalendarOption, CalendarOption, QAfterSortBy>
+      sortByShowAgenda() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'showAgenda', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CalendarOption, CalendarOption, QAfterSortBy>
+      sortByShowAgendaDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'showAgenda', Sort.desc);
     });
   }
 
@@ -1094,20 +954,6 @@ extension CalendarOptionQuerySortThenBy
   }
 
   QueryBuilder<CalendarOption, CalendarOption, QAfterSortBy>
-      thenByCalendarType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'calendarType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<CalendarOption, CalendarOption, QAfterSortBy>
-      thenByCalendarTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'calendarType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<CalendarOption, CalendarOption, QAfterSortBy>
       thenByDbTimestamp() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dbTimestamp', Sort.asc);
@@ -1144,6 +990,20 @@ extension CalendarOptionQuerySortThenBy
   QueryBuilder<CalendarOption, CalendarOption, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
+    });
+  }
+
+  QueryBuilder<CalendarOption, CalendarOption, QAfterSortBy>
+      thenByShowAgenda() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'showAgenda', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CalendarOption, CalendarOption, QAfterSortBy>
+      thenByShowAgendaDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'showAgenda', Sort.desc);
     });
   }
 
@@ -1186,13 +1046,6 @@ extension CalendarOptionQueryWhereDistinct
   }
 
   QueryBuilder<CalendarOption, CalendarOption, QDistinct>
-      distinctByCalendarType({bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'calendarType', caseSensitive: caseSensitive);
-    });
-  }
-
-  QueryBuilder<CalendarOption, CalendarOption, QDistinct>
       distinctByDbTimestamp() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'dbTimestamp');
@@ -1203,6 +1056,13 @@ extension CalendarOptionQueryWhereDistinct
       distinctByFirstDayOfWeek() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'firstDayOfWeek');
+    });
+  }
+
+  QueryBuilder<CalendarOption, CalendarOption, QDistinct>
+      distinctByShowAgenda() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'showAgenda');
     });
   }
 
@@ -1236,13 +1096,6 @@ extension CalendarOptionQueryProperty
     });
   }
 
-  QueryBuilder<CalendarOption, CalendarType, QQueryOperations>
-      calendarTypeProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'calendarType');
-    });
-  }
-
   QueryBuilder<CalendarOption, DateTime, QQueryOperations>
       dbTimestampProperty() {
     return QueryBuilder.apply(this, (query) {
@@ -1253,6 +1106,12 @@ extension CalendarOptionQueryProperty
   QueryBuilder<CalendarOption, int, QQueryOperations> firstDayOfWeekProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'firstDayOfWeek');
+    });
+  }
+
+  QueryBuilder<CalendarOption, bool, QQueryOperations> showAgendaProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'showAgenda');
     });
   }
 
