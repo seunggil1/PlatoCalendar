@@ -5,7 +5,6 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
 
-import './widget_util/widget_util.dart';
 import './widget/calendar_widget.dart';
 
 class PlatoCalendarPage extends StatelessWidget {

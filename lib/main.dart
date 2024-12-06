@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:plato_calendar/util/bloc_observer.dart';
-import 'package:plato_calendar/util/logger.dart';
-import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:plato_calendar/util/util.dart';
 import 'package:plato_calendar/view/view.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
 
 // https://bloclibrary.dev/ko/architecture/
-void main() {
+void main() async {
   final logger = LoggerManager.getLogger('main');
-  initBloc();
+  setupBlocLogger();
+
+  // PlatoCredential credential = PlatoCredential()
+  //   ..username = '201722102'
+  //   ..password = 'rkdtmdrlf1!';
+  // PlatoMoodleSession session = await PlatoCalendarAPI.login(credential);
+  // List<String> calendarData = await PlatoCalendarAPI.getCalendar(session);
+  //
+  // List<PlatoAppointment> result1 = CalendarParser.parse(calendarData[0]);
+  // List<PlatoAppointment> result2 = CalendarParser.parse(calendarData[1]);
   runApp(const MyApp());
 }
 
@@ -66,7 +73,7 @@ class MainBlocPage extends StatelessWidget {
         ),
         body: IndexedStack(
           index: selectedTab.index,
-          children: const [PlatoCalendarPage(), TodoPage()],
+          children: const [PlatoCalendarPage(), SettingPage()],
         ),
         bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
