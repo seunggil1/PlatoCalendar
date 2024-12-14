@@ -4,7 +4,7 @@ import 'package:plato_calendar/model/model.dart';
 
 final class CalendarOptionState {
   late CalendarController calendarController;
-  late CalendarOption calendarOption;
+  late final CalendarOption calendarOption;
 
   CalendarOptionState(CalendarOption option) {
     calendarOption = option;

@@ -31,7 +31,10 @@ class MyApp extends StatelessWidget {
       BlocProvider<BottomNavigationCubit>(
           create: (BuildContext context) => BottomNavigationCubit()),
       BlocProvider<PlatoThemeCubit>(
-          create: (BuildContext context) => PlatoThemeCubit())
+          create: (BuildContext context) => PlatoThemeCubit()),
+      BlocProvider<CalendarOptionBloc>(
+        create: (BuildContext context) => CalendarOptionBloc()
+      )
     ], child: const MaterialThemePage());
   }
 }
