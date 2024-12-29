@@ -1,0 +1,34 @@
+name: Dart
+
+on:
+  push:
+    branches: # 모든 브랜치에서 작동
+      - "**"
+  pull_request:
+    branches: # 모든 브랜치에서 작동
+      - "**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Dart SDK 설정
+      - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
+
+      - name: Install dependencies
+        run: dart pub get
+
+      # 포맷 검사 (옵션)
+      # - name: Verify formatting
+      #   run: dart format --output=none --set-exit-if-changed .
+
+      # 코드 분석
+      - name: Analyze project source
+        run: dart analyze
+
+      # 테스트 실행
+      - name: Run tests
+        run: dart test
