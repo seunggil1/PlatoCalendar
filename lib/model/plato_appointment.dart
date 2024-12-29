@@ -3,7 +3,7 @@ import 'package:plato_calendar/etc/calendar_color.dart';
 import 'package:plato_calendar/etc/school_data.dart' as school_data;
 import 'package:plato_calendar/util/logger.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart'
-as syncfusion_calendarart';
+    as syncfusion_calendar;
 
 import 'table/table.dart';
 

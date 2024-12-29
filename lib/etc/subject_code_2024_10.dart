@@ -1,3 +1,1 @@
-const Map<String, String> subjectCode = {
-
-};
+const Map<String, String> subjectCode = {};
