@@ -28,4 +28,4 @@ jobs:
           flutter analyze | findstr /v "info" | findstr /v "warning" # Windows용 findstr 사용
 
       - name: Run tests
-        run: flutter test --no-concurrency
+        run: flutter test -j 1
