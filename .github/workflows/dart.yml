@@ -1,4 +1,4 @@
-name: Dart
+name: Flutter CI
 
 on:
   push:
@@ -15,20 +15,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Dart SDK 설정
-      - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
+      # Flutter SDK 설정
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: stable
 
       - name: Install dependencies
-        run: dart pub get
+        run: flutter pub get
 
       # 포맷 검사 (옵션)
       # - name: Verify formatting
-      #   run: dart format --output=none --set-exit-if-changed .
+      #   run: flutter format --set-exit-if-changed .
 
       # 코드 분석
       - name: Analyze project source
-        run: dart analyze
+        run: flutter analyze
 
       # 테스트 실행
       - name: Run tests
-        run: dart test
+        run: flutter test
