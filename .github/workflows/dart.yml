@@ -2,37 +2,30 @@ name: Flutter CI
 
 on:
   push:
-    branches: # 모든 브랜치에서 작동
+    branches:
       - "**"
   pull_request:
-    branches: # 모든 브랜치에서 작동
+    branches:
       - "**"
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v4
 
-      # Flutter SDK 설정
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.5' # Flutter의 안정 버전을 명시적으로 설정
+          flutter-version: '3.24.5'
 
       - name: Install dependencies
         run: flutter pub get
 
-      # 포맷 검사 (옵션)
-      # - name: Verify formatting
-      #   run: flutter format --set-exit-if-changed .
-
-      # 코드 분석
       - name: Analyze project source
         run: |
-          flutter analyze || true # flutter analyze 실행, 실패 시에도 계속
-          flutter analyze | grep -v 'info' | grep -v 'warning'
+          flutter analyze || true
+          flutter analyze | findstr /v "info" | findstr /v "warning" # Windows용 findstr 사용
 
-      # 테스트 실행
       - name: Run tests
         run: flutter test
