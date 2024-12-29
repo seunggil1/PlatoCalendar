@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:plato_calendar/util/util.dart';
 import 'package:plato_calendar/view/view.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
@@ -33,8 +32,7 @@ class MyApp extends StatelessWidget {
       BlocProvider<PlatoThemeCubit>(
           create: (BuildContext context) => PlatoThemeCubit()),
       BlocProvider<CalendarOptionBloc>(
-        create: (BuildContext context) => CalendarOptionBloc()
-      )
+          create: (BuildContext context) => CalendarOptionBloc())
     ], child: const MaterialThemePage());
   }
 }
@@ -70,14 +68,11 @@ class MainBlocPage extends StatelessWidget {
         context.select((BottomNavigationCubit cubit) => cubit.state.tab);
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          title: const Text('Test'),
-        ),
-        body: IndexedStack(
+        body: SafeArea(
+            child: IndexedStack(
           index: selectedTab.index,
           children: const [PlatoCalendarPage(), SettingPage()],
-        ),
+        )),
         bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             selectedItemColor: Colors.blueAccent[100],

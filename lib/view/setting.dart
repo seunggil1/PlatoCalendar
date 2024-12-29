@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:plato_calendar/view_model/view_model.dart';
 
 class SettingPage extends StatelessWidget {
@@ -21,14 +20,13 @@ class SettingPage extends StatelessWidget {
             child: const Text('set dark')),
         TextButton(
             onPressed: () {
-              calendarOptionBloc.add(Update(
-                  CalendarOptionState(option.copyWith(showAgenda: false))));
+              calendarOptionBloc
+                  .add(Update(option.copyWith(showAgenda: false)));
             },
             child: const Text('show Agenda false')),
         TextButton(
             onPressed: () {
-              calendarOptionBloc.add(Update(
-                  CalendarOptionState(option.copyWith(showAgenda: true))));
+              calendarOptionBloc.add(Update(option.copyWith(showAgenda: true)));
             },
             child: const Text('show Agenda true'))
       ],

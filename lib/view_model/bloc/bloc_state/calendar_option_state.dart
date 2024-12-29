@@ -1,6 +1,5 @@
-import 'package:syncfusion_flutter_calendar/calendar.dart';
-
 import 'package:plato_calendar/model/model.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 final class CalendarOptionState {
   late CalendarController calendarController;

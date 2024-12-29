@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
-
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import './widget/calendar_widget.dart';
 
@@ -19,12 +18,12 @@ class PlatoCalendarPage extends StatelessWidget {
           canPop: false,
           onPopInvokedWithResult: (didPop, dynamic) async {
             // bool close = await confirmDialog(context);
-            CalendarOption option = state.calendarOption;
+            CalendarOption calendarOption = state.calendarOption;
 
             // CalendarViewType가 Schedule이면 Month로 변경
-            if (option.calendarViewTypeIsSchedule()) {
-              context.read<CalendarOptionBloc>().add(Update(CalendarOptionState(
-                  option.copyWith(viewType: CalendarView.month))));
+            if (calendarOption.calendarViewTypeIsSchedule()) {
+              context.read<CalendarOptionBloc>().add(Update(
+                  calendarOption.copyWith(viewType: CalendarView.month)));
             } else {
               SystemNavigator.pop();
             }

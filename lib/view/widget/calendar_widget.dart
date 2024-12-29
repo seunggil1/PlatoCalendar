@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
-
 import 'package:plato_calendar/model/model.dart';
-import 'package:plato_calendar/view_model/view_model.dart';
 import 'package:plato_calendar/util/logger.dart';
 import 'package:plato_calendar/view/widget_util/widget_util.dart';
+import 'package:plato_calendar/view_model/view_model.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CalendarWidget extends StatelessWidget {
   const CalendarWidget({super.key});
@@ -51,8 +50,9 @@ void onTapCallBack(
   } else {
     if (option.calendarViewTypeIsMonth() &&
         tapDetail.targetElement == CalendarElement.calendarCell) {
-      context.read<CalendarOptionBloc>().add(Update(CalendarOptionState(
-          option.copyWith(viewType: CalendarView.schedule))));
+      context
+          .read<CalendarOptionBloc>()
+          .add(Update(option.copyWith(viewType: CalendarView.schedule)));
     } else if (option.calendarViewTypeIsSchedule() &&
         tapDetail.targetElement == CalendarElement.appointment) {
       showMessage(context, 'show Appointment Editor');
@@ -62,9 +62,7 @@ void onTapCallBack(
 
 void onLongTapCallBack(BuildContext context, CalendarLongPressDetails tapDetail,
     CalendarOption option) {
-  if(tapDetail.targetElement == CalendarElement.appointment){
-
-  }
+  if (tapDetail.targetElement == CalendarElement.appointment) {}
 }
 
 const monthHeaderSettings =

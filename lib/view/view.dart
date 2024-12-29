@@ -1,4 +1,4 @@
 library;
 
-export './calendar.dart';
-export './setting_page.dart';
+export './plato_calendar.dart';
+export './setting.dart';

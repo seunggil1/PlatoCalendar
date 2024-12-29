@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-
-import '../bloc_state/bloc_state.dart';
+import 'package:plato_calendar/model/model.dart';
 
 sealed class CalendarOptionEvent extends Equatable {
   @override
@@ -14,7 +13,7 @@ class Loading extends CalendarOptionEvent {}
 class LoadingFinished extends CalendarOptionEvent {}
 
 class Update extends CalendarOptionEvent {
-  final CalendarOptionState option;
+  final CalendarOption option;
 
   Update(this.option);
 

@@ -1,5 +1,4 @@
 import 'package:icalendar_parser/icalendar_parser.dart';
-
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/util/logger.dart';
 
@@ -46,8 +45,9 @@ class CalendarParser {
       bytes = lineBytes.join('\r\n');
       ICalendar iCalendar = ICalendar.fromString(bytes);
 
-      List<PlatoAppointment> appointments =
-          iCalendar.data.map((iter) => PlatoAppointment.byIcsMap(iter)).toList();
+      List<PlatoAppointment> appointments = iCalendar.data
+          .map((iter) => PlatoAppointment.byIcsMap(iter))
+          .toList();
 
       return appointments;
     } catch (e, stackTrace) {

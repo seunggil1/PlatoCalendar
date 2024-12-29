@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'package:dio/dio.dart';
 
-import 'package:plato_calendar/util/logger.dart';
+import 'package:dio/dio.dart';
 import 'package:plato_calendar/model/model.dart';
+import 'package:plato_calendar/util/logger.dart';
 
 typedef PlatoMoodleSession = String;
 

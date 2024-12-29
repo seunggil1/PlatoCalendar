@@ -5,7 +5,7 @@ import 'logger.dart';
 // https://bloclibrary.dev/ko/getting-started/
 class BlocLogger extends BlocObserver {
   final log = LoggerManager.getLogger('Bloc Observer');
-  
+
   @override
   void onEvent(Bloc bloc, Object? event) {
     super.onEvent(bloc, event);
@@ -29,9 +29,8 @@ class BlocLogger extends BlocObserver {
     log.severe('$bloc, $error\n$stackTrace=======end of trace =========');
     super.onError(bloc, error, stackTrace);
   }
-
 }
 
-void setupBlocLogger(){
+void setupBlocLogger() {
   Bloc.observer = BlocLogger();
 }

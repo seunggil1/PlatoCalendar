@@ -1,6 +1,5 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/services.dart' show rootBundle;
-
+import 'package:flutter_test/flutter_test.dart';
 import 'package:plato_calendar/service/service.dart';
 
 void main() {

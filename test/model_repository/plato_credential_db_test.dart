@@ -12,20 +12,26 @@ void main() {
   const MethodChannel secureStorageChannel =
       MethodChannel('plugins.it_nomads.com/flutter_secure_storage');
 
+  late Directory testDirectory;
   late PlatoCredential testPlatoCredential;
 
   group('Plato AppointmentDB Test', () {
     final mockStorage = <String, String>{};
 
     // 테스트 전 초기화
-    setUp(() {
+    setUp(() async {
       // windows 환경에서 테스트할 수 있게, getApplicationDocumentsDirectory 대체
+      testDirectory = await Directory.systemTemp.createTemp('test_documents');
+
+      // path_provider 모킹
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(
         channel,
         (MethodCall methodCall) async {
           if (methodCall.method == 'getApplicationDocumentsDirectory') {
-            return Directory.current.createTempSync('test_documents').path;
+            return testDirectory.path;
+          } else if (methodCall.method == 'getTemporaryDirectory') {
+            return testDirectory.path;
           }
           return null;
         },
@@ -81,8 +87,6 @@ void main() {
 
       expect(testPlatoCredential.username, readData.username);
       expect(testPlatoCredential.password, readData.password);
-
-      await PlatoCredentialDB.delete(testPlatoCredential);
     });
   });
 }

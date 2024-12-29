@@ -1,87 +1,51 @@
-import 'package:isar/isar.dart';
-
 import 'package:plato_calendar/model/model.dart';
+import 'package:plato_calendar/model/plato_appointment.dart';
+import 'package:plato_calendar/model/table/table.dart';
 import 'package:plato_calendar/util/logger.dart';
 
-import './_isar_interface.dart';
-
 class PlatoAppointmentDB {
-  static Isar? _isar;
-  static final logger = LoggerManager.getLogger('model_repository - PlatoAppointmentDB');
+  static PlatoAppointmentDrift database = PlatoAppointmentDrift();
 
-  static Future<Isar> _initIsar() async {
-    Isar dbInstance = await IsarInterface().initIsar(PlatoAppointmentSchema);
-    _isar = dbInstance;
-    return dbInstance;
-  }
+  static final logger =
+      LoggerManager.getLogger('model_repository - PlatoAppointmentDB');
 
-  static Future<void> closeIsar() async {
+  static Future<void> write(PlatoAppointment data) async {
     try {
-      if (_isar?.isOpen ?? false) {
-        await _isar?.close();
-        logger.fine('Isar is closed');
-      } else {
-        logger.warning('Isar is already closed');
-      }
+      await database.write(data.toSchema());
     } catch (e, stackTrace) {
-      logger.severe('Failed to close Isar: $e', stackTrace);
+      logger.severe('Failed to writeAppointment: $e', stackTrace);
       rethrow;
     }
   }
 
-  static Future<void> write(PlatoAppointment data) async {
-    Isar db = _isar ?? await _initIsar();
-
+  static Future<void> writeAll(List<PlatoAppointment> data) async {
     try {
-      await db.writeTxn(() async {
-        await db.platoAppointments.put(data);
-      });
-
-      logger.fine('Write appointment: ${data.title}');
+      final schemaList = data.map((e) => e.toSchema()).toList();
+      await database.writeAll(schemaList);
     } catch (e, stackTrace) {
-      logger.severe('Failed to write appointment: $e', stackTrace);
+      logger.severe('Failed to writeAllAppointments: $e', stackTrace);
+      rethrow;
+    }
+  }
+
+  static Future<List<PlatoAppointment>> readAll() async {
+    try {
+      final result = await database.readAll();
+      logger.fine('Read all appointments: ${result.length}');
+      return result.map((e) => e.toModel()).toList();
+    } catch (e, stackTrace) {
+      logger.severe('Failed to readAllAppointments: $e', stackTrace);
       rethrow;
     }
   }
 
   static Future<PlatoAppointment> readById(int id) async {
     try {
-      Isar db = _isar ?? await _initIsar();
-      final result = await db.platoAppointments.get(id);
-
-      logger.fine('Read appointment by id: ${result?.uid}');
-      return result!;
+      final result = await database.readById(id);
+      logger.fine('Read appointment by id: $id');
+      return result.toModel();
     } catch (e, stackTrace) {
-      logger.severe('Failed to getAppointmentById: $e', stackTrace);
-      rethrow;
-    }
-  }
-
-  static Future<void> deleteById(int id) async {
-    try {
-      Isar db = _isar ?? await _initIsar();
-
-      await db.writeTxn(() async {
-        await db.platoAppointments.delete(id);
-      });
-
-      logger.fine('Delete appointment by id: $id');
-    } catch (e, stackTrace) {
-      logger.severe('Failed to deleteAppointmentById: $e', stackTrace);
-      rethrow;
-    }
-  }
-
-  static Future<List<PlatoAppointment>> readAll() async {
-    Isar db = _isar ?? await _initIsar();
-
-    try {
-      final result = await db.platoAppointments.where().findAll();
-
-      logger.fine('Read all appointments: ${result.length}');
-      return result;
-    } catch (e, stackTrace) {
-      logger.severe('Failed to read all appointments: $e', stackTrace);
+      logger.severe('Failed to readAppointmentById: $e', stackTrace);
       rethrow;
     }
   }

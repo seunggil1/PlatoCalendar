@@ -1,41 +1,53 @@
-import 'package:isar/isar.dart';
+import 'package:drift/drift.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-part 'calendar_option.g.dart';
+import 'table/table.dart';
 
-// enum SortMethod { sortByDue, sortByRegister }
-
-@collection
 class CalendarOption {
-  CalendarOption();
+  final int? id;
+  final bool showFinished;
+  final int firstDayOfWeek;
+  final CalendarView viewType;
+  final MonthAppointmentDisplayMode appointmentDisplayMode;
+  final bool showAgenda;
+  final DateTime dbTimestamp;
 
-  Id id = Isar.autoIncrement;
+  CalendarOption({
+    this.id,
+    this.showFinished = true,
+    this.firstDayOfWeek = 7,
+    this.viewType = CalendarView.month,
+    this.appointmentDisplayMode = MonthAppointmentDisplayMode.appointment,
+    this.showAgenda = true,
+    DateTime? dbTimestamp,
+  }) : dbTimestamp = dbTimestamp ?? DateTime.now();
 
-  bool showFinished = true;
-  int firstDayOfWeek = 7;
+  CalendarOption copyWith({
+    bool? showFinished,
+    int? firstDayOfWeek,
+    CalendarView? viewType,
+    MonthAppointmentDisplayMode? appointmentDisplayMode,
+    bool? showAgenda,
+    DateTime? dbTimestamp,
+  }) {
+    return CalendarOption(
+      showFinished: showFinished ?? this.showFinished,
+      firstDayOfWeek: firstDayOfWeek ?? this.firstDayOfWeek,
+      viewType: viewType ?? this.viewType,
+      appointmentDisplayMode:
+          appointmentDisplayMode ?? this.appointmentDisplayMode,
+      showAgenda: showAgenda ?? this.showAgenda,
+      dbTimestamp: dbTimestamp ?? this.dbTimestamp,
+    );
+  }
 
-  @Enumerated(EnumType.name)
-  CalendarView viewType = CalendarView.month;
+  bool calendarViewTypeIsSchedule() {
+    return viewType == CalendarView.schedule;
+  }
 
-  @Enumerated(EnumType.name)
-  MonthAppointmentDisplayMode appointmentDisplayMode =
-      MonthAppointmentDisplayMode.appointment;
-
-  @Enumerated(EnumType.name)
-  bool showAgenda = true; // For MonthViewSettings
-
-  @Index()
-  DateTime dbTimestamp = DateTime.now();
-
-  bool calendarViewTypeIsMonth() => viewType == CalendarView.month;
-
-  bool calendarViewTypeIsSchedule() => viewType == CalendarView.schedule;
-
-  bool monthAppointmentDisplayModeIsAppointment() =>
-      appointmentDisplayMode == MonthAppointmentDisplayMode.appointment;
-
-  bool monthAppointmentDisplayModeIsIndicator() =>
-      appointmentDisplayMode == MonthAppointmentDisplayMode.indicator;
+  bool calendarViewTypeIsMonth() {
+    return viewType == CalendarView.month;
+  }
 
   // syncfusion_flutter_calendar 에서 사용 하는 형태로 변경
   MonthViewSettings getMonthViewSettings() => MonthViewSettings(
@@ -45,18 +57,52 @@ class CalendarOption {
         showAgenda: showAgenda,
       );
 
-  CalendarOption copyWith(
-      {bool? showFinished,
-      int? firstDayOfWeek,
-      CalendarView? viewType,
-      MonthAppointmentDisplayMode? appointmentDisplayMode,
-      bool? showAgenda}) {
-    return CalendarOption()
-      ..showFinished = showFinished ?? this.showFinished
-      ..firstDayOfWeek = firstDayOfWeek ?? this.firstDayOfWeek
-      ..viewType = viewType ?? this.viewType
-      ..appointmentDisplayMode =
-          appointmentDisplayMode ?? this.appointmentDisplayMode
-      ..showAgenda = showAgenda ?? this.showAgenda;
+  @override
+  String toString() =>
+      'CalendarOption(id: $id, showFinished: $showFinished, firstDayOfWeek: $firstDayOfWeek, '
+      'viewType: $viewType, appointmentDisplayMode: $appointmentDisplayMode, '
+      'showAgenda: $showAgenda, dbTimestamp: $dbTimestamp)';
+}
+
+extension CalendarOptionMapper on CalendarOption {
+  /// CalendarOption -> CalendarOptionTableData
+  CalendarOptionTableData _toData() {
+    return CalendarOptionTableData(
+      id: id ?? 0,
+      // autoIncrement 컬럼이므로, INSERT 시에 0 무시됨.
+      showFinished: showFinished,
+      firstDayOfWeek: firstDayOfWeek,
+      viewType: viewType,
+      appointmentDisplayMode: appointmentDisplayMode,
+      showAgenda: showAgenda,
+      dbTimestamp: dbTimestamp,
+    );
+  }
+
+  CalendarOptionTableCompanion toSchema() {
+    return CalendarOptionTableCompanion(
+      showFinished: Value(showFinished),
+      firstDayOfWeek: Value(firstDayOfWeek),
+      viewType: Value(viewType),
+      appointmentDisplayMode: Value(appointmentDisplayMode),
+      showAgenda: Value(showAgenda),
+      dbTimestamp: Value(dbTimestamp),
+    );
+  }
+}
+
+extension CalendarOptionTableDataMapper on CalendarOptionTableData {
+  /// CalendarOptionTableData -> CalendarOption
+  CalendarOption toModel() {
+    return CalendarOption(
+      id: id,
+      showFinished: showFinished,
+      firstDayOfWeek: firstDayOfWeek,
+      viewType: CalendarView.values.firstWhere((e) => e == viewType),
+      appointmentDisplayMode: MonthAppointmentDisplayMode.values
+          .firstWhere((e) => e == appointmentDisplayMode),
+      showAgenda: showAgenda,
+      dbTimestamp: dbTimestamp,
+    );
   }
 }

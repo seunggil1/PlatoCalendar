@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+
 import 'package:encrypt/encrypt.dart';
 
 class EncryptKey {
@@ -8,7 +9,7 @@ class EncryptKey {
 
   EncryptKey(this.key, this.iv);
 
-  EncryptKey.fromString(String keyString){
+  EncryptKey.fromString(String keyString) {
     String base64key = keyString.split(':')[0];
     String base64Iv = keyString.split(':')[1];
 

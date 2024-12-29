@@ -1,50 +1,31 @@
-import 'package:isar/isar.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart'
-    as syncfusion_calendar;
-
-import 'package:plato_calendar/util/logger.dart';
-import 'package:plato_calendar/etc/school_data.dart' as school_data;
+import 'package:drift/drift.dart';
 import 'package:plato_calendar/etc/calendar_color.dart';
+import 'package:plato_calendar/etc/school_data.dart' as school_data;
+import 'package:plato_calendar/util/logger.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart'
+as syncfusion_calendarart';
 
-part 'plato_appointment.g.dart';
+import 'table/table.dart';
 
-enum Status { enable, disable }
-
-enum DataType { school, etc }
-
-@collection
 class PlatoAppointment {
   static final logger = LoggerManager.getLogger('Model - PlatoAppointment');
 
-  Id id = Isar.autoIncrement;
-
-  @Index(unique: true, replace: true)
+  int? id;
   late String uid;
-
-  late String title;
-  String body = '';
-  String comment = '';
-
-  @Index()
-  late String subjectCode;
-
-  @Index()
+  late String title = '';
+  late String body = '';
+  late String comment = '';
+  late String subjectCode = '';
   late String year;
-
-  @Index()
   late String semester;
 
   late DateTime start;
   late DateTime end;
 
-  DateTime createdAt = DateTime.now();
-  DateTime? deletedAt;
+  late DateTime createdAt = DateTime.now();
+  bool deleted = false;
 
-  @Enumerated(EnumType.name)
-  @Index()
   Status status = Status.enable;
-
-  @Enumerated(EnumType.name)
   DataType dataType = DataType.school;
 
   int color = 0;
@@ -105,7 +86,7 @@ class PlatoAppointment {
 
   /// CopyWith method
   PlatoAppointment copyWith({
-    Id? id,
+    int? id,
     String? uid,
     String? title,
     String? body,
@@ -116,12 +97,12 @@ class PlatoAppointment {
     DateTime? start,
     DateTime? end,
     DateTime? createdAt,
-    DateTime? deletedAt,
+    bool? deleted,
     Status? status,
     DataType? dataType,
   }) {
     return PlatoAppointment()
-      ..id = Isar.autoIncrement
+      ..id = id ?? this.id
       ..uid = uid ?? this.uid
       ..title = title ?? this.title
       ..body = body ?? this.body
@@ -132,7 +113,7 @@ class PlatoAppointment {
       ..start = start ?? this.start
       ..end = end ?? this.end
       ..createdAt = createdAt ?? this.createdAt
-      ..deletedAt = deletedAt ?? this.deletedAt
+      ..deleted = deleted ?? this.deleted
       ..status = status ?? this.status
       ..dataType = dataType ?? this.dataType;
   }
@@ -160,6 +141,68 @@ class PlatoAppointment {
 
   @override
   String toString() {
-    return 'Appointment{uid: $uid, title: $title, body: $body, comment: $comment, subjectCode: $subjectCode, year: $year, semester: $semester, start: $start, end: $end, createdAt: $createdAt, deletedAt: $deletedAt, status: $status, dataType: $dataType}';
+    return 'Appointment{uid: $uid, title: $title, body: $body, comment: $comment, subjectCode: $subjectCode, year: $year, semester: $semester, start: $start, end: $end, createdAt: $createdAt, deleted: $deleted, status: $status, dataType: $dataType}';
+  }
+}
+
+extension PlatoAppointmentMapper on PlatoAppointment {
+  PlatoAppointmentTableData _toData() {
+    return PlatoAppointmentTableData(
+      id: id ?? 0,
+      uid: uid,
+      title: title,
+      body: body,
+      comment: comment,
+      subjectCode: subjectCode,
+      year: year,
+      semester: semester,
+      start: start,
+      end: end,
+      createdAt: createdAt,
+      deleted: deleted,
+      status: status,
+      dataType: dataType,
+      color: color,
+    );
+  }
+
+  PlatoAppointmentTableCompanion toSchema() {
+    return PlatoAppointmentTableCompanion(
+      uid: Value(uid),
+      title: Value(title),
+      body: Value(body),
+      comment: Value(comment),
+      subjectCode: Value(subjectCode),
+      year: Value(year),
+      semester: Value(semester),
+      start: Value(start),
+      end: Value(end),
+      createdAt: Value(createdAt),
+      deleted: Value(deleted),
+      status: Value(status),
+      dataType: Value(dataType),
+      color: Value(color),
+    );
+  }
+}
+
+extension PlatoAppointmentTableDataMapper on PlatoAppointmentTableData {
+  PlatoAppointment toModel() {
+    return PlatoAppointment()
+      ..id = id
+      ..uid = uid
+      ..title = title
+      ..body = body
+      ..comment = comment
+      ..subjectCode = subjectCode
+      ..year = year
+      ..semester = semester
+      ..start = start
+      ..end = end
+      ..createdAt = createdAt
+      ..deleted = deleted
+      ..status = Status.values.firstWhere((e) => e == status)
+      ..dataType = DataType.values.firstWhere((e) => e == dataType)
+      ..color = color;
   }
 }

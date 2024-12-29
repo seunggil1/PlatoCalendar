@@ -1,6 +1,7 @@
 import 'dart:developer' as dart_logger;
 
 import 'package:logging/logging.dart';
+
 export 'package:logging/logging.dart';
 
 class LoggerManager {
@@ -17,7 +18,8 @@ class LoggerManager {
   static void _setupLogging() {
     Logger.root.level = Level.INFO;
     Logger.root.onRecord.listen((record) {
-      dart_logger.log('${record.level.name}: ${record.time}: "${record.loggerName}" - "${record.message}"');
+      dart_logger.log(
+          '${record.level.name}: ${record.time}: "${record.loggerName}" - "${record.message}"');
     });
 
     LoggerManager._init = true;
@@ -25,14 +27,10 @@ class LoggerManager {
 
   // Logger 인스턴스를 반환하는 메서드
   static Logger getLogger(String name) {
-    if(!LoggerManager._init) {
+    if (!LoggerManager._init) {
       _setupLogging();
     }
 
     return Logger(name);
   }
 }
-
-
-
-

@@ -5,6 +5,6 @@ library;
 // dart run build_runner build
 
 export 'calendar_option.dart';
-export 'plato_appointment.dart';
-export 'plato_credential.dart';
 export 'encrypt_key.dart';
+export 'plato_appointment.dart';
+export 'plato_credentialdart';

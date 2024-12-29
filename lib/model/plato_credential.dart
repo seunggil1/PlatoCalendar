@@ -1,16 +1,13 @@
-import 'package:isar/isar.dart';
+import 'package:drift/drift.dart';
 
-part 'plato_credential.g.dart';
+import 'table/table.dart';
 
-@collection
 class PlatoCredential {
-  Id id = Isar.autoIncrement;
+  int? id;
 
-  @Index(unique: true, replace: true)
   late String username;
   late String password;
 
-  @Index()
   DateTime dbTimestamp = DateTime.now();
 
   @override
@@ -27,5 +24,34 @@ class PlatoCredential {
   @override
   String toString() {
     return 'PlatoCredential{username: $username}';
+  }
+}
+
+extension PlatoCredentialMapper on PlatoCredential {
+  PlatoCredentialTableData _toData() {
+    return PlatoCredentialTableData(
+      id: id ?? 0,
+      username: username,
+      password: password,
+      dbTimestamp: dbTimestamp,
+    );
+  }
+
+  PlatoCredentialTableCompanion toSchema() {
+    return PlatoCredentialTableCompanion(
+      username: Value(username),
+      password: Value(password),
+      dbTimestamp: Value(dbTimestamp),
+    );
+  }
+}
+
+extension PlatoCredentialTableDataMapper on PlatoCredentialTableData {
+  PlatoCredential toModel() {
+    return PlatoCredential()
+      ..id = id
+      ..username = username
+      ..password = password
+      ..dbTimestamp = dbTimestamp;
   }
 }

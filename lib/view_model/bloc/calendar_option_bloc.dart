@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-
 import 'package:plato_calendar/model/model.dart';
+
 import './bloc_event/bloc_event.dart';
 import './bloc_state/bloc_state.dart';
 
@@ -11,6 +11,9 @@ class CalendarOptionBloc
     on<Initial>((event, emit) {});
     on<Loading>((event, emit) {});
     on<LoadingFinished>((event, emit) {});
-    on<Update>((event, emit) {});
+    on<Update>((event, emit) {
+      emit(CalendarOptionState(event.option));
+      // CalendarOptionState test = state # CalendarOptionState;
+    });
   }
 }
