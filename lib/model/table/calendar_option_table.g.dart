@@ -8,9 +8,7 @@ class $CalendarOptionTableTable extends CalendarOptionTable
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-
   $CalendarOptionTableTable(this.attachedDatabase, [this._alias]);
-
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -67,7 +65,6 @@ class $CalendarOptionTableTable extends CalendarOptionTable
   late final GeneratedColumn<DateTime> dbTimestamp = GeneratedColumn<DateTime>(
       'db_timestamp', aliasedName, false,
       type: DriftSqlType.dateTime, requiredDuringInsert: true);
-
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -78,14 +75,11 @@ class $CalendarOptionTableTable extends CalendarOptionTable
         showAgenda,
         dbTimestamp
       ];
-
   @override
   String get aliasedName => _alias ?? actualTableName;
-
   @override
   String get actualTableName => $name;
   static const String $name = 'calendar_option_table';
-
   @override
   VerificationContext validateIntegrity(
       Insertable<CalendarOptionTableData> instance,
@@ -135,7 +129,6 @@ class $CalendarOptionTableTable extends CalendarOptionTable
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
-
   @override
   CalendarOptionTableData map(Map<String, dynamic> data,
       {String? tablePrefix}) {
@@ -183,7 +176,6 @@ class CalendarOptionTableData extends DataClass
   final MonthAppointmentDisplayMode appointmentDisplayMode;
   final bool showAgenda;
   final DateTime dbTimestamp;
-
   const CalendarOptionTableData(
       {required this.id,
       required this.showFinished,
@@ -192,7 +184,6 @@ class CalendarOptionTableData extends DataClass
       required this.appointmentDisplayMode,
       required this.showAgenda,
       required this.dbTimestamp});
-
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -241,7 +232,6 @@ class CalendarOptionTableData extends DataClass
       dbTimestamp: serializer.fromJson<DateTime>(json['dbTimestamp']),
     );
   }
-
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
@@ -277,7 +267,6 @@ class CalendarOptionTableData extends DataClass
         showAgenda: showAgenda ?? this.showAgenda,
         dbTimestamp: dbTimestamp ?? this.dbTimestamp,
       );
-
   CalendarOptionTableData copyWithCompanion(CalendarOptionTableCompanion data) {
     return CalendarOptionTableData(
       id: data.id.present ? data.id.value : this.id,
@@ -315,7 +304,6 @@ class CalendarOptionTableData extends DataClass
   @override
   int get hashCode => Object.hash(id, showFinished, firstDayOfWeek, viewType,
       appointmentDisplayMode, showAgenda, dbTimestamp);
-
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -338,7 +326,6 @@ class CalendarOptionTableCompanion
   final Value<MonthAppointmentDisplayMode> appointmentDisplayMode;
   final Value<bool> showAgenda;
   final Value<DateTime> dbTimestamp;
-
   const CalendarOptionTableCompanion({
     this.id = const Value.absent(),
     this.showFinished = const Value.absent(),
@@ -348,7 +335,6 @@ class CalendarOptionTableCompanion
     this.showAgenda = const Value.absent(),
     this.dbTimestamp = const Value.absent(),
   });
-
   CalendarOptionTableCompanion.insert({
     this.id = const Value.absent(),
     required bool showFinished,
@@ -363,7 +349,6 @@ class CalendarOptionTableCompanion
         appointmentDisplayMode = Value(appointmentDisplayMode),
         showAgenda = Value(showAgenda),
         dbTimestamp = Value(dbTimestamp);
-
   static Insertable<CalendarOptionTableData> custom({
     Expression<int>? id,
     Expression<bool>? showFinished,
@@ -452,17 +437,17 @@ class CalendarOptionTableCompanion
 
 abstract class _$CalendarOptionDrift extends GeneratedDatabase {
   _$CalendarOptionDrift(QueryExecutor e) : super(e);
-
   $CalendarOptionDriftManager get managers => $CalendarOptionDriftManager(this);
   late final $CalendarOptionTableTable calendarOptionTable =
       $CalendarOptionTableTable(this);
-
+  late final Index dbTimestamp = Index('dbTimestamp',
+      'CREATE INDEX dbTimestamp ON calendar_option_table (db_timestamp)');
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
-
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [calendarOptionTable];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [calendarOptionTable, dbTimestamp];
 }
 
 typedef $$CalendarOptionTableTableCreateCompanionBuilder
@@ -495,7 +480,6 @@ class $$CalendarOptionTableTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-
   ColumnFilters<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnFilters(column));
 
@@ -533,7 +517,6 @@ class $$CalendarOptionTableTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-
   ColumnOrderings<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnOrderings(column));
 
@@ -568,7 +551,6 @@ class $$CalendarOptionTableTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
@@ -684,9 +666,7 @@ typedef $$CalendarOptionTableTableProcessedTableManager = ProcessedTableManager<
 
 class $CalendarOptionDriftManager {
   final _$CalendarOptionDrift _db;
-
   $CalendarOptionDriftManager(this._db);
-
   $$CalendarOptionTableTableTableManager get calendarOptionTable =>
       $$CalendarOptionTableTableTableManager(_db, _db.calendarOptionTable);
 }

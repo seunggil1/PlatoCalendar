@@ -15,7 +15,14 @@ class PlatoCalendarAPIException implements Exception {
 class PlatoCalendarAPI {
   static final logger = LoggerManager.getLogger('PlatoCalendarSync');
 
-  static Future<PlatoMoodleSession> login(PlatoCredential credential) async {
+  static Future<List<String>> getPlatoCalendar(PlatoCredential credential) async {
+    final moodleSession = await _login(credential);
+    final calendar = await _getCalendar(moodleSession);
+
+    return calendar;
+  }
+
+  static Future<PlatoMoodleSession> _login(PlatoCredential credential) async {
     late Response response;
     try {
       String body =
@@ -72,7 +79,7 @@ class PlatoCalendarAPI {
     }
   }
 
-  static Future<List<String>> getCalendar(
+  static Future<List<String>> _getCalendar(
       PlatoMoodleSession moodleSession) async {
     try {
       Response response = await Dio()

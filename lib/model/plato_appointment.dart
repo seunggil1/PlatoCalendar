@@ -14,7 +14,9 @@ class PlatoAppointment {
   late String uid;
   late String title = '';
   late String body = '';
-  late String comment = '';
+
+  late String comment = ''; // 해당 칼럼은 사용자가 넣은 코멘트를 저장하는 칼럼입니다.
+
   late String subjectCode = '';
   late String year;
   late String semester;

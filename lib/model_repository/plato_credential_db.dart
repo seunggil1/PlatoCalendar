@@ -1,5 +1,4 @@
 import 'package:plato_calendar/model/model.dart';
-import 'package:plato_calendar/model/table/plato_credential_table.dart';
 import 'package:plato_calendar/service/service.dart';
 import 'package:plato_calendar/util/logger.dart';
 
@@ -49,6 +48,15 @@ class PlatoCredentialDB {
       return queryResult;
     } catch (e, stackTrace) {
       logger.severe('Failed to check isEmpty : $e', stackTrace);
+      rethrow;
+    }
+  }
+
+  static Future<void> deleteAll() async {
+    try {
+      await database.deleteAll();
+    } catch (e, stackTrace) {
+      logger.severe('Failed to deleteAll : $e', stackTrace);
       rethrow;
     }
   }

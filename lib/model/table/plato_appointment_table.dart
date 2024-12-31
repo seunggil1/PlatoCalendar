@@ -7,7 +7,7 @@ enum Status { enable, disable }
 
 enum DataType { school, etc }
 
-@TableIndex(name: 'name', columns: {#deleted})
+@TableIndex(name: 'deleted', columns: {#deleted})
 class PlatoAppointmentTable extends Table {
   IntColumn get id => integer().autoIncrement()();
 
@@ -83,6 +83,12 @@ class PlatoAppointmentDrift extends _$PlatoAppointmentDrift {
       return await (delete(platoAppointmentTable)
             ..where((col) => col.id.equals(id)))
           .go();
+    });
+  }
+
+  Future<void> deleteAll() async {
+    await transaction(() async {
+      return await delete(platoAppointmentTable).go();
     });
   }
 }

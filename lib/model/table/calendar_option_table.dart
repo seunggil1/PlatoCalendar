@@ -4,6 +4,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 part 'calendar_option_table.g.dart';
 
+@TableIndex(name: 'dbTimestamp', columns: {#dbTimestamp})
 class CalendarOptionTable extends Table {
   IntColumn get id => integer().autoIncrement()();
 

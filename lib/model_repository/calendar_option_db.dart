@@ -1,5 +1,4 @@
 import 'package:plato_calendar/model/model.dart';
-import 'package:plato_calendar/model/table/table.dart';
 import 'package:plato_calendar/util/logger.dart';
 
 class CalendarOptionDB {
@@ -7,7 +6,7 @@ class CalendarOptionDB {
       LoggerManager.getLogger('model_repository - CalendarOptionDB');
   static CalendarOptionDrift database = CalendarOptionDrift();
 
-  Future<void> write(CalendarOption data) async {
+  static Future<void> write(CalendarOption data) async {
     try {
       await database.replace(data.toSchema());
     } catch (e, stackTrace) {
@@ -16,7 +15,7 @@ class CalendarOptionDB {
     }
   }
 
-  Future<CalendarOption> read() async {
+  static Future<CalendarOption> read() async {
     try {
       return await database.read().then((value) => value.toModel());
     } catch (e, stackTrace) {
@@ -25,7 +24,7 @@ class CalendarOptionDB {
     }
   }
 
-  Future<bool> isEmpty() async {
+  static Future<bool> isEmpty() async {
     try {
       return await database.isEmpty();
     } catch (e, stackTrace) {
@@ -35,7 +34,7 @@ class CalendarOptionDB {
     }
   }
 
-  Future<int> count() async {
+  static Future<int> count() async {
     try {
       return await database.count();
     } catch (e, stackTrace) {

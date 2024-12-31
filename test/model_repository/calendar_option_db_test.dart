@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:drift/drift.dart';
+import 'package:drift_flutter/drift_flutter.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plato_calendar/model/model.dart';
@@ -44,15 +46,29 @@ void main() {
   });
 
   group('CalendarOptionDB test', () {
+    test('read : read CalendarOption from empty database', () async {
+      // 데이터 읽기
+      try{
+        await CalendarOptionDB.read();
+      }on StateError catch (e){
+        if(e.message == 'No element'){
+          return;
+        }else{
+          rethrow;
+        }
+      } catch (e) {
+        rethrow;
+      }
+    });
+
     test('write: Should write a calendar option to the database', () async {
       // CalendarOptionDB 생성
-      final db = CalendarOptionDB();
 
       // 데이터베이스 쓰기
-      await db.write(testCalendarOption);
+      await CalendarOptionDB.write(testCalendarOption);
 
       // 데이터 읽기
-      final readData = await db.read();
+      final readData = await CalendarOptionDB.read();
 
       // 검증
       expect(readData.showFinished, testCalendarOption.showFinished);

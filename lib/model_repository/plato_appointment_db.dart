@@ -1,6 +1,4 @@
 import 'package:plato_calendar/model/model.dart';
-import 'package:plato_calendar/model/plato_appointment.dart';
-import 'package:plato_calendar/model/table/table.dart';
 import 'package:plato_calendar/util/logger.dart';
 
 class PlatoAppointmentDB {
@@ -20,7 +18,13 @@ class PlatoAppointmentDB {
 
   static Future<void> writeAll(List<PlatoAppointment> data) async {
     try {
-      final schemaList = data.map((e) => e.toSchema()).toList();
+      final originalData = await database.readAll();
+      final originalUidSet = originalData.map((e) => e.toModel().uid).toSet();
+
+      final updateTargetList = data.where((element) => !originalUidSet.contains(element.uid));
+
+      // TODO : 데이터 변동이 있으면 어떻게 업데이트 할 것인지 고민해보기
+      final schemaList = updateTargetList.map((e) => e.toSchema()).toList();
       await database.writeAll(schemaList);
     } catch (e, stackTrace) {
       logger.severe('Failed to writeAllAppointments: $e', stackTrace);
@@ -46,6 +50,15 @@ class PlatoAppointmentDB {
       return result.toModel();
     } catch (e, stackTrace) {
       logger.severe('Failed to readAppointmentById: $e', stackTrace);
+      rethrow;
+    }
+  }
+
+  static Future<void> deleteAll() async {
+    try {
+      await database.deleteAll();
+    } catch (e, stackTrace) {
+      logger.severe('Failed to deleteAllAppointments: $e', stackTrace);
       rethrow;
     }
   }

@@ -43,4 +43,10 @@ class PlatoCredentialDrift extends _$PlatoCredentialDrift {
   Future<bool> isEmpty() async {
     return (await managers.platoCredentialTable.count()) == 0;
   }
+
+  Future<void> deleteAll() async {
+    await transaction(() async {
+      return await delete(platoCredentialTable).go();
+    });
+  }
 }
