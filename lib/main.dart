@@ -8,15 +8,6 @@ import 'package:plato_calendar/view_model/view_model.dart';
 void main() async {
   final logger = LoggerManager.getLogger('main');
   setupBlocLogger();
-
-  // PlatoCredential credential = PlatoCredential()
-  //   ..username = '201722102'
-  //   ..password = 'rkdtmdrlf1!';
-  // PlatoMoodleSession session = await PlatoCalendarAPI.login(credential);
-  // List<String> calendarData = await PlatoCalendarAPI.getCalendar(session);
-  //
-  // List<PlatoAppointment> result1 = CalendarParser.parse(calendarData[0]);
-  // List<PlatoAppointment> result2 = CalendarParser.parse(calendarData[1]);
   runApp(const MyApp());
 }
 
