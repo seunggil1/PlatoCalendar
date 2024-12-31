@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plato_calendar/model/model.dart';
 
 import './bloc_event/bloc_event.dart';
@@ -8,10 +8,10 @@ import './bloc_state/bloc_state.dart';
 class CalendarOptionBloc
     extends Bloc<CalendarOptionEvent, CalendarOptionState> {
   CalendarOptionBloc() : super(CalendarOptionState(CalendarOption())) {
-    on<Initial>((event, emit) {});
-    on<Loading>((event, emit) {});
-    on<LoadingFinished>((event, emit) {});
-    on<Update>((event, emit) {
+    on<CalendarOptionInitial>((event, emit) {});
+    on<CalendarOptionLoading>((event, emit) {});
+    on<CalendarOptionLoadingFinished>((event, emit) {});
+    on<CalendarOptionUpdate>((event, emit) {
       emit(CalendarOptionState(event.option));
       // CalendarOptionState test = state # CalendarOptionState;
     });

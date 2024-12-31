@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:drift/drift.dart';
 import 'package:plato_calendar/etc/calendar_color.dart';
 import 'package:plato_calendar/etc/school_data.dart' as school_data;
@@ -6,6 +8,8 @@ import 'package:syncfusion_flutter_calendar/calendar.dart'
     as syncfusion_calendar;
 
 import 'table/table.dart';
+
+part 'plato_appointment_mapper.dart';
 
 class PlatoAppointment {
   static final logger = LoggerManager.getLogger('Model - PlatoAppointment');
@@ -120,16 +124,6 @@ class PlatoAppointment {
       ..dataType = dataType ?? this.dataType;
   }
 
-  syncfusion_calendar.Appointment toAppointment() {
-    return syncfusion_calendar.Appointment(
-        startTime: start == end ? start : end,
-        endTime: end,
-        subject: title,
-        notes: body,
-        color: calendarColor[color],
-        resourceIds: <int>[hashCode]);
-  }
-
   @override
   int get hashCode => Object.hash(uid, null);
 
@@ -144,67 +138,5 @@ class PlatoAppointment {
   @override
   String toString() {
     return 'Appointment{uid: $uid, title: $title, body: $body, comment: $comment, subjectCode: $subjectCode, year: $year, semester: $semester, start: $start, end: $end, createdAt: $createdAt, deleted: $deleted, status: $status, dataType: $dataType}';
-  }
-}
-
-extension PlatoAppointmentMapper on PlatoAppointment {
-  PlatoAppointmentTableData _toData() {
-    return PlatoAppointmentTableData(
-      id: id ?? 0,
-      uid: uid,
-      title: title,
-      body: body,
-      comment: comment,
-      subjectCode: subjectCode,
-      year: year,
-      semester: semester,
-      start: start,
-      end: end,
-      createdAt: createdAt,
-      deleted: deleted,
-      status: status,
-      dataType: dataType,
-      color: color,
-    );
-  }
-
-  PlatoAppointmentTableCompanion toSchema() {
-    return PlatoAppointmentTableCompanion(
-      uid: Value(uid),
-      title: Value(title),
-      body: Value(body),
-      comment: Value(comment),
-      subjectCode: Value(subjectCode),
-      year: Value(year),
-      semester: Value(semester),
-      start: Value(start),
-      end: Value(end),
-      createdAt: Value(createdAt),
-      deleted: Value(deleted),
-      status: Value(status),
-      dataType: Value(dataType),
-      color: Value(color),
-    );
-  }
-}
-
-extension PlatoAppointmentTableDataMapper on PlatoAppointmentTableData {
-  PlatoAppointment toModel() {
-    return PlatoAppointment()
-      ..id = id
-      ..uid = uid
-      ..title = title
-      ..body = body
-      ..comment = comment
-      ..subjectCode = subjectCode
-      ..year = year
-      ..semester = semester
-      ..start = start
-      ..end = end
-      ..createdAt = createdAt
-      ..deleted = deleted
-      ..status = Status.values.firstWhere((e) => e == status)
-      ..dataType = DataType.values.firstWhere((e) => e == dataType)
-      ..color = color;
   }
 }

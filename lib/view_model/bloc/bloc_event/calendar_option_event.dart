@@ -6,16 +6,16 @@ sealed class CalendarOptionEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class Initial extends CalendarOptionEvent {}
+class CalendarOptionInitial extends CalendarOptionEvent {}
 
-class Loading extends CalendarOptionEvent {}
+class CalendarOptionLoading extends CalendarOptionEvent {}
 
-class LoadingFinished extends CalendarOptionEvent {}
+class CalendarOptionLoadingFinished extends CalendarOptionEvent {}
 
-class Update extends CalendarOptionEvent {
+class CalendarOptionUpdate extends CalendarOptionEvent {
   final CalendarOption option;
 
-  Update(this.option);
+  CalendarOptionUpdate(this.option);
 
   @override
   List<Object?> get props => [option];

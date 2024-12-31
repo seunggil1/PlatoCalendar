@@ -22,7 +22,7 @@ class PlatoCalendarPage extends StatelessWidget {
 
             // CalendarViewType가 Schedule이면 Month로 변경
             if (calendarOption.calendarViewTypeIsSchedule()) {
-              context.read<CalendarOptionBloc>().add(Update(
+              context.read<CalendarOptionBloc>().add(CalendarOptionUpdate(
                   calendarOption.copyWith(viewType: CalendarView.month)));
             } else {
               SystemNavigator.pop();
