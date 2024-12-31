@@ -8,7 +8,9 @@ class $PlatoCredentialTableTable extends PlatoCredentialTable
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
+
   $PlatoCredentialTableTable(this.attachedDatabase, [this._alias]);
+
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -42,13 +44,17 @@ class $PlatoCredentialTableTable extends PlatoCredentialTable
   late final GeneratedColumn<DateTime> dbTimestamp = GeneratedColumn<DateTime>(
       'db_timestamp', aliasedName, false,
       type: DriftSqlType.dateTime, requiredDuringInsert: true);
+
   @override
   List<GeneratedColumn> get $columns => [id, username, password, dbTimestamp];
+
   @override
   String get aliasedName => _alias ?? actualTableName;
+
   @override
   String get actualTableName => $name;
   static const String $name = 'plato_credential_table';
+
   @override
   VerificationContext validateIntegrity(
       Insertable<PlatoCredentialTableData> instance,
@@ -83,6 +89,7 @@ class $PlatoCredentialTableTable extends PlatoCredentialTable
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
+
   @override
   PlatoCredentialTableData map(Map<String, dynamic> data,
       {String? tablePrefix}) {
@@ -111,11 +118,13 @@ class PlatoCredentialTableData extends DataClass
   final String username;
   final String password;
   final DateTime dbTimestamp;
+
   const PlatoCredentialTableData(
       {required this.id,
       required this.username,
       required this.password,
       required this.dbTimestamp});
+
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -145,6 +154,7 @@ class PlatoCredentialTableData extends DataClass
       dbTimestamp: serializer.fromJson<DateTime>(json['dbTimestamp']),
     );
   }
+
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
@@ -167,6 +177,7 @@ class PlatoCredentialTableData extends DataClass
         password: password ?? this.password,
         dbTimestamp: dbTimestamp ?? this.dbTimestamp,
       );
+
   PlatoCredentialTableData copyWithCompanion(
       PlatoCredentialTableCompanion data) {
     return PlatoCredentialTableData(
@@ -191,6 +202,7 @@ class PlatoCredentialTableData extends DataClass
 
   @override
   int get hashCode => Object.hash(id, username, password, dbTimestamp);
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -207,12 +219,14 @@ class PlatoCredentialTableCompanion
   final Value<String> username;
   final Value<String> password;
   final Value<DateTime> dbTimestamp;
+
   const PlatoCredentialTableCompanion({
     this.id = const Value.absent(),
     this.username = const Value.absent(),
     this.password = const Value.absent(),
     this.dbTimestamp = const Value.absent(),
   });
+
   PlatoCredentialTableCompanion.insert({
     this.id = const Value.absent(),
     required String username,
@@ -221,6 +235,7 @@ class PlatoCredentialTableCompanion
   })  : username = Value(username),
         password = Value(password),
         dbTimestamp = Value(dbTimestamp);
+
   static Insertable<PlatoCredentialTableData> custom({
     Expression<int>? id,
     Expression<String>? username,
@@ -280,13 +295,16 @@ class PlatoCredentialTableCompanion
 
 abstract class _$PlatoCredentialDrift extends GeneratedDatabase {
   _$PlatoCredentialDrift(QueryExecutor e) : super(e);
+
   $PlatoCredentialDriftManager get managers =>
       $PlatoCredentialDriftManager(this);
   late final $PlatoCredentialTableTable platoCredentialTable =
       $PlatoCredentialTableTable(this);
+
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
+
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [platoCredentialTable];
 }
@@ -315,6 +333,7 @@ class $$PlatoCredentialTableTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+
   ColumnFilters<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnFilters(column));
 
@@ -337,6 +356,7 @@ class $$PlatoCredentialTableTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+
   ColumnOrderings<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnOrderings(column));
 
@@ -359,6 +379,7 @@ class $$PlatoCredentialTableTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
@@ -452,7 +473,9 @@ typedef $$PlatoCredentialTableTableProcessedTableManager
 
 class $PlatoCredentialDriftManager {
   final _$PlatoCredentialDrift _db;
+
   $PlatoCredentialDriftManager(this._db);
+
   $$PlatoCredentialTableTableTableManager get platoCredentialTable =>
       $$PlatoCredentialTableTableTableManager(_db, _db.platoCredentialTable);
 }

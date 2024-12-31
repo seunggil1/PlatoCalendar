@@ -15,7 +15,8 @@ class PlatoCalendarAPIException implements Exception {
 class PlatoCalendarAPI {
   static final logger = LoggerManager.getLogger('PlatoCalendarSync');
 
-  static Future<List<String>> getPlatoCalendar(PlatoCredential credential) async {
+  static Future<List<String>> getPlatoCalendar(
+      PlatoCredential credential) async {
     final moodleSession = await _login(credential);
     final calendar = await _getCalendar(moodleSession);
 

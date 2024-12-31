@@ -21,7 +21,8 @@ class PlatoAppointmentDB {
       final originalData = await database.readAll();
       final originalUidSet = originalData.map((e) => e.toModel().uid).toSet();
 
-      final updateTargetList = data.where((element) => !originalUidSet.contains(element.uid));
+      final updateTargetList =
+          data.where((element) => !originalUidSet.contains(element.uid));
 
       // TODO : 데이터 변동이 있으면 어떻게 업데이트 할 것인지 고민해보기
       final schemaList = updateTargetList.map((e) => e.toSchema()).toList();

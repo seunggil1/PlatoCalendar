@@ -30,8 +30,8 @@ class SyncInfoDrift extends _$SyncInfoDrift {
   Future<SyncInfoTableData> read() async {
     return await (select(syncInfoTable)
           ..orderBy([
-            (t) =>
-                OrderingTerm(expression: t.platoSyncTime, mode: OrderingMode.desc)
+            (t) => OrderingTerm(
+                expression: t.platoSyncTime, mode: OrderingMode.desc)
           ])
           ..limit(1))
         .getSingle();

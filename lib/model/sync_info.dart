@@ -1,5 +1,4 @@
 import 'package:drift/drift.dart';
-import 'package:drift_flutter/drift_flutter.dart';
 
 import 'table/table.dart';
 
@@ -17,7 +16,9 @@ class SyncInfo {
     if (identical(this, other)) return true;
     if (other.runtimeType != runtimeType) return false;
 
-    return other is SyncInfo && other.id == id && other.platoSyncTime == platoSyncTime;
+    return other is SyncInfo &&
+        other.id == id &&
+        other.platoSyncTime == platoSyncTime;
   }
 
   @override
