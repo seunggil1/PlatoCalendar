@@ -6,13 +6,14 @@ sealed class PlatoAppointmentEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class PlatoAppointmentLoading extends PlatoAppointmentEvent {}
+class LoadDataRequest extends PlatoAppointmentEvent {}
+class SyncRequest extends PlatoAppointmentEvent {}
 
-class PlatoAppointmentLoadingFinished extends PlatoAppointmentEvent {
-  final List<PlatoAppointment> appointments;
-
-  PlatoAppointmentLoadingFinished(this.appointments);
-
-  @override
-  List<Object?> get props => [appointments];
-}
+// class PlatoAppointmentUpdated extends PlatoAppointmentEvent {
+//   final List<PlatoAppointment> appointments;
+//
+//   PlatoAppointmentUpdated(this.appointments);
+//
+//   @override
+//   List<Object?> get props => [appointments];
+// }

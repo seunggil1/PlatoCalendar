@@ -38,7 +38,7 @@ class SettingPage extends StatelessWidget {
             child: const Text('show Agenda true')),
         TextButton(
             onPressed: () {
-              platoAppointmentBloc.add(PlatoAppointmentLoading());
+              platoAppointmentBloc.add(SyncRequest());
             },
             child: const Text('update plato data')),
         TextButton(

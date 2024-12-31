@@ -8,10 +8,13 @@ import 'bloc_event/bloc_event.dart';
 class PlatoAppointmentBloc
     extends Bloc<PlatoAppointmentEvent, List<PlatoAppointment>> {
   PlatoAppointmentBloc() : super(<PlatoAppointment>[]) {
-    on<PlatoAppointmentLoading>((event, emit) async {
-      await AppSyncHandler.sync();
+    on<LoadDataRequest>((event, emit) async {
       emit(await PlatoAppointmentDB.readAll());
     });
-    on<PlatoAppointmentLoadingFinished>((event, emit) {});
+
+    on<SyncRequest>((event, emit) async {
+      await AppSyncHandler.sync();
+      add(LoadDataRequest());
+    });
   }
 }

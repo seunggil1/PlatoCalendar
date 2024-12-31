@@ -47,13 +47,24 @@ class MaterialThemePage extends StatelessWidget {
               colorScheme: ColorScheme.fromSwatch(
                   primarySwatch: Colors.blueGrey, brightness: Brightness.dark)),
           themeMode: state.platoTheme,
-          home: const MainBlocPage());
+          home: const InitStatefulPage());
     });
   }
 }
 
-class MainBlocPage extends StatelessWidget {
-  const MainBlocPage({super.key});
+class InitStatefulPage extends StatefulWidget {
+  const InitStatefulPage({super.key});
+
+  @override
+  State<InitStatefulPage> createState() => MainBlocPage();
+}
+
+class MainBlocPage extends State<InitStatefulPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<PlatoAppointmentBloc>().add(LoadDataRequest());
+  }
 
   @override
   Widget build(BuildContext context) {
