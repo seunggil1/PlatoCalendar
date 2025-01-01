@@ -3,7 +3,7 @@ import 'package:plato_calendar/model_repository/model_repository.dart';
 import 'package:plato_calendar/util/util.dart';
 
 import 'calendar_parser.dart';
-import 'plato_calendar_api.dart';
+import 'calendar_api.dart';
 
 class AppSyncHandler {
   static final logger = LoggerManager.getLogger('service - AppSyncHandler');
@@ -37,7 +37,7 @@ class AppSyncHandler {
     try {
       PlatoCredential credential = await PlatoCredentialDB.read();
       List<String> calendarData =
-          await PlatoCalendarAPI.getPlatoCalendar(credential);
+          await CalendarAPI.getPlatoCalendar(credential);
 
       final data1 = CalendarParser.parse(calendarData[0]).toSet();
       final data2 = CalendarParser.parse(calendarData[1]).toSet();

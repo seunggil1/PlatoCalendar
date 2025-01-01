@@ -6,13 +6,21 @@ import 'package:plato_calendar/util/logger.dart';
 
 typedef PlatoMoodleSession = String;
 
-class PlatoCalendarAPIException implements Exception {
+class CalendarAPIException implements Exception {
   final String message;
 
-  PlatoCalendarAPIException(this.message);
+  @override
+  String toString() {
+    return 'CalendarAPIException: $message';
+  }
+  CalendarAPIException(this.message);
 }
 
-class PlatoCalendarAPI {
+class CalendarAPILoginException extends CalendarAPIException{
+  CalendarAPILoginException(super.message);
+}
+
+class CalendarAPI {
   static final logger = LoggerManager.getLogger('PlatoCalendarSync');
 
   static Future<List<String>> getPlatoCalendar(
@@ -21,6 +29,19 @@ class PlatoCalendarAPI {
     final calendar = await _getCalendar(moodleSession);
 
     return calendar;
+  }
+
+  static Future<bool> checkPlatoLogin(PlatoCredential credential) async {
+    try {
+      await _login(credential);
+      return true;
+    } on CalendarAPILoginException catch (e) {
+      logger.warning('Failed to checkPlatoLogin: $e');
+      return false;
+    } catch (e) {
+      logger.severe('Failed to checkPlatoLogin: $e');
+      rethrow;
+    }
   }
 
   static Future<PlatoMoodleSession> _login(PlatoCredential credential) async {
@@ -50,24 +71,24 @@ class PlatoCalendarAPI {
 
       logger.severe(
           'response.statusCode != 303 : status code=${response.statusCode}, body=${response.data}');
-      throw PlatoCalendarAPIException(
+      throw CalendarAPIException(
           'response.statusCode != 303 : status code=${response.statusCode}, body=${response.data}');
     } on DioException catch (e, stackTrace) {
       if (e.response != null && e.response?.statusCode == 303) {
         response = e.response!;
       } else {
         logger.severe('Failed to login: $e', stackTrace);
-        rethrow;
+        throw CalendarAPIException(e.message ?? '');
       }
     } catch (e, stackTrace) {
       logger.severe('Failed to login: $e', stackTrace);
-      rethrow;
+      throw CalendarAPIException(e.toString());
     }
 
     try {
       if (response.headers.map['location']![0] ==
           'https://plato.pusan.ac.kr/login.php?errorcode=3') {
-        throw PlatoCalendarAPIException('ID,PW is incorrect');
+        throw CalendarAPILoginException('ID,PW is incorrect');
       } else {
         PlatoMoodleSession moodleSession =
             response.headers.map['set-cookie']![1];
@@ -75,8 +96,11 @@ class PlatoCalendarAPI {
         return moodleSession;
       }
     } catch (e, stackTrace) {
+      if (e is CalendarAPILoginException) {
+        rethrow;
+      }
       logger.severe('Failed to login result parse: $e', stackTrace);
-      rethrow;
+      throw CalendarAPIException(e.toString());
     }
   }
 
@@ -135,7 +159,7 @@ class PlatoCalendarAPI {
       });
     } catch (e, stackTrace) {
       logger.severe('Failed to get calendar: $e', stackTrace);
-      rethrow;
+      throw CalendarAPIException(e.toString());
     }
   }
 }
