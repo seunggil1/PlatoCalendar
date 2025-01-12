@@ -9,6 +9,7 @@ final class CalendarOptionState {
     calendarOption = option;
     calendarController = CalendarController()
       ..view = option.viewType
-      ..displayDate = DateTime.now();
+      ..displayDate = DateTime.now()
+      ..selectedDate = DateTime.now();
   }
 }
