@@ -75,7 +75,7 @@ class MainBlocPage extends State<InitStatefulPage> {
         body: SafeArea(
             child: IndexedStack(
           index: selectedTab.index,
-          children: const [PlatoCalendarPage(), SettingPage()],
+          children: const [PlatoCalendarPage(), DebugSettingPage()],
         )),
         bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
@@ -91,7 +91,7 @@ class MainBlocPage extends State<InitStatefulPage> {
               BottomNavigationBarItem(
                   icon: Icon(Icons.calendar_today_outlined), label: '달력'),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.my_library_books_outlined), label: '할일'),
+                  icon: Icon(Icons.my_library_books_outlined), label: 'DEBUG'),
             ]));
   }
 }
