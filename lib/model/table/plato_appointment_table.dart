@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 
 part 'plato_appointment_table.g.dart';
+part 'plato_appointment_table_query.dart';
 
 enum Status { enable, disable }
 
