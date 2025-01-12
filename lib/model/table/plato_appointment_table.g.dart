@@ -8,9 +8,7 @@ class $PlatoAppointmentTableTable extends PlatoAppointmentTable
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-
   $PlatoAppointmentTableTable(this.attachedDatabase, [this._alias]);
-
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -76,15 +74,15 @@ class $PlatoAppointmentTableTable extends PlatoAppointmentTable
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
       'created_at', aliasedName, false,
       type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  static const VerificationMeta _deletedMeta =
-      const VerificationMeta('deleted');
+  static const VerificationMeta _finishedMeta =
+      const VerificationMeta('finished');
   @override
-  late final GeneratedColumn<bool> deleted = GeneratedColumn<bool>(
-      'deleted', aliasedName, false,
+  late final GeneratedColumn<bool> finished = GeneratedColumn<bool>(
+      'finished', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: true,
       defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("deleted" IN (0, 1))'));
+          GeneratedColumn.constraintIsAlways('CHECK ("finished" IN (0, 1))'));
   static const VerificationMeta _statusMeta = const VerificationMeta('status');
   @override
   late final GeneratedColumnWithTypeConverter<Status, String> status =
@@ -104,7 +102,6 @@ class $PlatoAppointmentTableTable extends PlatoAppointmentTable
   late final GeneratedColumn<int> color = GeneratedColumn<int>(
       'color', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -118,19 +115,16 @@ class $PlatoAppointmentTableTable extends PlatoAppointmentTable
         start,
         end,
         createdAt,
-        deleted,
+        finished,
         status,
         dataType,
         color
       ];
-
   @override
   String get aliasedName => _alias ?? actualTableName;
-
   @override
   String get actualTableName => $name;
   static const String $name = 'plato_appointment_table';
-
   @override
   VerificationContext validateIntegrity(
       Insertable<PlatoAppointmentTableData> instance,
@@ -202,11 +196,11 @@ class $PlatoAppointmentTableTable extends PlatoAppointmentTable
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
-    if (data.containsKey('deleted')) {
-      context.handle(_deletedMeta,
-          deleted.isAcceptableOrUnknown(data['deleted']!, _deletedMeta));
+    if (data.containsKey('finished')) {
+      context.handle(_finishedMeta,
+          finished.isAcceptableOrUnknown(data['finished']!, _finishedMeta));
     } else if (isInserting) {
-      context.missing(_deletedMeta);
+      context.missing(_finishedMeta);
     }
     context.handle(_statusMeta, const VerificationResult.success());
     context.handle(_dataTypeMeta, const VerificationResult.success());
@@ -221,7 +215,6 @@ class $PlatoAppointmentTableTable extends PlatoAppointmentTable
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
-
   @override
   PlatoAppointmentTableData map(Map<String, dynamic> data,
       {String? tablePrefix}) {
@@ -249,8 +242,8 @@ class $PlatoAppointmentTableTable extends PlatoAppointmentTable
           .read(DriftSqlType.dateTime, data['${effectivePrefix}end'])!,
       createdAt: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
-      deleted: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}deleted'])!,
+      finished: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}finished'])!,
       status: $PlatoAppointmentTableTable.$converterstatus.fromSql(
           attachedDatabase.typeMapping
               .read(DriftSqlType.string, data['${effectivePrefix}status'])!),
@@ -286,11 +279,10 @@ class PlatoAppointmentTableData extends DataClass
   final DateTime start;
   final DateTime end;
   final DateTime createdAt;
-  final bool deleted;
+  final bool finished;
   final Status status;
   final DataType dataType;
   final int color;
-
   const PlatoAppointmentTableData(
       {required this.id,
       required this.uid,
@@ -303,11 +295,10 @@ class PlatoAppointmentTableData extends DataClass
       required this.start,
       required this.end,
       required this.createdAt,
-      required this.deleted,
+      required this.finished,
       required this.status,
       required this.dataType,
       required this.color});
-
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -322,7 +313,7 @@ class PlatoAppointmentTableData extends DataClass
     map['start'] = Variable<DateTime>(start);
     map['end'] = Variable<DateTime>(end);
     map['created_at'] = Variable<DateTime>(createdAt);
-    map['deleted'] = Variable<bool>(deleted);
+    map['finished'] = Variable<bool>(finished);
     {
       map['status'] = Variable<String>(
           $PlatoAppointmentTableTable.$converterstatus.toSql(status));
@@ -348,7 +339,7 @@ class PlatoAppointmentTableData extends DataClass
       start: Value(start),
       end: Value(end),
       createdAt: Value(createdAt),
-      deleted: Value(deleted),
+      finished: Value(finished),
       status: Value(status),
       dataType: Value(dataType),
       color: Value(color),
@@ -370,7 +361,7 @@ class PlatoAppointmentTableData extends DataClass
       start: serializer.fromJson<DateTime>(json['start']),
       end: serializer.fromJson<DateTime>(json['end']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
-      deleted: serializer.fromJson<bool>(json['deleted']),
+      finished: serializer.fromJson<bool>(json['finished']),
       status: $PlatoAppointmentTableTable.$converterstatus
           .fromJson(serializer.fromJson<String>(json['status'])),
       dataType: $PlatoAppointmentTableTable.$converterdataType
@@ -378,7 +369,6 @@ class PlatoAppointmentTableData extends DataClass
       color: serializer.fromJson<int>(json['color']),
     );
   }
-
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
@@ -394,7 +384,7 @@ class PlatoAppointmentTableData extends DataClass
       'start': serializer.toJson<DateTime>(start),
       'end': serializer.toJson<DateTime>(end),
       'createdAt': serializer.toJson<DateTime>(createdAt),
-      'deleted': serializer.toJson<bool>(deleted),
+      'finished': serializer.toJson<bool>(finished),
       'status': serializer.toJson<String>(
           $PlatoAppointmentTableTable.$converterstatus.toJson(status)),
       'dataType': serializer.toJson<String>(
@@ -415,7 +405,7 @@ class PlatoAppointmentTableData extends DataClass
           DateTime? start,
           DateTime? end,
           DateTime? createdAt,
-          bool? deleted,
+          bool? finished,
           Status? status,
           DataType? dataType,
           int? color}) =>
@@ -431,12 +421,11 @@ class PlatoAppointmentTableData extends DataClass
         start: start ?? this.start,
         end: end ?? this.end,
         createdAt: createdAt ?? this.createdAt,
-        deleted: deleted ?? this.deleted,
+        finished: finished ?? this.finished,
         status: status ?? this.status,
         dataType: dataType ?? this.dataType,
         color: color ?? this.color,
       );
-
   PlatoAppointmentTableData copyWithCompanion(
       PlatoAppointmentTableCompanion data) {
     return PlatoAppointmentTableData(
@@ -452,7 +441,7 @@ class PlatoAppointmentTableData extends DataClass
       start: data.start.present ? data.start.value : this.start,
       end: data.end.present ? data.end.value : this.end,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
-      deleted: data.deleted.present ? data.deleted.value : this.deleted,
+      finished: data.finished.present ? data.finished.value : this.finished,
       status: data.status.present ? data.status.value : this.status,
       dataType: data.dataType.present ? data.dataType.value : this.dataType,
       color: data.color.present ? data.color.value : this.color,
@@ -473,7 +462,7 @@ class PlatoAppointmentTableData extends DataClass
           ..write('start: $start, ')
           ..write('end: $end, ')
           ..write('createdAt: $createdAt, ')
-          ..write('deleted: $deleted, ')
+          ..write('finished: $finished, ')
           ..write('status: $status, ')
           ..write('dataType: $dataType, ')
           ..write('color: $color')
@@ -483,8 +472,7 @@ class PlatoAppointmentTableData extends DataClass
 
   @override
   int get hashCode => Object.hash(id, uid, title, body, comment, subjectCode,
-      year, semester, start, end, createdAt, deleted, status, dataType, color);
-
+      year, semester, start, end, createdAt, finished, status, dataType, color);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -500,7 +488,7 @@ class PlatoAppointmentTableData extends DataClass
           other.start == this.start &&
           other.end == this.end &&
           other.createdAt == this.createdAt &&
-          other.deleted == this.deleted &&
+          other.finished == this.finished &&
           other.status == this.status &&
           other.dataType == this.dataType &&
           other.color == this.color);
@@ -519,11 +507,10 @@ class PlatoAppointmentTableCompanion
   final Value<DateTime> start;
   final Value<DateTime> end;
   final Value<DateTime> createdAt;
-  final Value<bool> deleted;
+  final Value<bool> finished;
   final Value<Status> status;
   final Value<DataType> dataType;
   final Value<int> color;
-
   const PlatoAppointmentTableCompanion({
     this.id = const Value.absent(),
     this.uid = const Value.absent(),
@@ -536,12 +523,11 @@ class PlatoAppointmentTableCompanion
     this.start = const Value.absent(),
     this.end = const Value.absent(),
     this.createdAt = const Value.absent(),
-    this.deleted = const Value.absent(),
+    this.finished = const Value.absent(),
     this.status = const Value.absent(),
     this.dataType = const Value.absent(),
     this.color = const Value.absent(),
   });
-
   PlatoAppointmentTableCompanion.insert({
     this.id = const Value.absent(),
     required String uid,
@@ -554,7 +540,7 @@ class PlatoAppointmentTableCompanion
     required DateTime start,
     required DateTime end,
     required DateTime createdAt,
-    required bool deleted,
+    required bool finished,
     required Status status,
     required DataType dataType,
     required int color,
@@ -568,11 +554,10 @@ class PlatoAppointmentTableCompanion
         start = Value(start),
         end = Value(end),
         createdAt = Value(createdAt),
-        deleted = Value(deleted),
+        finished = Value(finished),
         status = Value(status),
         dataType = Value(dataType),
         color = Value(color);
-
   static Insertable<PlatoAppointmentTableData> custom({
     Expression<int>? id,
     Expression<String>? uid,
@@ -585,7 +570,7 @@ class PlatoAppointmentTableCompanion
     Expression<DateTime>? start,
     Expression<DateTime>? end,
     Expression<DateTime>? createdAt,
-    Expression<bool>? deleted,
+    Expression<bool>? finished,
     Expression<String>? status,
     Expression<String>? dataType,
     Expression<int>? color,
@@ -602,7 +587,7 @@ class PlatoAppointmentTableCompanion
       if (start != null) 'start': start,
       if (end != null) 'end': end,
       if (createdAt != null) 'created_at': createdAt,
-      if (deleted != null) 'deleted': deleted,
+      if (finished != null) 'finished': finished,
       if (status != null) 'status': status,
       if (dataType != null) 'data_type': dataType,
       if (color != null) 'color': color,
@@ -621,7 +606,7 @@ class PlatoAppointmentTableCompanion
       Value<DateTime>? start,
       Value<DateTime>? end,
       Value<DateTime>? createdAt,
-      Value<bool>? deleted,
+      Value<bool>? finished,
       Value<Status>? status,
       Value<DataType>? dataType,
       Value<int>? color}) {
@@ -637,7 +622,7 @@ class PlatoAppointmentTableCompanion
       start: start ?? this.start,
       end: end ?? this.end,
       createdAt: createdAt ?? this.createdAt,
-      deleted: deleted ?? this.deleted,
+      finished: finished ?? this.finished,
       status: status ?? this.status,
       dataType: dataType ?? this.dataType,
       color: color ?? this.color,
@@ -680,8 +665,8 @@ class PlatoAppointmentTableCompanion
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
-    if (deleted.present) {
-      map['deleted'] = Variable<bool>(deleted.value);
+    if (finished.present) {
+      map['finished'] = Variable<bool>(finished.value);
     }
     if (status.present) {
       map['status'] = Variable<String>(
@@ -711,7 +696,7 @@ class PlatoAppointmentTableCompanion
           ..write('start: $start, ')
           ..write('end: $end, ')
           ..write('createdAt: $createdAt, ')
-          ..write('deleted: $deleted, ')
+          ..write('finished: $finished, ')
           ..write('status: $status, ')
           ..write('dataType: $dataType, ')
           ..write('color: $color')
@@ -722,21 +707,18 @@ class PlatoAppointmentTableCompanion
 
 abstract class _$PlatoAppointmentDrift extends GeneratedDatabase {
   _$PlatoAppointmentDrift(QueryExecutor e) : super(e);
-
   $PlatoAppointmentDriftManager get managers =>
       $PlatoAppointmentDriftManager(this);
   late final $PlatoAppointmentTableTable platoAppointmentTable =
       $PlatoAppointmentTableTable(this);
-  late final Index deleted = Index(
-      'deleted', 'CREATE INDEX deleted ON plato_appointment_table (deleted)');
-
+  late final Index finished = Index('finished',
+      'CREATE INDEX finished ON plato_appointment_table (finished)');
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
-
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [platoAppointmentTable, deleted];
+      [platoAppointmentTable, finished];
 }
 
 typedef $$PlatoAppointmentTableTableCreateCompanionBuilder
@@ -752,7 +734,7 @@ typedef $$PlatoAppointmentTableTableCreateCompanionBuilder
   required DateTime start,
   required DateTime end,
   required DateTime createdAt,
-  required bool deleted,
+  required bool finished,
   required Status status,
   required DataType dataType,
   required int color,
@@ -770,7 +752,7 @@ typedef $$PlatoAppointmentTableTableUpdateCompanionBuilder
   Value<DateTime> start,
   Value<DateTime> end,
   Value<DateTime> createdAt,
-  Value<bool> deleted,
+  Value<bool> finished,
   Value<Status> status,
   Value<DataType> dataType,
   Value<int> color,
@@ -785,7 +767,6 @@ class $$PlatoAppointmentTableTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-
   ColumnFilters<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnFilters(column));
 
@@ -819,8 +800,8 @@ class $$PlatoAppointmentTableTableFilterComposer
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<bool> get deleted => $composableBuilder(
-      column: $table.deleted, builder: (column) => ColumnFilters(column));
+  ColumnFilters<bool> get finished => $composableBuilder(
+      column: $table.finished, builder: (column) => ColumnFilters(column));
 
   ColumnWithTypeConverterFilters<Status, Status, String> get status =>
       $composableBuilder(
@@ -845,7 +826,6 @@ class $$PlatoAppointmentTableTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-
   ColumnOrderings<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnOrderings(column));
 
@@ -879,8 +859,8 @@ class $$PlatoAppointmentTableTableOrderingComposer
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<bool> get deleted => $composableBuilder(
-      column: $table.deleted, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<bool> get finished => $composableBuilder(
+      column: $table.finished, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get status => $composableBuilder(
       column: $table.status, builder: (column) => ColumnOrderings(column));
@@ -901,7 +881,6 @@ class $$PlatoAppointmentTableTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
@@ -935,8 +914,8 @@ class $$PlatoAppointmentTableTableAnnotationComposer
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
-  GeneratedColumn<bool> get deleted =>
-      $composableBuilder(column: $table.deleted, builder: (column) => column);
+  GeneratedColumn<bool> get finished =>
+      $composableBuilder(column: $table.finished, builder: (column) => column);
 
   GeneratedColumnWithTypeConverter<Status, String> get status =>
       $composableBuilder(column: $table.status, builder: (column) => column);
@@ -990,7 +969,7 @@ class $$PlatoAppointmentTableTableTableManager extends RootTableManager<
             Value<DateTime> start = const Value.absent(),
             Value<DateTime> end = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
-            Value<bool> deleted = const Value.absent(),
+            Value<bool> finished = const Value.absent(),
             Value<Status> status = const Value.absent(),
             Value<DataType> dataType = const Value.absent(),
             Value<int> color = const Value.absent(),
@@ -1007,7 +986,7 @@ class $$PlatoAppointmentTableTableTableManager extends RootTableManager<
             start: start,
             end: end,
             createdAt: createdAt,
-            deleted: deleted,
+            finished: finished,
             status: status,
             dataType: dataType,
             color: color,
@@ -1024,7 +1003,7 @@ class $$PlatoAppointmentTableTableTableManager extends RootTableManager<
             required DateTime start,
             required DateTime end,
             required DateTime createdAt,
-            required bool deleted,
+            required bool finished,
             required Status status,
             required DataType dataType,
             required int color,
@@ -1041,7 +1020,7 @@ class $$PlatoAppointmentTableTableTableManager extends RootTableManager<
             start: start,
             end: end,
             createdAt: createdAt,
-            deleted: deleted,
+            finished: finished,
             status: status,
             dataType: dataType,
             color: color,
@@ -1073,9 +1052,7 @@ typedef $$PlatoAppointmentTableTableProcessedTableManager
 
 class $PlatoAppointmentDriftManager {
   final _$PlatoAppointmentDrift _db;
-
   $PlatoAppointmentDriftManager(this._db);
-
   $$PlatoAppointmentTableTableTableManager get platoAppointmentTable =>
       $$PlatoAppointmentTableTableTableManager(_db, _db.platoAppointmentTable);
 }

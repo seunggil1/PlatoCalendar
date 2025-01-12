@@ -24,7 +24,7 @@ extension PlatoAppointmentMapper on PlatoAppointment {
       start: start,
       end: end,
       createdAt: createdAt,
-      deleted: deleted,
+      finished: finished,
       status: status,
       dataType: dataType,
       color: color,
@@ -43,7 +43,7 @@ extension PlatoAppointmentMapper on PlatoAppointment {
       start: Value(start),
       end: Value(end),
       createdAt: Value(createdAt),
-      deleted: Value(deleted),
+      finished: Value(finished),
       status: Value(status),
       dataType: Value(dataType),
       color: Value(color),
@@ -65,7 +65,7 @@ extension PlatoAppointmentTableDataMapper on PlatoAppointmentTableData {
       ..start = start
       ..end = end
       ..createdAt = createdAt
-      ..deleted = deleted
+      ..finished = finished
       ..status = Status.values.firstWhere((e) => e == status)
       ..dataType = DataType.values.firstWhere((e) => e == dataType)
       ..color = color;

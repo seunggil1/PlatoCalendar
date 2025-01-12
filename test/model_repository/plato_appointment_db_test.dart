@@ -39,7 +39,7 @@ void main() {
       ..subjectCode = 'test_subjectCode'
       ..start = DateTime.now()
       ..end = DateTime.now()
-      ..deleted = false
+      ..finished = false
       ..year = '2024'
       ..semester = '10';
   });
@@ -77,7 +77,7 @@ void main() {
     expect(data.createdAt.day, readData.createdAt.day);
     expect(data.createdAt.hour, readData.createdAt.hour);
     expect(data.createdAt.minute, readData.createdAt.minute);
-    expect(data.deleted, readData.deleted);
+    expect(data.finished, readData.finished);
     expect(data.status, readData.status);
     expect(data.dataType, readData.dataType);
   });

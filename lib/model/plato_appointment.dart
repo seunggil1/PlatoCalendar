@@ -29,7 +29,7 @@ class PlatoAppointment {
   late DateTime end;
 
   late DateTime createdAt = DateTime.now();
-  bool deleted = false;
+  bool finished = false;
 
   Status status = Status.enable;
   DataType dataType = DataType.school;
@@ -103,7 +103,7 @@ class PlatoAppointment {
     DateTime? start,
     DateTime? end,
     DateTime? createdAt,
-    bool? deleted,
+    bool? finished,
     Status? status,
     DataType? dataType,
   }) {
@@ -119,7 +119,7 @@ class PlatoAppointment {
       ..start = start ?? this.start
       ..end = end ?? this.end
       ..createdAt = createdAt ?? this.createdAt
-      ..deleted = deleted ?? this.deleted
+      ..finished = finished ?? this.finished
       ..status = status ?? this.status
       ..dataType = dataType ?? this.dataType;
   }
@@ -137,6 +137,6 @@ class PlatoAppointment {
 
   @override
   String toString() {
-    return 'Appointment{uid: $uid, title: $title, body: $body, comment: $comment, subjectCode: $subjectCode, year: $year, semester: $semester, start: $start, end: $end, createdAt: $createdAt, deleted: $deleted, status: $status, dataType: $dataType}';
+    return 'Appointment{uid: $uid, title: $title, body: $body, comment: $comment, subjectCode: $subjectCode, year: $year, semester: $semester, start: $start, end: $end, createdAt: $createdAt, finished: $finished, status: $status, dataType: $dataType}';
   }
 }

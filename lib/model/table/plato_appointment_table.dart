@@ -7,7 +7,7 @@ enum Status { enable, disable }
 
 enum DataType { school, etc }
 
-@TableIndex(name: 'deleted', columns: {#deleted})
+@TableIndex(name: 'finished', columns: {#finished})
 class PlatoAppointmentTable extends Table {
   IntColumn get id => integer().autoIncrement()();
 
@@ -31,7 +31,7 @@ class PlatoAppointmentTable extends Table {
 
   DateTimeColumn get createdAt => dateTime()();
 
-  BoolColumn get deleted => boolean()();
+  BoolColumn get finished => boolean()();
 
   TextColumn get status => textEnum<Status>()();
 
