@@ -8,9 +8,7 @@ class $CalendarOptionTableTable extends CalendarOptionTable
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-
   $CalendarOptionTableTable(this.attachedDatabase, [this._alias]);
-
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -43,15 +41,6 @@ class $CalendarOptionTableTable extends CalendarOptionTable
               type: DriftSqlType.string, requiredDuringInsert: true)
           .withConverter<CalendarView>(
               $CalendarOptionTableTable.$converterviewType);
-  static const VerificationMeta _appointmentDisplayModeMeta =
-      const VerificationMeta('appointmentDisplayMode');
-  @override
-  late final GeneratedColumnWithTypeConverter<MonthAppointmentDisplayMode,
-      String> appointmentDisplayMode = GeneratedColumn<String>(
-          'appointment_display_mode', aliasedName, false,
-          type: DriftSqlType.string, requiredDuringInsert: true)
-      .withConverter<MonthAppointmentDisplayMode>(
-          $CalendarOptionTableTable.$converterappointmentDisplayMode);
   static const VerificationMeta _showAgendaMeta =
       const VerificationMeta('showAgenda');
   @override
@@ -67,25 +56,14 @@ class $CalendarOptionTableTable extends CalendarOptionTable
   late final GeneratedColumn<DateTime> dbTimestamp = GeneratedColumn<DateTime>(
       'db_timestamp', aliasedName, false,
       type: DriftSqlType.dateTime, requiredDuringInsert: true);
-
   @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        showFinished,
-        firstDayOfWeek,
-        viewType,
-        appointmentDisplayMode,
-        showAgenda,
-        dbTimestamp
-      ];
-
+  List<GeneratedColumn> get $columns =>
+      [id, showFinished, firstDayOfWeek, viewType, showAgenda, dbTimestamp];
   @override
   String get aliasedName => _alias ?? actualTableName;
-
   @override
   String get actualTableName => $name;
   static const String $name = 'calendar_option_table';
-
   @override
   VerificationContext validateIntegrity(
       Insertable<CalendarOptionTableData> instance,
@@ -112,8 +90,6 @@ class $CalendarOptionTableTable extends CalendarOptionTable
       context.missing(_firstDayOfWeekMeta);
     }
     context.handle(_viewTypeMeta, const VerificationResult.success());
-    context.handle(
-        _appointmentDisplayModeMeta, const VerificationResult.success());
     if (data.containsKey('show_agenda')) {
       context.handle(
           _showAgendaMeta,
@@ -135,7 +111,6 @@ class $CalendarOptionTableTable extends CalendarOptionTable
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
-
   @override
   CalendarOptionTableData map(Map<String, dynamic> data,
       {String? tablePrefix}) {
@@ -150,10 +125,6 @@ class $CalendarOptionTableTable extends CalendarOptionTable
       viewType: $CalendarOptionTableTable.$converterviewType.fromSql(
           attachedDatabase.typeMapping
               .read(DriftSqlType.string, data['${effectivePrefix}view_type'])!),
-      appointmentDisplayMode: $CalendarOptionTableTable
-          .$converterappointmentDisplayMode
-          .fromSql(attachedDatabase.typeMapping.read(DriftSqlType.string,
-              data['${effectivePrefix}appointment_display_mode'])!),
       showAgenda: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}show_agenda'])!,
       dbTimestamp: attachedDatabase.typeMapping
@@ -168,10 +139,6 @@ class $CalendarOptionTableTable extends CalendarOptionTable
 
   static JsonTypeConverter2<CalendarView, String, String> $converterviewType =
       const EnumNameConverter<CalendarView>(CalendarView.values);
-  static JsonTypeConverter2<MonthAppointmentDisplayMode, String, String>
-      $converterappointmentDisplayMode =
-      const EnumNameConverter<MonthAppointmentDisplayMode>(
-          MonthAppointmentDisplayMode.values);
 }
 
 class CalendarOptionTableData extends DataClass
@@ -180,19 +147,15 @@ class CalendarOptionTableData extends DataClass
   final bool showFinished;
   final int firstDayOfWeek;
   final CalendarView viewType;
-  final MonthAppointmentDisplayMode appointmentDisplayMode;
   final bool showAgenda;
   final DateTime dbTimestamp;
-
   const CalendarOptionTableData(
       {required this.id,
       required this.showFinished,
       required this.firstDayOfWeek,
       required this.viewType,
-      required this.appointmentDisplayMode,
       required this.showAgenda,
       required this.dbTimestamp});
-
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -202,11 +165,6 @@ class CalendarOptionTableData extends DataClass
     {
       map['view_type'] = Variable<String>(
           $CalendarOptionTableTable.$converterviewType.toSql(viewType));
-    }
-    {
-      map['appointment_display_mode'] = Variable<String>(
-          $CalendarOptionTableTable.$converterappointmentDisplayMode
-              .toSql(appointmentDisplayMode));
     }
     map['show_agenda'] = Variable<bool>(showAgenda);
     map['db_timestamp'] = Variable<DateTime>(dbTimestamp);
@@ -219,7 +177,6 @@ class CalendarOptionTableData extends DataClass
       showFinished: Value(showFinished),
       firstDayOfWeek: Value(firstDayOfWeek),
       viewType: Value(viewType),
-      appointmentDisplayMode: Value(appointmentDisplayMode),
       showAgenda: Value(showAgenda),
       dbTimestamp: Value(dbTimestamp),
     );
@@ -234,14 +191,10 @@ class CalendarOptionTableData extends DataClass
       firstDayOfWeek: serializer.fromJson<int>(json['firstDayOfWeek']),
       viewType: $CalendarOptionTableTable.$converterviewType
           .fromJson(serializer.fromJson<String>(json['viewType'])),
-      appointmentDisplayMode:
-          $CalendarOptionTableTable.$converterappointmentDisplayMode.fromJson(
-              serializer.fromJson<String>(json['appointmentDisplayMode'])),
       showAgenda: serializer.fromJson<bool>(json['showAgenda']),
       dbTimestamp: serializer.fromJson<DateTime>(json['dbTimestamp']),
     );
   }
-
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
@@ -251,9 +204,6 @@ class CalendarOptionTableData extends DataClass
       'firstDayOfWeek': serializer.toJson<int>(firstDayOfWeek),
       'viewType': serializer.toJson<String>(
           $CalendarOptionTableTable.$converterviewType.toJson(viewType)),
-      'appointmentDisplayMode': serializer.toJson<String>(
-          $CalendarOptionTableTable.$converterappointmentDisplayMode
-              .toJson(appointmentDisplayMode)),
       'showAgenda': serializer.toJson<bool>(showAgenda),
       'dbTimestamp': serializer.toJson<DateTime>(dbTimestamp),
     };
@@ -264,7 +214,6 @@ class CalendarOptionTableData extends DataClass
           bool? showFinished,
           int? firstDayOfWeek,
           CalendarView? viewType,
-          MonthAppointmentDisplayMode? appointmentDisplayMode,
           bool? showAgenda,
           DateTime? dbTimestamp}) =>
       CalendarOptionTableData(
@@ -272,12 +221,9 @@ class CalendarOptionTableData extends DataClass
         showFinished: showFinished ?? this.showFinished,
         firstDayOfWeek: firstDayOfWeek ?? this.firstDayOfWeek,
         viewType: viewType ?? this.viewType,
-        appointmentDisplayMode:
-            appointmentDisplayMode ?? this.appointmentDisplayMode,
         showAgenda: showAgenda ?? this.showAgenda,
         dbTimestamp: dbTimestamp ?? this.dbTimestamp,
       );
-
   CalendarOptionTableData copyWithCompanion(CalendarOptionTableCompanion data) {
     return CalendarOptionTableData(
       id: data.id.present ? data.id.value : this.id,
@@ -288,9 +234,6 @@ class CalendarOptionTableData extends DataClass
           ? data.firstDayOfWeek.value
           : this.firstDayOfWeek,
       viewType: data.viewType.present ? data.viewType.value : this.viewType,
-      appointmentDisplayMode: data.appointmentDisplayMode.present
-          ? data.appointmentDisplayMode.value
-          : this.appointmentDisplayMode,
       showAgenda:
           data.showAgenda.present ? data.showAgenda.value : this.showAgenda,
       dbTimestamp:
@@ -305,7 +248,6 @@ class CalendarOptionTableData extends DataClass
           ..write('showFinished: $showFinished, ')
           ..write('firstDayOfWeek: $firstDayOfWeek, ')
           ..write('viewType: $viewType, ')
-          ..write('appointmentDisplayMode: $appointmentDisplayMode, ')
           ..write('showAgenda: $showAgenda, ')
           ..write('dbTimestamp: $dbTimestamp')
           ..write(')'))
@@ -313,9 +255,8 @@ class CalendarOptionTableData extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(id, showFinished, firstDayOfWeek, viewType,
-      appointmentDisplayMode, showAgenda, dbTimestamp);
-
+  int get hashCode => Object.hash(
+      id, showFinished, firstDayOfWeek, viewType, showAgenda, dbTimestamp);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -324,7 +265,6 @@ class CalendarOptionTableData extends DataClass
           other.showFinished == this.showFinished &&
           other.firstDayOfWeek == this.firstDayOfWeek &&
           other.viewType == this.viewType &&
-          other.appointmentDisplayMode == this.appointmentDisplayMode &&
           other.showAgenda == this.showAgenda &&
           other.dbTimestamp == this.dbTimestamp);
 }
@@ -335,41 +275,33 @@ class CalendarOptionTableCompanion
   final Value<bool> showFinished;
   final Value<int> firstDayOfWeek;
   final Value<CalendarView> viewType;
-  final Value<MonthAppointmentDisplayMode> appointmentDisplayMode;
   final Value<bool> showAgenda;
   final Value<DateTime> dbTimestamp;
-
   const CalendarOptionTableCompanion({
     this.id = const Value.absent(),
     this.showFinished = const Value.absent(),
     this.firstDayOfWeek = const Value.absent(),
     this.viewType = const Value.absent(),
-    this.appointmentDisplayMode = const Value.absent(),
     this.showAgenda = const Value.absent(),
     this.dbTimestamp = const Value.absent(),
   });
-
   CalendarOptionTableCompanion.insert({
     this.id = const Value.absent(),
     required bool showFinished,
     required int firstDayOfWeek,
     required CalendarView viewType,
-    required MonthAppointmentDisplayMode appointmentDisplayMode,
     required bool showAgenda,
     required DateTime dbTimestamp,
   })  : showFinished = Value(showFinished),
         firstDayOfWeek = Value(firstDayOfWeek),
         viewType = Value(viewType),
-        appointmentDisplayMode = Value(appointmentDisplayMode),
         showAgenda = Value(showAgenda),
         dbTimestamp = Value(dbTimestamp);
-
   static Insertable<CalendarOptionTableData> custom({
     Expression<int>? id,
     Expression<bool>? showFinished,
     Expression<int>? firstDayOfWeek,
     Expression<String>? viewType,
-    Expression<String>? appointmentDisplayMode,
     Expression<bool>? showAgenda,
     Expression<DateTime>? dbTimestamp,
   }) {
@@ -378,8 +310,6 @@ class CalendarOptionTableCompanion
       if (showFinished != null) 'show_finished': showFinished,
       if (firstDayOfWeek != null) 'first_day_of_week': firstDayOfWeek,
       if (viewType != null) 'view_type': viewType,
-      if (appointmentDisplayMode != null)
-        'appointment_display_mode': appointmentDisplayMode,
       if (showAgenda != null) 'show_agenda': showAgenda,
       if (dbTimestamp != null) 'db_timestamp': dbTimestamp,
     });
@@ -390,7 +320,6 @@ class CalendarOptionTableCompanion
       Value<bool>? showFinished,
       Value<int>? firstDayOfWeek,
       Value<CalendarView>? viewType,
-      Value<MonthAppointmentDisplayMode>? appointmentDisplayMode,
       Value<bool>? showAgenda,
       Value<DateTime>? dbTimestamp}) {
     return CalendarOptionTableCompanion(
@@ -398,8 +327,6 @@ class CalendarOptionTableCompanion
       showFinished: showFinished ?? this.showFinished,
       firstDayOfWeek: firstDayOfWeek ?? this.firstDayOfWeek,
       viewType: viewType ?? this.viewType,
-      appointmentDisplayMode:
-          appointmentDisplayMode ?? this.appointmentDisplayMode,
       showAgenda: showAgenda ?? this.showAgenda,
       dbTimestamp: dbTimestamp ?? this.dbTimestamp,
     );
@@ -421,11 +348,6 @@ class CalendarOptionTableCompanion
       map['view_type'] = Variable<String>(
           $CalendarOptionTableTable.$converterviewType.toSql(viewType.value));
     }
-    if (appointmentDisplayMode.present) {
-      map['appointment_display_mode'] = Variable<String>(
-          $CalendarOptionTableTable.$converterappointmentDisplayMode
-              .toSql(appointmentDisplayMode.value));
-    }
     if (showAgenda.present) {
       map['show_agenda'] = Variable<bool>(showAgenda.value);
     }
@@ -442,7 +364,6 @@ class CalendarOptionTableCompanion
           ..write('showFinished: $showFinished, ')
           ..write('firstDayOfWeek: $firstDayOfWeek, ')
           ..write('viewType: $viewType, ')
-          ..write('appointmentDisplayMode: $appointmentDisplayMode, ')
           ..write('showAgenda: $showAgenda, ')
           ..write('dbTimestamp: $dbTimestamp')
           ..write(')'))
@@ -452,17 +373,14 @@ class CalendarOptionTableCompanion
 
 abstract class _$CalendarOptionDrift extends GeneratedDatabase {
   _$CalendarOptionDrift(QueryExecutor e) : super(e);
-
   $CalendarOptionDriftManager get managers => $CalendarOptionDriftManager(this);
   late final $CalendarOptionTableTable calendarOptionTable =
       $CalendarOptionTableTable(this);
   late final Index dbTimestamp = Index('dbTimestamp',
       'CREATE INDEX dbTimestamp ON calendar_option_table (db_timestamp)');
-
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
-
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
       [calendarOptionTable, dbTimestamp];
@@ -474,7 +392,6 @@ typedef $$CalendarOptionTableTableCreateCompanionBuilder
   required bool showFinished,
   required int firstDayOfWeek,
   required CalendarView viewType,
-  required MonthAppointmentDisplayMode appointmentDisplayMode,
   required bool showAgenda,
   required DateTime dbTimestamp,
 });
@@ -484,7 +401,6 @@ typedef $$CalendarOptionTableTableUpdateCompanionBuilder
   Value<bool> showFinished,
   Value<int> firstDayOfWeek,
   Value<CalendarView> viewType,
-  Value<MonthAppointmentDisplayMode> appointmentDisplayMode,
   Value<bool> showAgenda,
   Value<DateTime> dbTimestamp,
 });
@@ -498,7 +414,6 @@ class $$CalendarOptionTableTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-
   ColumnFilters<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnFilters(column));
 
@@ -512,12 +427,6 @@ class $$CalendarOptionTableTableFilterComposer
   ColumnWithTypeConverterFilters<CalendarView, CalendarView, String>
       get viewType => $composableBuilder(
           column: $table.viewType,
-          builder: (column) => ColumnWithTypeConverterFilters(column));
-
-  ColumnWithTypeConverterFilters<MonthAppointmentDisplayMode,
-          MonthAppointmentDisplayMode, String>
-      get appointmentDisplayMode => $composableBuilder(
-          column: $table.appointmentDisplayMode,
           builder: (column) => ColumnWithTypeConverterFilters(column));
 
   ColumnFilters<bool> get showAgenda => $composableBuilder(
@@ -536,7 +445,6 @@ class $$CalendarOptionTableTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-
   ColumnOrderings<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnOrderings(column));
 
@@ -550,10 +458,6 @@ class $$CalendarOptionTableTableOrderingComposer
 
   ColumnOrderings<String> get viewType => $composableBuilder(
       column: $table.viewType, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get appointmentDisplayMode => $composableBuilder(
-      column: $table.appointmentDisplayMode,
-      builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<bool> get showAgenda => $composableBuilder(
       column: $table.showAgenda, builder: (column) => ColumnOrderings(column));
@@ -571,7 +475,6 @@ class $$CalendarOptionTableTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
@@ -583,10 +486,6 @@ class $$CalendarOptionTableTableAnnotationComposer
 
   GeneratedColumnWithTypeConverter<CalendarView, String> get viewType =>
       $composableBuilder(column: $table.viewType, builder: (column) => column);
-
-  GeneratedColumnWithTypeConverter<MonthAppointmentDisplayMode, String>
-      get appointmentDisplayMode => $composableBuilder(
-          column: $table.appointmentDisplayMode, builder: (column) => column);
 
   GeneratedColumn<bool> get showAgenda => $composableBuilder(
       column: $table.showAgenda, builder: (column) => column);
@@ -629,8 +528,6 @@ class $$CalendarOptionTableTableTableManager extends RootTableManager<
             Value<bool> showFinished = const Value.absent(),
             Value<int> firstDayOfWeek = const Value.absent(),
             Value<CalendarView> viewType = const Value.absent(),
-            Value<MonthAppointmentDisplayMode> appointmentDisplayMode =
-                const Value.absent(),
             Value<bool> showAgenda = const Value.absent(),
             Value<DateTime> dbTimestamp = const Value.absent(),
           }) =>
@@ -639,7 +536,6 @@ class $$CalendarOptionTableTableTableManager extends RootTableManager<
             showFinished: showFinished,
             firstDayOfWeek: firstDayOfWeek,
             viewType: viewType,
-            appointmentDisplayMode: appointmentDisplayMode,
             showAgenda: showAgenda,
             dbTimestamp: dbTimestamp,
           ),
@@ -648,7 +544,6 @@ class $$CalendarOptionTableTableTableManager extends RootTableManager<
             required bool showFinished,
             required int firstDayOfWeek,
             required CalendarView viewType,
-            required MonthAppointmentDisplayMode appointmentDisplayMode,
             required bool showAgenda,
             required DateTime dbTimestamp,
           }) =>
@@ -657,7 +552,6 @@ class $$CalendarOptionTableTableTableManager extends RootTableManager<
             showFinished: showFinished,
             firstDayOfWeek: firstDayOfWeek,
             viewType: viewType,
-            appointmentDisplayMode: appointmentDisplayMode,
             showAgenda: showAgenda,
             dbTimestamp: dbTimestamp,
           ),
@@ -687,9 +581,7 @@ typedef $$CalendarOptionTableTableProcessedTableManager = ProcessedTableManager<
 
 class $CalendarOptionDriftManager {
   final _$CalendarOptionDrift _db;
-
   $CalendarOptionDriftManager(this._db);
-
   $$CalendarOptionTableTableTableManager get calendarOptionTable =>
       $$CalendarOptionTableTableTableManager(_db, _db.calendarOptionTable);
 }

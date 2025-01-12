@@ -8,7 +8,8 @@ class CalendarOption {
   final bool showFinished;
   final int firstDayOfWeek;
   final CalendarView viewType;
-  final MonthAppointmentDisplayMode appointmentDisplayMode;
+
+  // final MonthAppointmentDisplayMode appointmentDisplayMode;
   final bool showAgenda;
   final DateTime dbTimestamp;
 
@@ -17,7 +18,7 @@ class CalendarOption {
     this.showFinished = true,
     this.firstDayOfWeek = 7,
     this.viewType = CalendarView.month,
-    this.appointmentDisplayMode = MonthAppointmentDisplayMode.appointment,
+    // this.appointmentDisplayMode = MonthAppointmentDisplayMode.appointment,
     this.showAgenda = true,
     DateTime? dbTimestamp,
   }) : dbTimestamp = dbTimestamp ?? DateTime.now();
@@ -26,7 +27,6 @@ class CalendarOption {
     bool? showFinished,
     int? firstDayOfWeek,
     CalendarView? viewType,
-    MonthAppointmentDisplayMode? appointmentDisplayMode,
     bool? showAgenda,
     DateTime? dbTimestamp,
   }) {
@@ -34,8 +34,6 @@ class CalendarOption {
       showFinished: showFinished ?? this.showFinished,
       firstDayOfWeek: firstDayOfWeek ?? this.firstDayOfWeek,
       viewType: viewType ?? this.viewType,
-      appointmentDisplayMode:
-          appointmentDisplayMode ?? this.appointmentDisplayMode,
       showAgenda: showAgenda ?? this.showAgenda,
       dbTimestamp: dbTimestamp ?? this.dbTimestamp,
     );
@@ -52,7 +50,9 @@ class CalendarOption {
   // syncfusion_flutter_calendar 에서 사용 하는 형태로 변경
   MonthViewSettings getMonthViewSettings() => MonthViewSettings(
         appointmentDisplayCount: 4,
-        appointmentDisplayMode: appointmentDisplayMode,
+        appointmentDisplayMode: showAgenda
+            ? MonthAppointmentDisplayMode.indicator
+            : MonthAppointmentDisplayMode.appointment,
         monthCellStyle: MonthCellStyle(),
         showAgenda: showAgenda,
       );
@@ -60,7 +60,7 @@ class CalendarOption {
   @override
   String toString() =>
       'CalendarOption(id: $id, showFinished: $showFinished, firstDayOfWeek: $firstDayOfWeek, '
-      'viewType: $viewType, appointmentDisplayMode: $appointmentDisplayMode, '
+      'viewType: $viewType, '
       'showAgenda: $showAgenda, dbTimestamp: $dbTimestamp)';
 }
 
@@ -73,7 +73,6 @@ extension CalendarOptionMapper on CalendarOption {
       showFinished: showFinished,
       firstDayOfWeek: firstDayOfWeek,
       viewType: viewType,
-      appointmentDisplayMode: appointmentDisplayMode,
       showAgenda: showAgenda,
       dbTimestamp: dbTimestamp,
     );
@@ -84,7 +83,6 @@ extension CalendarOptionMapper on CalendarOption {
       showFinished: Value(showFinished),
       firstDayOfWeek: Value(firstDayOfWeek),
       viewType: Value(viewType),
-      appointmentDisplayMode: Value(appointmentDisplayMode),
       showAgenda: Value(showAgenda),
       dbTimestamp: Value(dbTimestamp),
     );
@@ -99,8 +97,6 @@ extension CalendarOptionTableDataMapper on CalendarOptionTableData {
       showFinished: showFinished,
       firstDayOfWeek: firstDayOfWeek,
       viewType: CalendarView.values.firstWhere((e) => e == viewType),
-      appointmentDisplayMode: MonthAppointmentDisplayMode.values
-          .firstWhere((e) => e == appointmentDisplayMode),
       showAgenda: showAgenda,
       dbTimestamp: dbTimestamp,
     );

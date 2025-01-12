@@ -14,9 +14,6 @@ class CalendarOptionTable extends Table {
 
   TextColumn get viewType => textEnum<CalendarView>()();
 
-  TextColumn get appointmentDisplayMode =>
-      textEnum<MonthAppointmentDisplayMode>()();
-
   BoolColumn get showAgenda => boolean()();
 
   DateTimeColumn get dbTimestamp => dateTime()();

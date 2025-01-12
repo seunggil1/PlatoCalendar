@@ -74,8 +74,6 @@ void main() {
       expect(readData.showFinished, testCalendarOption.showFinished);
       expect(readData.firstDayOfWeek, testCalendarOption.firstDayOfWeek);
       expect(readData.viewType, testCalendarOption.viewType);
-      expect(readData.appointmentDisplayMode,
-          testCalendarOption.appointmentDisplayMode);
       expect(readData.showAgenda, testCalendarOption.showAgenda);
     });
   });
