@@ -6,7 +6,9 @@ extension PlatoAppointmentTableQuery on PlatoAppointmentDrift {
     final now = DateTime.now();
     return await (select(platoAppointmentTable)
           ..where((t) =>
-              t.end.isBiggerThanValue(before) & t.end.isSmallerThanValue(now)))
+              t.finished.equals(false) &
+              t.end.isBiggerThanValue(before) &
+              t.end.isSmallerThanValue(now)))
         .get();
   }
 
@@ -16,6 +18,7 @@ extension PlatoAppointmentTableQuery on PlatoAppointmentDrift {
     final sixHoursLater = now.add(Duration(hours: 6));
     return await (select(platoAppointmentTable)
           ..where((t) =>
+              t.finished.equals(false) &
               t.end.isBiggerThanValue(now) &
               t.end.isSmallerOrEqualValue(sixHoursLater)))
         .get();
@@ -28,6 +31,7 @@ extension PlatoAppointmentTableQuery on PlatoAppointmentDrift {
     final twelveHoursLater = now.add(Duration(hours: 12));
     return await (select(platoAppointmentTable)
           ..where((t) =>
+              t.finished.equals(false) &
               t.end.isBiggerThanValue(sixHoursLater) &
               t.end.isSmallerOrEqualValue(twelveHoursLater)))
         .get();
@@ -39,6 +43,7 @@ extension PlatoAppointmentTableQuery on PlatoAppointmentDrift {
 
     return await (select(platoAppointmentTable)
           ..where((t) =>
+              t.finished.equals(false) &
               t.end.isBiggerThanValue(twelveHoursLater) &
               t.end.year.equals(now.year) &
               t.end.month.equals(now.month) &
@@ -51,6 +56,7 @@ extension PlatoAppointmentTableQuery on PlatoAppointmentDrift {
 
     return await (select(platoAppointmentTable)
           ..where((t) =>
+              t.finished.equals(false) &
               t.end.year.equals(tomorrow.year) &
               t.end.month.equals(tomorrow.month) &
               t.end.day.equals(tomorrow.day)))
@@ -70,6 +76,7 @@ extension PlatoAppointmentTableQuery on PlatoAppointmentDrift {
 
     return await (select(platoAppointmentTable)
           ..where((t) =>
+              t.finished.equals(false) &
               t.end.isBiggerThanValue(startDays) &
               t.end.isSmallerOrEqualValue(endOfDays)))
         .get();
@@ -83,7 +90,17 @@ extension PlatoAppointmentTableQuery on PlatoAppointmentDrift {
         DateTime(sevenDaysLater.year, sevenDaysLater.month, sevenDaysLater.day);
 
     return await (select(platoAppointmentTable)
-          ..where((t) => t.end.isBiggerThanValue(startDays)))
+          ..where((t) =>
+              t.finished.equals(false) & t.end.isBiggerThanValue(startDays)))
+        .get();
+  }
+
+  Future<List<PlatoAppointmentTableData>> readCompletePlatoAppointment() async {
+    final fiveDaysBefore = DateTime.now().subtract(const Duration(days: 5));
+    return await (select(platoAppointmentTable)
+          ..where((t) =>
+              t.finished.equals(true) &
+              t.end.isBiggerThanValue(fiveDaysBefore)))
         .get();
   }
 }
