@@ -84,6 +84,15 @@ class $TaskCheckListOptionTableTable extends TaskCheckListOptionTable
           requiredDuringInsert: true,
           defaultConstraints: GeneratedColumn.constraintIsAlways(
               'CHECK ("show_more_than_week_to_do_list" IN (0, 1))'));
+  static const VerificationMeta _showCompletedToDoListMeta =
+      const VerificationMeta('showCompletedToDoList');
+  @override
+  late final GeneratedColumn<bool> showCompletedToDoList =
+      GeneratedColumn<bool>('show_completed_to_do_list', aliasedName, false,
+          type: DriftSqlType.bool,
+          requiredDuringInsert: true,
+          defaultConstraints: GeneratedColumn.constraintIsAlways(
+              'CHECK ("show_completed_to_do_list" IN (0, 1))'));
   static const VerificationMeta _dbTimestampMeta =
       const VerificationMeta('dbTimestamp');
   @override
@@ -100,6 +109,7 @@ class $TaskCheckListOptionTableTable extends TaskCheckListOptionTable
         showTomorrowToDoList,
         showWeekToDoList,
         showMoreThanWeekToDoList,
+        showCompletedToDoList,
         dbTimestamp
       ];
   @override
@@ -173,6 +183,14 @@ class $TaskCheckListOptionTableTable extends TaskCheckListOptionTable
     } else if (isInserting) {
       context.missing(_showMoreThanWeekToDoListMeta);
     }
+    if (data.containsKey('show_completed_to_do_list')) {
+      context.handle(
+          _showCompletedToDoListMeta,
+          showCompletedToDoList.isAcceptableOrUnknown(
+              data['show_completed_to_do_list']!, _showCompletedToDoListMeta));
+    } else if (isInserting) {
+      context.missing(_showCompletedToDoListMeta);
+    }
     if (data.containsKey('db_timestamp')) {
       context.handle(
           _dbTimestampMeta,
@@ -208,6 +226,9 @@ class $TaskCheckListOptionTableTable extends TaskCheckListOptionTable
       showMoreThanWeekToDoList: attachedDatabase.typeMapping.read(
           DriftSqlType.bool,
           data['${effectivePrefix}show_more_than_week_to_do_list'])!,
+      showCompletedToDoList: attachedDatabase.typeMapping.read(
+          DriftSqlType.bool,
+          data['${effectivePrefix}show_completed_to_do_list'])!,
       dbTimestamp: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}db_timestamp'])!,
     );
@@ -229,6 +250,7 @@ class TaskCheckListOptionTableData extends DataClass
   final bool showTomorrowToDoList;
   final bool showWeekToDoList;
   final bool showMoreThanWeekToDoList;
+  final bool showCompletedToDoList;
   final DateTime dbTimestamp;
   const TaskCheckListOptionTableData(
       {required this.id,
@@ -239,6 +261,7 @@ class TaskCheckListOptionTableData extends DataClass
       required this.showTomorrowToDoList,
       required this.showWeekToDoList,
       required this.showMoreThanWeekToDoList,
+      required this.showCompletedToDoList,
       required this.dbTimestamp});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -252,6 +275,7 @@ class TaskCheckListOptionTableData extends DataClass
     map['show_week_to_do_list'] = Variable<bool>(showWeekToDoList);
     map['show_more_than_week_to_do_list'] =
         Variable<bool>(showMoreThanWeekToDoList);
+    map['show_completed_to_do_list'] = Variable<bool>(showCompletedToDoList);
     map['db_timestamp'] = Variable<DateTime>(dbTimestamp);
     return map;
   }
@@ -266,6 +290,7 @@ class TaskCheckListOptionTableData extends DataClass
       showTomorrowToDoList: Value(showTomorrowToDoList),
       showWeekToDoList: Value(showWeekToDoList),
       showMoreThanWeekToDoList: Value(showMoreThanWeekToDoList),
+      showCompletedToDoList: Value(showCompletedToDoList),
       dbTimestamp: Value(dbTimestamp),
     );
   }
@@ -285,6 +310,8 @@ class TaskCheckListOptionTableData extends DataClass
       showWeekToDoList: serializer.fromJson<bool>(json['showWeekToDoList']),
       showMoreThanWeekToDoList:
           serializer.fromJson<bool>(json['showMoreThanWeekToDoList']),
+      showCompletedToDoList:
+          serializer.fromJson<bool>(json['showCompletedToDoList']),
       dbTimestamp: serializer.fromJson<DateTime>(json['dbTimestamp']),
     );
   }
@@ -301,6 +328,7 @@ class TaskCheckListOptionTableData extends DataClass
       'showWeekToDoList': serializer.toJson<bool>(showWeekToDoList),
       'showMoreThanWeekToDoList':
           serializer.toJson<bool>(showMoreThanWeekToDoList),
+      'showCompletedToDoList': serializer.toJson<bool>(showCompletedToDoList),
       'dbTimestamp': serializer.toJson<DateTime>(dbTimestamp),
     };
   }
@@ -314,6 +342,7 @@ class TaskCheckListOptionTableData extends DataClass
           bool? showTomorrowToDoList,
           bool? showWeekToDoList,
           bool? showMoreThanWeekToDoList,
+          bool? showCompletedToDoList,
           DateTime? dbTimestamp}) =>
       TaskCheckListOptionTableData(
         id: id ?? this.id,
@@ -325,6 +354,8 @@ class TaskCheckListOptionTableData extends DataClass
         showWeekToDoList: showWeekToDoList ?? this.showWeekToDoList,
         showMoreThanWeekToDoList:
             showMoreThanWeekToDoList ?? this.showMoreThanWeekToDoList,
+        showCompletedToDoList:
+            showCompletedToDoList ?? this.showCompletedToDoList,
         dbTimestamp: dbTimestamp ?? this.dbTimestamp,
       );
   TaskCheckListOptionTableData copyWithCompanion(
@@ -352,6 +383,9 @@ class TaskCheckListOptionTableData extends DataClass
       showMoreThanWeekToDoList: data.showMoreThanWeekToDoList.present
           ? data.showMoreThanWeekToDoList.value
           : this.showMoreThanWeekToDoList,
+      showCompletedToDoList: data.showCompletedToDoList.present
+          ? data.showCompletedToDoList.value
+          : this.showCompletedToDoList,
       dbTimestamp:
           data.dbTimestamp.present ? data.dbTimestamp.value : this.dbTimestamp,
     );
@@ -368,6 +402,7 @@ class TaskCheckListOptionTableData extends DataClass
           ..write('showTomorrowToDoList: $showTomorrowToDoList, ')
           ..write('showWeekToDoList: $showWeekToDoList, ')
           ..write('showMoreThanWeekToDoList: $showMoreThanWeekToDoList, ')
+          ..write('showCompletedToDoList: $showCompletedToDoList, ')
           ..write('dbTimestamp: $dbTimestamp')
           ..write(')'))
         .toString();
@@ -383,6 +418,7 @@ class TaskCheckListOptionTableData extends DataClass
       showTomorrowToDoList,
       showWeekToDoList,
       showMoreThanWeekToDoList,
+      showCompletedToDoList,
       dbTimestamp);
   @override
   bool operator ==(Object other) =>
@@ -396,6 +432,7 @@ class TaskCheckListOptionTableData extends DataClass
           other.showTomorrowToDoList == this.showTomorrowToDoList &&
           other.showWeekToDoList == this.showWeekToDoList &&
           other.showMoreThanWeekToDoList == this.showMoreThanWeekToDoList &&
+          other.showCompletedToDoList == this.showCompletedToDoList &&
           other.dbTimestamp == this.dbTimestamp);
 }
 
@@ -409,6 +446,7 @@ class TaskCheckListOptionTableCompanion
   final Value<bool> showTomorrowToDoList;
   final Value<bool> showWeekToDoList;
   final Value<bool> showMoreThanWeekToDoList;
+  final Value<bool> showCompletedToDoList;
   final Value<DateTime> dbTimestamp;
   const TaskCheckListOptionTableCompanion({
     this.id = const Value.absent(),
@@ -419,6 +457,7 @@ class TaskCheckListOptionTableCompanion
     this.showTomorrowToDoList = const Value.absent(),
     this.showWeekToDoList = const Value.absent(),
     this.showMoreThanWeekToDoList = const Value.absent(),
+    this.showCompletedToDoList = const Value.absent(),
     this.dbTimestamp = const Value.absent(),
   });
   TaskCheckListOptionTableCompanion.insert({
@@ -430,6 +469,7 @@ class TaskCheckListOptionTableCompanion
     required bool showTomorrowToDoList,
     required bool showWeekToDoList,
     required bool showMoreThanWeekToDoList,
+    required bool showCompletedToDoList,
     required DateTime dbTimestamp,
   })  : showPassedToDoList = Value(showPassedToDoList),
         show6HoursToDoList = Value(show6HoursToDoList),
@@ -438,6 +478,7 @@ class TaskCheckListOptionTableCompanion
         showTomorrowToDoList = Value(showTomorrowToDoList),
         showWeekToDoList = Value(showWeekToDoList),
         showMoreThanWeekToDoList = Value(showMoreThanWeekToDoList),
+        showCompletedToDoList = Value(showCompletedToDoList),
         dbTimestamp = Value(dbTimestamp);
   static Insertable<TaskCheckListOptionTableData> custom({
     Expression<int>? id,
@@ -448,6 +489,7 @@ class TaskCheckListOptionTableCompanion
     Expression<bool>? showTomorrowToDoList,
     Expression<bool>? showWeekToDoList,
     Expression<bool>? showMoreThanWeekToDoList,
+    Expression<bool>? showCompletedToDoList,
     Expression<DateTime>? dbTimestamp,
   }) {
     return RawValuesInsertable({
@@ -464,6 +506,8 @@ class TaskCheckListOptionTableCompanion
       if (showWeekToDoList != null) 'show_week_to_do_list': showWeekToDoList,
       if (showMoreThanWeekToDoList != null)
         'show_more_than_week_to_do_list': showMoreThanWeekToDoList,
+      if (showCompletedToDoList != null)
+        'show_completed_to_do_list': showCompletedToDoList,
       if (dbTimestamp != null) 'db_timestamp': dbTimestamp,
     });
   }
@@ -477,6 +521,7 @@ class TaskCheckListOptionTableCompanion
       Value<bool>? showTomorrowToDoList,
       Value<bool>? showWeekToDoList,
       Value<bool>? showMoreThanWeekToDoList,
+      Value<bool>? showCompletedToDoList,
       Value<DateTime>? dbTimestamp}) {
     return TaskCheckListOptionTableCompanion(
       id: id ?? this.id,
@@ -488,6 +533,8 @@ class TaskCheckListOptionTableCompanion
       showWeekToDoList: showWeekToDoList ?? this.showWeekToDoList,
       showMoreThanWeekToDoList:
           showMoreThanWeekToDoList ?? this.showMoreThanWeekToDoList,
+      showCompletedToDoList:
+          showCompletedToDoList ?? this.showCompletedToDoList,
       dbTimestamp: dbTimestamp ?? this.dbTimestamp,
     );
   }
@@ -522,6 +569,10 @@ class TaskCheckListOptionTableCompanion
       map['show_more_than_week_to_do_list'] =
           Variable<bool>(showMoreThanWeekToDoList.value);
     }
+    if (showCompletedToDoList.present) {
+      map['show_completed_to_do_list'] =
+          Variable<bool>(showCompletedToDoList.value);
+    }
     if (dbTimestamp.present) {
       map['db_timestamp'] = Variable<DateTime>(dbTimestamp.value);
     }
@@ -539,6 +590,7 @@ class TaskCheckListOptionTableCompanion
           ..write('showTomorrowToDoList: $showTomorrowToDoList, ')
           ..write('showWeekToDoList: $showWeekToDoList, ')
           ..write('showMoreThanWeekToDoList: $showMoreThanWeekToDoList, ')
+          ..write('showCompletedToDoList: $showCompletedToDoList, ')
           ..write('dbTimestamp: $dbTimestamp')
           ..write(')'))
         .toString();
@@ -569,6 +621,7 @@ typedef $$TaskCheckListOptionTableTableCreateCompanionBuilder
   required bool showTomorrowToDoList,
   required bool showWeekToDoList,
   required bool showMoreThanWeekToDoList,
+  required bool showCompletedToDoList,
   required DateTime dbTimestamp,
 });
 typedef $$TaskCheckListOptionTableTableUpdateCompanionBuilder
@@ -581,6 +634,7 @@ typedef $$TaskCheckListOptionTableTableUpdateCompanionBuilder
   Value<bool> showTomorrowToDoList,
   Value<bool> showWeekToDoList,
   Value<bool> showMoreThanWeekToDoList,
+  Value<bool> showCompletedToDoList,
   Value<DateTime> dbTimestamp,
 });
 
@@ -622,6 +676,10 @@ class $$TaskCheckListOptionTableTableFilterComposer extends Composer<
 
   ColumnFilters<bool> get showMoreThanWeekToDoList => $composableBuilder(
       column: $table.showMoreThanWeekToDoList,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get showCompletedToDoList => $composableBuilder(
+      column: $table.showCompletedToDoList,
       builder: (column) => ColumnFilters(column));
 
   ColumnFilters<DateTime> get dbTimestamp => $composableBuilder(
@@ -668,6 +726,10 @@ class $$TaskCheckListOptionTableTableOrderingComposer extends Composer<
       column: $table.showMoreThanWeekToDoList,
       builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<bool> get showCompletedToDoList => $composableBuilder(
+      column: $table.showCompletedToDoList,
+      builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<DateTime> get dbTimestamp => $composableBuilder(
       column: $table.dbTimestamp, builder: (column) => ColumnOrderings(column));
 }
@@ -704,6 +766,9 @@ class $$TaskCheckListOptionTableTableAnnotationComposer extends Composer<
 
   GeneratedColumn<bool> get showMoreThanWeekToDoList => $composableBuilder(
       column: $table.showMoreThanWeekToDoList, builder: (column) => column);
+
+  GeneratedColumn<bool> get showCompletedToDoList => $composableBuilder(
+      column: $table.showCompletedToDoList, builder: (column) => column);
 
   GeneratedColumn<DateTime> get dbTimestamp => $composableBuilder(
       column: $table.dbTimestamp, builder: (column) => column);
@@ -748,6 +813,7 @@ class $$TaskCheckListOptionTableTableTableManager extends RootTableManager<
             Value<bool> showTomorrowToDoList = const Value.absent(),
             Value<bool> showWeekToDoList = const Value.absent(),
             Value<bool> showMoreThanWeekToDoList = const Value.absent(),
+            Value<bool> showCompletedToDoList = const Value.absent(),
             Value<DateTime> dbTimestamp = const Value.absent(),
           }) =>
               TaskCheckListOptionTableCompanion(
@@ -759,6 +825,7 @@ class $$TaskCheckListOptionTableTableTableManager extends RootTableManager<
             showTomorrowToDoList: showTomorrowToDoList,
             showWeekToDoList: showWeekToDoList,
             showMoreThanWeekToDoList: showMoreThanWeekToDoList,
+            showCompletedToDoList: showCompletedToDoList,
             dbTimestamp: dbTimestamp,
           ),
           createCompanionCallback: ({
@@ -770,6 +837,7 @@ class $$TaskCheckListOptionTableTableTableManager extends RootTableManager<
             required bool showTomorrowToDoList,
             required bool showWeekToDoList,
             required bool showMoreThanWeekToDoList,
+            required bool showCompletedToDoList,
             required DateTime dbTimestamp,
           }) =>
               TaskCheckListOptionTableCompanion.insert(
@@ -781,6 +849,7 @@ class $$TaskCheckListOptionTableTableTableManager extends RootTableManager<
             showTomorrowToDoList: showTomorrowToDoList,
             showWeekToDoList: showWeekToDoList,
             showMoreThanWeekToDoList: showMoreThanWeekToDoList,
+            showCompletedToDoList: showCompletedToDoList,
             dbTimestamp: dbTimestamp,
           ),
           withReferenceMapper: (p0) => p0

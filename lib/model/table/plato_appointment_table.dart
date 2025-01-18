@@ -9,6 +9,7 @@ enum Status { enable, disable }
 enum DataType { school, etc }
 
 @TableIndex(name: 'finished', columns: {#finished})
+@TableIndex(name: 'end', columns: {#end})
 class PlatoAppointmentTable extends Table {
   IntColumn get id => integer().autoIncrement()();
 

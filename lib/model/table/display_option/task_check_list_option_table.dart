@@ -21,6 +21,8 @@ class TaskCheckListOptionTable extends Table {
 
   BoolColumn get showMoreThanWeekToDoList => boolean()();
 
+  BoolColumn get showCompletedToDoList => boolean()();
+
   DateTimeColumn get dbTimestamp => dateTime()();
 }
 

@@ -713,12 +713,14 @@ abstract class _$PlatoAppointmentDrift extends GeneratedDatabase {
       $PlatoAppointmentTableTable(this);
   late final Index finished = Index('finished',
       'CREATE INDEX finished ON plato_appointment_table (finished)');
+  late final Index end =
+      Index('end', 'CREATE INDEX "end" ON plato_appointment_table ("end")');
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [platoAppointmentTable, finished];
+      [platoAppointmentTable, finished, end];
 }
 
 typedef $$PlatoAppointmentTableTableCreateCompanionBuilder

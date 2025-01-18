@@ -4,8 +4,7 @@ library;
 // dart run build_runner build
 
 export 'calendar_option_table.dart';
+export 'display_option/display_option.dart';
 export 'plato_appointment_table.dart';
 export 'plato_credential_table.dart';
 export 'sync_info_table.dart';
-export './display_option/display_option.dart';
-
