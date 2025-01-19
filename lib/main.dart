@@ -29,10 +29,7 @@ class MyApp extends StatelessWidget {
       BlocProvider<CalendarOptionBloc>(
           create: (BuildContext context) => CalendarOptionBloc()),
       BlocProvider<PlatoAppointmentBloc>(
-          create: (BuildContext context) => PlatoAppointmentBloc()),
-      BlocProvider<CheckListBloc>(
-        create: (BuildContext context) => CheckListBloc(),
-      )
+          create: (BuildContext context) => PlatoAppointmentBloc())
     ], child: const MaterialThemePage());
   }
 }
@@ -72,7 +69,6 @@ class MainBlocPage extends State<InitStatefulPage> {
   void initState() {
     super.initState();
     context.read<PlatoAppointmentBloc>().add(LoadDataRequest());
-    // context.read<GlobalDisplayOptionBloc>().add(GlobalDisplayOptionInitial());
   }
 
   @override
