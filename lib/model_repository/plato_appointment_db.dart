@@ -121,6 +121,17 @@ class PlatoAppointmentDB {
     }
   }
 
+  static Future<List<PlatoAppointment>> readCompletePlatoAppointment() async {
+    try {
+      final result = await database.readCompletePlatoAppointment();
+      logger.fine('readCompletePlatoAppointment: ${result.length}');
+      return result.map((e) => e.toModel()).toList();
+    } catch (e, stackTrace) {
+      logger.severe('Failed to readCompletePlatoAppointment: $e', stackTrace);
+      rethrow;
+    }
+  }
+
   static Future<void> deleteAll() async {
     try {
       await database.deleteAll();
