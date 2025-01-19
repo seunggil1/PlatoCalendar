@@ -20,7 +20,9 @@ class GlobalDisplayOptionDB{
     } on StateError catch (e) {
       if (e.message == 'No element') {
         logger.warning('No element found');
-        rethrow;
+        final defaultOption = GlobalDisplayOption();
+        await write(defaultOption);
+        return defaultOption;
       } else {
         logger.severe('Failed to readGlobalDisplayOption: $e');
         rethrow;
