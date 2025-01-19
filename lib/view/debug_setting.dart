@@ -12,7 +12,7 @@ class DebugSettingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final platoThemeCubit = context.read<PlatoThemeCubit>();
+    final globalDisplayOptionBloc = context.read<GlobalDisplayOptionBloc>();
     final calendarOptionBloc = context.read<CalendarOptionBloc>();
     final option = calendarOptionBloc.state.calendarOption;
     final platoAppointmentBloc = context.read<PlatoAppointmentBloc>();
@@ -20,10 +20,14 @@ class DebugSettingPage extends StatelessWidget {
     return Column(
       children: [
         TextButton(
-            onPressed: platoThemeCubit.setLightTheme,
+            onPressed: () {
+              globalDisplayOptionBloc.add(SetLightTheme());
+            },
             child: const Text('set light')),
         TextButton(
-            onPressed: platoThemeCubit.setDarkTheme,
+            onPressed: () {
+              globalDisplayOptionBloc.add(SetDarkTheme());
+            },
             child: const Text('set dark')),
         TextButton(
             onPressed: () {

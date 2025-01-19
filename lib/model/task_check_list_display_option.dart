@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:drift/drift.dart';
 
 import 'table/table.dart';
@@ -6,9 +7,30 @@ class TaskCheckListDisplayOption {
   int? id;
 
   // [지남, 6, 12, 오늘, 내일, 1주일 이하, 1주일 이상, 날짜 없음, 완료]
+  // index : 0 ~ 7
   List<bool> showToDoList = [true, true, true, true, true, true, true, true];
 
   DateTime dbTimestamp = DateTime.now();
+
+  TaskCheckListDisplayOption copyWith({
+    int? id,
+    List<bool>? showToDoList,
+  }) {
+    return TaskCheckListDisplayOption()
+      ..showToDoList = showToDoList ?? this.showToDoList;
+  }
+
+  @override
+  int get hashCode => Object.hash(showToDoList, null);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other.runtimeType != runtimeType) return false;
+
+    return other is TaskCheckListDisplayOption &&
+        other.showToDoList == showToDoList;
+  }
 }
 
 extension TaskCheckListDisplayOptionMapper on TaskCheckListDisplayOption {

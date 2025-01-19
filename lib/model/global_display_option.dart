@@ -12,6 +12,15 @@ class GlobalDisplayOption {
 
   DateTime dbTimestamp = DateTime.now();
 
+  GlobalDisplayOption copyWith({
+    int? tapIndex,
+    flutter_material.ThemeMode? themeMode,
+  }) {
+    return GlobalDisplayOption()
+      ..tapIndex = tapIndex ?? this.tapIndex
+      ..themeMode = themeMode ?? this.themeMode;
+  }
+
   @override
   int get hashCode => Object.hash(tapIndex, themeMode);
 
