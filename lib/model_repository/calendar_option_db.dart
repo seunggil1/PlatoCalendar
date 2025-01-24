@@ -18,6 +18,16 @@ class CalendarOptionDB {
   static Future<CalendarOption> read() async {
     try {
       return await database.read().then((value) => value.toModel());
+    } on StateError catch (e) {
+      if (e.message == 'No element') {
+        logger.warning('No element found');
+        final defaultOption = CalendarOption();
+        await write(defaultOption);
+        return defaultOption;
+      } else {
+        logger.severe('Failed to readGlobalDisplayOption: $e');
+        rethrow;
+      }
     } catch (e, stackTrace) {
       logger.severe('Failed to readCalendarOption: $e', stackTrace);
       rethrow;
