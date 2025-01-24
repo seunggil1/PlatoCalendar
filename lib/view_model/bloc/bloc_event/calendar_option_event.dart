@@ -6,12 +6,6 @@ sealed class CalendarOptionEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class CalendarOptionInitial extends CalendarOptionEvent {}
-
-class CalendarOptionLoading extends CalendarOptionEvent {}
-
-class CalendarOptionLoadingFinished extends CalendarOptionEvent {}
-
 class CalendarOptionUpdate extends CalendarOptionEvent {
   final CalendarOption option;
 

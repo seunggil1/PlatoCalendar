@@ -2,17 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/model_repository/global_display_option_db.dart';
+import 'package:plato_calendar/model_repository/calendar_option_db.dart';
+
 import 'package:plato_calendar/util/util.dart';
 import 'package:plato_calendar/view/view.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
 
-late final GlobalDisplayOption globalDisplayOption;
+// 앱 시작전 호출되어야 함.
+class Setup {
+  static late GlobalDisplayOption globalDisplayOption;
+  static late CalendarOption calendarOption;
+}
+
 
 void main() async {
   final logger = LoggerManager.getLogger('main');
   setupBlocLogger();
   WidgetsFlutterBinding.ensureInitialized();
-  globalDisplayOption = await GlobalDisplayOptionDB.read();
+
+  await Future.wait([
+    GlobalDisplayOptionDB.read(),
+    CalendarOptionDB.read()
+  ]).then((List value) {
+    Setup.globalDisplayOption = value[0];
+    Setup.calendarOption = value[1];
+  });
+
   runApp(const MyApp());
 }
 
@@ -25,9 +40,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(providers: [
       BlocProvider<GlobalDisplayOptionBloc>(
           create: (BuildContext context) =>
-              GlobalDisplayOptionBloc(init: globalDisplayOption)),
+              GlobalDisplayOptionBloc(Setup.globalDisplayOption)),
       BlocProvider<CalendarOptionBloc>(
-          create: (BuildContext context) => CalendarOptionBloc()),
+          create: (BuildContext context) => CalendarOptionBloc(Setup.calendarOption)),
       BlocProvider<PlatoAppointmentBloc>(
           create: (BuildContext context) => PlatoAppointmentBloc())
     ], child: const MaterialThemePage());

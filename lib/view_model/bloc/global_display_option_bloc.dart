@@ -7,7 +7,8 @@ import './bloc_event/bloc_event.dart';
 
 class GlobalDisplayOptionBloc
     extends Bloc<GlobalDisplayOptionEvent, GlobalDisplayOption> {
-  GlobalDisplayOptionBloc({GlobalDisplayOption? init}) : super(init ?? GlobalDisplayOption()) {
+  GlobalDisplayOptionBloc(GlobalDisplayOption? init)
+      : super(init ?? GlobalDisplayOption()) {
     on<GlobalDisplayOptionInitial>((event, emit) async {
       final option = await GlobalDisplayOptionDB.read();
       emit(option);
