@@ -2,26 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:plato_calendar/etc/calendar_color.dart';
-import 'package:plato_calendar/etc/school_data.dart';
+import 'package:plato_calendar/etc/kr_localization.dart';
 import 'package:plato_calendar/etc/subject_code.dart';
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
 
 import './widget_util/widget_util.dart';
+import 'duration_header.dart';
 
-
-Widget todoGroupWidget(BuildContext context, List<PlatoAppointment> data) {
-  return Container(
-    margin: edgeInsetsStart,
-    padding: padding,
-    decoration: boxDecoration,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: data
-          .map((task) => todoWidget(context, task))
-          .toList(growable: false),
-    ),
-  );
+Widget todoGroupWidget(
+    BuildContext context, int durationHeader, List<PlatoAppointment> data) {
+  if (data.isEmpty) {
+    return Container();
+  } else {
+    return Container(
+      margin: edgeInsetsStart,
+      padding: padding,
+      decoration: boxDecoration,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          getDurationHeaderWidget(
+              taskDurationLocaleKR[durationHeader] ?? '', durationHeader),
+          ...data.map((task) => todoWidget(context, task))
+        ],
+      ),
+    );
+  }
 }
 
 Widget todoWidget(BuildContext context, PlatoAppointment data) {
@@ -110,7 +117,7 @@ final EdgeInsets edgeInsetsStart = EdgeInsets.fromLTRB(10, 10, 10, 0);
 final EdgeInsets edgeInsetsMiddle = EdgeInsets.fromLTRB(10, 10, 10, 0);
 final EdgeInsets edgeInsetsEnd = EdgeInsets.fromLTRB(10, 10, 10, 10);
 final EdgeInsets padding =
-const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0);
+    const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0);
 final BoxDecoration boxDecoration = BoxDecoration(
     border: Border.all(color: Colors.grey[350] ?? Colors.grey, width: 1.5),
     borderRadius: BorderRadius.circular(5));

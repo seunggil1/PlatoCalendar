@@ -31,4 +31,13 @@ class SyncInfoDB {
       rethrow;
     }
   }
+
+  static Future<void> deleteAll() async {
+    try {
+      await database.deleteAll();
+    } catch (e, stackTrace) {
+      logger.severe('Failed to deleteAllSyncInfo: $e', stackTrace);
+      rethrow;
+    }
+  }
 }

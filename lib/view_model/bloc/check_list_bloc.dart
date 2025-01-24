@@ -6,7 +6,7 @@ import 'bloc_state/bloc_state.dart';
 
 class CheckListBloc extends Bloc<TaskCheckListEvent, TaskCheckListState> {
   CheckListBloc() : super(TaskCheckListState()) {
-    on<TaskCheckListInitial>((event, emit) async {
+    on<LoadTaskCheckListEvent>((event, emit) async {
       final data = await Future.wait([
         PlatoAppointmentDB.readPastPlatoAppointment(),
         PlatoAppointmentDB.readPlatoAppointmentWithin6Hours(),

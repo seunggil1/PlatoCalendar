@@ -1,21 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:plato_calendar/view/widget/todo.dart';
+import 'package:plato_calendar/view/widget/widget.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
 
-class TaskCheckListPage extends StatelessWidget {
+
+class TaskCheckListPage extends StatefulWidget {
   const TaskCheckListPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<TaskCheckListBloc>(
-        create: (BuildContext context) => TaskCheckListBloc(),
-        child: const _TaskCheckListPage());
-  }
-}
-
-class _TaskCheckListPage extends StatefulWidget {
-  const _TaskCheckListPage();
 
   @override
   State<StatefulWidget> createState() {
@@ -23,11 +13,11 @@ class _TaskCheckListPage extends StatefulWidget {
   }
 }
 
-class _PageState extends State<_TaskCheckListPage> {
+class _PageState extends State<TaskCheckListPage> {
   @override
   void initState() {
     super.initState();
-    context.read<TaskCheckListBloc>().add(TaskCheckListInitial());
+    context.read<TaskCheckListBloc>().add(LoadTaskCheckListEvent());
   }
 
   @override
@@ -35,21 +25,17 @@ class _PageState extends State<_TaskCheckListPage> {
     return BlocBuilder<TaskCheckListBloc, TaskCheckListState>(
         builder: (context, state) {
       return Scaffold(
-        appBar: AppBar(
-            elevation: 0,
-            title: Row(
-              children: [],
-            )),
+        appBar: getSubjectCodeAppBarWidget(context),
         body: ListView(
           children: [
-            todoGroupWidget(context, state.taskCheckListPassed),
-            todoGroupWidget(context, state.taskCheckList6Hour),
-            todoGroupWidget(context, state.taskCheckList12Hour),
-            todoGroupWidget(context, state.taskCheckListToday),
-            todoGroupWidget(context, state.taskCheckListTomorrow),
-            todoGroupWidget(context, state.taskCheckListWeek),
-            todoGroupWidget(context, state.taskCheckListMoreThanWeek),
-            todoGroupWidget(context, state.taskCheckListComplete)
+            todoGroupWidget(context, 0, state.taskCheckListPassed),
+            todoGroupWidget(context, 1, state.taskCheckList6Hour),
+            todoGroupWidget(context, 2, state.taskCheckList12Hour),
+            todoGroupWidget(context, 3, state.taskCheckListToday),
+            todoGroupWidget(context, 4, state.taskCheckListTomorrow),
+            todoGroupWidget(context, 5, state.taskCheckListWeek),
+            todoGroupWidget(context, 6, state.taskCheckListMoreThanWeek),
+            todoGroupWidget(context, 7, state.taskCheckListComplete)
           ],
         ),
       );

@@ -5,7 +5,6 @@ import 'package:plato_calendar/model_repository/model_repository.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
 
 import 'widget/widget.dart';
-import 'widget/widget_util/widget_util.dart';
 
 class DebugSettingPage extends StatelessWidget {
   const DebugSettingPage({super.key});
@@ -13,9 +12,11 @@ class DebugSettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final globalDisplayOptionBloc = context.read<GlobalDisplayOptionBloc>();
-    final calendarOptionBloc = context.read<CalendarOptionBloc>();
-    final option = calendarOptionBloc.state.calendarOption;
-    final platoAppointmentBloc = context.read<PlatoAppointmentBloc>();
+    final syncfusionCalendarOptionBloc =
+        context.read<SyncfusionCalendarOptionBloc>();
+    final option = syncfusionCalendarOptionBloc.state.calendarOption;
+    final globalPlatoAppointmentBloc =
+        context.read<GlobalPlatoAppointmentBloc>();
 
     return Column(
       children: [
@@ -31,19 +32,19 @@ class DebugSettingPage extends StatelessWidget {
             child: const Text('set dark')),
         TextButton(
             onPressed: () {
-              calendarOptionBloc.add(
-                  CalendarOptionUpdate(option.copyWith(showAgenda: false)));
+              syncfusionCalendarOptionBloc.add(SyncfusionCalendarOptionUpdate(
+                  option.copyWith(showAgenda: false)));
             },
             child: const Text('show Agenda false')),
         TextButton(
             onPressed: () {
-              calendarOptionBloc
-                  .add(CalendarOptionUpdate(option.copyWith(showAgenda: true)));
+              syncfusionCalendarOptionBloc.add(SyncfusionCalendarOptionUpdate(
+                  option.copyWith(showAgenda: true)));
             },
             child: const Text('show Agenda true')),
         TextButton(
             onPressed: () {
-              platoAppointmentBloc.add(SyncRequest());
+              globalPlatoAppointmentBloc.add(SyncPlatoAppointment());
             },
             child: const Text('update plato data')),
         TextButton(
@@ -58,6 +59,11 @@ class DebugSettingPage extends StatelessWidget {
               }
             },
             child: const Text('set user credential')),
+        TextButton(
+            onPressed: () {
+              globalPlatoAppointmentBloc.add(DeleteAllPlatoAppointment());
+            },
+            child: const Text('Delete all plato appointment data')),
       ],
     );
     // return BlocProvider(

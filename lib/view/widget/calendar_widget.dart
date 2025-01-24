@@ -25,13 +25,13 @@ class CalendarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CalendarOptionState calendarOptionState =
-        context.watch<CalendarOptionBloc>().state;
+        context.watch<SyncfusionCalendarOptionBloc>().state;
     final CalendarOption calendarOption = calendarOptionState.calendarOption;
     CalendarController calendarController =
         calendarOptionState.calendarController;
 
     List<PlatoAppointment> appointmentState =
-        context.watch<PlatoAppointmentBloc>().state;
+        context.watch<GlobalPlatoAppointmentBloc>().state;
 
     return SfCalendar(
       controller: calendarController,
@@ -66,7 +66,7 @@ void onTapCallBack(
   } else {
     if (option.calendarViewTypeIsMonth() &&
         tapDetail.targetElement == CalendarElement.calendarCell) {
-      context.read<CalendarOptionBloc>().add(CalendarOptionUpdate(
+      context.read<SyncfusionCalendarOptionBloc>().add(SyncfusionCalendarOptionUpdate(
           option.copyWith(viewType: CalendarView.schedule)));
     } else if (option.calendarViewTypeIsSchedule() &&
         tapDetail.targetElement == CalendarElement.appointment) {

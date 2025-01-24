@@ -6,7 +6,7 @@ sealed class TaskCheckListEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class TaskCheckListInitial extends TaskCheckListEvent {}
+class LoadTaskCheckListEvent extends TaskCheckListEvent {}
 
 class ChangeTaskCheckListDisplayOption extends TaskCheckListEvent {
   final int changeIndex;

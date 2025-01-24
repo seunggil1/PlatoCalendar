@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget durationHeaderWidget(String str, int index) {
+Widget getDurationHeaderWidget(String str, int index) {
   return Container(
       margin: const EdgeInsets.all(5),
       // child 없는 빈 Container도 터치 감지할 수 있게 하기 위해 설정

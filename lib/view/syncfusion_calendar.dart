@@ -7,12 +7,12 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import './widget/calendar_widget.dart';
 
-class PlatoCalendarPage extends StatelessWidget {
-  const PlatoCalendarPage({super.key});
+class SyncfusionCalendarPage extends StatelessWidget {
+  const SyncfusionCalendarPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CalendarOptionBloc, CalendarOptionState>(
+    return BlocBuilder<SyncfusionCalendarOptionBloc, CalendarOptionState>(
         builder: (context, state) {
       return PopScope(
           canPop: false,
@@ -22,7 +22,7 @@ class PlatoCalendarPage extends StatelessWidget {
 
             // CalendarViewType가 Schedule이면 Month로 변경
             if (calendarOption.calendarViewTypeIsSchedule()) {
-              context.read<CalendarOptionBloc>().add(CalendarOptionUpdate(
+              context.read<SyncfusionCalendarOptionBloc>().add(SyncfusionCalendarOptionUpdate(
                   calendarOption.copyWith(viewType: CalendarView.month)));
             } else {
               SystemNavigator.pop();

@@ -1,15 +1,15 @@
 import 'package:equatable/equatable.dart';
 import 'package:plato_calendar/model/model.dart';
 
-sealed class CalendarOptionEvent extends Equatable {
+sealed class SyncfusionCalendarOptionEvent extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class CalendarOptionUpdate extends CalendarOptionEvent {
+class SyncfusionCalendarOptionUpdate extends SyncfusionCalendarOptionEvent {
   final CalendarOption option;
 
-  CalendarOptionUpdate(this.option);
+  SyncfusionCalendarOptionUpdate(this.option);
 
   @override
   List<Object?> get props => [option];

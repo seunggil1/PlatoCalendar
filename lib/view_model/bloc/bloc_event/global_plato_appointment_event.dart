@@ -1,13 +1,15 @@
 import 'package:equatable/equatable.dart';
-import 'package:plato_calendar/model/model.dart';
 
-sealed class PlatoAppointmentEvent extends Equatable {
+sealed class GlobalPlatoAppointmentEvent extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class LoadDataRequest extends PlatoAppointmentEvent {}
-class SyncRequest extends PlatoAppointmentEvent {}
+class LoadPlatoAppointment extends GlobalPlatoAppointmentEvent {}
+
+class SyncPlatoAppointment extends GlobalPlatoAppointmentEvent {}
+
+class DeleteAllPlatoAppointment extends GlobalPlatoAppointmentEvent {}
 
 // class PlatoAppointmentUpdated extends PlatoAppointmentEvent {
 //   final List<PlatoAppointment> appointments;

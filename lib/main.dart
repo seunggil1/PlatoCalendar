@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plato_calendar/model/model.dart';
-import 'package:plato_calendar/model_repository/global_display_option_db.dart';
 import 'package:plato_calendar/model_repository/calendar_option_db.dart';
-
+import 'package:plato_calendar/model_repository/global_display_option_db.dart';
 import 'package:plato_calendar/util/util.dart';
 import 'package:plato_calendar/view/view.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
@@ -14,16 +13,13 @@ class Setup {
   static late CalendarOption calendarOption;
 }
 
-
 void main() async {
   final logger = LoggerManager.getLogger('main');
   setupBlocLogger();
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Future.wait([
-    GlobalDisplayOptionDB.read(),
-    CalendarOptionDB.read()
-  ]).then((List value) {
+  await Future.wait([GlobalDisplayOptionDB.read(), CalendarOptionDB.read()])
+      .then((List value) {
     Setup.globalDisplayOption = value[0];
     Setup.calendarOption = value[1];
   });
@@ -41,10 +37,14 @@ class MyApp extends StatelessWidget {
       BlocProvider<GlobalDisplayOptionBloc>(
           create: (BuildContext context) =>
               GlobalDisplayOptionBloc(Setup.globalDisplayOption)),
-      BlocProvider<CalendarOptionBloc>(
-          create: (BuildContext context) => CalendarOptionBloc(Setup.calendarOption)),
-      BlocProvider<PlatoAppointmentBloc>(
-          create: (BuildContext context) => PlatoAppointmentBloc())
+      BlocProvider<SyncfusionCalendarOptionBloc>(
+          create: (BuildContext context) =>
+              SyncfusionCalendarOptionBloc(Setup.calendarOption)),
+      BlocProvider<TaskCheckListBloc>(
+          create: (BuildContext context) => TaskCheckListBloc()),
+      BlocProvider<GlobalPlatoAppointmentBloc>(
+          create: (BuildContext context) => GlobalPlatoAppointmentBloc(
+              taskCheckListBloc: context.read<TaskCheckListBloc>()))
     ], child: const MaterialThemePage());
   }
 }
@@ -83,7 +83,7 @@ class MainBlocPage extends State<InitStatefulPage> {
   @override
   void initState() {
     super.initState();
-    context.read<PlatoAppointmentBloc>().add(LoadDataRequest());
+    context.read<GlobalPlatoAppointmentBloc>().add(LoadPlatoAppointment());
   }
 
   @override
@@ -94,7 +94,7 @@ class MainBlocPage extends State<InitStatefulPage> {
       return Scaffold(
           body: SafeArea(
               child: IndexedStack(index: state.tapIndex, children: const [
-            PlatoCalendarPage(),
+            SyncfusionCalendarPage(),
             TaskCheckListPage(),
             DebugSettingPage()
           ])),

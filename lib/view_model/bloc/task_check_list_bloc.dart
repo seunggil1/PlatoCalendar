@@ -9,7 +9,7 @@ import 'bloc_state/bloc_state.dart';
 
 class TaskCheckListBloc extends Bloc<TaskCheckListEvent, TaskCheckListState> {
   TaskCheckListBloc() : super(TaskCheckListState()) {
-    on<TaskCheckListInitial>((event, emit) async {
+    on<LoadTaskCheckListEvent>((event, emit) async {
       final taskCheckListDisplayOption =
           await TaskCheckListDisplayOptionDB.read();
 
