@@ -84,6 +84,7 @@ class MainBlocPage extends State<InitStatefulPage> {
   void initState() {
     super.initState();
     context.read<GlobalPlatoAppointmentBloc>().add(LoadPlatoAppointment());
+    // BlocProvider.of<GlobalPlatoAppointmentBloc>(context).add(LoadPlatoAppointment());
   }
 
   @override

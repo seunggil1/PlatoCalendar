@@ -22,23 +22,26 @@ class _PageState extends State<TaskCheckListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TaskCheckListBloc, TaskCheckListState>(
-        builder: (context, state) {
-      return Scaffold(
-        appBar: getSubjectCodeAppBarWidget(context),
-        body: ListView(
-          children: [
-            todoGroupWidget(context, 0, state.taskCheckListPassed),
-            todoGroupWidget(context, 1, state.taskCheckList6Hour),
-            todoGroupWidget(context, 2, state.taskCheckList12Hour),
-            todoGroupWidget(context, 3, state.taskCheckListToday),
-            todoGroupWidget(context, 4, state.taskCheckListTomorrow),
-            todoGroupWidget(context, 5, state.taskCheckListWeek),
-            todoGroupWidget(context, 6, state.taskCheckListMoreThanWeek),
-            todoGroupWidget(context, 7, state.taskCheckListComplete)
-          ],
-        ),
-      );
-    });
+    // BlocSelector<TaskCheckListBloc, TaskCheckListState, List>(
+    //   selector: (state) => state.taskCheckList6Hour,
+    //   builder: (context, a){
+    //     return Container();
+    //   }
+    // );
+    return Scaffold(
+      appBar: getSubjectCodeAppBarWidget(context),
+      body: ListView(
+        children: [
+          todoGroupWidget(context, 0),
+          todoGroupWidget(context, 1),
+          todoGroupWidget(context, 2),
+          todoGroupWidget(context, 3),
+          todoGroupWidget(context, 4),
+          todoGroupWidget(context, 5),
+          todoGroupWidget(context, 6),
+          todoGroupWidget(context, 7)
+        ],
+      ),
+    );
   }
 }

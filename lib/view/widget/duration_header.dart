@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:plato_calendar/view_model/view_model.dart';
 
-Widget getDurationHeaderWidget(String str, int index) {
+Widget getDurationHeaderWidget(
+    BuildContext context, int index, bool showToList, String headerText) {
   return Container(
       margin: const EdgeInsets.all(5),
+      // TODO : 현재 코드 구조에서 GestureDetector 필요 여부 체크 필요
       // child 없는 빈 Container도 터치 감지할 수 있게 하기 위해 설정
       child: GestureDetector(
           behavior: HitTestBehavior.opaque,
-          // TODO : 누르면 해당하는 기간 fold / unfold 되게 하기
-          onTap: () {},
+          onTap: () {
+            final bloc = context.read<TaskCheckListBloc>();
+            bloc.add(ChangeTaskCheckListDisplayOption(index));
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(str, style: TextStyle(fontSize: 15)),
+              Text(headerText, style: TextStyle(fontSize: 15)),
               Expanded(child: Container()),
-              Icon(Icons.keyboard_arrow_up_sharp,
-                  // : Icons.keyboard_arrow_down_sharp,
-                  color: Colors.blueAccent[100],
-                  size: 27),
+              showToList
+                  ? Icon(Icons.keyboard_arrow_down_sharp,
+                      color: Colors.blueAccent[100], size: 27)
+                  : Icon(Icons.keyboard_arrow_up_sharp,
+                      color: Colors.blueAccent[100], size: 27)
             ],
           )));
 }

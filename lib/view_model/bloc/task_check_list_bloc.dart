@@ -32,11 +32,13 @@ class TaskCheckListBloc extends Bloc<TaskCheckListEvent, TaskCheckListState> {
   Future<TaskCheckListState> readData(TaskCheckListDisplayOption option) async {
     final readRequestList = [];
 
-    // displayOption이 true인 것만 requestList에 추가
     option.showToDoList.asMap().forEach((index, show) {
-      if (show) {
-        readRequestList.add(toDoListMapper[index]);
-      }
+      readRequestList.add(toDoListMapper[index]);
+
+      // 만약 displayOption이 true인 것만 requestList에 추가할거면
+      // if (show) {
+      //   readRequestList.add(toDoListMapper[index]);
+      // }
     });
 
     final List<List<PlatoAppointment>> appointmentList =
@@ -47,11 +49,12 @@ class TaskCheckListBloc extends Bloc<TaskCheckListEvent, TaskCheckListState> {
     // displayOption이 false인 것은 빈 리스트로 채워서 반환
     final data = <List<PlatoAppointment>>[];
     option.showToDoList.asMap().forEach((index, show) {
-      if (show) {
-        data.add(appointmentListQueue.removeFirst());
-      } else {
-        data.add(<PlatoAppointment>[]);
-      }
+      data.add(appointmentListQueue.removeFirst());
+      // if (show) {
+      //   data.add(appointmentListQueue.removeFirst());
+      // } else {
+      //   data.add(<PlatoAppointment>[]);
+      // }
     });
 
     final result = TaskCheckListState(

@@ -10,25 +10,36 @@ import 'package:plato_calendar/view_model/view_model.dart';
 import './widget_util/widget_util.dart';
 import 'duration_header.dart';
 
-Widget todoGroupWidget(
-    BuildContext context, int durationHeader, List<PlatoAppointment> data) {
-  if (data.isEmpty) {
-    return Container();
-  } else {
-    return Container(
-      margin: edgeInsetsStart,
-      padding: padding,
-      decoration: boxDecoration,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          getDurationHeaderWidget(
-              taskDurationLocaleKR[durationHeader] ?? '', durationHeader),
-          ...data.map((task) => todoWidget(context, task))
-        ],
-      ),
-    );
-  }
+Widget todoGroupWidget(BuildContext context, int durationIndex) {
+  return BlocBuilder<TaskCheckListBloc, TaskCheckListState>(
+      builder: (context, state) {
+    bool showToList =
+        !state.taskCheckListDisplayOption.showToDoList[durationIndex];
+    // 데이터가 없음 -> fold / unfold 옵션이 필요없으니 생략
+    if (state[durationIndex].isEmpty) {
+      return Container();
+    } else {
+      List<Widget> todoWidgetList = [
+        ...showToList
+            ? state[durationIndex].map((task) => todoWidget(context, task))
+            : <Widget>[]
+      ];
+
+      return Container(
+        margin: edgeInsetsStart,
+        padding: padding,
+        decoration: boxDecoration,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            getDurationHeaderWidget(context, durationIndex, showToList,
+                taskDurationLocaleKR[durationIndex] ?? ''),
+            ...todoWidgetList
+          ],
+        ),
+      );
+    }
+  });
 }
 
 Widget todoWidget(BuildContext context, PlatoAppointment data) {
