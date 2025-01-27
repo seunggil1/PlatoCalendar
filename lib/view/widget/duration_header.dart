@@ -4,6 +4,7 @@ import 'package:plato_calendar/view_model/view_model.dart';
 
 Widget getDurationHeaderWidget(
     BuildContext context, int index, bool showToList, String headerText) {
+  final colorScheme = Theme.of(context).colorScheme;
   return Container(
       margin: const EdgeInsets.all(5),
       // TODO : 현재 코드 구조에서 GestureDetector 필요 여부 체크 필요
@@ -21,9 +22,9 @@ Widget getDurationHeaderWidget(
               Expanded(child: Container()),
               showToList
                   ? Icon(Icons.keyboard_arrow_down_sharp,
-                      color: Colors.blueAccent[100], size: 27)
+                      color: colorScheme.primary, size: 27)
                   : Icon(Icons.keyboard_arrow_up_sharp,
-                      color: Colors.blueAccent[100], size: 27)
+                      color: colorScheme.primary, size: 27)
             ],
           )));
 }

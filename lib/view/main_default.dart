@@ -6,6 +6,17 @@ import 'package:plato_calendar/view_model/view_model.dart';
 
 Widget getDefaultMainPage(BuildContext context, int tapIndex) {
   return Scaffold(
+      appBar: tapIndex != 2
+          ? null
+          : AppBar(
+              title: Text(
+                'Setting',
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              ),
+              elevation: 1.0,
+              scrolledUnderElevation: 10.0,
+              shadowColor: Theme.of(context).colorScheme.shadow,
+            ),
       body: SafeArea(
           child: IndexedStack(index: tapIndex, children: const [
         SyncfusionCalendarPage(),
@@ -14,8 +25,9 @@ Widget getDefaultMainPage(BuildContext context, int tapIndex) {
       ])),
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.blueAccent[100],
-          unselectedItemColor: Colors.grey[400]!.withOpacity(1),
+          selectedItemColor: Theme.of(context).colorScheme.primary,
+          unselectedItemColor:
+              Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.4),
           currentIndex: tapIndex,
           onTap: (int nextTabIndex) {
             context

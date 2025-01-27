@@ -10,12 +10,6 @@ const monthHeaderSettings =
     MonthHeaderSettings(height: 100, monthFormat: 'yyyy년 M월');
 const scheduleViewSettings = ScheduleViewSettings(
     appointmentItemHeight: 70, monthHeaderSettings: monthHeaderSettings);
-const viewHeaderStyle = ViewHeaderStyle(
-    dayTextStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold));
-
-final headerStyle = CalendarHeaderStyle(
-    backgroundColor: Colors.blueAccent[100],
-    textStyle: TextStyle(color: Colors.white, fontSize: 20));
 
 class CalendarWidget extends StatelessWidget {
   const CalendarWidget({super.key});
@@ -33,20 +27,19 @@ class CalendarWidget extends StatelessWidget {
     List<PlatoAppointment> appointmentState =
         context.watch<GlobalPlatoAppointmentBloc>().state;
 
+    final colorScheme = Theme.of(context).colorScheme;
+
     return SfCalendar(
       controller: calendarController,
       view: calendarOption.viewType,
       firstDayOfWeek: calendarOption.firstDayOfWeek,
       monthViewSettings: calendarOption.getMonthViewSettings(),
       dataSource: SfCalendarDataSource(appointmentState),
-
-      // use constant value
-      viewHeaderStyle: viewHeaderStyle,
+      viewHeaderStyle: getViewHeaderStyle(colorScheme),
       headerHeight: 30,
-      headerStyle: headerStyle,
-      todayHighlightColor: Colors.blueAccent[100],
+      headerStyle: getCalendarHeaderStyle(colorScheme),
+      todayHighlightColor: colorScheme.primary,
       scheduleViewSettings: scheduleViewSettings,
-
       onTap: (data) {
         onTapCallBack(context, data, calendarOption);
       },
@@ -66,8 +59,9 @@ void onTapCallBack(
   } else {
     if (option.calendarViewTypeIsMonth() &&
         tapDetail.targetElement == CalendarElement.calendarCell) {
-      context.read<SyncfusionCalendarOptionBloc>().add(SyncfusionCalendarOptionUpdate(
-          option.copyWith(viewType: CalendarView.schedule)));
+      context.read<SyncfusionCalendarOptionBloc>().add(
+          SyncfusionCalendarOptionUpdate(
+              option.copyWith(viewType: CalendarView.schedule)));
     } else if (option.calendarViewTypeIsSchedule() &&
         tapDetail.targetElement == CalendarElement.appointment) {
       showSnackBar(context, 'show Appointment Editor');
@@ -78,4 +72,15 @@ void onTapCallBack(
 void onLongTapCallBack(BuildContext context, CalendarLongPressDetails tapDetail,
     CalendarOption option) {
   if (tapDetail.targetElement == CalendarElement.appointment) {}
+}
+
+ViewHeaderStyle getViewHeaderStyle(ColorScheme colorScheme) {
+  return ViewHeaderStyle(
+      dayTextStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold));
+}
+
+CalendarHeaderStyle getCalendarHeaderStyle(ColorScheme colorScheme) {
+  return CalendarHeaderStyle(
+      backgroundColor: colorScheme.primary,
+      textStyle: TextStyle(color: colorScheme.onPrimary, fontSize: 20));
 }

@@ -66,13 +66,13 @@ class MaterialThemePage extends StatelessWidget {
       return MaterialApp(
           theme: ThemeData(
               brightness: Brightness.light,
-              colorScheme: ColorScheme.fromSwatch(
-                  primarySwatch: Colors.blue, brightness: Brightness.light),
+              colorScheme: ColorScheme.fromSeed(
+                  seedColor: Colors.blueAccent.shade100, brightness: Brightness.light),
               useMaterial3: true),
           darkTheme: ThemeData(
               brightness: Brightness.dark,
-              colorScheme: ColorScheme.fromSwatch(
-                  primarySwatch: Colors.blueGrey, brightness: Brightness.dark),
+              colorScheme: ColorScheme.fromSeed(
+                  seedColor: Colors.blueGrey, brightness: Brightness.dark),
               useMaterial3: true),
           themeMode: state.themeMode,
           home: const InitStatefulPage());
