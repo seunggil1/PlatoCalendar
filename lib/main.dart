@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/model_repository/calendar_option_db.dart';
@@ -18,6 +19,11 @@ void main() async {
   setupBlocLogger();
   WidgetsFlutterBinding.ensureInitialized();
 
+  // 세로 모드 고정
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   await Future.wait([GlobalDisplayOptionDB.read(), CalendarOptionDB.read()])
       .then((List value) {
     Setup.globalDisplayOption = value[0];
@@ -92,32 +98,10 @@ class MainBlocPage extends State<InitStatefulPage> {
     // final SelectedTab selectedTab = context.select((BottomNavigationCubit cubit) => cubit.state.tab);
     return BlocBuilder<GlobalDisplayOptionBloc, GlobalDisplayOption>(
         builder: (context, state) {
-      return Scaffold(
-          body: SafeArea(
-              child: IndexedStack(index: state.tapIndex, children: const [
-            SyncfusionCalendarPage(),
-            TaskCheckListPage(),
-            DebugSettingPage()
-          ])),
-          bottomNavigationBar: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              selectedItemColor: Colors.blueAccent[100],
-              unselectedItemColor: Colors.grey[400]!.withOpacity(1),
-              currentIndex: state.tapIndex,
-              onTap: (int tabIndex) {
-                context
-                    .read<GlobalDisplayOptionBloc>()
-                    .add(ChangeTapIndex(tabIndex));
-              },
-              items: const [
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.calendar_today_outlined), label: '달력'),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.my_library_books_outlined), label: '할일'),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.my_library_books_outlined),
-                    label: 'DEBUG'),
-              ]));
+      final isWideScreen = MediaQuery.of(context).size.width > 600;
+      return isWideScreen
+          ? getWideMainPage(context, state.tapIndex)
+          : getDefaultMainPage(context, state.tapIndex);
     });
   }
 }
