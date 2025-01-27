@@ -14,7 +14,6 @@ Widget getDefaultMainPage(BuildContext context, int tapIndex) {
                 style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
               elevation: 1.0,
-              scrolledUnderElevation: 10.0,
               shadowColor: Theme.of(context).colorScheme.shadow,
             ),
       body: SafeArea(
@@ -23,23 +22,19 @@ Widget getDefaultMainPage(BuildContext context, int tapIndex) {
         TaskCheckListPage(),
         DebugSettingPage()
       ])),
-      bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: Theme.of(context).colorScheme.primary,
-          unselectedItemColor:
-              Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.4),
-          currentIndex: tapIndex,
-          onTap: (int nextTabIndex) {
+      bottomNavigationBar: NavigationBar(
+          selectedIndex: tapIndex,
+          onDestinationSelected: (int nextTabIndex) {
             context
                 .read<GlobalDisplayOptionBloc>()
                 .add(ChangeTapIndex(nextTabIndex));
           },
-          items: const [
-            BottomNavigationBarItem(
+          destinations: const [
+            NavigationDestination(
                 icon: Icon(Icons.calendar_today_outlined), label: '달력'),
-            BottomNavigationBarItem(
+            NavigationDestination(
                 icon: Icon(Icons.my_library_books_outlined), label: '할일'),
-            BottomNavigationBarItem(
+            NavigationDestination(
                 icon: Icon(Icons.my_library_books_outlined), label: 'DEBUG'),
           ]));
 }

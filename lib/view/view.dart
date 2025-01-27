@@ -8,6 +8,7 @@ export './main_wide.dart';
 
 // Material3 Widgets
 // https://docs.flutter.dev/ui/widgets/material
+// https://docs.flutter.dev/ui/design/material
 
 /// Color scheme guide
 /// 	•	Theme.of(context).colorScheme의 하위 값으로 접근 가능

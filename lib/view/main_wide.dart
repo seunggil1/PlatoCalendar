@@ -6,6 +6,16 @@ import 'package:plato_calendar/view_model/view_model.dart';
 
 Widget getWideMainPage(BuildContext context, int tapIndex) {
   return Scaffold(
+      appBar: tapIndex != 1
+          ? null
+          : AppBar(
+              title: Text(
+                'Setting',
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              ),
+              elevation: 1.0,
+              shadowColor: Theme.of(context).colorScheme.shadow,
+            ),
       body: SafeArea(
           child: tapIndex == 0
               ? Row(
@@ -22,20 +32,17 @@ Widget getWideMainPage(BuildContext context, int tapIndex) {
                   ],
                 )
               : DebugSettingPage()),
-      bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.blueAccent[100],
-          unselectedItemColor: Colors.grey[400]!.withOpacity(1),
-          currentIndex: tapIndex,
-          onTap: (int nextTabIndex) {
+      bottomNavigationBar: NavigationBar(
+          selectedIndex: tapIndex,
+          onDestinationSelected: (int nextTabIndex) {
             context
                 .read<GlobalDisplayOptionBloc>()
                 .add(ChangeTapIndex(nextTabIndex));
           },
-          items: const [
-            BottomNavigationBarItem(
+          destinations: const [
+            NavigationDestination(
                 icon: Icon(Icons.calendar_today_outlined), label: '달력'),
-            BottomNavigationBarItem(
+            NavigationDestination(
                 icon: Icon(Icons.my_library_books_outlined), label: 'DEBUG'),
           ]));
 }
