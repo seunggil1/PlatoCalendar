@@ -11,13 +11,15 @@ import './widget_util/widget_util.dart';
 import 'duration_header.dart';
 
 Widget todoGroupWidget(BuildContext context, int durationIndex) {
+  final colorScheme = Theme.of(context).colorScheme;
+
   return BlocBuilder<TaskCheckListBloc, TaskCheckListState>(
       builder: (context, state) {
     bool showToList =
         !state.taskCheckListDisplayOption.showToDoList[durationIndex];
     // 데이터가 없음 -> fold / unfold 옵션이 필요없으니 생략
     if (state[durationIndex].isEmpty) {
-      return Container();
+      return SizedBox.shrink();
     } else {
       List<Widget> todoWidgetList = [
         ...showToList
@@ -25,17 +27,20 @@ Widget todoGroupWidget(BuildContext context, int durationIndex) {
             : <Widget>[]
       ];
 
-      return Container(
+      return Card.outlined(
+        // color: colorScheme.surface,
         margin: edgeInsetsStart,
-        padding: padding,
-        decoration: boxDecoration,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            getDurationHeaderWidget(context, durationIndex, showToList,
-                taskDurationLocaleKR[durationIndex] ?? ''),
-            ...todoWidgetList
-          ],
+        child: Padding(
+          padding: padding,
+          // decoration: boxDecoration,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              getDurationHeaderWidget(context, durationIndex, showToList,
+                  taskDurationLocaleKR[durationIndex] ?? ''),
+              ...todoWidgetList
+            ],
+          ),
         ),
       );
     }
@@ -43,6 +48,8 @@ Widget todoGroupWidget(BuildContext context, int durationIndex) {
 }
 
 Widget todoWidget(BuildContext context, PlatoAppointment data) {
+  final colorScheme = Theme.of(context).colorScheme;
+
   return TextButton(
       onPressed: () {
         showDialog(
@@ -76,21 +83,7 @@ Widget todoWidget(BuildContext context, PlatoAppointment data) {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     text: TextSpan(
-                        style: TextStyle(color: () {
-                          switch (state.themeMode) {
-                            case ThemeMode.dark:
-                              return Colors.white;
-                            case ThemeMode.light:
-                              return Colors.black;
-                            case ThemeMode.system:
-                            default:
-                              return MediaQuery.of(context)
-                                          .platformBrightness ==
-                                      Brightness.dark
-                                  ? Colors.white
-                                  : Colors.black;
-                          }
-                        }()),
+                        style: TextStyle(color: colorScheme.onSurface),
                         text:
                             ' ${data.title}${data.body != '' ? ' : ${data.body}' : ''}'));
               })),
@@ -117,11 +110,13 @@ Widget todoWidget(BuildContext context, PlatoAppointment data) {
                     style: TextStyle(
                       color: Colors.grey,
                     ),
+                    textAlign: TextAlign.center,
                   )
                 ],
               ))
         ],
       ));
+
 }
 
 final EdgeInsets edgeInsetsStart = EdgeInsets.fromLTRB(10, 10, 10, 0);

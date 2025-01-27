@@ -21,10 +21,6 @@ export './main_wide.dart';
 ///   보조 색상(secondary color)으로, primary 다음으로 자주 사용하는 강조 컬러입니다. 예: 일부 포인트나 구분선, 토글 버튼 등에 활용.
 /// 	•	onSecondary
 ///   secondary 색 위에 표시될 전경 컬러입니다.
-/// 	•	background
-///   앱 전체의 배경 색상에 해당합니다. 스크롤 가능한 콘텐츠 뒤 배경(예: Scaffold 기본 배경)으로 주로 사용합니다.
-/// 	•	onBackground
-///   background 위에 표시될 전경 컬러입니다. 보통 텍스트 색 등으로 사용합니다.
 /// 	•	surface
 ///   카드, 다이얼로그, 패널 등 “표면(Surface)”에 해당하는 영역의 배경색입니다.
 /// 	•	onSurface
