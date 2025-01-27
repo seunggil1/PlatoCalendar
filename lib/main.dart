@@ -67,11 +67,13 @@ class MaterialThemePage extends StatelessWidget {
           theme: ThemeData(
               brightness: Brightness.light,
               colorScheme: ColorScheme.fromSwatch(
-                  primarySwatch: Colors.blue, brightness: Brightness.light)),
+                  primarySwatch: Colors.blue, brightness: Brightness.light),
+              useMaterial3: true),
           darkTheme: ThemeData(
               brightness: Brightness.dark,
               colorScheme: ColorScheme.fromSwatch(
-                  primarySwatch: Colors.blueGrey, brightness: Brightness.dark)),
+                  primarySwatch: Colors.blueGrey, brightness: Brightness.dark),
+              useMaterial3: true),
           themeMode: state.themeMode,
           home: const InitStatefulPage());
     });
