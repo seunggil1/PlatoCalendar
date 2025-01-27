@@ -21,9 +21,9 @@ Widget getDurationHeaderWidget(
               Text(headerText, style: TextStyle(fontSize: 15)),
               Expanded(child: Container()),
               showToList
-                  ? Icon(Icons.keyboard_arrow_down_sharp,
+                  ? Icon(Icons.keyboard_arrow_up_sharp,
                       color: colorScheme.primary, size: 27)
-                  : Icon(Icons.keyboard_arrow_up_sharp,
+                  : Icon(Icons.keyboard_arrow_down_sharp,
                       color: colorScheme.primary, size: 27)
             ],
           )));

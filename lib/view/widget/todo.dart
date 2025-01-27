@@ -16,7 +16,7 @@ Widget todoGroupWidget(BuildContext context, int durationIndex) {
   return BlocBuilder<TaskCheckListBloc, TaskCheckListState>(
       builder: (context, state) {
     bool showToList =
-        !state.taskCheckListDisplayOption.showToDoList[durationIndex];
+        state.taskCheckListDisplayOption.showToDoList[durationIndex];
     // 데이터가 없음 -> fold / unfold 옵션이 필요없으니 생략
     if (state[durationIndex].isEmpty) {
       return SizedBox.shrink();
@@ -116,7 +116,6 @@ Widget todoWidget(BuildContext context, PlatoAppointment data) {
               ))
         ],
       ));
-
 }
 
 final EdgeInsets edgeInsetsStart = EdgeInsets.fromLTRB(10, 10, 10, 0);
