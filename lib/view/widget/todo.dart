@@ -64,7 +64,7 @@ Widget todoWidget(BuildContext context, PlatoAppointment data) {
               onChanged: (value) {
                 // TODO : 일정 완료 상태 변경
                 data.finished = value!;
-                if (value) showMessage(context, '완료된 일정으로 변경했습니다.');
+                if (value) showSnackBar(context, '완료된 일정으로 변경했습니다.');
               }),
           Container(
               width: 5, color: calendarColor[data.color], child: Text('')),
