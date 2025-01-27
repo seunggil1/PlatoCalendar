@@ -61,7 +61,7 @@ void onTapCallBack(
     BuildContext context, CalendarTapDetails tapDetail, CalendarOption option) {
   if (option.showAgenda) {
     if (tapDetail.targetElement == CalendarElement.appointment) {
-      showMessage(context, 'Show Appointment Editor');
+      showSnackBar(context, 'Show Appointment Editor');
     }
   } else {
     if (option.calendarViewTypeIsMonth() &&
@@ -70,7 +70,7 @@ void onTapCallBack(
           option.copyWith(viewType: CalendarView.schedule)));
     } else if (option.calendarViewTypeIsSchedule() &&
         tapDetail.targetElement == CalendarElement.appointment) {
-      showMessage(context, 'show Appointment Editor');
+      showSnackBar(context, 'show Appointment Editor');
     }
   }
 }
