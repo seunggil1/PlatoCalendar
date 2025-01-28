@@ -96,9 +96,12 @@ class _LoginDialogState extends State<LoginDialog>
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return ScaleTransition(
       scale: _scaleAnimation,
       child: AlertDialog(
+          // backgroundColor : colorScheme.onInverseSurface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
@@ -114,9 +117,9 @@ class _LoginDialogState extends State<LoginDialog>
                 // 헤더 아이콘/텍스트 등
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Icon(Icons.lock_outline,
-                        size: 40, color: Colors.blueAccent),
+                        size: 40, color: colorScheme.primary),
                     SizedBox(width: 8),
                     Text(
                       'Login',
@@ -155,7 +158,7 @@ class _LoginDialogState extends State<LoginDialog>
                   const SizedBox(height: 8),
                   Text(
                     _errorMessage!,
-                    style: const TextStyle(color: Colors.red),
+                    style: TextStyle(color: colorScheme.error),
                   ),
                 ],
 
