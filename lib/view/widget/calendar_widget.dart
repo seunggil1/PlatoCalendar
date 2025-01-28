@@ -81,6 +81,6 @@ ViewHeaderStyle getViewHeaderStyle(ColorScheme colorScheme) {
 
 CalendarHeaderStyle getCalendarHeaderStyle(ColorScheme colorScheme) {
   return CalendarHeaderStyle(
-      backgroundColor: colorScheme.primary,
-      textStyle: TextStyle(color: colorScheme.onPrimary, fontSize: 20));
+      backgroundColor: colorScheme.primaryContainer,
+      textStyle: TextStyle(color: colorScheme.onPrimaryContainer, fontSize: 20));
 }
