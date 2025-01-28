@@ -66,3 +66,24 @@ export './main_wide.dart';
 // •	surfaceTint
 // •	M3의 “surface tint overlay” 기능에 쓰이는 색상.
 // •	표면(Material) 위에 살짝 깔리는 오버레이 색을 결정.
+
+// Surface 변형 색상들
+//
+// M3에서는 표면을 더 유연하게 표현하기 위해 다양한 “surface” 변형 컬러가 있습니다:
+// •	surfaceDim / surfaceBright
+// •	표면 색에 약간 어둡거나 밝은 톤을 적용할 때 사용.
+// •	surfaceContainerLowest / surfaceContainerLow / surfaceContainer / surfaceContainerHigh / surfaceContainerHighest
+// •	표면 레벨(깊이/표면 높이)에 따라 점진적으로 다른 톤을 주기 위한 컬러 계층.
+// •	예: Card가 여러 겹 쌓일 때 가장 뒤쪽(최하위 레벨)부터 점점 더 밝거나 어두운 톤을 줄 수 있음.
+//
+// •	onSurfaceVariant
+// •	“surface” 위에 놓인 텍스트/아이콘 중, 기본 대비보다 살짝 ‘약한(variant)’ 색을 써야 할 때 사용.
+// •	outlineVariant
+// •	outline보다 톤이 약간 다르거나 부드러운 테두리를 표현할 때.
+// •	inverseSurface / onInverseSurface
+// •	어두운 화면(혹은 반대로 밝은 화면) 위에 반전된 색 조합으로 텍스트나 아이콘을 표시할 때 활용.
+// •	inversePrimary
+// •	기본 배경과 반대 상황에서 primary 역할을 할 색을 지정.
+// •	surfaceTint
+// •	M3의 “surface tint overlay” 기능에 쓰이는 색상.
+// •	표면(Material) 위에 살짝 깔리는 오버레이 색을 결정.
