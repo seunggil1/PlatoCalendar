@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plato_calendar/view/widget/widget.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
 
-
 class TaskCheckListPage extends StatefulWidget {
   const TaskCheckListPage({super.key});
 
@@ -31,16 +30,8 @@ class _PageState extends State<TaskCheckListPage> {
     return Scaffold(
       appBar: getSubjectCodeAppBarWidget(context),
       body: ListView(
-        children: [
-          todoGroupWidget(context, 0),
-          todoGroupWidget(context, 1),
-          todoGroupWidget(context, 2),
-          todoGroupWidget(context, 3),
-          todoGroupWidget(context, 4),
-          todoGroupWidget(context, 5),
-          todoGroupWidget(context, 6),
-          todoGroupWidget(context, 7)
-        ],
+          children:
+              List.generate(8, (index) => TodoWidget(durationIndex: index))
       ),
     );
   }
