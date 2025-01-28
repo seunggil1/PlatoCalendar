@@ -12,7 +12,7 @@ class SyncfusionCalendarPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SyncfusionCalendarOptionBloc, CalendarOptionState>(
+    return BlocBuilder<SyncfusionCalendarOptionBloc, SyncfusionCalendarOptionState>(
         builder: (context, state) {
       return PopScope(
           canPop: false,

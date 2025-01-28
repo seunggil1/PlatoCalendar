@@ -18,7 +18,7 @@ class CalendarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CalendarOptionState calendarOptionState =
+    SyncfusionCalendarOptionState calendarOptionState =
         context.watch<SyncfusionCalendarOptionBloc>().state;
     final CalendarOption calendarOption = calendarOptionState.calendarOption;
     CalendarController calendarController =
