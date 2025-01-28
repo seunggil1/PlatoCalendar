@@ -15,7 +15,7 @@ Widget getDefaultMainPage(BuildContext context, int tapIndex) {
               ),
               elevation: 1.0,
               shadowColor: Theme.of(context).colorScheme.shadow,
-            ),
+              centerTitle: false),
       body: SafeArea(
           child: IndexedStack(index: tapIndex, children: const [
         SyncfusionCalendarPage(),
@@ -34,7 +34,6 @@ Widget getDefaultMainPage(BuildContext context, int tapIndex) {
                 icon: Icon(Icons.calendar_today_outlined), label: '달력'),
             NavigationDestination(
                 icon: Icon(Icons.my_library_books_outlined), label: '할일'),
-            NavigationDestination(
-                icon: Icon(Icons.settings), label: '설정'),
+            NavigationDestination(icon: Icon(Icons.settings), label: '설정'),
           ]));
 }
