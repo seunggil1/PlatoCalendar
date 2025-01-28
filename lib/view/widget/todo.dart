@@ -1,7 +1,8 @@
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:intl/intl.dart';
+
 import 'package:plato_calendar/etc/calendar_color.dart';
 import 'package:plato_calendar/etc/kr_localization.dart';
 import 'package:plato_calendar/etc/subject_code.dart';
@@ -49,6 +50,8 @@ Widget todoGroupWidget(BuildContext context, int durationIndex) {
 
 Widget todoWidget(BuildContext context, PlatoAppointment data) {
   final colorScheme = Theme.of(context).colorScheme;
+  final startDay = DateTime(data.start.year, data.start.month, data.start.day);
+  final endDay = DateTime(data.end.year, data.end.month, data.end.day);
 
   return TextButton(
       onPressed: () {
@@ -104,9 +107,9 @@ Widget todoWidget(BuildContext context, PlatoAppointment data) {
                             color: colorScheme.secondary, fontSize: 14.sp),
                       ),
                       Text(
-                        DateFormat('MM-dd ').format(data.end) +
-                            weekdayLocaleKR[data.end.weekday]! +
-                            DateFormat(' HH:mm').format(data.end),
+                        startDay == endDay
+                            ? getDateTimeLocaleKR(data.start)
+                            : getDateTimeLocaleKR(data.end),
                         maxLines: 1,
                         style: TextStyle(
                             color: colorScheme.secondary, fontSize: 14.sp),

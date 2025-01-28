@@ -2,8 +2,12 @@ part of 'plato_appointment.dart';
 
 extension PlatoAppointmentMapper on PlatoAppointment {
   syncfusion_calendar.Appointment toAppointment() {
+    final startDay = DateTime(start.year, start.month, start.day);
+    final endDay = DateTime(end.year, end.month, end.day);
+
     return syncfusion_calendar.Appointment(
-        startTime: start == end ? start : end,
+        // 일정의 시작 날짜와 끝나는 날짜가 같으면 시간까지 표시. 아닐 경우 끝나는 시간 표시
+        startTime: startDay == endDay ? start : end,
         endTime: end,
         subject: title,
         notes: body,

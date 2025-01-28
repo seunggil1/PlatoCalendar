@@ -21,8 +21,14 @@ final Map<int, String> taskDurationLocaleKR = const {
   7: '완료',
 };
 
+String getDateTimeLocaleKR(DateTime data) {
+  return DateFormat('MM-dd ').format(data) +
+      weekdayLocaleKR[data.weekday]! +
+      DateFormat(' HH:mm').format(data);
+}
+
 /// 한글 날짜 형식으로 변경
-String getDateTimeLocaleKR(DateTime time) =>
+String getFullDateTimeLocaleKR(DateTime time) =>
     DateFormat('yyyy년 M월 d일 (', 'ko_KR').format(time) +
     weekdayLocaleKR[time.weekday]! +
     DateFormat(')  a h:mm', 'ko_KR').format(time);
