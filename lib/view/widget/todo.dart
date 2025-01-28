@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:intl/intl.dart';
 import 'package:plato_calendar/etc/calendar_color.dart';
 import 'package:plato_calendar/etc/kr_localization.dart';
@@ -28,7 +29,6 @@ Widget todoGroupWidget(BuildContext context, int durationIndex) {
       ];
 
       return Card.outlined(
-        // color: colorScheme.surface,
         margin: edgeInsetsStart,
         child: Padding(
           padding: padding,
@@ -88,39 +88,38 @@ Widget todoWidget(BuildContext context, PlatoAppointment data) {
                             ' ${data.title}${data.body != '' ? ' : ${data.body}' : ''}'));
               })),
           Expanded(
-              flex: 2,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    subjectCode.containsKey(data.subjectCode)
-                        ? subjectCode[data.subjectCode]!
-                        : data.subjectCode,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
-                  Text(
-                    DateFormat('MM-dd ').format(data.end) +
-                        weekdayLocaleKR[data.end.weekday]! +
-                        DateFormat(' HH:mm').format(data.end),
-                    maxLines: 1,
-                    style: TextStyle(
-                      color: Colors.grey,
-                    ),
-                    textAlign: TextAlign.center,
-                  )
-                ],
-              ))
+              flex: 3,
+              child: Padding(
+                  padding: EdgeInsets.fromLTRB(10.sp, 0, 5.sp, 0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        subjectCode.containsKey(data.subjectCode)
+                            ? subjectCode[data.subjectCode]!
+                            : data.subjectCode,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                            color: colorScheme.secondary, fontSize: 14.sp),
+                      ),
+                      Text(
+                        DateFormat('MM-dd ').format(data.end) +
+                            weekdayLocaleKR[data.end.weekday]! +
+                            DateFormat(' HH:mm').format(data.end),
+                        maxLines: 1,
+                        style: TextStyle(
+                            color: colorScheme.secondary, fontSize: 14.sp),
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.right,
+                      )
+                    ],
+                  )))
         ],
       ));
 }
 
 final EdgeInsets edgeInsetsStart = EdgeInsets.fromLTRB(10, 10, 10, 0);
-final EdgeInsets edgeInsetsMiddle = EdgeInsets.fromLTRB(10, 10, 10, 0);
-final EdgeInsets edgeInsetsEnd = EdgeInsets.fromLTRB(10, 10, 10, 10);
 final EdgeInsets padding =
     const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0);
 final BoxDecoration boxDecoration = BoxDecoration(

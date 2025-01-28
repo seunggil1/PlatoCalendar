@@ -18,8 +18,9 @@ dependencies:
   syncfusion_flutter_calendar: ^27.2.5   # calendar
 
   flutter_bloc: ^8.1.6  # bloc 디자인 패턴 적용
-  path_provider: ^2.1.5
+  responsive_sizer: ^3.3.1
 
+  path_provider: ^2.1.5
   cupertino_icons: ^1.0.6
 
   encrypt: ^5.0.3       # 암호화 라이브러리

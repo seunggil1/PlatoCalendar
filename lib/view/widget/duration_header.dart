@@ -18,7 +18,11 @@ Widget getDurationHeaderWidget(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(headerText, style: TextStyle(fontSize: 15)),
+              Text(headerText,
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: colorScheme.primary
+                  )),
               Expanded(child: Container()),
               showToList
                   ? Icon(Icons.keyboard_arrow_up_sharp,
