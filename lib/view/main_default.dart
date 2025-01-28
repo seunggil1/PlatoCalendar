@@ -10,7 +10,7 @@ Widget getDefaultMainPage(BuildContext context, int tapIndex) {
           ? null
           : AppBar(
               title: Text(
-                'Setting',
+                '설정',
                 style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
               elevation: 1.0,
@@ -35,6 +35,6 @@ Widget getDefaultMainPage(BuildContext context, int tapIndex) {
             NavigationDestination(
                 icon: Icon(Icons.my_library_books_outlined), label: '할일'),
             NavigationDestination(
-                icon: Icon(Icons.my_library_books_outlined), label: 'DEBUG'),
+                icon: Icon(Icons.settings), label: '설정'),
           ]));
 }

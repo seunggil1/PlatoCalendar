@@ -10,7 +10,7 @@ Widget getWideMainPage(BuildContext context, int tapIndex) {
           ? null
           : AppBar(
               title: Text(
-                'Setting',
+                '설정',
                 style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
               elevation: 1.0,
@@ -43,6 +43,6 @@ Widget getWideMainPage(BuildContext context, int tapIndex) {
             NavigationDestination(
                 icon: Icon(Icons.calendar_today_outlined), label: '달력'),
             NavigationDestination(
-                icon: Icon(Icons.my_library_books_outlined), label: 'DEBUG'),
+                icon: Icon(Icons.settings), label: '설정'),
           ]));
 }
