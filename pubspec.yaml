@@ -15,7 +15,7 @@ dependencies:
   intl: ^0.19.0
 
   icalendar_parser: ^2.1.0
-  syncfusion_flutter_calendar: ^27.2.5   # calendar
+  syncfusion_flutter_calendar: ^28.1.41   # calendar
 
   flutter_bloc: ^8.1.6  # bloc 디자인 패턴 적용
   responsive_sizer: ^3.3.1
