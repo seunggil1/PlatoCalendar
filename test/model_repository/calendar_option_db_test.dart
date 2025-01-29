@@ -73,7 +73,6 @@ void main() {
       // 검증
       expect(readData.showFinished, testCalendarOption.showFinished);
       expect(readData.firstDayOfWeek, testCalendarOption.firstDayOfWeek);
-      expect(readData.viewType, testCalendarOption.viewType);
       expect(readData.showAgenda, testCalendarOption.showAgenda);
     });
   });

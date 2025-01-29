@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:plato_calendar/model/model.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 sealed class SyncfusionCalendarOptionEvent extends Equatable {
   @override
@@ -13,4 +14,15 @@ class SyncfusionCalendarOptionUpdate extends SyncfusionCalendarOptionEvent {
 
   @override
   List<Object?> get props => [option];
+}
+
+class SyncfusionCalendarDisplayOptionUpdate
+    extends SyncfusionCalendarOptionEvent {
+  final CalendarView calendarView;
+  final DateTime? displayDatetime;
+
+  SyncfusionCalendarDisplayOptionUpdate({required this.calendarView, this.displayDatetime});
+
+  @override
+  List<Object?> get props => [calendarView, displayDatetime];
 }

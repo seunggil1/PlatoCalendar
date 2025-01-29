@@ -12,8 +12,6 @@ class CalendarOptionTable extends Table {
 
   IntColumn get firstDayOfWeek => integer()();
 
-  TextColumn get viewType => textEnum<CalendarView>()();
-
   BoolColumn get showAgenda => boolean()();
 
   DateTimeColumn get dbTimestamp => dateTime()();

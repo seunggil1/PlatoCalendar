@@ -21,9 +21,9 @@ class SyncfusionCalendarPage extends StatelessWidget {
             CalendarOption calendarOption = state.calendarOption;
 
             // CalendarViewType가 Schedule이면 Month로 변경
-            if (calendarOption.calendarViewTypeIsSchedule()) {
-              context.read<SyncfusionCalendarOptionBloc>().add(SyncfusionCalendarOptionUpdate(
-                  calendarOption.copyWith(viewType: CalendarView.month)));
+            if (state.calendarViewTypeIsSchedule()) {
+              context.read<SyncfusionCalendarOptionBloc>().add(
+                  SyncfusionCalendarDisplayOptionUpdate(calendarView: CalendarView.month));
             } else {
               SystemNavigator.pop();
             }
