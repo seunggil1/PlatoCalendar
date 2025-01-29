@@ -12,26 +12,27 @@ class SyncfusionCalendarShowAgendaWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-      return Card.outlined(
-        color: colorScheme.secondaryContainer.withOpacity(1.0),
+      return Padding(padding: const EdgeInsets.all(16.0),
+      child: Card.outlined(
+        color: colorScheme.secondaryContainer.withValues(alpha: 1.0),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(4.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // 그룹의 제목
-              Text(
+              Padding(padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+              child: Text(
                 '달력 종류',
                 style: theme.textTheme.titleMedium?.copyWith(
                   color: colorScheme.onSecondaryContainer,
                 ),
-              ),
-              const SizedBox(height: 12),
+              )),
               _SyncfusionCalendarShowAgendaWidget(),
             ],
           ),
         ),
-      );
+      ));
   }
 }
 class _SyncfusionCalendarShowAgendaWidget extends StatelessWidget {
@@ -128,6 +129,13 @@ class _SyncfusionCalendarShowAgendaWidget extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.calendar_month,
+                            size: 20.sp,
+                            color: !option.showAgenda
+                                ? colorScheme.primary
+                                : colorScheme.outlineVariant,
+                          ),
+                          Icon(
+                            Icons.list_alt_outlined,
                             size: 20.sp,
                             color: !option.showAgenda
                                 ? colorScheme.primary
