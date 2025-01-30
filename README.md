@@ -13,6 +13,6 @@
 
 ## Getting Started
 
-- Flutter 3.24.5
+- Flutter 3.27.3
 - Android Studio 2024.1.2 (더 높은 버전에서 오류가 있었음)
 
