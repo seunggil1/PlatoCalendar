@@ -4,7 +4,6 @@ import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-
 class SyncfusionCalendarShowAgendaWidget extends StatelessWidget {
   const SyncfusionCalendarShowAgendaWidget({super.key});
 
@@ -12,29 +11,30 @@ class SyncfusionCalendarShowAgendaWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-      return Padding(padding: const EdgeInsets.all(16.0),
-      child: Card.outlined(
-        color: colorScheme.secondaryContainer.withValues(alpha: 1.0),
-        child: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // 그룹의 제목
-              Padding(padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
-              child: Text(
-                '달력 종류',
-                style: theme.textTheme.titleMedium?.copyWith(
-                  color: colorScheme.onSecondaryContainer,
-                ),
-              )),
-              _SyncfusionCalendarShowAgendaWidget(),
-            ],
-          ),
+    return Container(
+      color: colorScheme.surfaceContainerHighest,
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 그룹의 제목
+            Padding(
+                padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+                child: Text(
+                  '유형 설정',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                      // fontWeight: FontWeight.w100,
+                      color: colorScheme.secondary),
+                )),
+            _SyncfusionCalendarShowAgendaWidget(),
+          ],
         ),
-      ));
+      ),
+    );
   }
 }
+
 class _SyncfusionCalendarShowAgendaWidget extends StatelessWidget {
   const _SyncfusionCalendarShowAgendaWidget();
 
@@ -50,6 +50,7 @@ class _SyncfusionCalendarShowAgendaWidget extends StatelessWidget {
           children: [
             Expanded(
                 child: InkWell(
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
               onTap: () => context.read<SyncfusionCalendarOptionBloc>().add(
                   SyncfusionCalendarOptionUpdate(
                       option.copyWith(showAgenda: true))),
@@ -106,6 +107,7 @@ class _SyncfusionCalendarShowAgendaWidget extends StatelessWidget {
             )),
             Expanded(
                 child: InkWell(
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
               onTap: () => context.read<SyncfusionCalendarOptionBloc>().add(
                   SyncfusionCalendarOptionUpdate(
                       option.copyWith(showAgenda: false))),

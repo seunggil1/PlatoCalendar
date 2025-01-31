@@ -18,7 +18,7 @@ class DebugSettingPage extends StatelessWidget {
     final globalPlatoAppointmentBloc =
         context.read<GlobalPlatoAppointmentBloc>();
 
-    return Column(
+    return ListView(
       children: [
         TextButton(
             onPressed: () {
@@ -30,6 +30,15 @@ class DebugSettingPage extends StatelessWidget {
               globalDisplayOptionBloc.add(SetDarkTheme());
             },
             child: const Text('set dark')),
+        Padding(
+            padding: EdgeInsets.all(8.0),
+            child: MaterialCard(
+              title: '달력 설정',
+              // subTitle: '지금 사용해보기',
+              // secondSubTitle: '지금 사용해보기 2',
+              isFoldable: true,
+              child: SyncfusionCalendarShowAgendaWidget(),
+            )),
         TextButton(
             onPressed: () {
               syncfusionCalendarOptionBloc.add(SyncfusionCalendarOptionUpdate(
