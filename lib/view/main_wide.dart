@@ -13,8 +13,9 @@ Widget getWideMainPage(BuildContext context, int tapIndex) {
             : AppBar(
                 title: Text(
                   '설정',
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.primary),
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.bold),
                 ),
                 elevation: 1.0,
                 shadowColor: Theme.of(context).colorScheme.shadow,
