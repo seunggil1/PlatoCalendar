@@ -25,6 +25,7 @@ class SyncfusionCalendarPage extends StatelessWidget {
                       calendarView: CalendarView.month));
             } else {
               SystemNavigator.pop();
+              // if(Platform.isIOS) exit(0);
             }
           },
           child: CalendarWidget());
