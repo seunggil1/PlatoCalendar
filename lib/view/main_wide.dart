@@ -36,7 +36,7 @@ Widget getWideMainPage(BuildContext context, int tapIndex) {
                       ),
                     ],
                   )
-                : DebugSettingPage()),
+                : SettingPage()),
         bottomNavigationBar: NavigationBar(
             selectedIndex: tapIndex,
             onDestinationSelected: (int nextTabIndex) {

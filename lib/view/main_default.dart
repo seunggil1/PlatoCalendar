@@ -24,7 +24,7 @@ Widget getDefaultMainPage(BuildContext context, int tapIndex) {
             child: IndexedStack(index: tapIndex, children: const [
           SyncfusionCalendarPage(),
           TaskCheckListPage(),
-          DebugSettingPage()
+          SettingPage()
         ])),
         bottomNavigationBar: NavigationBar(
             selectedIndex: tapIndex,

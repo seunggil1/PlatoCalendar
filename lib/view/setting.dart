@@ -6,8 +6,8 @@ import 'package:plato_calendar/view_model/view_model.dart';
 
 import 'widget/widget.dart';
 
-class DebugSettingPage extends StatelessWidget {
-  const DebugSettingPage({super.key});
+class SettingPage extends StatelessWidget {
+  const SettingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
