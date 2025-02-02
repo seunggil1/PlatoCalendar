@@ -1,8 +1,9 @@
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/util/logger.dart';
 
-class GlobalDisplayOptionDB{
-  static final logger = LoggerManager.getLogger('model repository - GlobalDisplayOptionDB');
+class GlobalDisplayOptionDB {
+  static final logger =
+      LoggerManager.getLogger('model repository - GlobalDisplayOptionDB');
   static GlobalOptionDrift database = GlobalOptionDrift();
 
   static Future<void> write(GlobalDisplayOption data) async {

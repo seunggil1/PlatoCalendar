@@ -8,7 +8,9 @@ class $SyncInfoTableTable extends SyncInfoTable
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
+
   $SyncInfoTableTable(this.attachedDatabase, [this._alias]);
+
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -24,13 +26,17 @@ class $SyncInfoTableTable extends SyncInfoTable
   late final GeneratedColumn<DateTime> platoSyncTime =
       GeneratedColumn<DateTime>('plato_sync_time', aliasedName, false,
           type: DriftSqlType.dateTime, requiredDuringInsert: true);
+
   @override
   List<GeneratedColumn> get $columns => [id, platoSyncTime];
+
   @override
   String get aliasedName => _alias ?? actualTableName;
+
   @override
   String get actualTableName => $name;
   static const String $name = 'sync_info_table';
+
   @override
   VerificationContext validateIntegrity(Insertable<SyncInfoTableData> instance,
       {bool isInserting = false}) {
@@ -52,6 +58,7 @@ class $SyncInfoTableTable extends SyncInfoTable
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
+
   @override
   SyncInfoTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
@@ -73,7 +80,9 @@ class SyncInfoTableData extends DataClass
     implements Insertable<SyncInfoTableData> {
   final int id;
   final DateTime platoSyncTime;
+
   const SyncInfoTableData({required this.id, required this.platoSyncTime});
+
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -97,6 +106,7 @@ class SyncInfoTableData extends DataClass
       platoSyncTime: serializer.fromJson<DateTime>(json['platoSyncTime']),
     );
   }
+
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
@@ -111,6 +121,7 @@ class SyncInfoTableData extends DataClass
         id: id ?? this.id,
         platoSyncTime: platoSyncTime ?? this.platoSyncTime,
       );
+
   SyncInfoTableData copyWithCompanion(SyncInfoTableCompanion data) {
     return SyncInfoTableData(
       id: data.id.present ? data.id.value : this.id,
@@ -131,6 +142,7 @@ class SyncInfoTableData extends DataClass
 
   @override
   int get hashCode => Object.hash(id, platoSyncTime);
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -142,14 +154,17 @@ class SyncInfoTableData extends DataClass
 class SyncInfoTableCompanion extends UpdateCompanion<SyncInfoTableData> {
   final Value<int> id;
   final Value<DateTime> platoSyncTime;
+
   const SyncInfoTableCompanion({
     this.id = const Value.absent(),
     this.platoSyncTime = const Value.absent(),
   });
+
   SyncInfoTableCompanion.insert({
     this.id = const Value.absent(),
     required DateTime platoSyncTime,
   }) : platoSyncTime = Value(platoSyncTime);
+
   static Insertable<SyncInfoTableData> custom({
     Expression<int>? id,
     Expression<DateTime>? platoSyncTime,
@@ -192,13 +207,16 @@ class SyncInfoTableCompanion extends UpdateCompanion<SyncInfoTableData> {
 
 abstract class _$SyncInfoDrift extends GeneratedDatabase {
   _$SyncInfoDrift(QueryExecutor e) : super(e);
+
   $SyncInfoDriftManager get managers => $SyncInfoDriftManager(this);
   late final $SyncInfoTableTable syncInfoTable = $SyncInfoTableTable(this);
   late final Index platoSyncTime = Index('platoSyncTime',
       'CREATE INDEX platoSyncTime ON sync_info_table (plato_sync_time)');
+
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
+
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
       [syncInfoTable, platoSyncTime];
@@ -224,6 +242,7 @@ class $$SyncInfoTableTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+
   ColumnFilters<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnFilters(column));
 
@@ -240,6 +259,7 @@ class $$SyncInfoTableTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+
   ColumnOrderings<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnOrderings(column));
 
@@ -257,6 +277,7 @@ class $$SyncInfoTableTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
@@ -331,7 +352,9 @@ typedef $$SyncInfoTableTableProcessedTableManager = ProcessedTableManager<
 
 class $SyncInfoDriftManager {
   final _$SyncInfoDrift _db;
+
   $SyncInfoDriftManager(this._db);
+
   $$SyncInfoTableTableTableManager get syncInfoTable =>
       $$SyncInfoTableTableTableManager(_db, _db.syncInfoTable);
 }

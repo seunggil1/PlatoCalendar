@@ -101,7 +101,7 @@ class _LoginDialogState extends State<LoginDialog>
     return ScaleTransition(
       scale: _scaleAnimation,
       child: AlertDialog(
-          // backgroundColor : colorScheme.onInverseSurface,
+        // backgroundColor : colorScheme.onInverseSurface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),

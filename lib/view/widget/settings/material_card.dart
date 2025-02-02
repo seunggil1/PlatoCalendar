@@ -35,7 +35,7 @@ class _MaterialCard extends State<MaterialCard> {
     subTitle = widget.subTitle;
     secondSubTitle = widget.secondSubTitle;
     isFoldable = widget.isFoldable ?? false;
-    children =  Card.filled(
+    children = Card.filled(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: widget.children,
@@ -50,42 +50,38 @@ class _MaterialCard extends State<MaterialCard> {
     return Card.filled(
         // color: colorScheme.surface,
         child: Column(
-          children: [
-            // 헤더 부분
-            ListTile(
-                title: Text(title,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: colorScheme.primary
-                    )),
-                subtitle: getSubtitle(),
-                // 우측에 확장/축소 아이콘
-                trailing: isFoldable
-                    ? Icon(
-                        isExpanded
-                            ? Icons.keyboard_arrow_up
-                            : Icons.keyboard_arrow_down,
-                      )
-                    : SizedBox.shrink(),
-                onTap: () {
-                  if (isFoldable) {
-                    setState(() {
-                      isExpanded = !isExpanded;
-                    });
-                  }
-                }),
-            // 확장되는 영역
-            isFoldable
-                ? AnimatedSize(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.bounceInOut,
-                    child: isExpanded ? children : const SizedBox.shrink(),
+      children: [
+        // 헤더 부분
+        ListTile(
+            title: Text(title,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600, color: colorScheme.primary)),
+            subtitle: getSubtitle(),
+            // 우측에 확장/축소 아이콘
+            trailing: isFoldable
+                ? Icon(
+                    isExpanded
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
                   )
-                : children
-          ],
-        ));
+                : SizedBox.shrink(),
+            onTap: () {
+              if (isFoldable) {
+                setState(() {
+                  isExpanded = !isExpanded;
+                });
+              }
+            }),
+        // 확장되는 영역
+        isFoldable
+            ? AnimatedSize(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.bounceInOut,
+                child: isExpanded ? children : const SizedBox.shrink(),
+              )
+            : children
+      ],
+    ));
   }
 
   Widget? getSubtitle() {

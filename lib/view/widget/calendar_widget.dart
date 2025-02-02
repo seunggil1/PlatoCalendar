@@ -67,9 +67,8 @@ class CalendarWidget extends StatelessWidget {
     return MonthHeaderSettings(
         height: 90,
         monthFormat: 'yyyy년 M월',
-        backgroundColor : colorScheme.secondaryContainer,
-        monthTextStyle : TextStyle(color: colorScheme.onSecondaryContainer)
-    );
+        backgroundColor: colorScheme.secondaryContainer,
+        monthTextStyle: TextStyle(color: colorScheme.onSecondaryContainer));
   }
 }
 

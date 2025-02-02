@@ -31,8 +31,7 @@ class _PageState extends State<TaskCheckListPage> {
       appBar: getSubjectCodeAppBarWidget(context),
       body: ListView(
           children:
-              List.generate(8, (index) => TodoWidget(durationIndex: index))
-      ),
+              List.generate(8, (index) => TodoWidget(durationIndex: index))),
     );
   }
 }

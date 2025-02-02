@@ -38,6 +38,4 @@ class GlobalOptionDrift extends _$GlobalOptionDrift {
     final result = await query.getSingle();
     return result;
   }
-
-
 }

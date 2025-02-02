@@ -21,7 +21,8 @@ class SyncfusionCalendarDisplayOptionUpdate
   final CalendarView calendarView;
   final DateTime? displayDatetime;
 
-  SyncfusionCalendarDisplayOptionUpdate({required this.calendarView, this.displayDatetime});
+  SyncfusionCalendarDisplayOptionUpdate(
+      {required this.calendarView, this.displayDatetime});
 
   @override
   List<Object?> get props => [calendarView, displayDatetime];

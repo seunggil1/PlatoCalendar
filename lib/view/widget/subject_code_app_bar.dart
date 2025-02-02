@@ -26,8 +26,7 @@ AppBar getSubjectCodeAppBarWidget(BuildContext context) {
               value: value,
               child: Text(value,
                   style: TextStyle(
-                      color: colorScheme.primary,
-                      fontWeight: FontWeight.bold)),
+                      color: colorScheme.primary, fontWeight: FontWeight.bold)),
             );
           }).toList(),
         ))

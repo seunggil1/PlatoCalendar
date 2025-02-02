@@ -55,24 +55,28 @@ class PlatoAppointmentDB {
     }
   }
 
-  static Future<List<PlatoAppointment>> readPlatoAppointmentWithin6Hours() async {
+  static Future<List<PlatoAppointment>>
+      readPlatoAppointmentWithin6Hours() async {
     try {
       final result = await database.readPlatoAppointmentWithin6Hours();
       logger.fine('readPlatoAppointmentWithin6Hours: ${result.length}');
       return result.map((e) => e.toModel()).toList();
     } catch (e, stackTrace) {
-      logger.severe('Failed to readPlatoAppointmentWithin6Hours: $e', stackTrace);
+      logger.severe(
+          'Failed to readPlatoAppointmentWithin6Hours: $e', stackTrace);
       rethrow;
     }
   }
 
-  static Future<List<PlatoAppointment>> readPlatoAppointmentWithin12Hours() async {
+  static Future<List<PlatoAppointment>>
+      readPlatoAppointmentWithin12Hours() async {
     try {
       final result = await database.readPlatoAppointmentWithin12Hours();
       logger.fine('readPlatoAppointmentWithin12Hours: ${result.length}');
       return result.map((e) => e.toModel()).toList();
     } catch (e, stackTrace) {
-      logger.severe('Failed to readPlatoAppointmentWithin12Hours: $e', stackTrace);
+      logger.severe(
+          'Failed to readPlatoAppointmentWithin12Hours: $e', stackTrace);
       rethrow;
     }
   }
@@ -110,13 +114,15 @@ class PlatoAppointmentDB {
     }
   }
 
-  static Future<List<PlatoAppointment>> readPlatoAppointmentMoreThanWeek() async {
+  static Future<List<PlatoAppointment>>
+      readPlatoAppointmentMoreThanWeek() async {
     try {
       final result = await database.readPlatoAppointmentMoreThanWeek();
       logger.fine('readPlatoAppointmentMoreThanWeek: ${result.length}');
       return result.map((e) => e.toModel()).toList();
     } catch (e, stackTrace) {
-      logger.severe('Failed to readPlatoAppointmentMoreThanWeek: $e', stackTrace);
+      logger.severe(
+          'Failed to readPlatoAppointmentMoreThanWeek: $e', stackTrace);
       rethrow;
     }
   }

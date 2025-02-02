@@ -2,8 +2,8 @@ import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/model_repository/model_repository.dart';
 import 'package:plato_calendar/util/util.dart';
 
-import 'calendar_parser.dart';
 import 'calendar_api.dart';
+import 'calendar_parser.dart';
 
 class AppSyncHandler {
   static final logger = LoggerManager.getLogger('service - AppSyncHandler');

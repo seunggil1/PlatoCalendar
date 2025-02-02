@@ -8,7 +8,9 @@ class $GlobalOptionTableTable extends GlobalOptionTable
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
+
   $GlobalOptionTableTable(this.attachedDatabase, [this._alias]);
+
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -39,13 +41,17 @@ class $GlobalOptionTableTable extends GlobalOptionTable
   late final GeneratedColumn<DateTime> dbTimestamp = GeneratedColumn<DateTime>(
       'db_timestamp', aliasedName, false,
       type: DriftSqlType.dateTime, requiredDuringInsert: true);
+
   @override
   List<GeneratedColumn> get $columns => [id, tapIndex, themeMode, dbTimestamp];
+
   @override
   String get aliasedName => _alias ?? actualTableName;
+
   @override
   String get actualTableName => $name;
   static const String $name = 'global_option_table';
+
   @override
   VerificationContext validateIntegrity(
       Insertable<GlobalOptionTableData> instance,
@@ -75,6 +81,7 @@ class $GlobalOptionTableTable extends GlobalOptionTable
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
+
   @override
   GlobalOptionTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
@@ -107,11 +114,13 @@ class GlobalOptionTableData extends DataClass
   final int tapIndex;
   final flutter_material.ThemeMode themeMode;
   final DateTime dbTimestamp;
+
   const GlobalOptionTableData(
       {required this.id,
       required this.tapIndex,
       required this.themeMode,
       required this.dbTimestamp});
+
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -145,6 +154,7 @@ class GlobalOptionTableData extends DataClass
       dbTimestamp: serializer.fromJson<DateTime>(json['dbTimestamp']),
     );
   }
+
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
@@ -168,6 +178,7 @@ class GlobalOptionTableData extends DataClass
         themeMode: themeMode ?? this.themeMode,
         dbTimestamp: dbTimestamp ?? this.dbTimestamp,
       );
+
   GlobalOptionTableData copyWithCompanion(GlobalOptionTableCompanion data) {
     return GlobalOptionTableData(
       id: data.id.present ? data.id.value : this.id,
@@ -191,6 +202,7 @@ class GlobalOptionTableData extends DataClass
 
   @override
   int get hashCode => Object.hash(id, tapIndex, themeMode, dbTimestamp);
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -207,12 +219,14 @@ class GlobalOptionTableCompanion
   final Value<int> tapIndex;
   final Value<flutter_material.ThemeMode> themeMode;
   final Value<DateTime> dbTimestamp;
+
   const GlobalOptionTableCompanion({
     this.id = const Value.absent(),
     this.tapIndex = const Value.absent(),
     this.themeMode = const Value.absent(),
     this.dbTimestamp = const Value.absent(),
   });
+
   GlobalOptionTableCompanion.insert({
     this.id = const Value.absent(),
     required int tapIndex,
@@ -221,6 +235,7 @@ class GlobalOptionTableCompanion
   })  : tapIndex = Value(tapIndex),
         themeMode = Value(themeMode),
         dbTimestamp = Value(dbTimestamp);
+
   static Insertable<GlobalOptionTableData> custom({
     Expression<int>? id,
     Expression<int>? tapIndex,
@@ -281,12 +296,15 @@ class GlobalOptionTableCompanion
 
 abstract class _$GlobalOptionDrift extends GeneratedDatabase {
   _$GlobalOptionDrift(QueryExecutor e) : super(e);
+
   $GlobalOptionDriftManager get managers => $GlobalOptionDriftManager(this);
   late final $GlobalOptionTableTable globalOptionTable =
       $GlobalOptionTableTable(this);
+
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
+
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [globalOptionTable];
 }
@@ -315,6 +333,7 @@ class $$GlobalOptionTableTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+
   ColumnFilters<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnFilters(column));
 
@@ -340,6 +359,7 @@ class $$GlobalOptionTableTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+
   ColumnOrderings<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnOrderings(column));
 
@@ -362,6 +382,7 @@ class $$GlobalOptionTableTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
@@ -454,7 +475,9 @@ typedef $$GlobalOptionTableTableProcessedTableManager = ProcessedTableManager<
 
 class $GlobalOptionDriftManager {
   final _$GlobalOptionDrift _db;
+
   $GlobalOptionDriftManager(this._db);
+
   $$GlobalOptionTableTableTableManager get globalOptionTable =>
       $$GlobalOptionTableTableTableManager(_db, _db.globalOptionTable);
 }

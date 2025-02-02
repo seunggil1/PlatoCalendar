@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:drift/drift.dart';
 
 import 'table/table.dart';

@@ -1,6 +1,5 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 part 'calendar_option_table.g.dart';
 

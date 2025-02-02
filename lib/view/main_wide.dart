@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-
 import 'package:plato_calendar/view/view.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 Widget getWideMainPage(BuildContext context, int tapIndex) {
   return ResponsiveSizer(builder: (context, orientation, screenType) {

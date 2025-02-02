@@ -10,7 +10,9 @@ class $TaskCheckListOptionTableTable extends TaskCheckListOptionTable
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
+
   $TaskCheckListOptionTableTable(this.attachedDatabase, [this._alias]);
+
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -99,6 +101,7 @@ class $TaskCheckListOptionTableTable extends TaskCheckListOptionTable
   late final GeneratedColumn<DateTime> dbTimestamp = GeneratedColumn<DateTime>(
       'db_timestamp', aliasedName, false,
       type: DriftSqlType.dateTime, requiredDuringInsert: true);
+
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -112,11 +115,14 @@ class $TaskCheckListOptionTableTable extends TaskCheckListOptionTable
         showCompletedToDoList,
         dbTimestamp
       ];
+
   @override
   String get aliasedName => _alias ?? actualTableName;
+
   @override
   String get actualTableName => $name;
   static const String $name = 'task_check_list_option_table';
+
   @override
   VerificationContext validateIntegrity(
       Insertable<TaskCheckListOptionTableData> instance,
@@ -204,6 +210,7 @@ class $TaskCheckListOptionTableTable extends TaskCheckListOptionTable
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
+
   @override
   TaskCheckListOptionTableData map(Map<String, dynamic> data,
       {String? tablePrefix}) {
@@ -252,6 +259,7 @@ class TaskCheckListOptionTableData extends DataClass
   final bool showMoreThanWeekToDoList;
   final bool showCompletedToDoList;
   final DateTime dbTimestamp;
+
   const TaskCheckListOptionTableData(
       {required this.id,
       required this.showPassedToDoList,
@@ -263,6 +271,7 @@ class TaskCheckListOptionTableData extends DataClass
       required this.showMoreThanWeekToDoList,
       required this.showCompletedToDoList,
       required this.dbTimestamp});
+
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -315,6 +324,7 @@ class TaskCheckListOptionTableData extends DataClass
       dbTimestamp: serializer.fromJson<DateTime>(json['dbTimestamp']),
     );
   }
+
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
@@ -358,6 +368,7 @@ class TaskCheckListOptionTableData extends DataClass
             showCompletedToDoList ?? this.showCompletedToDoList,
         dbTimestamp: dbTimestamp ?? this.dbTimestamp,
       );
+
   TaskCheckListOptionTableData copyWithCompanion(
       TaskCheckListOptionTableCompanion data) {
     return TaskCheckListOptionTableData(
@@ -420,6 +431,7 @@ class TaskCheckListOptionTableData extends DataClass
       showMoreThanWeekToDoList,
       showCompletedToDoList,
       dbTimestamp);
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -448,6 +460,7 @@ class TaskCheckListOptionTableCompanion
   final Value<bool> showMoreThanWeekToDoList;
   final Value<bool> showCompletedToDoList;
   final Value<DateTime> dbTimestamp;
+
   const TaskCheckListOptionTableCompanion({
     this.id = const Value.absent(),
     this.showPassedToDoList = const Value.absent(),
@@ -460,6 +473,7 @@ class TaskCheckListOptionTableCompanion
     this.showCompletedToDoList = const Value.absent(),
     this.dbTimestamp = const Value.absent(),
   });
+
   TaskCheckListOptionTableCompanion.insert({
     this.id = const Value.absent(),
     required bool showPassedToDoList,
@@ -480,6 +494,7 @@ class TaskCheckListOptionTableCompanion
         showMoreThanWeekToDoList = Value(showMoreThanWeekToDoList),
         showCompletedToDoList = Value(showCompletedToDoList),
         dbTimestamp = Value(dbTimestamp);
+
   static Insertable<TaskCheckListOptionTableData> custom({
     Expression<int>? id,
     Expression<bool>? showPassedToDoList,
@@ -599,13 +614,16 @@ class TaskCheckListOptionTableCompanion
 
 abstract class _$TaskCheckListOptionDrift extends GeneratedDatabase {
   _$TaskCheckListOptionDrift(QueryExecutor e) : super(e);
+
   $TaskCheckListOptionDriftManager get managers =>
       $TaskCheckListOptionDriftManager(this);
   late final $TaskCheckListOptionTableTable taskCheckListOptionTable =
       $TaskCheckListOptionTableTable(this);
+
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
+
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
       [taskCheckListOptionTable];
@@ -647,6 +665,7 @@ class $$TaskCheckListOptionTableTableFilterComposer extends Composer<
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+
   ColumnFilters<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnFilters(column));
 
@@ -695,6 +714,7 @@ class $$TaskCheckListOptionTableTableOrderingComposer extends Composer<
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+
   ColumnOrderings<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnOrderings(column));
 
@@ -743,6 +763,7 @@ class $$TaskCheckListOptionTableTableAnnotationComposer extends Composer<
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
@@ -879,7 +900,9 @@ typedef $$TaskCheckListOptionTableTableProcessedTableManager
 
 class $TaskCheckListOptionDriftManager {
   final _$TaskCheckListOptionDrift _db;
+
   $TaskCheckListOptionDriftManager(this._db);
+
   $$TaskCheckListOptionTableTableTableManager get taskCheckListOptionTable =>
       $$TaskCheckListOptionTableTableTableManager(
           _db, _db.taskCheckListOptionTable);

@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:drift/drift.dart';
-import 'package:drift_flutter/drift_flutter.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plato_calendar/model/model.dart';

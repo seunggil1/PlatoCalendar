@@ -13,10 +13,11 @@ class CalendarAPIException implements Exception {
   String toString() {
     return 'CalendarAPIException: $message';
   }
+
   CalendarAPIException(this.message);
 }
 
-class CalendarAPILoginException extends CalendarAPIException{
+class CalendarAPILoginException extends CalendarAPIException {
   CalendarAPILoginException(super.message);
 }
 
