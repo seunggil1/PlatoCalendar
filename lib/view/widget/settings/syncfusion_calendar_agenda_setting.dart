@@ -20,7 +20,7 @@ class SyncfusionCalendarAgendaSettingWidget extends StatelessWidget {
           children: [
             // 그룹의 제목
             Padding(
-                padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+                padding: EdgeInsets.fromLTRB(16.0, 0, 16.0, 4.0),
                 child: Text(
                   '유형 설정',
                   style: theme.textTheme.bodyMedium?.copyWith(
@@ -46,43 +46,57 @@ class _SyncfusionCalendarShowAgendaWidget extends StatelessWidget {
       builder: (BuildContext context, CalendarOption option) {
         final textTheme = Theme.of(context).textTheme;
         final colorScheme = Theme.of(context).colorScheme;
-        return Row(
-          children: [
-            Expanded(
-                child: InkWell(
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              onTap: () => context.read<SyncfusionCalendarOptionBloc>().add(
-                  SyncfusionCalendarOptionUpdate(
-                      option.copyWith(showAgenda: true))),
-              child: Card(
-                color: colorScheme.surface,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  side: BorderSide(
-                    color: option.showAgenda
-                        ? colorScheme.primary
-                        : colorScheme.outlineVariant,
-                    width: 2,
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+        return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 4.0),
+            child: Row(
+              children: [
+                Expanded(
+                    child: InkWell(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  onTap: () => context.read<SyncfusionCalendarOptionBloc>().add(
+                      SyncfusionCalendarOptionUpdate(
+                          option.copyWith(showAgenda: true))),
+                  child: Card(
+                    color: colorScheme.surface,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      side: BorderSide(
+                        color: option.showAgenda
+                            ? colorScheme.primary
+                            : colorScheme.outlineVariant,
+                        width: 2,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
                         children: [
-                          Icon(
-                            Icons.view_agenda,
-                            size: 20.sp,
-                            color: option.showAgenda
-                                ? colorScheme.primary
-                                : colorScheme.outlineVariant,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.view_agenda,
+                                size: 20.sp,
+                                color: option.showAgenda
+                                    ? colorScheme.primary
+                                    : colorScheme.outlineVariant,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                '일정 통합형',
+                                style: textTheme.titleSmall?.copyWith(
+                                  color: option.showAgenda
+                                      ? colorScheme.primary
+                                      : colorScheme.outlineVariant,
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(width: 8),
+                          const SizedBox(height: 8),
                           Text(
-                            '일정 통합형',
-                            style: textTheme.titleSmall?.copyWith(
+                            '달력과 일정 목록을\n한 페이지에 표시합니다.',
+                            textAlign: TextAlign.center,
+                            style: textTheme.bodySmall?.copyWith(
                               color: option.showAgenda
                                   ? colorScheme.primary
                                   : colorScheme.outlineVariant,
@@ -90,63 +104,63 @@ class _SyncfusionCalendarShowAgendaWidget extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        '달력과 일정 목록을\n한 페이지에 표시합니다.',
-                        textAlign: TextAlign.center,
-                        style: textTheme.bodySmall?.copyWith(
-                          color: option.showAgenda
-                              ? colorScheme.primary
-                              : colorScheme.outlineVariant,
-                        ),
+                    ),
+                  ),
+                )),
+                Expanded(
+                    child: InkWell(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  onTap: () => context.read<SyncfusionCalendarOptionBloc>().add(
+                      SyncfusionCalendarOptionUpdate(
+                          option.copyWith(showAgenda: false))),
+                  child: Card(
+                    color: colorScheme.surface,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      side: BorderSide(
+                        color: !option.showAgenda
+                            ? colorScheme.primary
+                            : colorScheme.outlineVariant,
+                        width: 2,
                       ),
-                    ],
-                  ),
-                ),
-              ),
-            )),
-            Expanded(
-                child: InkWell(
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              onTap: () => context.read<SyncfusionCalendarOptionBloc>().add(
-                  SyncfusionCalendarOptionUpdate(
-                      option.copyWith(showAgenda: false))),
-              child: Card(
-                color: colorScheme.surface,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  side: BorderSide(
-                    color: !option.showAgenda
-                        ? colorScheme.primary
-                        : colorScheme.outlineVariant,
-                    width: 2,
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
                         children: [
-                          Icon(
-                            Icons.calendar_month,
-                            size: 20.sp,
-                            color: !option.showAgenda
-                                ? colorScheme.primary
-                                : colorScheme.outlineVariant,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.calendar_month,
+                                size: 20.sp,
+                                color: !option.showAgenda
+                                    ? colorScheme.primary
+                                    : colorScheme.outlineVariant,
+                              ),
+                              Icon(
+                                Icons.list_alt_outlined,
+                                size: 20.sp,
+                                color: !option.showAgenda
+                                    ? colorScheme.primary
+                                    : colorScheme.outlineVariant,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                '일정 분리형',
+                                style: textTheme.titleSmall?.copyWith(
+                                  color: !option.showAgenda
+                                      ? colorScheme.primary
+                                      : colorScheme.outlineVariant,
+                                ),
+                              ),
+                            ],
                           ),
-                          Icon(
-                            Icons.list_alt_outlined,
-                            size: 20.sp,
-                            color: !option.showAgenda
-                                ? colorScheme.primary
-                                : colorScheme.outlineVariant,
-                          ),
-                          const SizedBox(width: 8),
+                          const SizedBox(height: 8),
                           Text(
-                            '일정 분리형',
-                            style: textTheme.titleSmall?.copyWith(
+                            '달력에서 날짜를 선택하면\n일정 목록이 표시됩니다.',
+                            textAlign: TextAlign.center,
+                            style: textTheme.bodySmall?.copyWith(
                               color: !option.showAgenda
                                   ? colorScheme.primary
                                   : colorScheme.outlineVariant,
@@ -154,23 +168,11 @@ class _SyncfusionCalendarShowAgendaWidget extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        '달력에서 날짜를 선택하면\n일정 목록이 표시됩니다.',
-                        textAlign: TextAlign.center,
-                        style: textTheme.bodySmall?.copyWith(
-                          color: !option.showAgenda
-                              ? colorScheme.primary
-                              : colorScheme.outlineVariant,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            ))
-          ],
-        );
+                ))
+              ],
+            ));
       },
     );
   }
