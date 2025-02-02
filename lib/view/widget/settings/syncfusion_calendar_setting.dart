@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'material_card.dart';
 import 'syncfusion_calendar_agenda_setting.dart';
+import 'syncfusion_calendar_show_finished_setting.dart';
+import 'syncfusion_calendar_first_day_of_week_setting.dart';
 
 class SyncfusionCalendarSettingWidget extends StatelessWidget {
   const SyncfusionCalendarSettingWidget({super.key});
@@ -14,6 +16,8 @@ class SyncfusionCalendarSettingWidget extends StatelessWidget {
       // secondSubTitle: '지금 사용해보기 2',
       isFoldable: true,
       children: [
+        SyncfusionCalendarShowFinishedSettingWidget(),
+        SyncfusionCalendarFirstDayOfWeekSettingWidget(),
         SyncfusionCalendarAgendaSettingWidget(),
       ],
     );

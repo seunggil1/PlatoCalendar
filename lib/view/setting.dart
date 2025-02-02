@@ -26,18 +26,6 @@ class SettingPage extends StatelessWidget {
             child: SyncfusionCalendarSettingWidget()),
         TextButton(
             onPressed: () {
-              syncfusionCalendarOptionBloc.add(SyncfusionCalendarOptionUpdate(
-                  option.copyWith(showAgenda: false)));
-            },
-            child: const Text('show Agenda false')),
-        TextButton(
-            onPressed: () {
-              syncfusionCalendarOptionBloc.add(SyncfusionCalendarOptionUpdate(
-                  option.copyWith(showAgenda: true)));
-            },
-            child: const Text('show Agenda true')),
-        TextButton(
-            onPressed: () {
               globalPlatoAppointmentBloc.add(SyncPlatoAppointment());
             },
             child: const Text('update plato data')),
