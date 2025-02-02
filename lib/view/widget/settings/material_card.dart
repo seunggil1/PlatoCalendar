@@ -4,7 +4,7 @@ class MaterialCard extends StatefulWidget {
   final String title;
   final String? subTitle;
   final String? secondSubTitle;
-  final Widget child;
+  final List<Widget> children;
   final bool? isFoldable;
 
   const MaterialCard(
@@ -13,7 +13,7 @@ class MaterialCard extends StatefulWidget {
       this.subTitle,
       this.secondSubTitle,
       this.isFoldable,
-      required this.child});
+      required this.children});
 
   @override
   State<StatefulWidget> createState() => _MaterialCard();
@@ -23,7 +23,7 @@ class _MaterialCard extends State<MaterialCard> {
   late final String title;
   late final String? subTitle;
   late final String? secondSubTitle;
-  late final Widget child;
+  late final Widget children;
   late final bool isFoldable;
 
   bool isExpanded = false;
@@ -34,8 +34,13 @@ class _MaterialCard extends State<MaterialCard> {
     title = widget.title;
     subTitle = widget.subTitle;
     secondSubTitle = widget.secondSubTitle;
-    child = widget.child;
     isFoldable = widget.isFoldable ?? false;
+    children =  Card.filled(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: widget.children,
+      ),
+    );
   }
 
   @override
@@ -76,9 +81,9 @@ class _MaterialCard extends State<MaterialCard> {
                 ? AnimatedSize(
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.bounceInOut,
-                    child: isExpanded ? child : const SizedBox.shrink(),
+                    child: isExpanded ? children : const SizedBox.shrink(),
                   )
-                : child
+                : children
           ],
         ));
   }

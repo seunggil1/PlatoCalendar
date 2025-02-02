@@ -4,8 +4,8 @@ import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class SyncfusionCalendarShowAgendaWidget extends StatelessWidget {
-  const SyncfusionCalendarShowAgendaWidget({super.key});
+class SyncfusionCalendarAgendaSettingWidget extends StatelessWidget {
+  const SyncfusionCalendarAgendaSettingWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

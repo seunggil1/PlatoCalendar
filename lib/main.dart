@@ -61,22 +61,22 @@ class MaterialThemePage extends StatelessWidget {
   // Set theme.
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GlobalDisplayOptionBloc, GlobalDisplayOption>(
-        builder: (context, state) {
-      return MaterialApp(
-          theme: ThemeData(
-              brightness: Brightness.light,
-              colorScheme: ColorScheme.fromSeed(
-                  seedColor: Colors.blueAccent.shade100, brightness: Brightness.light),
-              useMaterial3: true),
-          darkTheme: ThemeData(
-              brightness: Brightness.dark,
-              colorScheme: ColorScheme.fromSeed(
-                  seedColor: Colors.blueGrey, brightness: Brightness.dark),
-              useMaterial3: true),
-          themeMode: state.themeMode,
-          home: const InitStatefulPage());
-    });
+    final themeMode =
+        context.select((GlobalDisplayOptionBloc bloc) => bloc.state.themeMode);
+    return MaterialApp(
+        theme: ThemeData(
+            brightness: Brightness.light,
+            colorScheme: ColorScheme.fromSeed(
+                seedColor: Colors.blueAccent.shade100,
+                brightness: Brightness.light),
+            useMaterial3: true),
+        darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            colorScheme: ColorScheme.fromSeed(
+                seedColor: Colors.blueGrey, brightness: Brightness.dark),
+            useMaterial3: true),
+        themeMode: themeMode,
+        home: const InitStatefulPage());
   }
 }
 
@@ -97,13 +97,11 @@ class MainBlocPage extends State<InitStatefulPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final SelectedTab selectedTab = context.select((BottomNavigationCubit cubit) => cubit.state.tab);
-    return BlocBuilder<GlobalDisplayOptionBloc, GlobalDisplayOption>(
-        builder: (context, state) {
-      final isWideScreen = MediaQuery.of(context).size.width > 600;
-      return isWideScreen
-          ? getWideMainPage(context, state.tapIndex)
-          : getDefaultMainPage(context, state.tapIndex);
-    });
+    final tapIndex =
+        context.select((GlobalDisplayOptionBloc bloc) => bloc.state.tapIndex);
+    final isWideScreen = MediaQuery.of(context).size.width > 600;
+    return isWideScreen
+        ? getWideMainPage(context, tapIndex)
+        : getDefaultMainPage(context, tapIndex);
   }
 }

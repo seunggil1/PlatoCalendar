@@ -11,7 +11,7 @@ class SettingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final globalDisplayOptionBloc = context.read<GlobalDisplayOptionBloc>();
+    // final globalDisplayOptionBloc = context.read<GlobalDisplayOptionBloc>();
     final syncfusionCalendarOptionBloc =
         context.read<SyncfusionCalendarOptionBloc>();
     final option = syncfusionCalendarOptionBloc.state.calendarOption;
@@ -20,25 +20,10 @@ class SettingPage extends StatelessWidget {
 
     return ListView(
       children: [
-        TextButton(
-            onPressed: () {
-              globalDisplayOptionBloc.add(SetLightTheme());
-            },
-            child: const Text('set light')),
-        TextButton(
-            onPressed: () {
-              globalDisplayOptionBloc.add(SetDarkTheme());
-            },
-            child: const Text('set dark')),
+        Padding(padding: EdgeInsets.all(8.0), child: ThemeSettingWidget()),
         Padding(
             padding: EdgeInsets.all(8.0),
-            child: MaterialCard(
-              title: '달력 설정',
-              // subTitle: '지금 사용해보기',
-              // secondSubTitle: '지금 사용해보기 2',
-              isFoldable: true,
-              child: SyncfusionCalendarShowAgendaWidget(),
-            )),
+            child: SyncfusionCalendarSettingWidget()),
         TextButton(
             onPressed: () {
               syncfusionCalendarOptionBloc.add(SyncfusionCalendarOptionUpdate(
