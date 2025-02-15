@@ -16,7 +16,7 @@ final Map<int, String> taskDurationLocaleKR = const {
   1: '6시간 남음',
   2: '12시간 남음',
   3: '오늘',
-  94: '내일',
+  4: '내일',
   5: '7일 이내',
   6: '7일 이상',
   7: '완료',
