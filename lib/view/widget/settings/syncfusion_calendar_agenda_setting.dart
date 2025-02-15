@@ -76,7 +76,7 @@ class _SyncfusionCalendarShowAgendaWidget extends StatelessWidget {
                             children: [
                               Icon(
                                 Icons.view_agenda,
-                                size: 20.sp,
+                                size: 18.sp,
                                 color: option.showAgenda
                                     ? colorScheme.primary
                                     : colorScheme.outlineVariant,
@@ -97,6 +97,7 @@ class _SyncfusionCalendarShowAgendaWidget extends StatelessWidget {
                             '달력과 일정 목록을\n한 페이지에 표시합니다.',
                             textAlign: TextAlign.center,
                             style: textTheme.bodySmall?.copyWith(
+                              fontSize: 14.sp,
                               color: option.showAgenda
                                   ? colorScheme.primary
                                   : colorScheme.outlineVariant,
@@ -133,14 +134,14 @@ class _SyncfusionCalendarShowAgendaWidget extends StatelessWidget {
                             children: [
                               Icon(
                                 Icons.calendar_month,
-                                size: 20.sp,
+                                size: 18.sp,
                                 color: !option.showAgenda
                                     ? colorScheme.primary
                                     : colorScheme.outlineVariant,
                               ),
                               Icon(
                                 Icons.list_alt_outlined,
-                                size: 20.sp,
+                                size: 18.sp,
                                 color: !option.showAgenda
                                     ? colorScheme.primary
                                     : colorScheme.outlineVariant,
@@ -161,6 +162,7 @@ class _SyncfusionCalendarShowAgendaWidget extends StatelessWidget {
                             '달력에서 날짜를 선택하면\n일정 목록이 표시됩니다.',
                             textAlign: TextAlign.center,
                             style: textTheme.bodySmall?.copyWith(
+                              fontSize: 14.sp,
                               color: !option.showAgenda
                                   ? colorScheme.primary
                                   : colorScheme.outlineVariant,
