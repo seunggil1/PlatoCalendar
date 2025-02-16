@@ -14,7 +14,8 @@ Widget getDefaultMainPage(BuildContext context, int tapIndex) {
                   '설정',
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.sp),
                 ),
                 elevation: 1.0,
                 shadowColor: Theme.of(context).colorScheme.shadow,
