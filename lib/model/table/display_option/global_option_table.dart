@@ -11,6 +11,8 @@ class GlobalOptionTable extends Table {
 
   TextColumn get themeMode => textEnum<flutter_material.ThemeMode>()();
 
+  IntColumn get themeSeedColorIndex => integer()();
+
   DateTimeColumn get dbTimestamp => dateTime()();
 }
 

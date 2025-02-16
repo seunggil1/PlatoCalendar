@@ -35,6 +35,12 @@ class $GlobalOptionTableTable extends GlobalOptionTable
           type: DriftSqlType.string, requiredDuringInsert: true)
       .withConverter<flutter_material.ThemeMode>(
           $GlobalOptionTableTable.$converterthemeMode);
+  static const VerificationMeta _themeSeedColorIndexMeta =
+      const VerificationMeta('themeSeedColorIndex');
+  @override
+  late final GeneratedColumn<int> themeSeedColorIndex = GeneratedColumn<int>(
+      'theme_seed_color_index', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
   static const VerificationMeta _dbTimestampMeta =
       const VerificationMeta('dbTimestamp');
   @override
@@ -43,7 +49,8 @@ class $GlobalOptionTableTable extends GlobalOptionTable
       type: DriftSqlType.dateTime, requiredDuringInsert: true);
 
   @override
-  List<GeneratedColumn> get $columns => [id, tapIndex, themeMode, dbTimestamp];
+  List<GeneratedColumn> get $columns =>
+      [id, tapIndex, themeMode, themeSeedColorIndex, dbTimestamp];
 
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -68,6 +75,14 @@ class $GlobalOptionTableTable extends GlobalOptionTable
       context.missing(_tapIndexMeta);
     }
     context.handle(_themeModeMeta, const VerificationResult.success());
+    if (data.containsKey('theme_seed_color_index')) {
+      context.handle(
+          _themeSeedColorIndexMeta,
+          themeSeedColorIndex.isAcceptableOrUnknown(
+              data['theme_seed_color_index']!, _themeSeedColorIndexMeta));
+    } else if (isInserting) {
+      context.missing(_themeSeedColorIndexMeta);
+    }
     if (data.containsKey('db_timestamp')) {
       context.handle(
           _dbTimestampMeta,
@@ -93,6 +108,8 @@ class $GlobalOptionTableTable extends GlobalOptionTable
       themeMode: $GlobalOptionTableTable.$converterthemeMode.fromSql(
           attachedDatabase.typeMapping.read(
               DriftSqlType.string, data['${effectivePrefix}theme_mode'])!),
+      themeSeedColorIndex: attachedDatabase.typeMapping.read(
+          DriftSqlType.int, data['${effectivePrefix}theme_seed_color_index'])!,
       dbTimestamp: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}db_timestamp'])!,
     );
@@ -113,12 +130,14 @@ class GlobalOptionTableData extends DataClass
   final int id;
   final int tapIndex;
   final flutter_material.ThemeMode themeMode;
+  final int themeSeedColorIndex;
   final DateTime dbTimestamp;
 
   const GlobalOptionTableData(
       {required this.id,
       required this.tapIndex,
       required this.themeMode,
+      required this.themeSeedColorIndex,
       required this.dbTimestamp});
 
   @override
@@ -130,6 +149,7 @@ class GlobalOptionTableData extends DataClass
       map['theme_mode'] = Variable<String>(
           $GlobalOptionTableTable.$converterthemeMode.toSql(themeMode));
     }
+    map['theme_seed_color_index'] = Variable<int>(themeSeedColorIndex);
     map['db_timestamp'] = Variable<DateTime>(dbTimestamp);
     return map;
   }
@@ -139,6 +159,7 @@ class GlobalOptionTableData extends DataClass
       id: Value(id),
       tapIndex: Value(tapIndex),
       themeMode: Value(themeMode),
+      themeSeedColorIndex: Value(themeSeedColorIndex),
       dbTimestamp: Value(dbTimestamp),
     );
   }
@@ -151,6 +172,8 @@ class GlobalOptionTableData extends DataClass
       tapIndex: serializer.fromJson<int>(json['tapIndex']),
       themeMode: $GlobalOptionTableTable.$converterthemeMode
           .fromJson(serializer.fromJson<String>(json['themeMode'])),
+      themeSeedColorIndex:
+          serializer.fromJson<int>(json['themeSeedColorIndex']),
       dbTimestamp: serializer.fromJson<DateTime>(json['dbTimestamp']),
     );
   }
@@ -163,6 +186,7 @@ class GlobalOptionTableData extends DataClass
       'tapIndex': serializer.toJson<int>(tapIndex),
       'themeMode': serializer.toJson<String>(
           $GlobalOptionTableTable.$converterthemeMode.toJson(themeMode)),
+      'themeSeedColorIndex': serializer.toJson<int>(themeSeedColorIndex),
       'dbTimestamp': serializer.toJson<DateTime>(dbTimestamp),
     };
   }
@@ -171,11 +195,13 @@ class GlobalOptionTableData extends DataClass
           {int? id,
           int? tapIndex,
           flutter_material.ThemeMode? themeMode,
+          int? themeSeedColorIndex,
           DateTime? dbTimestamp}) =>
       GlobalOptionTableData(
         id: id ?? this.id,
         tapIndex: tapIndex ?? this.tapIndex,
         themeMode: themeMode ?? this.themeMode,
+        themeSeedColorIndex: themeSeedColorIndex ?? this.themeSeedColorIndex,
         dbTimestamp: dbTimestamp ?? this.dbTimestamp,
       );
 
@@ -184,6 +210,9 @@ class GlobalOptionTableData extends DataClass
       id: data.id.present ? data.id.value : this.id,
       tapIndex: data.tapIndex.present ? data.tapIndex.value : this.tapIndex,
       themeMode: data.themeMode.present ? data.themeMode.value : this.themeMode,
+      themeSeedColorIndex: data.themeSeedColorIndex.present
+          ? data.themeSeedColorIndex.value
+          : this.themeSeedColorIndex,
       dbTimestamp:
           data.dbTimestamp.present ? data.dbTimestamp.value : this.dbTimestamp,
     );
@@ -195,13 +224,15 @@ class GlobalOptionTableData extends DataClass
           ..write('id: $id, ')
           ..write('tapIndex: $tapIndex, ')
           ..write('themeMode: $themeMode, ')
+          ..write('themeSeedColorIndex: $themeSeedColorIndex, ')
           ..write('dbTimestamp: $dbTimestamp')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, tapIndex, themeMode, dbTimestamp);
+  int get hashCode =>
+      Object.hash(id, tapIndex, themeMode, themeSeedColorIndex, dbTimestamp);
 
   @override
   bool operator ==(Object other) =>
@@ -210,6 +241,7 @@ class GlobalOptionTableData extends DataClass
           other.id == this.id &&
           other.tapIndex == this.tapIndex &&
           other.themeMode == this.themeMode &&
+          other.themeSeedColorIndex == this.themeSeedColorIndex &&
           other.dbTimestamp == this.dbTimestamp);
 }
 
@@ -218,12 +250,14 @@ class GlobalOptionTableCompanion
   final Value<int> id;
   final Value<int> tapIndex;
   final Value<flutter_material.ThemeMode> themeMode;
+  final Value<int> themeSeedColorIndex;
   final Value<DateTime> dbTimestamp;
 
   const GlobalOptionTableCompanion({
     this.id = const Value.absent(),
     this.tapIndex = const Value.absent(),
     this.themeMode = const Value.absent(),
+    this.themeSeedColorIndex = const Value.absent(),
     this.dbTimestamp = const Value.absent(),
   });
 
@@ -231,21 +265,26 @@ class GlobalOptionTableCompanion
     this.id = const Value.absent(),
     required int tapIndex,
     required flutter_material.ThemeMode themeMode,
+    required int themeSeedColorIndex,
     required DateTime dbTimestamp,
   })  : tapIndex = Value(tapIndex),
         themeMode = Value(themeMode),
+        themeSeedColorIndex = Value(themeSeedColorIndex),
         dbTimestamp = Value(dbTimestamp);
 
   static Insertable<GlobalOptionTableData> custom({
     Expression<int>? id,
     Expression<int>? tapIndex,
     Expression<String>? themeMode,
+    Expression<int>? themeSeedColorIndex,
     Expression<DateTime>? dbTimestamp,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (tapIndex != null) 'tap_index': tapIndex,
       if (themeMode != null) 'theme_mode': themeMode,
+      if (themeSeedColorIndex != null)
+        'theme_seed_color_index': themeSeedColorIndex,
       if (dbTimestamp != null) 'db_timestamp': dbTimestamp,
     });
   }
@@ -254,11 +293,13 @@ class GlobalOptionTableCompanion
       {Value<int>? id,
       Value<int>? tapIndex,
       Value<flutter_material.ThemeMode>? themeMode,
+      Value<int>? themeSeedColorIndex,
       Value<DateTime>? dbTimestamp}) {
     return GlobalOptionTableCompanion(
       id: id ?? this.id,
       tapIndex: tapIndex ?? this.tapIndex,
       themeMode: themeMode ?? this.themeMode,
+      themeSeedColorIndex: themeSeedColorIndex ?? this.themeSeedColorIndex,
       dbTimestamp: dbTimestamp ?? this.dbTimestamp,
     );
   }
@@ -276,6 +317,9 @@ class GlobalOptionTableCompanion
       map['theme_mode'] = Variable<String>(
           $GlobalOptionTableTable.$converterthemeMode.toSql(themeMode.value));
     }
+    if (themeSeedColorIndex.present) {
+      map['theme_seed_color_index'] = Variable<int>(themeSeedColorIndex.value);
+    }
     if (dbTimestamp.present) {
       map['db_timestamp'] = Variable<DateTime>(dbTimestamp.value);
     }
@@ -288,6 +332,7 @@ class GlobalOptionTableCompanion
           ..write('id: $id, ')
           ..write('tapIndex: $tapIndex, ')
           ..write('themeMode: $themeMode, ')
+          ..write('themeSeedColorIndex: $themeSeedColorIndex, ')
           ..write('dbTimestamp: $dbTimestamp')
           ..write(')'))
         .toString();
@@ -314,6 +359,7 @@ typedef $$GlobalOptionTableTableCreateCompanionBuilder
   Value<int> id,
   required int tapIndex,
   required flutter_material.ThemeMode themeMode,
+  required int themeSeedColorIndex,
   required DateTime dbTimestamp,
 });
 typedef $$GlobalOptionTableTableUpdateCompanionBuilder
@@ -321,6 +367,7 @@ typedef $$GlobalOptionTableTableUpdateCompanionBuilder
   Value<int> id,
   Value<int> tapIndex,
   Value<flutter_material.ThemeMode> themeMode,
+  Value<int> themeSeedColorIndex,
   Value<DateTime> dbTimestamp,
 });
 
@@ -346,6 +393,10 @@ class $$GlobalOptionTableTableFilterComposer
           column: $table.themeMode,
           builder: (column) => ColumnWithTypeConverterFilters(column));
 
+  ColumnFilters<int> get themeSeedColorIndex => $composableBuilder(
+      column: $table.themeSeedColorIndex,
+      builder: (column) => ColumnFilters(column));
+
   ColumnFilters<DateTime> get dbTimestamp => $composableBuilder(
       column: $table.dbTimestamp, builder: (column) => ColumnFilters(column));
 }
@@ -368,6 +419,10 @@ class $$GlobalOptionTableTableOrderingComposer
 
   ColumnOrderings<String> get themeMode => $composableBuilder(
       column: $table.themeMode, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get themeSeedColorIndex => $composableBuilder(
+      column: $table.themeSeedColorIndex,
+      builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<DateTime> get dbTimestamp => $composableBuilder(
       column: $table.dbTimestamp, builder: (column) => ColumnOrderings(column));
@@ -392,6 +447,9 @@ class $$GlobalOptionTableTableAnnotationComposer
   GeneratedColumnWithTypeConverter<flutter_material.ThemeMode, String>
       get themeMode => $composableBuilder(
           column: $table.themeMode, builder: (column) => column);
+
+  GeneratedColumn<int> get themeSeedColorIndex => $composableBuilder(
+      column: $table.themeSeedColorIndex, builder: (column) => column);
 
   GeneratedColumn<DateTime> get dbTimestamp => $composableBuilder(
       column: $table.dbTimestamp, builder: (column) => column);
@@ -429,24 +487,28 @@ class $$GlobalOptionTableTableTableManager extends RootTableManager<
             Value<int> id = const Value.absent(),
             Value<int> tapIndex = const Value.absent(),
             Value<flutter_material.ThemeMode> themeMode = const Value.absent(),
+            Value<int> themeSeedColorIndex = const Value.absent(),
             Value<DateTime> dbTimestamp = const Value.absent(),
           }) =>
               GlobalOptionTableCompanion(
             id: id,
             tapIndex: tapIndex,
             themeMode: themeMode,
+            themeSeedColorIndex: themeSeedColorIndex,
             dbTimestamp: dbTimestamp,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required int tapIndex,
             required flutter_material.ThemeMode themeMode,
+            required int themeSeedColorIndex,
             required DateTime dbTimestamp,
           }) =>
               GlobalOptionTableCompanion.insert(
             id: id,
             tapIndex: tapIndex,
             themeMode: themeMode,
+            themeSeedColorIndex: themeSeedColorIndex,
             dbTimestamp: dbTimestamp,
           ),
           withReferenceMapper: (p0) => p0

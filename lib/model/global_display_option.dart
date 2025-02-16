@@ -9,16 +9,18 @@ class GlobalDisplayOption {
   int tapIndex = 0;
 
   flutter_material.ThemeMode themeMode = flutter_material.ThemeMode.system;
+  int themeSeedColorIndex = 0;
 
   DateTime dbTimestamp = DateTime.now();
 
-  GlobalDisplayOption copyWith({
-    int? tapIndex,
-    flutter_material.ThemeMode? themeMode,
-  }) {
+  GlobalDisplayOption copyWith(
+      {int? tapIndex,
+      flutter_material.ThemeMode? themeMode,
+      int? themeSeedColorIndex}) {
     return GlobalDisplayOption()
       ..tapIndex = tapIndex ?? this.tapIndex
-      ..themeMode = themeMode ?? this.themeMode;
+      ..themeMode = themeMode ?? this.themeMode
+      ..themeSeedColorIndex = themeSeedColorIndex ?? this.themeSeedColorIndex;
   }
 
   @override
@@ -31,12 +33,13 @@ class GlobalDisplayOption {
 
     return other is GlobalDisplayOption &&
         other.tapIndex == tapIndex &&
-        other.themeMode == themeMode;
+        other.themeMode == themeMode &&
+        other.themeSeedColorIndex == themeSeedColorIndex;
   }
 
   @override
   String toString() {
-    return 'GlobalDisplayOption{tapIndex: $tapIndex, themeMode: $themeMode}';
+    return 'GlobalDisplayOption{tapIndex: $tapIndex, themeMode: $themeMode, themeSeedColor: $themeSeedColorIndex}';
   }
 }
 
@@ -46,6 +49,7 @@ extension GlobalDisplayOptionMapper on GlobalDisplayOption {
       id: id ?? 0,
       tapIndex: tapIndex,
       themeMode: themeMode,
+      themeSeedColorIndex: themeSeedColorIndex,
       dbTimestamp: dbTimestamp,
     );
   }
@@ -54,6 +58,7 @@ extension GlobalDisplayOptionMapper on GlobalDisplayOption {
     return GlobalOptionTableCompanion(
       tapIndex: Value(tapIndex),
       themeMode: Value(themeMode),
+      themeSeedColorIndex: Value(themeSeedColorIndex),
       dbTimestamp: Value(dbTimestamp),
     );
   }
@@ -65,6 +70,7 @@ extension GlobalDisplayOptionTableDataMapper on GlobalOptionTableData {
       ..id = id
       ..tapIndex = tapIndex
       ..themeMode = themeMode
+      ..themeSeedColorIndex = themeSeedColorIndex
       ..dbTimestamp = dbTimestamp;
   }
 }
