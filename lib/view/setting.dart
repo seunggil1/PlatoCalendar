@@ -25,8 +25,7 @@ class SettingPage extends StatelessWidget {
             padding: EdgeInsets.all(8.0),
             child: SyncfusionCalendarSettingWidget()),
         Padding(
-            padding: EdgeInsets.all(8.0),
-            child: ColorSchemeSettingWidget()),
+            padding: EdgeInsets.all(8.0), child: ColorSchemeSettingWidget()),
         TextButton(
             onPressed: () {
               globalPlatoAppointmentBloc.add(SyncPlatoAppointment());

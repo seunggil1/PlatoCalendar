@@ -56,10 +56,9 @@ class CalendarWidget extends StatelessWidget {
       ColorScheme colorScheme, TextTheme textTheme) {
     return CalendarHeaderStyle(
         backgroundColor: colorScheme.primaryContainer,
-        textStyle: textTheme.headlineSmall
-            ?.copyWith(
-            color: colorScheme.primary,
-            fontSize: 18.sp,
+        textStyle: textTheme.headlineSmall?.copyWith(
+          color: colorScheme.primary,
+          fontSize: 18.sp,
         ));
   }
 

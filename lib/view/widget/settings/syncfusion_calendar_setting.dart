@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'material_card.dart';
 import 'syncfusion_calendar_agenda_setting.dart';
-import 'syncfusion_calendar_show_finished_setting.dart';
 import 'syncfusion_calendar_first_day_of_week_setting.dart';
+import 'syncfusion_calendar_show_finished_setting.dart';
 
 class SyncfusionCalendarSettingWidget extends StatelessWidget {
   const SyncfusionCalendarSettingWidget({super.key});

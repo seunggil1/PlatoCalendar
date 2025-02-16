@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:plato_calendar/etc/theme_seed_color.dart';
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/model_repository/calendar_option_db.dart';
 import 'package:plato_calendar/model_repository/global_display_option_db.dart';
 import 'package:plato_calendar/util/util.dart';
 import 'package:plato_calendar/view/view.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
-import 'package:plato_calendar/etc/theme_seed_color.dart';
 
 // 앱 시작전 호출되어야 함.
 class Setup {
@@ -64,8 +64,8 @@ class MaterialThemePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeMode =
         context.select((GlobalDisplayOptionBloc bloc) => bloc.state.themeMode);
-    final themeSeedColorIndex = context
-        .select((GlobalDisplayOptionBloc bloc) => bloc.state.themeSeedColorIndex);
+    final themeSeedColorIndex = context.select(
+        (GlobalDisplayOptionBloc bloc) => bloc.state.themeSeedColorIndex);
     return MaterialApp(
         theme: ThemeData(
             brightness: Brightness.light,
