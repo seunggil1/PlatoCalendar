@@ -16,6 +16,15 @@ class ChangeTapIndex extends GlobalDisplayOptionEvent {
   List<Object?> get props => [tapIndex];
 }
 
+class ChangeThemeSeedColor extends GlobalDisplayOptionEvent {
+  final int themeSeedColor;
+
+  ChangeThemeSeedColor(this.themeSeedColor);
+
+  @override
+  List<Object?> get props => [themeSeedColor];
+}
+
 class SetLightTheme extends GlobalDisplayOptionEvent {}
 
 class SetDarkTheme extends GlobalDisplayOptionEvent {}

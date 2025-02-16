@@ -4,6 +4,7 @@ import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/util/logger.dart';
 import 'package:plato_calendar/view/widget/widget_util/widget_util.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CalendarWidget extends StatelessWidget {
@@ -23,6 +24,7 @@ class CalendarWidget extends StatelessWidget {
     CalendarController calendarController =
         calendarOptionState.calendarController;
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return SfCalendar(
       controller: calendarController,
@@ -31,7 +33,7 @@ class CalendarWidget extends StatelessWidget {
       dataSource: SfCalendarDataSource(appointmentState),
       viewHeaderStyle: getViewHeaderStyle(colorScheme),
       headerHeight: 40,
-      headerStyle: getCalendarHeaderStyle(colorScheme),
+      headerStyle: getCalendarHeaderStyle(colorScheme, textTheme),
       todayHighlightColor: colorScheme.primary,
       scheduleViewSettings: getScheduleViewSettings(colorScheme),
       initialDisplayDate: calendarController.displayDate,
@@ -50,11 +52,15 @@ class CalendarWidget extends StatelessWidget {
             color: colorScheme.onSurface, fontWeight: FontWeight.bold));
   }
 
-  CalendarHeaderStyle getCalendarHeaderStyle(ColorScheme colorScheme) {
+  CalendarHeaderStyle getCalendarHeaderStyle(
+      ColorScheme colorScheme, TextTheme textTheme) {
     return CalendarHeaderStyle(
         backgroundColor: colorScheme.primaryContainer,
-        textStyle:
-            TextStyle(color: colorScheme.onPrimaryContainer, fontSize: 20));
+        textStyle: textTheme.headlineSmall
+            ?.copyWith(
+            color: colorScheme.primary,
+            fontSize: 18.sp,
+        ));
   }
 
   ScheduleViewSettings getScheduleViewSettings(ColorScheme colorScheme) {

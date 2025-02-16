@@ -33,5 +33,10 @@ class GlobalDisplayOptionBloc
       await GlobalDisplayOptionDB.write(nextState);
       emit(nextState);
     });
+    on<ChangeThemeSeedColor>((event, emit) async {
+      final nextState = state.copyWith(themeSeedColorIndex: event.themeSeedColor);
+      await GlobalDisplayOptionDB.write(nextState);
+      emit(nextState);
+    });
   }
 }

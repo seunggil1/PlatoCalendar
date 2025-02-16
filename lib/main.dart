@@ -7,6 +7,7 @@ import 'package:plato_calendar/model_repository/global_display_option_db.dart';
 import 'package:plato_calendar/util/util.dart';
 import 'package:plato_calendar/view/view.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
+import 'package:plato_calendar/etc/theme_seed_color.dart';
 
 // 앱 시작전 호출되어야 함.
 class Setup {
@@ -63,17 +64,20 @@ class MaterialThemePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeMode =
         context.select((GlobalDisplayOptionBloc bloc) => bloc.state.themeMode);
+    final themeSeedColorIndex = context
+        .select((GlobalDisplayOptionBloc bloc) => bloc.state.themeSeedColorIndex);
     return MaterialApp(
         theme: ThemeData(
             brightness: Brightness.light,
             colorScheme: ColorScheme.fromSeed(
-                seedColor: Colors.blueAccent.shade100,
+                seedColor: themeSeedColors[themeSeedColorIndex],
                 brightness: Brightness.light),
             useMaterial3: true),
         darkTheme: ThemeData(
             brightness: Brightness.dark,
             colorScheme: ColorScheme.fromSeed(
-                seedColor: Colors.blueGrey, brightness: Brightness.dark),
+                seedColor: themeSeedColors[themeSeedColorIndex],
+                brightness: Brightness.dark),
             useMaterial3: true),
         themeMode: themeMode,
         home: const InitStatefulPage());
