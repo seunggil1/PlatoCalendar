@@ -12,20 +12,18 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final globalDisplayOptionBloc = context.read<GlobalDisplayOptionBloc>();
-    final syncfusionCalendarOptionBloc =
-        context.read<SyncfusionCalendarOptionBloc>();
-    final option = syncfusionCalendarOptionBloc.state.calendarOption;
     final globalPlatoAppointmentBloc =
         context.read<GlobalPlatoAppointmentBloc>();
 
     return ListView(
       children: [
+        Padding(padding: EdgeInsets.all(8.0), child: LoginSetting()),
         Padding(padding: EdgeInsets.all(8.0), child: ThemeSettingWidget()),
+        Padding(
+            padding: EdgeInsets.all(8.0), child: ColorSchemeSettingWidget()),
         Padding(
             padding: EdgeInsets.all(8.0),
             child: SyncfusionCalendarSettingWidget()),
-        Padding(
-            padding: EdgeInsets.all(8.0), child: ColorSchemeSettingWidget()),
         TextButton(
             onPressed: () {
               globalPlatoAppointmentBloc.add(SyncPlatoAppointment());

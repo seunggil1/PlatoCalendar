@@ -5,6 +5,8 @@ import 'package:plato_calendar/etc/theme_seed_color.dart';
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/model_repository/calendar_option_db.dart';
 import 'package:plato_calendar/model_repository/global_display_option_db.dart';
+import 'package:plato_calendar/model_repository/plato_credential_db.dart';
+import 'package:plato_calendar/model_repository/sync_info_db.dart';
 import 'package:plato_calendar/util/util.dart';
 import 'package:plato_calendar/view/view.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
@@ -13,6 +15,8 @@ import 'package:plato_calendar/view_model/view_model.dart';
 class Setup {
   static late GlobalDisplayOption globalDisplayOption;
   static late CalendarOption calendarOption;
+  static late PlatoCredential? platoCredential;
+  static late SyncInfo? syncInfo;
 }
 
 void main() async {
@@ -25,12 +29,21 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  await Future.wait([GlobalDisplayOptionDB.read(), CalendarOptionDB.read()])
-      .then((List value) {
+  await Future.wait([
+    GlobalDisplayOptionDB.read(),
+    CalendarOptionDB.read(),
+    PlatoCredentialDB.read(),
+    SyncInfoDB.read()
+  ]).then((List value) {
     Setup.globalDisplayOption = value[0];
     Setup.calendarOption = value[1];
+    Setup.platoCredential = value[2];
+    Setup.syncInfo = value[3];
   });
-
+  logger.fine('GlobalDisplayOption: ${Setup.globalDisplayOption}');
+  logger.fine('CalendarOption: ${Setup.calendarOption}');
+  logger.fine('PlatoCredential: ${Setup.platoCredential?.username}');
+  logger.fine('SyncInfo: ${Setup.syncInfo}');
   runApp(const MyApp());
 }
 
@@ -51,7 +64,10 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) => TaskCheckListBloc()),
       BlocProvider<GlobalPlatoAppointmentBloc>(
           create: (BuildContext context) => GlobalPlatoAppointmentBloc(
-              taskCheckListBloc: context.read<TaskCheckListBloc>()))
+              taskCheckListBloc: context.read<TaskCheckListBloc>())),
+      BlocProvider(
+          create: (BuildContext context) => PlatoSyncInfoCubit(
+              platoCredential: Setup.platoCredential, syncInfo: Setup.syncInfo))
     ], child: const MaterialThemePage());
   }
 }

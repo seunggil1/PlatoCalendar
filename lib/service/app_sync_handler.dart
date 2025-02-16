@@ -11,17 +11,15 @@ class AppSyncHandler {
   static Future<void> sync() async {
     // check last syncTime
     try {
-      SyncInfo info = await SyncInfoDB.read();
+      SyncInfo? info = await SyncInfoDB.read();
+      if (info == null) {
+        logger.fine('No sync info found');
+        return;
+      }
       // 마지막 동기화로부터 3시간이 지나지 않았다면 동기화를 수행하지 않는다.
       if (DateTime.now().difference(info.platoSyncTime).inHours < 3) {
         logger.fine('Last sync time is less than 3 hours ago');
         return;
-      }
-    } on StateError catch (e, stackTrace) {
-      // last sync time이 없는 경우는 오류가 아님.
-      if (e.message != 'No element') {
-        logger.severe('Failed to readSyncInfo: $e', stackTrace);
-        rethrow;
       }
     } catch (e, stackTrace) {
       logger.severe('Failed to readSyncInfo: $e', stackTrace);
@@ -35,7 +33,11 @@ class AppSyncHandler {
   static Future<void> updatePlatoAppointment() async {
     // check login info
     try {
-      PlatoCredential credential = await PlatoCredentialDB.read();
+      PlatoCredential? credential = await PlatoCredentialDB.read();
+      if (credential == null) {
+        logger.fine('No sync info found');
+        return;
+      }
       List<String> calendarData =
           await CalendarAPI.getPlatoCalendar(credential);
 

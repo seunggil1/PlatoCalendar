@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/service/service.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class LoginDialog extends StatefulWidget {
   const LoginDialog({super.key});
@@ -119,12 +120,12 @@ class _LoginDialogState extends State<LoginDialog>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(Icons.lock_outline,
-                        size: 40, color: colorScheme.primary),
-                    SizedBox(width: 8),
+                        size: 18.sp, color: colorScheme.primary),
+                    SizedBox(width: 4),
                     Text(
-                      'Login',
+                      'Plato Login',
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -136,7 +137,7 @@ class _LoginDialogState extends State<LoginDialog>
                 TextField(
                   controller: _idController,
                   decoration: const InputDecoration(
-                    labelText: 'ID',
+                    labelText: '학번',
                     prefixIcon: Icon(Icons.person),
                   ),
                 ),
@@ -146,7 +147,7 @@ class _LoginDialogState extends State<LoginDialog>
                 TextField(
                   controller: _pwController,
                   decoration: const InputDecoration(
-                    labelText: 'Password',
+                    labelText: '비밀번호',
                     prefixIcon: Icon(Icons.lock),
                   ),
                   obscureText: true,

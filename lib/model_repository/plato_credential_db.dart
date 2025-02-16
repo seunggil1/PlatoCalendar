@@ -22,7 +22,7 @@ class PlatoCredentialDB {
     }
   }
 
-  static Future<PlatoCredential> read() async {
+  static Future<PlatoCredential?> read() async {
     try {
       final queryResult = await database.read();
       PlatoCredential data = queryResult.toModel();
@@ -36,6 +36,14 @@ class PlatoCredentialDB {
 
       logger.fine('Read plato credential: ${result.id}');
       return result;
+    } on StateError catch (e) {
+      if (e.message == 'No element') {
+        logger.warning('No element found');
+        return null;
+      } else {
+        logger.severe('Failed to readSyncInfo: $e');
+        rethrow;
+      }
     } catch (e, stackTrace) {
       logger.severe('Failed to read plato credential: $e', stackTrace);
       rethrow;

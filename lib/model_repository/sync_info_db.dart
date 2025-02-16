@@ -15,13 +15,13 @@ class SyncInfoDB {
     }
   }
 
-  static Future<SyncInfo> read() async {
+  static Future<SyncInfo?> read() async {
     try {
       return await database.read().then((value) => value.toModel());
     } on StateError catch (e) {
       if (e.message == 'No element') {
         logger.warning('No element found');
-        rethrow;
+        return null;
       } else {
         logger.severe('Failed to readSyncInfo: $e');
         rethrow;
