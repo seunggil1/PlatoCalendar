@@ -88,8 +88,10 @@ class _MaterialCard extends State<MaterialCard> {
     if (subTitle != null) {
       if (isFoldable && secondSubTitle != null) {
         return AnimatedCrossFade(
-            firstChild: Text(subTitle!),
-            secondChild: Text(secondSubTitle!),
+            firstChild: Text(subTitle!,
+                style: TextStyle(overflow: TextOverflow.ellipsis)),
+            secondChild: Text(secondSubTitle!,
+                style: TextStyle(overflow: TextOverflow.ellipsis)),
             crossFadeState: isExpanded
                 ? CrossFadeState.showSecond
                 : CrossFadeState.showFirst,
