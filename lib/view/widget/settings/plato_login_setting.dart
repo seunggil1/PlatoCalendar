@@ -115,9 +115,9 @@ class AfterLoginWidget extends StatelessWidget {
         leading: Padding(
             padding: const EdgeInsets.all(4.0),
             child: Text(
-              '지금 일정 업데이트',
+              '일정 수동 업데이트',
               style:
-                  textTheme.bodyMedium?.copyWith(color: colorScheme.secondary),
+                  textTheme.bodyMedium,
             )),
         trailing: (syncStatusType == SyncStatusType.syncing)
             ? _SyncingWidget()
