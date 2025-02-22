@@ -5,12 +5,15 @@ import 'package:plato_calendar/service/service.dart';
 
 import 'bloc_event/bloc_event.dart';
 import 'task_check_list_bloc.dart';
+import 'plato_sync_info_cubit.dart';
 
 class GlobalPlatoAppointmentBloc
     extends Bloc<GlobalPlatoAppointmentEvent, List<PlatoAppointment>> {
   final TaskCheckListBloc taskCheckListBloc;
+  final PlatoSyncInfoCubit platoSyncInfoCubit;
 
-  GlobalPlatoAppointmentBloc({required this.taskCheckListBloc})
+  GlobalPlatoAppointmentBloc(
+      {required this.platoSyncInfoCubit, required this.taskCheckListBloc})
       : super(<PlatoAppointment>[]) {
     on<LoadPlatoAppointment>((event, emit) async {
       emit(await PlatoAppointmentDB.readAll());
@@ -20,6 +23,7 @@ class GlobalPlatoAppointmentBloc
       await AppSyncHandler.sync();
       add(LoadPlatoAppointment());
       taskCheckListBloc.add(LoadTaskCheckListEvent());
+      platoSyncInfoCubit.updateSyncInfo();
     });
 
     on<DeleteAllPlatoAppointment>((event, emit) async {

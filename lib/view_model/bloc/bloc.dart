@@ -8,3 +8,4 @@ export 'global_display_option_bloc.dart';
 export 'global_plato_appointment_bloc.dart';
 export 'syncfusion_calendar_option_bloc.dart';
 export 'task_check_list_bloc.dart';
+export 'plato_sync_info_cubit.dart';
