@@ -22,8 +22,12 @@ class AppSyncHandler {
         return;
       }
     } catch (e, stackTrace) {
-      logger.severe('Failed to readSyncInfo: $e', stackTrace);
-      rethrow;
+      logger.severe('Failed to plato sync: $e', stackTrace);
+      await SyncInfoDB.write(
+          SyncInfo()
+          ..success = false
+          ..platoSyncTime = DateTime.now()
+          ..failReason = '동기화 실패 : $e');
     }
 
     // update plato calendar
@@ -49,12 +53,8 @@ class AppSyncHandler {
         SyncInfoDB.write(SyncInfo()..platoSyncTime = DateTime.now()),
         PlatoAppointmentDB.writeAll(appointments.toList())
       ]);
-    } on StateError catch (e, stackTrace) {
-      if (e.message != 'No element') {
-        logger.severe('Failed to readCredential: $e', stackTrace);
-      }
     } catch (e, stackTrace) {
-      logger.severe('Failed to readCredential: $e', stackTrace);
+      logger.severe('Failed to updatePlatoAppointment: $e', stackTrace);
       rethrow;
     }
   }
