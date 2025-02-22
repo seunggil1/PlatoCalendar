@@ -6,8 +6,10 @@ part 'sync_info_table.g.dart';
 @TableIndex(name: 'platoSyncTime', columns: {#platoSyncTime})
 class SyncInfoTable extends Table {
   IntColumn get id => integer().autoIncrement()();
-
+  BoolColumn get success => boolean().withDefault(Constant(true))();
   DateTimeColumn get platoSyncTime => dateTime()();
+
+  TextColumn get failReason => text().withDefault(Constant(''))();
 }
 
 @DriftDatabase(tables: [SyncInfoTable])

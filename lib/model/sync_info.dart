@@ -4,7 +4,10 @@ import 'table/table.dart';
 
 class SyncInfo {
   int? id;
+  bool success = true;
   DateTime platoSyncTime = DateTime.now();
+
+  String failReason = '';
 
   SyncInfo();
 
@@ -31,13 +34,17 @@ extension SyncInfoMapper on SyncInfo {
   SyncInfoTableData _toData() {
     return SyncInfoTableData(
       id: id ?? 0,
+      success: success,
       platoSyncTime: platoSyncTime,
+      failReason: failReason,
     );
   }
 
   SyncInfoTableCompanion toSchema() {
     return SyncInfoTableCompanion(
+      success: Value(success),
       platoSyncTime: Value(platoSyncTime),
+      failReason: Value(failReason),
     );
   }
 }
@@ -46,6 +53,8 @@ extension SyncInfoTableMapper on SyncInfoTableData {
   SyncInfo toModel() {
     return SyncInfo()
       ..id = id
-      ..platoSyncTime = platoSyncTime;
+      ..success = success
+      ..platoSyncTime = platoSyncTime
+      ..failReason = failReason;
   }
 }
