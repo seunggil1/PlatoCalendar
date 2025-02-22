@@ -14,7 +14,7 @@ class AppSyncHandler {
       SyncInfo? info = await SyncInfoDB.read();
       if (info == null) {
         logger.fine('No sync info found');
-        return;
+        info = SyncInfo()..platoSyncTime = DateTime(1990);
       }
       // 마지막 동기화로부터 3시간이 지나지 않았다면 동기화를 수행하지 않는다.
       if (DateTime.now().difference(info.platoSyncTime).inHours < 3) {
