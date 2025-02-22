@@ -6,8 +6,8 @@ import 'package:plato_calendar/etc/subject_code.dart';
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:plato_calendar/widget_util/widget_util.dart';
 
-import './widget_util/widget_util.dart';
 import 'duration_header.dart';
 
 class TodoWidget extends StatelessWidget {

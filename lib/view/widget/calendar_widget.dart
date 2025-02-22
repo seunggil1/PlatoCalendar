@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/util/logger.dart';
-import 'package:plato_calendar/view/widget/widget_util/widget_util.dart';
+import 'package:plato_calendar/widget_util/widget_util.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
