@@ -18,7 +18,7 @@ class CalendarWidget extends StatelessWidget {
     SyncfusionCalendarOptionState calendarOptionState =
         context.watch<SyncfusionCalendarOptionBloc>().state;
     List<PlatoAppointment> appointmentState =
-        context.watch<GlobalPlatoAppointmentBloc>().state;
+        context.watch<SyncfusionCalendarAppointmentCubit>().state;
 
     final CalendarOption calendarOption = calendarOptionState.calendarOption;
     CalendarController calendarController =

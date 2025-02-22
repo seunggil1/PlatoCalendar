@@ -6,8 +6,19 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import './widget/calendar_widget.dart';
 
-class SyncfusionCalendarPage extends StatelessWidget {
+class SyncfusionCalendarPage extends StatefulWidget {
   const SyncfusionCalendarPage({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _SyncfusionCalendarPageState();
+}
+
+class _SyncfusionCalendarPageState extends State<SyncfusionCalendarPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<SyncfusionCalendarAppointmentCubit>().loadPlatoAppointment();
+  }
 
   @override
   Widget build(BuildContext context) {

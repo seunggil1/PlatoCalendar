@@ -42,9 +42,9 @@ String getDateTimeLocaleKR(DateTime data) {
 
 /// 한글 날짜 형식으로 변경
 String getFullDateTimeLocaleKR(DateTime time) =>
-    DateFormat('yyyy년 M월 d일 (', 'ko_KR').format(time) +
+    DateFormat('M월 d일 (', 'ko_KR').format(time) +
     weekdayLocaleKR[time.weekday]! +
-    DateFormat(')  a h:mm', 'ko_KR').format(time);
+    DateFormat(') a h:mm', 'ko_KR').format(time);
 
 String getTimeLocaleKR(DateTime time) => DateFormat('HH:mm').format(time);
 

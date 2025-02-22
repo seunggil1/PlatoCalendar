@@ -62,12 +62,13 @@ class MyApp extends StatelessWidget {
               SyncfusionCalendarOptionBloc(Setup.calendarOption)),
       BlocProvider<TaskCheckListBloc>(
           create: (BuildContext context) => TaskCheckListBloc()),
-      BlocProvider<GlobalPlatoAppointmentBloc>(
-          create: (BuildContext context) => GlobalPlatoAppointmentBloc(
-              taskCheckListBloc: context.read<TaskCheckListBloc>())),
-      BlocProvider(
-          create: (BuildContext context) => PlatoSyncInfoCubit(
-              platoCredential: Setup.platoCredential, syncInfo: Setup.syncInfo))
+      BlocProvider<PlatoSyncInfoBloc>(
+          create: (BuildContext context) => PlatoSyncInfoBloc(
+              platoCredential: Setup.platoCredential,
+              syncInfo: Setup.syncInfo)),
+      BlocProvider<SyncfusionCalendarAppointmentCubit>(
+          create: (BuildContext context) =>
+              SyncfusionCalendarAppointmentCubit())
     ], child: const MaterialThemePage());
   }
 }
@@ -111,8 +112,6 @@ class MainBlocPage extends State<InitStatefulPage> {
   @override
   void initState() {
     super.initState();
-    context.read<GlobalPlatoAppointmentBloc>().add(LoadPlatoAppointment());
-    // BlocProvider.of<GlobalPlatoAppointmentBloc>(context).add(LoadPlatoAppointment());
   }
 
   @override

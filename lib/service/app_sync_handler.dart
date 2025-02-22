@@ -1,6 +1,7 @@
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/model_repository/model_repository.dart';
 import 'package:plato_calendar/util/util.dart';
+import 'package:plato_calendar/widget_util/widget_util.dart';
 
 import 'calendar_api.dart';
 import 'calendar_parser.dart';
@@ -17,21 +18,22 @@ class AppSyncHandler {
         info = SyncInfo()..platoSyncTime = DateTime(1990);
       }
       // 마지막 동기화로부터 3시간이 지나지 않았다면 동기화를 수행하지 않는다.
-      if (DateTime.now().difference(info.platoSyncTime).inHours < 3) {
+      if (info.success &&
+          DateTime.now().difference(info.platoSyncTime).inHours < 3) {
         logger.fine('Last sync time is less than 3 hours ago');
+        await Future.delayed(const Duration(seconds: 3));
         return;
       }
+
+      // update plato calendar
+      await updatePlatoAppointment();
     } catch (e, stackTrace) {
       logger.severe('Failed to plato sync: $e', stackTrace);
-      await SyncInfoDB.write(
-          SyncInfo()
-          ..success = false
-          ..platoSyncTime = DateTime.now()
-          ..failReason = '동기화 실패 : $e');
+      await SyncInfoDB.write(SyncInfo()
+        ..success = false
+        ..platoSyncTime = DateTime.now()
+        ..failReason = '$e');
     }
-
-    // update plato calendar
-    await updatePlatoAppointment();
   }
 
   static Future<void> updatePlatoAppointment() async {
