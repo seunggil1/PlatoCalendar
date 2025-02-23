@@ -17,7 +17,6 @@ extension PlatoAppointmentMapper on PlatoAppointment {
 
   PlatoAppointmentTableData _toData() {
     return PlatoAppointmentTableData(
-      id: id ?? 0,
       uid: uid,
       title: title,
       body: body,
@@ -58,7 +57,6 @@ extension PlatoAppointmentMapper on PlatoAppointment {
 extension PlatoAppointmentTableDataMapper on PlatoAppointmentTableData {
   PlatoAppointment toModel() {
     return PlatoAppointment()
-      ..id = id
       ..uid = uid
       ..title = title
       ..body = body

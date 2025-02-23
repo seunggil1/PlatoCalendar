@@ -81,4 +81,41 @@ void main() {
     expect(data.status, readData.status);
     expect(data.dataType, readData.dataType);
   });
+
+  test(
+      'writeAppointment: Should update an appointment to the database '
+      'when the appointment already exists', () async {
+    // 실행
+    final before = testAppointment.copyWith(uid: 'updateTest');
+    final updateData = before.copyWith(finished: !before.finished);
+
+    await PlatoAppointmentDB.write(before);
+    await PlatoAppointmentDB.write(updateData);
+    final after = await PlatoAppointmentDB.readByUid(before.uid);
+
+    // 검증
+    expect(before.uid, after.uid);
+    expect(before.title, after.title);
+    expect(before.body, after.body);
+    expect(before.comment, after.comment);
+    expect(before.subjectCode, after.subjectCode);
+    expect(before.start.year, after.start.year);
+    expect(before.start.month, after.start.month);
+    expect(before.start.day, after.start.day);
+    expect(before.start.hour, after.start.hour);
+    expect(before.start.minute, after.start.minute);
+    expect(before.end.year, after.end.year);
+    expect(before.end.month, after.end.month);
+    expect(before.end.day, after.end.day);
+    expect(before.end.hour, after.end.hour);
+    expect(before.end.minute, after.end.minute);
+    expect(before.createdAt.year, after.createdAt.year);
+    expect(before.createdAt.month, after.createdAt.month);
+    expect(before.createdAt.day, after.createdAt.day);
+    expect(before.createdAt.hour, after.createdAt.hour);
+    expect(before.createdAt.minute, after.createdAt.minute);
+    expect(before.finished, !after.finished);
+    expect(before.status, after.status);
+    expect(before.dataType, after.dataType);
+  });
 }

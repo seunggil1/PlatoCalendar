@@ -33,6 +33,17 @@ class PlatoAppointmentDB {
     }
   }
 
+  static Future<PlatoAppointment> readByUid(String uid) async{
+    try {
+      final result = await database.readByUid(uid);
+      logger.fine('Read appointment by uid: $uid');
+      return result.toModel();
+    } catch (e, stackTrace) {
+      logger.severe('Failed to read appointment by uid: $e', stackTrace);
+      rethrow;
+    }
+  }
+
   static Future<List<PlatoAppointment>> readAll() async {
     try {
       final result = await database.readAll();

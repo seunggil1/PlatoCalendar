@@ -8,18 +8,7 @@ class $PlatoAppointmentTableTable extends PlatoAppointmentTable
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-
   $PlatoAppointmentTableTable(this.attachedDatabase, [this._alias]);
-
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
   static const VerificationMeta _uidMeta = const VerificationMeta('uid');
   @override
   late final GeneratedColumn<String> uid = GeneratedColumn<String>(
@@ -104,10 +93,8 @@ class $PlatoAppointmentTableTable extends PlatoAppointmentTable
   late final GeneratedColumn<int> color = GeneratedColumn<int>(
       'color', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-
   @override
   List<GeneratedColumn> get $columns => [
-        id,
         uid,
         title,
         body,
@@ -123,23 +110,17 @@ class $PlatoAppointmentTableTable extends PlatoAppointmentTable
         dataType,
         color
       ];
-
   @override
   String get aliasedName => _alias ?? actualTableName;
-
   @override
   String get actualTableName => $name;
   static const String $name = 'plato_appointment_table';
-
   @override
   VerificationContext validateIntegrity(
       Insertable<PlatoAppointmentTableData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
     if (data.containsKey('uid')) {
       context.handle(
           _uidMeta, uid.isAcceptableOrUnknown(data['uid']!, _uidMeta));
@@ -220,15 +201,12 @@ class $PlatoAppointmentTableTable extends PlatoAppointmentTable
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-
+  Set<GeneratedColumn> get $primaryKey => {uid};
   @override
   PlatoAppointmentTableData map(Map<String, dynamic> data,
       {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return PlatoAppointmentTableData(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       uid: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}uid'])!,
       title: attachedDatabase.typeMapping
@@ -275,7 +253,6 @@ class $PlatoAppointmentTableTable extends PlatoAppointmentTable
 
 class PlatoAppointmentTableData extends DataClass
     implements Insertable<PlatoAppointmentTableData> {
-  final int id;
   final String uid;
   final String title;
   final String body;
@@ -290,10 +267,8 @@ class PlatoAppointmentTableData extends DataClass
   final Status status;
   final DataType dataType;
   final int color;
-
   const PlatoAppointmentTableData(
-      {required this.id,
-      required this.uid,
+      {required this.uid,
       required this.title,
       required this.body,
       required this.comment,
@@ -307,11 +282,9 @@ class PlatoAppointmentTableData extends DataClass
       required this.status,
       required this.dataType,
       required this.color});
-
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
     map['uid'] = Variable<String>(uid);
     map['title'] = Variable<String>(title);
     map['body'] = Variable<String>(body);
@@ -337,7 +310,6 @@ class PlatoAppointmentTableData extends DataClass
 
   PlatoAppointmentTableCompanion toCompanion(bool nullToAbsent) {
     return PlatoAppointmentTableCompanion(
-      id: Value(id),
       uid: Value(uid),
       title: Value(title),
       body: Value(body),
@@ -359,7 +331,6 @@ class PlatoAppointmentTableData extends DataClass
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return PlatoAppointmentTableData(
-      id: serializer.fromJson<int>(json['id']),
       uid: serializer.fromJson<String>(json['uid']),
       title: serializer.fromJson<String>(json['title']),
       body: serializer.fromJson<String>(json['body']),
@@ -378,12 +349,10 @@ class PlatoAppointmentTableData extends DataClass
       color: serializer.fromJson<int>(json['color']),
     );
   }
-
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
       'uid': serializer.toJson<String>(uid),
       'title': serializer.toJson<String>(title),
       'body': serializer.toJson<String>(body),
@@ -404,8 +373,7 @@ class PlatoAppointmentTableData extends DataClass
   }
 
   PlatoAppointmentTableData copyWith(
-          {int? id,
-          String? uid,
+          {String? uid,
           String? title,
           String? body,
           String? comment,
@@ -420,7 +388,6 @@ class PlatoAppointmentTableData extends DataClass
           DataType? dataType,
           int? color}) =>
       PlatoAppointmentTableData(
-        id: id ?? this.id,
         uid: uid ?? this.uid,
         title: title ?? this.title,
         body: body ?? this.body,
@@ -436,11 +403,9 @@ class PlatoAppointmentTableData extends DataClass
         dataType: dataType ?? this.dataType,
         color: color ?? this.color,
       );
-
   PlatoAppointmentTableData copyWithCompanion(
       PlatoAppointmentTableCompanion data) {
     return PlatoAppointmentTableData(
-      id: data.id.present ? data.id.value : this.id,
       uid: data.uid.present ? data.uid.value : this.uid,
       title: data.title.present ? data.title.value : this.title,
       body: data.body.present ? data.body.value : this.body,
@@ -462,7 +427,6 @@ class PlatoAppointmentTableData extends DataClass
   @override
   String toString() {
     return (StringBuffer('PlatoAppointmentTableData(')
-          ..write('id: $id, ')
           ..write('uid: $uid, ')
           ..write('title: $title, ')
           ..write('body: $body, ')
@@ -482,14 +446,12 @@ class PlatoAppointmentTableData extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(id, uid, title, body, comment, subjectCode,
-      year, semester, start, end, createdAt, finished, status, dataType, color);
-
+  int get hashCode => Object.hash(uid, title, body, comment, subjectCode, year,
+      semester, start, end, createdAt, finished, status, dataType, color);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is PlatoAppointmentTableData &&
-          other.id == this.id &&
           other.uid == this.uid &&
           other.title == this.title &&
           other.body == this.body &&
@@ -508,7 +470,6 @@ class PlatoAppointmentTableData extends DataClass
 
 class PlatoAppointmentTableCompanion
     extends UpdateCompanion<PlatoAppointmentTableData> {
-  final Value<int> id;
   final Value<String> uid;
   final Value<String> title;
   final Value<String> body;
@@ -523,9 +484,8 @@ class PlatoAppointmentTableCompanion
   final Value<Status> status;
   final Value<DataType> dataType;
   final Value<int> color;
-
+  final Value<int> rowid;
   const PlatoAppointmentTableCompanion({
-    this.id = const Value.absent(),
     this.uid = const Value.absent(),
     this.title = const Value.absent(),
     this.body = const Value.absent(),
@@ -540,10 +500,9 @@ class PlatoAppointmentTableCompanion
     this.status = const Value.absent(),
     this.dataType = const Value.absent(),
     this.color = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
-
   PlatoAppointmentTableCompanion.insert({
-    this.id = const Value.absent(),
     required String uid,
     required String title,
     required String body,
@@ -558,6 +517,7 @@ class PlatoAppointmentTableCompanion
     required Status status,
     required DataType dataType,
     required int color,
+    this.rowid = const Value.absent(),
   })  : uid = Value(uid),
         title = Value(title),
         body = Value(body),
@@ -572,9 +532,7 @@ class PlatoAppointmentTableCompanion
         status = Value(status),
         dataType = Value(dataType),
         color = Value(color);
-
   static Insertable<PlatoAppointmentTableData> custom({
-    Expression<int>? id,
     Expression<String>? uid,
     Expression<String>? title,
     Expression<String>? body,
@@ -589,9 +547,9 @@ class PlatoAppointmentTableCompanion
     Expression<String>? status,
     Expression<String>? dataType,
     Expression<int>? color,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
-      if (id != null) 'id': id,
       if (uid != null) 'uid': uid,
       if (title != null) 'title': title,
       if (body != null) 'body': body,
@@ -606,12 +564,12 @@ class PlatoAppointmentTableCompanion
       if (status != null) 'status': status,
       if (dataType != null) 'data_type': dataType,
       if (color != null) 'color': color,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
   PlatoAppointmentTableCompanion copyWith(
-      {Value<int>? id,
-      Value<String>? uid,
+      {Value<String>? uid,
       Value<String>? title,
       Value<String>? body,
       Value<String>? comment,
@@ -624,9 +582,9 @@ class PlatoAppointmentTableCompanion
       Value<bool>? finished,
       Value<Status>? status,
       Value<DataType>? dataType,
-      Value<int>? color}) {
+      Value<int>? color,
+      Value<int>? rowid}) {
     return PlatoAppointmentTableCompanion(
-      id: id ?? this.id,
       uid: uid ?? this.uid,
       title: title ?? this.title,
       body: body ?? this.body,
@@ -641,15 +599,13 @@ class PlatoAppointmentTableCompanion
       status: status ?? this.status,
       dataType: dataType ?? this.dataType,
       color: color ?? this.color,
+      rowid: rowid ?? this.rowid,
     );
   }
 
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
     if (uid.present) {
       map['uid'] = Variable<String>(uid.value);
     }
@@ -694,13 +650,15 @@ class PlatoAppointmentTableCompanion
     if (color.present) {
       map['color'] = Variable<int>(color.value);
     }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
     return map;
   }
 
   @override
   String toString() {
     return (StringBuffer('PlatoAppointmentTableCompanion(')
-          ..write('id: $id, ')
           ..write('uid: $uid, ')
           ..write('title: $title, ')
           ..write('body: $body, ')
@@ -714,7 +672,8 @@ class PlatoAppointmentTableCompanion
           ..write('finished: $finished, ')
           ..write('status: $status, ')
           ..write('dataType: $dataType, ')
-          ..write('color: $color')
+          ..write('color: $color, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
@@ -722,7 +681,6 @@ class PlatoAppointmentTableCompanion
 
 abstract class _$PlatoAppointmentDrift extends GeneratedDatabase {
   _$PlatoAppointmentDrift(QueryExecutor e) : super(e);
-
   $PlatoAppointmentDriftManager get managers =>
       $PlatoAppointmentDriftManager(this);
   late final $PlatoAppointmentTableTable platoAppointmentTable =
@@ -731,11 +689,9 @@ abstract class _$PlatoAppointmentDrift extends GeneratedDatabase {
       'CREATE INDEX finished ON plato_appointment_table (finished)');
   late final Index end =
       Index('end', 'CREATE INDEX "end" ON plato_appointment_table ("end")');
-
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
-
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
       [platoAppointmentTable, finished, end];
@@ -743,7 +699,6 @@ abstract class _$PlatoAppointmentDrift extends GeneratedDatabase {
 
 typedef $$PlatoAppointmentTableTableCreateCompanionBuilder
     = PlatoAppointmentTableCompanion Function({
-  Value<int> id,
   required String uid,
   required String title,
   required String body,
@@ -758,10 +713,10 @@ typedef $$PlatoAppointmentTableTableCreateCompanionBuilder
   required Status status,
   required DataType dataType,
   required int color,
+  Value<int> rowid,
 });
 typedef $$PlatoAppointmentTableTableUpdateCompanionBuilder
     = PlatoAppointmentTableCompanion Function({
-  Value<int> id,
   Value<String> uid,
   Value<String> title,
   Value<String> body,
@@ -776,6 +731,7 @@ typedef $$PlatoAppointmentTableTableUpdateCompanionBuilder
   Value<Status> status,
   Value<DataType> dataType,
   Value<int> color,
+  Value<int> rowid,
 });
 
 class $$PlatoAppointmentTableTableFilterComposer
@@ -787,10 +743,6 @@ class $$PlatoAppointmentTableTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-
-  ColumnFilters<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
-
   ColumnFilters<String> get uid => $composableBuilder(
       column: $table.uid, builder: (column) => ColumnFilters(column));
 
@@ -847,10 +799,6 @@ class $$PlatoAppointmentTableTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-
-  ColumnOrderings<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
-
   ColumnOrderings<String> get uid => $composableBuilder(
       column: $table.uid, builder: (column) => ColumnOrderings(column));
 
@@ -903,10 +851,6 @@ class $$PlatoAppointmentTableTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
   GeneratedColumn<String> get uid =>
       $composableBuilder(column: $table.uid, builder: (column) => column);
 
@@ -981,7 +925,6 @@ class $$PlatoAppointmentTableTableTableManager extends RootTableManager<
               $$PlatoAppointmentTableTableAnnotationComposer(
                   $db: db, $table: table),
           updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
             Value<String> uid = const Value.absent(),
             Value<String> title = const Value.absent(),
             Value<String> body = const Value.absent(),
@@ -996,9 +939,9 @@ class $$PlatoAppointmentTableTableTableManager extends RootTableManager<
             Value<Status> status = const Value.absent(),
             Value<DataType> dataType = const Value.absent(),
             Value<int> color = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
           }) =>
               PlatoAppointmentTableCompanion(
-            id: id,
             uid: uid,
             title: title,
             body: body,
@@ -1013,9 +956,9 @@ class $$PlatoAppointmentTableTableTableManager extends RootTableManager<
             status: status,
             dataType: dataType,
             color: color,
+            rowid: rowid,
           ),
           createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
             required String uid,
             required String title,
             required String body,
@@ -1030,9 +973,9 @@ class $$PlatoAppointmentTableTableTableManager extends RootTableManager<
             required Status status,
             required DataType dataType,
             required int color,
+            Value<int> rowid = const Value.absent(),
           }) =>
               PlatoAppointmentTableCompanion.insert(
-            id: id,
             uid: uid,
             title: title,
             body: body,
@@ -1047,6 +990,7 @@ class $$PlatoAppointmentTableTableTableManager extends RootTableManager<
             status: status,
             dataType: dataType,
             color: color,
+            rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
@@ -1075,9 +1019,7 @@ typedef $$PlatoAppointmentTableTableProcessedTableManager
 
 class $PlatoAppointmentDriftManager {
   final _$PlatoAppointmentDrift _db;
-
   $PlatoAppointmentDriftManager(this._db);
-
   $$PlatoAppointmentTableTableTableManager get platoAppointmentTable =>
       $$PlatoAppointmentTableTableTableManager(_db, _db.platoAppointmentTable);
 }

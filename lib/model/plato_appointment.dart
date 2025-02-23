@@ -14,7 +14,6 @@ part 'plato_appointment_mapper.dart';
 class PlatoAppointment {
   static final logger = LoggerManager.getLogger('Model - PlatoAppointment');
 
-  int? id;
   late String uid;
   late String title = '';
   late String body = '';
@@ -92,7 +91,6 @@ class PlatoAppointment {
 
   /// CopyWith method
   PlatoAppointment copyWith({
-    int? id,
     String? uid,
     String? title,
     String? body,
@@ -108,7 +106,6 @@ class PlatoAppointment {
     DataType? dataType,
   }) {
     return PlatoAppointment()
-      ..id = id ?? this.id
       ..uid = uid ?? this.uid
       ..title = title ?? this.title
       ..body = body ?? this.body

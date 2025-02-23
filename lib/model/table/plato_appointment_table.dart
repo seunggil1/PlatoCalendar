@@ -11,8 +11,6 @@ enum DataType { school, etc }
 @TableIndex(name: 'finished', columns: {#finished})
 @TableIndex(name: 'end', columns: {#end})
 class PlatoAppointmentTable extends Table {
-  IntColumn get id => integer().autoIncrement()();
-
   TextColumn get uid => text().unique()();
 
   TextColumn get title => text()();
@@ -40,6 +38,9 @@ class PlatoAppointmentTable extends Table {
   TextColumn get dataType => textEnum<DataType>()();
 
   IntColumn get color => integer()();
+
+  @override
+  Set<Column> get primaryKey => {uid};
 }
 
 @DriftDatabase(tables: [PlatoAppointmentTable])
@@ -55,7 +56,7 @@ class PlatoAppointmentDrift extends _$PlatoAppointmentDrift {
 
   Future<void> write(PlatoAppointmentTableCompanion data) async {
     await transaction(() async {
-      return await into(platoAppointmentTable).insert(data);
+      return await into(platoAppointmentTable).insertOnConflictUpdate(data);
     });
   }
 
@@ -74,16 +75,16 @@ class PlatoAppointmentDrift extends _$PlatoAppointmentDrift {
         .get();
   }
 
-  Future<PlatoAppointmentTableData> readById(int id) async {
+  Future<PlatoAppointmentTableData> readByUid(String uid) async {
     return await (select(platoAppointmentTable)
-          ..where((tbl) => tbl.id.equals(id)))
+          ..where((tbl) => tbl.uid.equals(uid)))
         .getSingle();
   }
 
-  Future<void> deleteById(int id) async {
+  Future<void> deleteById(String uid) async {
     await transaction(() async {
       return await (delete(platoAppointmentTable)
-            ..where((col) => col.id.equals(id)))
+            ..where((col) => col.uid.equals(uid)))
           .go();
     });
   }
