@@ -7,14 +7,19 @@ import 'package:plato_calendar/model_repository/model_repository.dart';
 import 'bloc_event/bloc_event.dart';
 import 'bloc_state/bloc_state.dart';
 
-class TodoListBloc extends Bloc<TodoListEvent, TaskCheckListState> {
-  TodoListBloc() : super(TaskCheckListState()) {
+class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
+  TodoListBloc() : super(TodoListState()) {
     on<LoadTodoList>((event, emit) async {
       final taskCheckListDisplayOption =
           await TaskCheckListDisplayOptionDB.read();
 
       final data = await _readData(taskCheckListDisplayOption);
       emit(data);
+    });
+
+    on<UpdateTodo>((event, emit) async {
+      await PlatoAppointmentDB.write(event.appointment);
+      add(LoadTodoList());
     });
 
     on<ChangeTodoDisplayOption>((event, emit) async {
@@ -29,7 +34,8 @@ class TodoListBloc extends Bloc<TodoListEvent, TaskCheckListState> {
     });
   }
 
-  Future<TaskCheckListState> _readData(TaskCheckListDisplayOption option) async {
+  Future<TodoListState> _readData(
+      TaskCheckListDisplayOption option) async {
     final readRequestList = [];
 
     option.showToDoList.asMap().forEach((index, show) {
@@ -57,7 +63,7 @@ class TodoListBloc extends Bloc<TodoListEvent, TaskCheckListState> {
       // }
     });
 
-    final result = TaskCheckListState(
+    final result = TodoListState(
       taskCheckListDisplayOption: option,
       taskCheckListPassed: data[0],
       taskCheckList6Hour: data[1],

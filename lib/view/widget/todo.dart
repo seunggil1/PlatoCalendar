@@ -17,7 +17,7 @@ class TodoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TodoListBloc, TaskCheckListState>(
+    return BlocBuilder<TodoListBloc, TodoListState>(
         builder: (context, state) {
       bool showToList =
           state.taskCheckListDisplayOption.showToDoList[durationIndex];
@@ -94,11 +94,12 @@ class _TodoWidget extends StatelessWidget {
                 checkColor: Colors.black26, // 선택했을 때 체크표시 color
                 value: appointmentData.finished,
                 onChanged: (value) {
-                  // TODO : 일정 완료 상태 변경
-                  // context.read<TaskCheckListBloc>().add(
-                  //     ChangeTaskCheckListFinished(appointmentData.id, value!));
-                  appointmentData.finished = value!;
-                  if (value) showSnackBar(context, '완료된 일정으로 변경했습니다.');
+                  if(value == null) return;
+                  final nextAppointmentData = appointmentData.copyWith(
+                      finished: value
+                  );
+                  context.read<TodoListBloc>().add(UpdateTodo(nextAppointmentData));
+                  showSnackBar(context, '완료된 일정으로 변경했습니다.');
                 }),
             Container(
                 width: 5,

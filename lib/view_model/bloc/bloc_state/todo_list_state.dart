@@ -2,7 +2,7 @@ import 'dart:collection';
 
 import 'package:plato_calendar/model/model.dart';
 
-final class TaskCheckListState with ListMixin<List<PlatoAppointment>> {
+final class TodoListState with ListMixin<List<PlatoAppointment>> {
   late TaskCheckListDisplayOption taskCheckListDisplayOption;
   final List<PlatoAppointment> taskCheckListPassed;
   final List<PlatoAppointment> taskCheckList6Hour;
@@ -13,7 +13,7 @@ final class TaskCheckListState with ListMixin<List<PlatoAppointment>> {
   final List<PlatoAppointment> taskCheckListMoreThanWeek;
   final List<PlatoAppointment> taskCheckListComplete;
 
-  TaskCheckListState({
+  TodoListState({
     TaskCheckListDisplayOption? taskCheckListDisplayOption,
     this.taskCheckListPassed = const [],
     this.taskCheckList6Hour = const [],

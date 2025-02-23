@@ -21,4 +21,7 @@ class UpdateTodo extends TodoListEvent {
   final PlatoAppointment appointment;
 
   UpdateTodo(this.appointment);
+
+  @override
+  List<Object?> get props => [appointment];
 }
