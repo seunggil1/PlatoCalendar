@@ -13,9 +13,7 @@ class $PlatoAppointmentTableTable extends PlatoAppointmentTable
   @override
   late final GeneratedColumn<String> uid = GeneratedColumn<String>(
       'uid', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
@@ -689,12 +687,14 @@ abstract class _$PlatoAppointmentDrift extends GeneratedDatabase {
       'CREATE INDEX finished ON plato_appointment_table (finished)');
   late final Index end =
       Index('end', 'CREATE INDEX "end" ON plato_appointment_table ("end")');
+  late final Index subjectCode = Index('subjectCode',
+      'CREATE INDEX subjectCode ON plato_appointment_table (subject_code)');
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [platoAppointmentTable, finished, end];
+      [platoAppointmentTable, finished, end, subjectCode];
 }
 
 typedef $$PlatoAppointmentTableTableCreateCompanionBuilder

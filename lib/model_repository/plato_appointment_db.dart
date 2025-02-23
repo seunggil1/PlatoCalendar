@@ -33,24 +33,36 @@ class PlatoAppointmentDB {
     }
   }
 
-  static Future<PlatoAppointment> readByUid(String uid) async{
-    try {
-      final result = await database.readByUid(uid);
-      logger.fine('Read appointment by uid: $uid');
-      return result.toModel();
-    } catch (e, stackTrace) {
-      logger.severe('Failed to read appointment by uid: $e', stackTrace);
-      rethrow;
-    }
-  }
-
-  static Future<List<PlatoAppointment>> readAll({required bool showFinished}) async {
+  static Future<List<PlatoAppointment>> readAll(
+      {required bool showFinished}) async {
     try {
       final result = await database.readAll(showFinished: showFinished);
       logger.fine('Read all appointments: ${result.length}');
       return result.map((e) => e.toModel()).toList();
     } catch (e, stackTrace) {
       logger.severe('Failed to readAllAppointments: $e', stackTrace);
+      rethrow;
+    }
+  }
+
+  static Future<List<String>> readAllSubjectCode() async {
+    try {
+      final result = await database.readAllSubjectCode();
+      logger.fine('Read all subject code: ${result.length}');
+      return result;
+    } catch (e, stackTrace) {
+      logger.severe('Failed to readAllSubjectCode: $e', stackTrace);
+      rethrow;
+    }
+  }
+
+  static Future<PlatoAppointment> readByUid(String uid) async {
+    try {
+      final result = await database.readByUid(uid);
+      logger.fine('Read appointment by uid: $uid');
+      return result.toModel();
+    } catch (e, stackTrace) {
+      logger.severe('Failed to read appointment by uid: $e', stackTrace);
       rethrow;
     }
   }

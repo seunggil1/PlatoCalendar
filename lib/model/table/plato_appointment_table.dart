@@ -10,8 +10,9 @@ enum DataType { school, etc }
 
 @TableIndex(name: 'finished', columns: {#finished})
 @TableIndex(name: 'end', columns: {#end})
+@TableIndex(name: 'subjectCode', columns: {#subjectCode})
 class PlatoAppointmentTable extends Table {
-  TextColumn get uid => text().unique()();
+  TextColumn get uid => text()();
 
   TextColumn get title => text()();
 
@@ -80,6 +81,17 @@ class PlatoAppointmentDrift extends _$PlatoAppointmentDrift {
       (t) => OrderingTerm(expression: t.end, mode: OrderingMode.asc),
     ]);
     return query.get();
+  }
+
+  Future<List<String>> readAllSubjectCode() async {
+    final query = selectOnly(platoAppointmentTable, distinct: true)
+      ..addColumns([platoAppointmentTable.subjectCode]);
+
+    final rows = await query.get();
+    return rows
+        .map((row) => row.read(platoAppointmentTable.subjectCode))
+        .whereType<String>()
+        .toList();
   }
 
   Future<PlatoAppointmentTableData> readByUid(String uid) async {

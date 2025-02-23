@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plato_calendar/model/plato_appointment.dart';
 import 'package:plato_calendar/model_repository/model_repository.dart';
+import 'package:plato_calendar/service/service.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -44,6 +45,19 @@ void main() {
       ..semester = '10';
   });
 
+  test('readAllSubjectCode: Should read all subject code from the database',
+      () async {
+    // 실행
+    final filePath = 'assets/ics/icalexport(0915)_time_error.ics';
+    final fileContent = await rootBundle.loadString(filePath);
+    final List<PlatoAppointment> result = CalendarParser.parse(fileContent);
+    await PlatoAppointmentDB.writeAll(result);
+    List<String> data = await PlatoAppointmentDB.readAllSubjectCode();
+
+    // 검증
+    expect(data, isNotEmpty);
+    expect(data, isA<List<String>>());
+  });
   test('writeAppointment: Should write an appointment to the database',
       () async {
     // 실행
