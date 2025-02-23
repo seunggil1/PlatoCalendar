@@ -6,7 +6,7 @@ class SyncfusionCalendarAppointmentCubit
     extends Cubit<List<PlatoAppointment>> {
   SyncfusionCalendarAppointmentCubit() : super(<PlatoAppointment>[]);
 
-  void loadPlatoAppointment() async {
-    emit(await PlatoAppointmentDB.readAll());
+  void loadPlatoAppointment({required bool showFinished}) async {
+    emit(await PlatoAppointmentDB.readAll(showFinished: showFinished));
   }
 }

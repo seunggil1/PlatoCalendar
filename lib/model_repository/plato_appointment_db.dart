@@ -18,7 +18,7 @@ class PlatoAppointmentDB {
 
   static Future<void> writeAll(List<PlatoAppointment> data) async {
     try {
-      final originalData = await database.readAll();
+      final originalData = await database.readAll(showFinished: true);
       final originalUidSet = originalData.map((e) => e.toModel().uid).toSet();
 
       final updateTargetList =
@@ -44,9 +44,9 @@ class PlatoAppointmentDB {
     }
   }
 
-  static Future<List<PlatoAppointment>> readAll() async {
+  static Future<List<PlatoAppointment>> readAll({required bool showFinished}) async {
     try {
-      final result = await database.readAll();
+      final result = await database.readAll(showFinished: showFinished);
       logger.fine('Read all appointments: ${result.length}');
       return result.map((e) => e.toModel()).toList();
     } catch (e, stackTrace) {

@@ -93,13 +93,15 @@ class _TodoWidget extends StatelessWidget {
                 activeColor: Colors.grey, // 선택했을 때 체크박스 background color
                 checkColor: Colors.black26, // 선택했을 때 체크표시 color
                 value: appointmentData.finished,
-                onChanged: (value) {
-                  if(value == null) return;
+                onChanged: (finished) {
+                  if(finished == null) return;
                   final nextAppointmentData = appointmentData.copyWith(
-                      finished: value
+                      finished: finished
                   );
                   context.read<TodoListBloc>().add(UpdateTodo(nextAppointmentData));
-                  showSnackBar(context, '완료된 일정으로 변경했습니다.');
+                  if(finished) {
+                    showSnackBar(context, '완료된 일정으로 변경했습니다.');
+                  }
                 }),
             Container(
                 width: 5,

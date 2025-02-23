@@ -68,11 +68,18 @@ class PlatoAppointmentDrift extends _$PlatoAppointmentDrift {
     });
   }
 
-  Future<List<PlatoAppointmentTableData>> readAll() async {
-    return await (select(platoAppointmentTable)
-          ..orderBy(
-              [(t) => OrderingTerm(expression: t.end, mode: OrderingMode.asc)]))
-        .get();
+  Future<List<PlatoAppointmentTableData>> readAll(
+      {required bool showFinished}) {
+    final query = select(platoAppointmentTable);
+
+    // showFinished가 false이면, finished가 false인 것만 가져옴
+    if (!showFinished) {
+      query.where((tbl) => tbl.finished.equals(false));
+    }
+    query.orderBy([
+      (t) => OrderingTerm(expression: t.end, mode: OrderingMode.asc),
+    ]);
+    return query.get();
   }
 
   Future<PlatoAppointmentTableData> readByUid(String uid) async {

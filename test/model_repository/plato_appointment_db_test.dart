@@ -47,12 +47,12 @@ void main() {
   test('writeAppointment: Should write an appointment to the database',
       () async {
     // 실행
-    final before = await PlatoAppointmentDB.readAll();
+    final before = await PlatoAppointmentDB.readAll(showFinished: true);
 
     final data = testAppointment.copyWith();
     await PlatoAppointmentDB.write(data);
 
-    final after = await PlatoAppointmentDB.readAll();
+    final after = await PlatoAppointmentDB.readAll(showFinished: true);
     expect(before.length + 1, after.length);
 
     final readData = after.last;

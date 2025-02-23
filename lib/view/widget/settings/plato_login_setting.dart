@@ -17,9 +17,14 @@ class PlatoLoginSetting extends StatelessWidget {
         listener: (context, state) {
       if (state.syncStatus == SyncStatusType.synced &&
           (state.syncInfo?.success ?? false)) {
+        bool showFinished = context
+            .read<SyncfusionCalendarOptionBloc>()
+            .state
+            .calendarOption
+            .showFinished;
         context
             .read<SyncfusionCalendarAppointmentCubit>()
-            .loadPlatoAppointment();
+            .loadPlatoAppointment(showFinished: showFinished);
         context.read<TodoListBloc>().add(LoadTodoList());
       }
     }, builder: (context, state) {
@@ -116,8 +121,7 @@ class AfterLoginWidget extends StatelessWidget {
             padding: const EdgeInsets.all(4.0),
             child: Text(
               '일정 수동 업데이트',
-              style:
-                  textTheme.bodyMedium,
+              style: textTheme.bodyMedium,
             )),
         trailing: (syncStatusType == SyncStatusType.syncing)
             ? _SyncingWidget()
