@@ -12,8 +12,9 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
     on<LoadTodoList>((event, emit) async {
       final taskCheckListDisplayOption =
           await TaskCheckListDisplayOptionDB.read();
+      final subjectCodeList = await PlatoAppointmentDB.readAllSubjectCode();
 
-      final data = await _readData(taskCheckListDisplayOption);
+      final data = await _readData(subjectCodeList, taskCheckListDisplayOption);
       emit(data);
     });
 
@@ -29,13 +30,13 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
           !nextOption.showToDoList[event.changeIndex];
 
       await TaskCheckListDisplayOptionDB.write(nextOption);
-      final data = await _readData(nextOption);
+      final data = await _readData(state.subjectCodeList, nextOption);
       emit(data);
     });
   }
 
   Future<TodoListState> _readData(
-      TaskCheckListDisplayOption option) async {
+      List<String> subjectCodeList, TaskCheckListDisplayOption option) async {
     final readRequestList = [];
 
     option.showToDoList.asMap().forEach((index, show) {
@@ -64,6 +65,7 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
     });
 
     final result = TodoListState(
+      subjectCodeList: subjectCodeList,
       taskCheckListDisplayOption: option,
       taskCheckListPassed: data[0],
       taskCheckList6Hour: data[1],

@@ -8,6 +8,7 @@ import 'package:plato_calendar/view_model/view_model.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:plato_calendar/widget_util/widget_util.dart';
 
+import 'appointment_editor/appointment_editor.dart';
 import 'duration_header.dart';
 
 class TodoWidget extends StatelessWidget {
@@ -17,8 +18,7 @@ class TodoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TodoListBloc, TodoListState>(
-        builder: (context, state) {
+    return BlocBuilder<TodoListBloc, TodoListState>(builder: (context, state) {
       bool showToList =
           state.taskCheckListDisplayOption.showToDoList[durationIndex];
       // 데이터가 없음 -> fold / unfold 옵션이 필요없으니 생략
@@ -27,8 +27,9 @@ class TodoWidget extends StatelessWidget {
       } else {
         List<Widget> todoWidgetList = [
           ...showToList
-              ? state[durationIndex]
-                  .map((task) => _TodoWidget(appointmentData: task))
+              ? state[durationIndex].map((task) => _TodoWidget(
+                  subjectCodeList: state.subjectCodeList,
+                  appointmentData: task))
               : <Widget>[]
         ];
 
@@ -55,11 +56,13 @@ class TodoWidget extends StatelessWidget {
 }
 
 class _TodoWidget extends StatelessWidget {
+  final List<String> subjectCodeList;
   final PlatoAppointment appointmentData;
   final DateTime startDay;
   final DateTime endDay;
 
   _TodoWidget({
+    required this.subjectCodeList,
     required this.appointmentData,
   })  : startDay = DateTime(
           appointmentData.start.year,
@@ -80,9 +83,11 @@ class _TodoWidget extends StatelessWidget {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                return Container();
+                return AppointmentEditorDialog.fromPlatoAppointment(
+                    appointmentData,
+                    subjectCodeList: subjectCodeList);
                 // PopUpAppointmentEditor(data);
-              }).then((value) => debugPrint('1'));
+              }).then((value) => debugPrint('Closed AppointmentEditor: $value'));
         },
         style: TextButton.styleFrom(
           padding: EdgeInsets.all(0),
@@ -94,11 +99,12 @@ class _TodoWidget extends StatelessWidget {
                 checkColor: Colors.black26, // 선택했을 때 체크표시 color
                 value: appointmentData.finished,
                 onChanged: (finished) {
-                  if(finished == null) return;
-                  final nextAppointmentData = appointmentData.copyWith(
-                      finished: finished
-                  );
-                  context.read<TodoListBloc>().add(UpdateTodo(nextAppointmentData));
+                  if (finished == null) return;
+                  final nextAppointmentData =
+                      appointmentData.copyWith(finished: finished);
+                  context
+                      .read<TodoListBloc>()
+                      .add(UpdateTodo(nextAppointmentData));
                   bool showFinished = context
                       .read<SyncfusionCalendarOptionBloc>()
                       .state
@@ -107,7 +113,7 @@ class _TodoWidget extends StatelessWidget {
                   context
                       .read<SyncfusionCalendarAppointmentCubit>()
                       .loadPlatoAppointment(showFinished: showFinished);
-                  if(finished) {
+                  if (finished) {
                     showSnackBar(context, '완료된 일정으로 변경했습니다.');
                   }
                 }),
@@ -136,8 +142,9 @@ class _TodoWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          subjectCode.containsKey(appointmentData.subjectCode)
-                              ? subjectCode[appointmentData.subjectCode]!
+                          subjectCodeToName
+                                  .containsKey(appointmentData.subjectCode)
+                              ? subjectCodeToName[appointmentData.subjectCode]!
                               : appointmentData.subjectCode,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
