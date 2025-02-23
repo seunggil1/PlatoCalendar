@@ -37,10 +37,10 @@ class CalendarWidget extends StatelessWidget {
       todayHighlightColor: colorScheme.primary,
       scheduleViewSettings: getScheduleViewSettings(colorScheme),
       initialDisplayDate: calendarController.displayDate,
-      onTap: (CalendarTapDetails data) {
+      onTap: (CalendarTapDetails data) async {
         onTapCallBack(context, data, calendarOptionState);
       },
-      onLongPress: (CalendarLongPressDetails data) {
+      onLongPress: (CalendarLongPressDetails data) async {
         onLongTapCallBack(context, data, calendarOptionState);
       },
     );
@@ -78,9 +78,12 @@ class CalendarWidget extends StatelessWidget {
 }
 
 void onTapCallBack(BuildContext context, CalendarTapDetails tapDetail,
-    SyncfusionCalendarOptionState calendarOptionState) {
+    SyncfusionCalendarOptionState calendarOptionState) async {
+  // List<String> subjectCodeList = context.watch<TodoListBloc>().state.subjectCodeList;
+
   if (calendarOptionState.calendarOption.showAgenda) {
     if (tapDetail.targetElement == CalendarElement.appointment) {
+      String uidHash = tapDetail.appointments?.first.resourceIds.first;
       showSnackBar(context, 'Show Appointment Editor');
     }
   } else {
