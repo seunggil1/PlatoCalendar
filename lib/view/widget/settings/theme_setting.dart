@@ -17,7 +17,10 @@ class ThemeSettingWidget extends StatelessWidget {
       title: '테마 설정',
       subTitle: themeDescriptionLocaleKR[themeMode] ?? '',
       isFoldable: false,
-      children: [_ThemeSetting()],
+      children: [
+        _ThemeSetting(),
+        const SizedBox(height: 6)
+      ]
     );
   }
 }
