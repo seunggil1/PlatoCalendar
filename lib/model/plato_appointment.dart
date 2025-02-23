@@ -104,6 +104,7 @@ class PlatoAppointment {
     bool? finished,
     Status? status,
     DataType? dataType,
+    int? color,
   }) {
     return PlatoAppointment()
       ..uid = uid ?? this.uid
@@ -118,7 +119,8 @@ class PlatoAppointment {
       ..createdAt = createdAt ?? this.createdAt
       ..finished = finished ?? this.finished
       ..status = status ?? this.status
-      ..dataType = dataType ?? this.dataType;
+      ..dataType = dataType ?? this.dataType
+      ..color = color ?? this.color;
   }
 
   @override
@@ -134,6 +136,6 @@ class PlatoAppointment {
 
   @override
   String toString() {
-    return 'Appointment{uid: $uid, title: $title, body: $body, comment: $comment, subjectCode: $subjectCode, year: $year, semester: $semester, start: $start, end: $end, createdAt: $createdAt, finished: $finished, status: $status, dataType: $dataType}';
+    return 'Appointment{uid: $uid, title: $title, body: $body, comment: $comment, subjectCode: $subjectCode, year: $year, semester: $semester, start: $start, end: $end, createdAt: $createdAt, finished: $finished, status: $status, dataType: $dataType, color: $color}';
   }
 }
