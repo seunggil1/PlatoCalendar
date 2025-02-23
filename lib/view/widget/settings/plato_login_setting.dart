@@ -20,7 +20,7 @@ class PlatoLoginSetting extends StatelessWidget {
         context
             .read<SyncfusionCalendarAppointmentCubit>()
             .loadPlatoAppointment();
-        context.read<TaskCheckListBloc>().add(LoadTaskCheckListEvent());
+        context.read<TodoListBloc>().add(LoadTodoList());
       }
     }, builder: (context, state) {
       PlatoCredential? platoCredential = state.platoCredential;

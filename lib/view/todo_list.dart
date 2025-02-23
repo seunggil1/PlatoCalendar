@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plato_calendar/view/widget/widget.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
 
-class TaskCheckListPage extends StatefulWidget {
-  const TaskCheckListPage({super.key});
+class TodoListPage extends StatefulWidget {
+  const TodoListPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -12,11 +12,11 @@ class TaskCheckListPage extends StatefulWidget {
   }
 }
 
-class _PageState extends State<TaskCheckListPage> {
+class _PageState extends State<TodoListPage> {
   @override
   void initState() {
     super.initState();
-    context.read<TaskCheckListBloc>().add(LoadTaskCheckListEvent());
+    context.read<TodoListBloc>().add(LoadTodoList());
   }
 
   @override

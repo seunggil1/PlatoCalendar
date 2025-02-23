@@ -32,7 +32,7 @@ Widget getWideMainPage(BuildContext context, int tapIndex) {
                       VerticalDivider(width: 1, color: Colors.grey[300]),
                       Expanded(
                         flex: 1, // 우측: 할일
-                        child: TaskCheckListPage(),
+                        child: TodoListPage(),
                       ),
                     ],
                   )

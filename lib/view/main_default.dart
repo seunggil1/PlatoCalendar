@@ -23,7 +23,7 @@ Widget getDefaultMainPage(BuildContext context, int tapIndex) {
         body: SafeArea(
             child: IndexedStack(index: tapIndex, children: const [
           SyncfusionCalendarPage(),
-          TaskCheckListPage(),
+          TodoListPage(),
           SettingPage()
         ])),
         bottomNavigationBar: NavigationBar(

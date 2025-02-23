@@ -60,8 +60,8 @@ class MyApp extends StatelessWidget {
       BlocProvider<SyncfusionCalendarOptionBloc>(
           create: (BuildContext context) =>
               SyncfusionCalendarOptionBloc(Setup.calendarOption)),
-      BlocProvider<TaskCheckListBloc>(
-          create: (BuildContext context) => TaskCheckListBloc()),
+      BlocProvider<TodoListBloc>(
+          create: (BuildContext context) => TodoListBloc()),
       BlocProvider<PlatoSyncInfoBloc>(
           create: (BuildContext context) => PlatoSyncInfoBloc(
               platoCredential: Setup.platoCredential,

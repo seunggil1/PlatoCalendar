@@ -23,8 +23,8 @@ class DurationHeaderWidget extends StatelessWidget {
         child: GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () {
-              final bloc = context.read<TaskCheckListBloc>();
-              bloc.add(ChangeTaskCheckListDisplayOption(index));
+              final bloc = context.read<TodoListBloc>();
+              bloc.add(ChangeTodoDisplayOption(index));
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

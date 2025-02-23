@@ -7,29 +7,29 @@ import 'package:plato_calendar/model_repository/model_repository.dart';
 import 'bloc_event/bloc_event.dart';
 import 'bloc_state/bloc_state.dart';
 
-class TaskCheckListBloc extends Bloc<TaskCheckListEvent, TaskCheckListState> {
-  TaskCheckListBloc() : super(TaskCheckListState()) {
-    on<LoadTaskCheckListEvent>((event, emit) async {
+class TodoListBloc extends Bloc<TodoListEvent, TaskCheckListState> {
+  TodoListBloc() : super(TaskCheckListState()) {
+    on<LoadTodoList>((event, emit) async {
       final taskCheckListDisplayOption =
           await TaskCheckListDisplayOptionDB.read();
 
-      final data = await readData(taskCheckListDisplayOption);
+      final data = await _readData(taskCheckListDisplayOption);
       emit(data);
     });
 
-    on<ChangeTaskCheckListDisplayOption>((event, emit) async {
+    on<ChangeTodoDisplayOption>((event, emit) async {
       TaskCheckListDisplayOption nextOption =
           state.taskCheckListDisplayOption.copyWith();
       nextOption.showToDoList[event.changeIndex] =
           !nextOption.showToDoList[event.changeIndex];
 
       await TaskCheckListDisplayOptionDB.write(nextOption);
-      final data = await readData(nextOption);
+      final data = await _readData(nextOption);
       emit(data);
     });
   }
 
-  Future<TaskCheckListState> readData(TaskCheckListDisplayOption option) async {
+  Future<TaskCheckListState> _readData(TaskCheckListDisplayOption option) async {
     final readRequestList = [];
 
     option.showToDoList.asMap().forEach((index, show) {

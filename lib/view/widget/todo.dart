@@ -17,7 +17,7 @@ class TodoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TaskCheckListBloc, TaskCheckListState>(
+    return BlocBuilder<TodoListBloc, TaskCheckListState>(
         builder: (context, state) {
       bool showToList =
           state.taskCheckListDisplayOption.showToDoList[durationIndex];
@@ -95,6 +95,8 @@ class _TodoWidget extends StatelessWidget {
                 value: appointmentData.finished,
                 onChanged: (value) {
                   // TODO : 일정 완료 상태 변경
+                  // context.read<TaskCheckListBloc>().add(
+                  //     ChangeTaskCheckListFinished(appointmentData.id, value!));
                   appointmentData.finished = value!;
                   if (value) showSnackBar(context, '완료된 일정으로 변경했습니다.');
                 }),
