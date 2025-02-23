@@ -16,6 +16,7 @@ dependencies:
 
   icalendar_parser: ^2.1.0
   syncfusion_flutter_calendar: ^28.2.6   # calendar
+  flutter_datetime_picker_plus: ^2.2.0   # datetime picker
 
   flutter_bloc: ^9.0.0   # bloc 디자인 패턴 적용
   responsive_sizer: ^3.3.1
