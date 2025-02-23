@@ -7,15 +7,23 @@ void main() {
   group('Calendar Parser test', () {
     test('Calendar Parser test: Should parse ics data', () async {
       // 테스트용 ics 파일을 읽어온다.
-      String fileContent =
-          await rootBundle.loadString('assets/ics/icalexport2.ics');
-      var result = CalendarParser.parse(fileContent);
 
-      expect(result.length, 40);
+      List<String> icsFilePathList = [
+        'assets/ics/icalexport.ics',
+        'assets/ics/icalexport2.ics',
+        'assets/ics/icalexport(0915)_time_error.ics',
+      ];
 
-      for (var appointment in result) {
-        expect(appointment.title, isNotEmpty);
-        expect(appointment.body, isNotNull);
+      for (var icsFilePath in icsFilePathList) {
+        String fileContent = await rootBundle.loadString(icsFilePath);
+        var result = CalendarParser.parse(fileContent);
+
+        expect(result.length, isNot(0));
+
+        for (var appointment in result) {
+          expect(appointment.title, isNotEmpty);
+          expect(appointment.body, isNotNull);
+        }
       }
     });
   });

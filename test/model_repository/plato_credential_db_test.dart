@@ -85,8 +85,9 @@ void main() {
 
       final readData = await PlatoCredentialDB.read();
 
-      expect(testPlatoCredential.username, readData.username);
-      expect(testPlatoCredential.password, readData.password);
+      expect(readData, isNotNull);
+      expect(testPlatoCredential.username, readData!.username);
+      expect(testPlatoCredential.password, readData!.password);
     });
   });
 }

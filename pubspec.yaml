@@ -50,4 +50,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - assets/ics/icalexport(0915)_time_error.ics
+    - assets/ics/icalexport.ics
     - assets/ics/icalexport2.ics
