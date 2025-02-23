@@ -99,6 +99,14 @@ class _TodoWidget extends StatelessWidget {
                       finished: finished
                   );
                   context.read<TodoListBloc>().add(UpdateTodo(nextAppointmentData));
+                  bool showFinished = context
+                      .read<SyncfusionCalendarOptionBloc>()
+                      .state
+                      .calendarOption
+                      .showFinished;
+                  context
+                      .read<SyncfusionCalendarAppointmentCubit>()
+                      .loadPlatoAppointment(showFinished: showFinished);
                   if(finished) {
                     showSnackBar(context, '완료된 일정으로 변경했습니다.');
                   }

@@ -5,6 +5,10 @@ import 'package:plato_calendar/view_model/view_model.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 Widget getWideMainPage(BuildContext context, int tapIndex) {
+  if (tapIndex >= 2) {
+    tapIndex = 0;
+  }
+
   return ResponsiveSizer(builder: (context, orientation, screenType) {
     return Scaffold(
         appBar: tapIndex != 1
