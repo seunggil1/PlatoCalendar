@@ -6,6 +6,7 @@ final class TodoListState with ListMixin<List<PlatoAppointment>> {
   TaskCheckListDisplayOption taskCheckListDisplayOption;
 
   final List<String> subjectCodeList;
+  final String subjectCodeFilter;
   final List<PlatoAppointment> taskCheckListPassed;
   final List<PlatoAppointment> taskCheckList6Hour;
   final List<PlatoAppointment> taskCheckList12Hour;
@@ -17,6 +18,7 @@ final class TodoListState with ListMixin<List<PlatoAppointment>> {
 
   TodoListState({
     TaskCheckListDisplayOption? taskCheckListDisplayOption,
+    String? subjectCodeFilter,
     this.subjectCodeList = const ['전체'],
     this.taskCheckListPassed = const [],
     this.taskCheckList6Hour = const [],
@@ -26,7 +28,8 @@ final class TodoListState with ListMixin<List<PlatoAppointment>> {
     this.taskCheckListWeek = const [],
     this.taskCheckListMoreThanWeek = const [],
     this.taskCheckListComplete = const [],
-  }) : taskCheckListDisplayOption = taskCheckListDisplayOption ?? TaskCheckListDisplayOption();
+  }) : taskCheckListDisplayOption = taskCheckListDisplayOption ?? TaskCheckListDisplayOption(),
+       subjectCodeFilter = subjectCodeFilter ?? subjectCodeList[0];
 
   List<List<PlatoAppointment>> get _lists => [
         taskCheckListPassed,

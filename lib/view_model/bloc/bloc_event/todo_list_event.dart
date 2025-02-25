@@ -6,7 +6,14 @@ sealed class TodoListEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class LoadTodoList extends TodoListEvent {}
+class LoadTodoList extends TodoListEvent {
+  final String? subjectCodeFilter;
+
+  LoadTodoList({this.subjectCodeFilter});
+
+  @override
+  List<Object?> get props => [subjectCodeFilter];
+}
 
 class ChangeTodoDisplayOption extends TodoListEvent {
   final int changeIndex;

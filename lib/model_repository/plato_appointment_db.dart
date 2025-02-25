@@ -47,7 +47,10 @@ class PlatoAppointmentDB {
 
   static Future<List<String>> readAllSubjectCode() async {
     try {
-      final result = await database.readAllSubjectCode();
+      final result = ['전체'];
+      result.addAll(await database.readAllSubjectCode());
+      result.remove('과목 분류 없음');
+
       logger.fine('Read all subject code: ${result.length}');
       return result;
     } catch (e, stackTrace) {
@@ -67,9 +70,10 @@ class PlatoAppointmentDB {
     }
   }
 
-  static Future<List<PlatoAppointment>> readPastPlatoAppointment() async {
+  static Future<List<PlatoAppointment>> readPastPlatoAppointment(
+      String subjectCode) async {
     try {
-      final result = await database.readPastPlatoAppointment();
+      final result = await database.readPastPlatoAppointment(subjectCode);
       logger.fine('readPastPlatoAppointment : ${result.length}');
       return result.map((e) => e.toModel()).toList();
     } catch (e, stackTrace) {
@@ -78,10 +82,11 @@ class PlatoAppointmentDB {
     }
   }
 
-  static Future<List<PlatoAppointment>>
-      readPlatoAppointmentWithin6Hours() async {
+  static Future<List<PlatoAppointment>> readPlatoAppointmentWithin6Hours(
+      String subjectCode) async {
     try {
-      final result = await database.readPlatoAppointmentWithin6Hours();
+      final result =
+          await database.readPlatoAppointmentWithin6Hours(subjectCode);
       logger.fine('readPlatoAppointmentWithin6Hours: ${result.length}');
       return result.map((e) => e.toModel()).toList();
     } catch (e, stackTrace) {
@@ -91,10 +96,11 @@ class PlatoAppointmentDB {
     }
   }
 
-  static Future<List<PlatoAppointment>>
-      readPlatoAppointmentWithin12Hours() async {
+  static Future<List<PlatoAppointment>> readPlatoAppointmentWithin12Hours(
+      String subjectCode) async {
     try {
-      final result = await database.readPlatoAppointmentWithin12Hours();
+      final result =
+          await database.readPlatoAppointmentWithin12Hours(subjectCode);
       logger.fine('readPlatoAppointmentWithin12Hours: ${result.length}');
       return result.map((e) => e.toModel()).toList();
     } catch (e, stackTrace) {
@@ -104,9 +110,10 @@ class PlatoAppointmentDB {
     }
   }
 
-  static Future<List<PlatoAppointment>> readTodayPlatoAppointment() async {
+  static Future<List<PlatoAppointment>> readTodayPlatoAppointment(
+      String subjectCode) async {
     try {
-      final result = await database.readTodayPlatoAppointment();
+      final result = await database.readTodayPlatoAppointment(subjectCode);
       logger.fine('readTodayPlatoAppointment: ${result.length}');
       return result.map((e) => e.toModel()).toList();
     } catch (e, stackTrace) {
@@ -115,9 +122,10 @@ class PlatoAppointmentDB {
     }
   }
 
-  static Future<List<PlatoAppointment>> readTomorrowPlatoAppointment() async {
+  static Future<List<PlatoAppointment>> readTomorrowPlatoAppointment(
+      String subjectCode) async {
     try {
-      final result = await database.readTomorrowPlatoAppointment();
+      final result = await database.readTomorrowPlatoAppointment(subjectCode);
       logger.fine('readTomorrowPlatoAppointment: ${result.length}');
       return result.map((e) => e.toModel()).toList();
     } catch (e, stackTrace) {
@@ -126,9 +134,10 @@ class PlatoAppointmentDB {
     }
   }
 
-  static Future<List<PlatoAppointment>> readPlatoAppointmentWithinWeek() async {
+  static Future<List<PlatoAppointment>> readPlatoAppointmentWithinWeek(
+      String subjectCode) async {
     try {
-      final result = await database.readPlatoAppointmentWithinWeek();
+      final result = await database.readPlatoAppointmentWithinWeek(subjectCode);
       logger.fine('readPlatoAppointmentWithinWeek: ${result.length}');
       return result.map((e) => e.toModel()).toList();
     } catch (e, stackTrace) {
@@ -137,10 +146,11 @@ class PlatoAppointmentDB {
     }
   }
 
-  static Future<List<PlatoAppointment>>
-      readPlatoAppointmentMoreThanWeek() async {
+  static Future<List<PlatoAppointment>> readPlatoAppointmentMoreThanWeek(
+      String subjectCode) async {
     try {
-      final result = await database.readPlatoAppointmentMoreThanWeek();
+      final result =
+          await database.readPlatoAppointmentMoreThanWeek(subjectCode);
       logger.fine('readPlatoAppointmentMoreThanWeek: ${result.length}');
       return result.map((e) => e.toModel()).toList();
     } catch (e, stackTrace) {
@@ -150,9 +160,10 @@ class PlatoAppointmentDB {
     }
   }
 
-  static Future<List<PlatoAppointment>> readCompletePlatoAppointment() async {
+  static Future<List<PlatoAppointment>> readCompletePlatoAppointment(
+      String subjectCode) async {
     try {
-      final result = await database.readCompletePlatoAppointment();
+      final result = await database.readCompletePlatoAppointment(subjectCode);
       logger.fine('readCompletePlatoAppointment: ${result.length}');
       return result.map((e) => e.toModel()).toList();
     } catch (e, stackTrace) {

@@ -14,7 +14,13 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
           await TaskCheckListDisplayOptionDB.read();
       final subjectCodeList = await PlatoAppointmentDB.readAllSubjectCode();
 
-      final data = await _readData(subjectCodeList, taskCheckListDisplayOption);
+      String subjectCodeFilter = event.subjectCodeFilter ?? state.subjectCodeList.first;
+
+      final data = await _readData(
+          subjectCodeList : subjectCodeList,
+          option: taskCheckListDisplayOption,
+          subjectCodeFilter: subjectCodeFilter);
+
       emit(data);
     });
 
@@ -30,13 +36,18 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
           !nextOption.showToDoList[event.changeIndex];
 
       await TaskCheckListDisplayOptionDB.write(nextOption);
-      final data = await _readData(state.subjectCodeList, nextOption);
+      final data = await _readData(
+          subjectCodeList : state.subjectCodeList,
+          option: nextOption,
+          subjectCodeFilter: state.subjectCodeFilter);
       emit(data);
     });
   }
 
   Future<TodoListState> _readData(
-      List<String> subjectCodeList, TaskCheckListDisplayOption option) async {
+      {required List<String> subjectCodeList,
+        required TaskCheckListDisplayOption option,
+        required String subjectCodeFilter}) async {
     final readRequestList = [];
 
     option.showToDoList.asMap().forEach((index, show) {
@@ -49,7 +60,7 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
     });
 
     final List<List<PlatoAppointment>> appointmentList =
-        await Future.wait(readRequestList.map((e) => e()));
+        await Future.wait(readRequestList.map((e) => e(subjectCodeFilter)));
     final Queue<List<PlatoAppointment>> appointmentListQueue =
         Queue.from(appointmentList);
 
@@ -66,6 +77,7 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
 
     final result = TodoListState(
       subjectCodeList: subjectCodeList,
+      subjectCodeFilter: subjectCodeFilter,
       taskCheckListDisplayOption: option,
       taskCheckListPassed: data[0],
       taskCheckList6Hour: data[1],
