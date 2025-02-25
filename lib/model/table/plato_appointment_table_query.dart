@@ -1,6 +1,17 @@
 part of 'plato_appointment_table.dart';
 
 extension PlatoAppointmentTableQuery on PlatoAppointmentDrift {
+  Future<List<String>> readAllSubjectCode() async {
+    final query = selectOnly(platoAppointmentTable, distinct: true)
+      ..addColumns([platoAppointmentTable.subjectCode]);
+
+    final rows = await query.get();
+    return rows
+        .map((row) => row.read(platoAppointmentTable.subjectCode))
+        .whereType<String>()
+        .toList();
+  }
+
   Future<List<PlatoAppointmentTableData>> readPastPlatoAppointment() async {
     final before = DateTime.now().subtract(const Duration(days: 7));
     final now = DateTime.now();

@@ -83,17 +83,6 @@ class PlatoAppointmentDrift extends _$PlatoAppointmentDrift {
     return query.get();
   }
 
-  Future<List<String>> readAllSubjectCode() async {
-    final query = selectOnly(platoAppointmentTable, distinct: true)
-      ..addColumns([platoAppointmentTable.subjectCode]);
-
-    final rows = await query.get();
-    return rows
-        .map((row) => row.read(platoAppointmentTable.subjectCode))
-        .whereType<String>()
-        .toList();
-  }
-
   Future<PlatoAppointmentTableData> readByUid(String uid) async {
     return await (select(platoAppointmentTable)
           ..where((tbl) => tbl.uid.equals(uid)))
