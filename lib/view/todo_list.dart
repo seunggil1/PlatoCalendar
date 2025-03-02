@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:plato_calendar/util/logger.dart';
 import 'package:plato_calendar/view/widget/widget.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
+
+final _logger = LoggerManager.getLogger('View - TodoListPage');
 
 class TodoListPage extends StatefulWidget {
   const TodoListPage({super.key});
@@ -27,6 +30,8 @@ class _PageState extends State<TodoListPage> {
     //     return Container();
     //   }
     // );
+    _logger.fine('Widget build');
+
     return Scaffold(
       appBar: getSubjectCodeAppBarWidget(context),
       body: ListView(

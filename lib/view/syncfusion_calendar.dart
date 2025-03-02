@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:plato_calendar/util/logger.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import './widget/calendar_widget.dart';
+
+final _logger = LoggerManager.getLogger('View - SyncfusionCalendarPage');
 
 class SyncfusionCalendarPage extends StatefulWidget {
   const SyncfusionCalendarPage({super.key});
@@ -29,6 +32,8 @@ class _SyncfusionCalendarPageState extends State<SyncfusionCalendarPage> {
 
   @override
   Widget build(BuildContext context) {
+    _logger.fine('Widget build');
+
     return BlocBuilder<SyncfusionCalendarOptionBloc,
         SyncfusionCalendarOptionState>(builder: (context, state) {
       return PopScope(

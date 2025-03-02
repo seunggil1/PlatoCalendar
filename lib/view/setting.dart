@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/model_repository/model_repository.dart';
+import 'package:plato_calendar/util/logger.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
 
 import 'widget/widget.dart';
+
+final _logger = LoggerManager.getLogger('View - SettingPage');
 
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
@@ -12,6 +15,7 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final globalDisplayOptionBloc = context.read<GlobalDisplayOptionBloc>();
+    _logger.fine('Widget build');
 
     return ListView(
       children: [
