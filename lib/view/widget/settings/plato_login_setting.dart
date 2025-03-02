@@ -2,17 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plato_calendar/etc/kr_localization.dart';
 import 'package:plato_calendar/model/model.dart';
+import 'package:plato_calendar/util/logger.dart';
 import 'package:plato_calendar/view_model/bloc/bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'login_dialog.dart';
 import 'material_card.dart';
 
+final _logger = LoggerManager.getLogger('View - PlatoLoginSetting');
+
 class PlatoLoginSetting extends StatelessWidget {
   const PlatoLoginSetting({super.key});
 
   @override
   Widget build(BuildContext context) {
+    _logger.fine('Widget build');
+
     return BlocConsumer<PlatoSyncInfoBloc, PlatoSyncInfoState>(
         listener: (context, state) {
       if (state.syncStatus == SyncStatusType.synced &&
