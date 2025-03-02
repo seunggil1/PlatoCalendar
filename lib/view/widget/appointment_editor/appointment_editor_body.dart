@@ -33,7 +33,7 @@ class _AppointmentEditorBodyState extends State<AppointmentEditorBody> {
   @override
   void initState() {
     super.initState();
-    subjectCodeList = widget.subjectCodeList;
+    subjectCodeList = widget.subjectCodeList.sublist(1);
     appointment = widget.appointment;
 
     subjectCode = appointment.subjectCode;
