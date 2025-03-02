@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:drift/drift.dart';
 import 'package:plato_calendar/etc/calendar_color.dart';
 import 'package:plato_calendar/etc/school_data.dart' as school_data;
+import 'package:plato_calendar/etc/subject_code.dart';
 import 'package:plato_calendar/util/logger.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart'
     as syncfusion_calendar;
@@ -61,7 +62,7 @@ class PlatoAppointment {
         classInfo = [
           '${school_data.year}',
           '${school_data.semester}',
-          '과목 분류 없음',
+          subjectCodeNone,
           '000'
         ];
       }

@@ -1,5 +1,6 @@
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/util/logger.dart';
+import 'package:plato_calendar/etc/subject_code.dart';
 
 class PlatoAppointmentDB {
   static PlatoAppointmentDrift database = PlatoAppointmentDrift();
@@ -47,9 +48,9 @@ class PlatoAppointmentDB {
 
   static Future<List<String>> readAllSubjectCode() async {
     try {
-      final result = ['전체'];
+      final result = [subjectCodeAll];
       result.addAll(await database.readAllSubjectCode());
-      result.remove('과목 분류 없음');
+      // result.remove(subjectNone);
 
       logger.fine('Read all subject code: ${result.length}');
       return result;
