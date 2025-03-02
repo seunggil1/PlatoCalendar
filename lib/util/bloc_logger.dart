@@ -9,19 +9,19 @@ class BlocLogger extends BlocObserver {
   @override
   void onEvent(Bloc bloc, Object? event) {
     super.onEvent(bloc, event);
-    log.fine('${bloc.runtimeType} $event');
+    log.finest('${bloc.runtimeType} $event');
   }
 
   @override
   void onChange(BlocBase bloc, Change change) {
     super.onChange(bloc, change);
-    log.fine('${bloc.runtimeType} $change');
+    log.finest('${bloc.runtimeType} $change');
   }
 
   @override
   void onTransition(Bloc bloc, Transition transition) {
     super.onTransition(bloc, transition);
-    log.fine('${bloc.runtimeType} $transition');
+    log.finest('${bloc.runtimeType} $transition');
   }
 
   @override
