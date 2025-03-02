@@ -10,15 +10,17 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 class CalendarWidget extends StatelessWidget {
   const CalendarWidget({super.key});
 
-  static final logger = LoggerManager.getLogger('Model - PlatoAppointment');
+  static final _logger = LoggerManager.getLogger('View - widget - CalendarWidget');
 
   @override
   Widget build(BuildContext context) {
     // 2가지 bloc을 사용하므로, Blocbuilder 대신 watch를 사용합니다.
     SyncfusionCalendarOptionState calendarOptionState =
         context.watch<SyncfusionCalendarOptionBloc>().state;
-    List<PlatoAppointment> appointmentState =
+    SyncfusionCalendarAppointmentState appointmentState =
         context.watch<SyncfusionCalendarAppointmentCubit>().state;
+
+    List<PlatoAppointment> appointmentList = appointmentState.appointments;
 
     final CalendarOption calendarOption = calendarOptionState.calendarOption;
     CalendarController calendarController =
@@ -26,11 +28,13 @@ class CalendarWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
+    _logger.fine('CalendarWidget build');
+
     return SfCalendar(
       controller: calendarController,
       firstDayOfWeek: calendarOption.firstDayOfWeek,
       monthViewSettings: calendarOption.getMonthViewSettings(),
-      dataSource: SfCalendarDataSource(appointmentState),
+      dataSource: SfCalendarDataSource(appointmentList),
       viewHeaderStyle: getViewHeaderStyle(colorScheme),
       headerHeight: 40,
       headerStyle: getCalendarHeaderStyle(colorScheme, textTheme),
@@ -83,7 +87,7 @@ void onTapCallBack(BuildContext context, CalendarTapDetails tapDetail,
 
   if (calendarOptionState.calendarOption.showAgenda) {
     if (tapDetail.targetElement == CalendarElement.appointment) {
-      String uidHash = tapDetail.appointments?.first.resourceIds.first;
+      String uidHash = tapDetail.appointments?.first.resourceIds.first.toString() ?? '';
       showSnackBar(context, 'Show Appointment Editor');
     }
   } else {

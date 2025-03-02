@@ -20,6 +20,8 @@ class _SyncfusionCalendarPageState extends State<SyncfusionCalendarPage> {
   @override
   void initState() {
     super.initState();
+    _logger.fine('initState');
+
     bool showFinished = context
         .read<SyncfusionCalendarOptionBloc>()
         .state
@@ -36,6 +38,8 @@ class _SyncfusionCalendarPageState extends State<SyncfusionCalendarPage> {
 
     return BlocBuilder<SyncfusionCalendarOptionBloc,
         SyncfusionCalendarOptionState>(builder: (context, state) {
+
+          _logger.fine('SyncfusionCalendarOptionBloc builder');
       return PopScope(
           canPop: false,
           onPopInvokedWithResult: (didPop, dynamic) async {
