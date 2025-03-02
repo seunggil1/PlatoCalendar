@@ -6,6 +6,6 @@ final class SyncfusionCalendarAppointmentState {
 
   SyncfusionCalendarAppointmentState(
       {List<String>? subjectCodeList, List<PlatoAppointment>? appointments})
-      : subjectCodeList = const ['전체'],
-        appointments = const <PlatoAppointment>[];
+      : subjectCodeList = subjectCodeList ?? const ['전체'],
+        appointments = appointments ?? const <PlatoAppointment>[];
 }

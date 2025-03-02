@@ -12,7 +12,7 @@ extension PlatoAppointmentMapper on PlatoAppointment {
         subject: title,
         notes: body,
         color: calendarColor[color],
-        resourceIds: <int>[hashCode]);
+        resourceIds: <String>[uid]);
   }
 
   PlatoAppointmentTableData _toData() {

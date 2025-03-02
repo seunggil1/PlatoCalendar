@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plato_calendar/model/model.dart';
@@ -7,10 +8,13 @@ import 'package:plato_calendar/view_model/view_model.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+import 'appointment_editor/appointment_editor.dart';
+
 class CalendarWidget extends StatelessWidget {
   const CalendarWidget({super.key});
 
-  static final _logger = LoggerManager.getLogger('View - widget - CalendarWidget');
+  static final _logger =
+      LoggerManager.getLogger('View - widget - CalendarWidget');
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +46,9 @@ class CalendarWidget extends StatelessWidget {
       scheduleViewSettings: getScheduleViewSettings(colorScheme),
       initialDisplayDate: calendarController.displayDate,
       onTap: (CalendarTapDetails data) async {
-        onTapCallBack(context, data, calendarOptionState);
+        onTapCallBack(context, data, calendarOptionState, appointmentState);
       },
-      onLongPress: (CalendarLongPressDetails data) async {
-        onLongTapCallBack(context, data, calendarOptionState);
-      },
+      onLongPress: (CalendarLongPressDetails data) async {},
     );
   }
 
@@ -79,32 +81,52 @@ class CalendarWidget extends StatelessWidget {
         backgroundColor: colorScheme.secondaryContainer,
         monthTextStyle: TextStyle(color: colorScheme.onSecondaryContainer));
   }
-}
 
-void onTapCallBack(BuildContext context, CalendarTapDetails tapDetail,
-    SyncfusionCalendarOptionState calendarOptionState) async {
-  // List<String> subjectCodeList = context.watch<TodoListBloc>().state.subjectCodeList;
+  void onTapCallBack(
+      BuildContext context,
+      CalendarTapDetails tapDetail,
+      SyncfusionCalendarOptionState calendarOptionState,
+      SyncfusionCalendarAppointmentState appointmentState) async {
+    List<String> subjectCodeList = appointmentState.subjectCodeList;
+    List<PlatoAppointment> appointmentList = appointmentState.appointments;
 
-  if (calendarOptionState.calendarOption.showAgenda) {
-    if (tapDetail.targetElement == CalendarElement.appointment) {
-      String uidHash = tapDetail.appointments?.first.resourceIds.first.toString() ?? '';
-      showSnackBar(context, 'Show Appointment Editor');
-    }
-  } else {
-    if (calendarOptionState.calendarViewTypeIsMonth() &&
-        tapDetail.targetElement == CalendarElement.calendarCell) {
-      context.read<SyncfusionCalendarOptionBloc>().add(
-          SyncfusionCalendarDisplayOptionUpdate(
-              calendarView: CalendarView.schedule,
-              displayDatetime: tapDetail.date));
-    } else if (calendarOptionState.calendarViewTypeIsSchedule() &&
-        tapDetail.targetElement == CalendarElement.appointment) {
-      showSnackBar(context, 'show Appointment Editor');
+    if (calendarOptionState.calendarOption.showAgenda) {
+      if (tapDetail.targetElement == CalendarElement.appointment) {
+        final uid = tapDetail.appointments?.first.resourceIds.first ?? '';
+        final appointment =
+            appointmentList.firstWhereOrNull((element) => element.uid == uid);
+
+        if (appointment != null) {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AppointmentEditorDialog.fromPlatoAppointment(appointment,
+                    subjectCodeList: subjectCodeList);
+              });
+        }
+      }
+    } else {
+      if (calendarOptionState.calendarViewTypeIsMonth() &&
+          tapDetail.targetElement == CalendarElement.calendarCell) {
+        context.read<SyncfusionCalendarOptionBloc>().add(
+            SyncfusionCalendarDisplayOptionUpdate(
+                calendarView: CalendarView.schedule,
+                displayDatetime: tapDetail.date));
+      } else if (calendarOptionState.calendarViewTypeIsSchedule() &&
+          tapDetail.targetElement == CalendarElement.appointment) {
+        final uid = tapDetail.appointments?.first.resourceIds.first ?? '';
+        final appointment =
+            appointmentList.firstWhereOrNull((element) => element.uid == uid);
+
+        if (appointment != null) {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AppointmentEditorDialog.fromPlatoAppointment(appointment,
+                    subjectCodeList: subjectCodeList);
+              });
+        }
+      }
     }
   }
-}
-
-void onLongTapCallBack(BuildContext context, CalendarLongPressDetails tapDetail,
-    SyncfusionCalendarOptionState calendarOptionState) {
-  if (tapDetail.targetElement == CalendarElement.appointment) {}
 }
