@@ -27,7 +27,7 @@ dependencies:
   encrypt: ^5.0.3       # 암호화 라이브러리
   flutter_secure_storage: ^9.2.2 # 암호화 키 저장소
   equatable: ^2.0.0
-  collection: ^1.19.0   # List에서 mapIndexed 사용하기 위한 라이브러리
+  collection: ^1.19.1   # List에서 mapIndexed 사용하기 위한 라이브러리
 
   drift: ^2.25.1
   drift_flutter: ^0.2.4
