@@ -25,7 +25,7 @@ dependencies:
   cupertino_icons: ^1.0.6
 
   encrypt: ^5.0.3       # 암호화 라이브러리
-  flutter_secure_storage: ^9.2.2 # 암호화 키 저장소
+  flutter_secure_storage: ^9.2.4 # 암호화 키 저장소
   equatable: ^2.0.0
   collection: ^1.19.1   # List에서 mapIndexed 사용하기 위한 라이브러리
 
