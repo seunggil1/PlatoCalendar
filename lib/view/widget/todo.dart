@@ -81,13 +81,14 @@ class _TodoWidget extends StatelessWidget {
     return TextButton(
         onPressed: () {
           showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AppointmentEditorDialog.fromPlatoAppointment(
-                    appointmentData,
-                    subjectCodeList: subjectCodeList);
-                // PopUpAppointmentEditor(data);
-              }).then((value) => debugPrint('Closed AppointmentEditor: $value'));
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AppointmentEditorDialog.fromPlatoAppointment(
+                        appointmentData,
+                        subjectCodeList: subjectCodeList);
+                    // PopUpAppointmentEditor(data);
+                  })
+              .then((value) => debugPrint('Closed AppointmentEditor: $value'));
         },
         style: TextButton.styleFrom(
           padding: EdgeInsets.all(0),

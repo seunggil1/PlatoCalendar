@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/model_repository/model_repository.dart';
 import 'package:plato_calendar/util/logger.dart';
-import 'package:plato_calendar/view_model/view_model.dart';
 
 import 'widget/widget.dart';
 

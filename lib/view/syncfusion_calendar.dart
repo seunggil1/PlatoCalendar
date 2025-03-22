@@ -38,8 +38,7 @@ class _SyncfusionCalendarPageState extends State<SyncfusionCalendarPage> {
 
     return BlocBuilder<SyncfusionCalendarOptionBloc,
         SyncfusionCalendarOptionState>(builder: (context, state) {
-
-          _logger.fine('SyncfusionCalendarOptionBloc builder');
+      _logger.fine('SyncfusionCalendarOptionBloc builder');
       return PopScope(
           canPop: false,
           onPopInvokedWithResult: (didPop, dynamic) async {

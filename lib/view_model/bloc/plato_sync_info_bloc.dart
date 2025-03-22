@@ -26,8 +26,7 @@ class PlatoSyncInfoBloc extends Bloc<PlatoSyncInfoEvent, PlatoSyncInfoState> {
       emit(PlatoSyncInfoState(
           platoCredential: state.platoCredential,
           syncInfo: await SyncInfoDB.read(),
-          syncStatus: SyncStatusType.synced)
-      );
+          syncStatus: SyncStatusType.synced));
     });
   }
 }

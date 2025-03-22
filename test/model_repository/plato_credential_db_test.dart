@@ -87,7 +87,7 @@ void main() {
 
       expect(readData, isNotNull);
       expect(testPlatoCredential.username, readData!.username);
-      expect(testPlatoCredential.password, readData!.password);
+      expect(testPlatoCredential.password, readData.password);
     });
   });
 }

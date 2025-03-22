@@ -55,7 +55,8 @@ void main() {
       await SyncInfoDB.write(syncInfo);
     });
 
-    test('read, write: Should write and read sync info to the database', () async {
+    test('read, write: Should write and read sync info to the database',
+        () async {
       // 데이터베이스 쓰기
       await SyncInfoDB.write(syncInfo);
 

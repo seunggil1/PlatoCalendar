@@ -36,7 +36,8 @@ void main() {
   });
 
   group('TaskCheckListDisplayOptionDB test', () {
-    test('read : read TaskCheckListDisplayOption from empty database', () async {
+    test('read : read TaskCheckListDisplayOption from empty database',
+        () async {
       // 데이터 읽기
       try {
         await TaskCheckListDisplayOptionDB.read();
@@ -51,19 +52,24 @@ void main() {
       }
     });
 
-    test('write: Should write a task check list display option to the database', () async {
+    test('write: Should write a task check list display option to the database',
+        () async {
       // 데이터베이스 쓰기
       await TaskCheckListDisplayOptionDB.write(taskCheckListDisplayOption);
     });
 
-    test('read, write: Should write and read task check list display option to the database', () async {
+    test(
+        'read, write: Should write and read task check list display option to the database',
+        () async {
       // 데이터베이스 쓰기
       await TaskCheckListDisplayOptionDB.write(taskCheckListDisplayOption);
 
       // 데이터 읽기
-      final readTaskCheckListDisplayOption = await TaskCheckListDisplayOptionDB.read();
+      final readTaskCheckListDisplayOption =
+          await TaskCheckListDisplayOptionDB.read();
       expect(taskCheckListDisplayOption.showToDoList.length, 8);
-      expect(readTaskCheckListDisplayOption.showToDoList, taskCheckListDisplayOption.showToDoList);
+      expect(readTaskCheckListDisplayOption.showToDoList,
+          taskCheckListDisplayOption.showToDoList);
     });
   });
 }

@@ -46,12 +46,12 @@ void main() {
   group('CalendarOptionDB test', () {
     test('read : read CalendarOption from empty database', () async {
       // 데이터 읽기
-      try{
+      try {
         await CalendarOptionDB.read();
-      }on StateError catch (e){
-        if(e.message == 'No element'){
+      } on StateError catch (e) {
+        if (e.message == 'No element') {
           return;
-        }else{
+        } else {
           rethrow;
         }
       } catch (e) {

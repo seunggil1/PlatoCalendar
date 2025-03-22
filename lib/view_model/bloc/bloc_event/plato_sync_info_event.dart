@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 
 import 'package:plato_calendar/model/model.dart';
 
-
 sealed class PlatoSyncInfoEvent extends Equatable {
   @override
   List<Object?> get props => [];

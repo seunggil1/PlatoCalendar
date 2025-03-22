@@ -54,7 +54,8 @@ void main() {
       }
     });
 
-    test('write: Should write a global display option to the database', () async {
+    test('write: Should write a global display option to the database',
+        () async {
       // CalendarOptionDB 생성
 
       // 데이터베이스 쓰기

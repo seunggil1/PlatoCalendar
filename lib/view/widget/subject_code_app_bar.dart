@@ -12,7 +12,8 @@ AppBar getSubjectCodeAppBarWidget(BuildContext context) {
         List<String> subjectCodeList = state.subjectCodeList;
         String subjectCodeFilter = state.subjectCodeFilter;
 
-        debugPrint('subjectCodeList: $subjectCodeList, Filter: $subjectCodeFilter');
+        debugPrint(
+            'subjectCodeList: $subjectCodeList, Filter: $subjectCodeFilter');
 
         return Row(
           children: [

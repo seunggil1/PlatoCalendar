@@ -1,7 +1,6 @@
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/model_repository/model_repository.dart';
 import 'package:plato_calendar/util/util.dart';
-import 'package:plato_calendar/widget_util/widget_util.dart';
 
 import 'calendar_api.dart';
 import 'calendar_parser.dart';

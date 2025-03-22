@@ -28,8 +28,9 @@ final class TodoListState with ListMixin<List<PlatoAppointment>> {
     this.taskCheckListWeek = const [],
     this.taskCheckListMoreThanWeek = const [],
     this.taskCheckListComplete = const [],
-  }) : taskCheckListDisplayOption = taskCheckListDisplayOption ?? TaskCheckListDisplayOption(),
-       subjectCodeFilter = subjectCodeFilter ?? subjectCodeList[0];
+  })  : taskCheckListDisplayOption =
+            taskCheckListDisplayOption ?? TaskCheckListDisplayOption(),
+        subjectCodeFilter = subjectCodeFilter ?? subjectCodeList[0];
 
   List<List<PlatoAppointment>> get _lists => [
         taskCheckListPassed,

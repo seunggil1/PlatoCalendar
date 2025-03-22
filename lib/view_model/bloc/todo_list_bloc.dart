@@ -14,10 +14,11 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
           await TaskCheckListDisplayOptionDB.read();
       final subjectCodeList = await PlatoAppointmentDB.readAllSubjectCode();
 
-      String subjectCodeFilter = event.subjectCodeFilter ?? state.subjectCodeList.first;
+      String subjectCodeFilter =
+          event.subjectCodeFilter ?? state.subjectCodeList.first;
 
       final data = await _readData(
-          subjectCodeList : subjectCodeList,
+          subjectCodeList: subjectCodeList,
           option: taskCheckListDisplayOption,
           subjectCodeFilter: subjectCodeFilter);
 
@@ -37,7 +38,7 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
 
       await TaskCheckListDisplayOptionDB.write(nextOption);
       final data = await _readData(
-          subjectCodeList : state.subjectCodeList,
+          subjectCodeList: state.subjectCodeList,
           option: nextOption,
           subjectCodeFilter: state.subjectCodeFilter);
       emit(data);
@@ -46,8 +47,8 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
 
   Future<TodoListState> _readData(
       {required List<String> subjectCodeList,
-        required TaskCheckListDisplayOption option,
-        required String subjectCodeFilter}) async {
+      required TaskCheckListDisplayOption option,
+      required String subjectCodeFilter}) async {
     final readRequestList = [];
 
     option.showToDoList.asMap().forEach((index, show) {

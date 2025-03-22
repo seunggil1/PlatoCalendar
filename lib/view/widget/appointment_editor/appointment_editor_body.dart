@@ -103,7 +103,7 @@ class _AppointmentEditorBodyState extends State<AppointmentEditorBody> {
               constraints: BoxConstraints(maxHeight: 300.0),
               child: Row(
                 children: [
-                  const Text("Memo   ",
+                  const Text('Memo   ',
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 14)),
                   Expanded(
@@ -150,14 +150,14 @@ class _AppointmentEditorBodyState extends State<AppointmentEditorBody> {
                             });
                           },
                     child: Text(
-                        "시작 시간 :  ${getFullDateTimeLocaleKR(appointment.start)}")),
+                        '시작 시간 :  ${getFullDateTimeLocaleKR(appointment.start)}')),
                 //Text('~',style: TextStyle( fontSize: 30)),
               ]),
             ),
             TextButton(
                 child:
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Text(" 달력에 표시되는 색깔 : "),
+                  Text(' 달력에 표시되는 색깔 : '),
                   Icon(Icons.lens, color: calendarColor[appointment.color])
                 ]),
                 onPressed: () {

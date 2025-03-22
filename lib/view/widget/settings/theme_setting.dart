@@ -13,15 +13,11 @@ class ThemeSettingWidget extends StatelessWidget {
     final themeMode =
         context.select((GlobalDisplayOptionBloc bloc) => bloc.state.themeMode);
     return MaterialCard(
-      key: ValueKey(themeMode),
-      title: '테마 설정',
-      subTitle: themeDescriptionLocaleKR[themeMode] ?? '',
-      isFoldable: false,
-      children: [
-        _ThemeSetting(),
-        const SizedBox(height: 6)
-      ]
-    );
+        key: ValueKey(themeMode),
+        title: '테마 설정',
+        subTitle: themeDescriptionLocaleKR[themeMode] ?? '',
+        isFoldable: false,
+        children: [_ThemeSetting(), const SizedBox(height: 6)]);
   }
 }
 
