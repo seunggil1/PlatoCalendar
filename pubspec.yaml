@@ -40,6 +40,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  husky: ^0.1.7
 
   drift_dev: ^2.25.2
   build_runner: ^2.4.15
