@@ -55,6 +55,7 @@ analysis_benchmark.json
 .flutter-plugins
 .flutter-plugins-dependencies
 **/generated_plugin_registrant.dart
+
 .packages
 .pub-preload-cache/
 .pub-cache/
@@ -68,6 +69,7 @@ unlinked_spec.ds
 # Android related
 **/android/**/gradle-wrapper.jar
 .gradle/
+**/android/app/.cxx/
 **/android/captures/
 **/android/gradlew
 **/android/gradlew.bat
