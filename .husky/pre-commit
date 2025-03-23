@@ -1,0 +1,28 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+error_messages=""
+
+fix_output=$(dart fix --apply 2>&1)
+if ! echo "$fix_output" | grep -q "Nothing to fix!"; then
+    error_messages="${error_messages}\n\n⚠️ dart fix --apply: 자동 수정 사항이 적용되었습니다.\n${fix_output}"
+fi
+
+format_output=$(dart format . 2>&1)
+if ! echo "$format_output" | grep -q "0 changed"; then
+    error_messages="${error_messages}\n\n⚠️ dart format: 코드 포맷이 적용되었습니다.\n${format_output}"
+fi
+
+#analyze_result=$(flutter analyze 2>&1 | grep -Ei "error • ")
+#if [ -n "$analyze_result" ]; then
+#    error_messages="${error_messages}\n\n⚠️ flutter analyze: 정적 분석 결과 문제가 발견되었습니다. 아래 내용을 확인하세요:\n${analyze_result}"
+#fi
+
+if [ -n "$error_messages" ]; then
+    error_messages="변경 내용을 확인한 후 다시 커밋해주세요. ${error_messages}"
+    # 표준 에러로 출력
+    printf "%b\n" "$error_messages" >&2
+    exit 1
+fi
+
+exit 0

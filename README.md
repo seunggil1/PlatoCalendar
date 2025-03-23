@@ -18,8 +18,7 @@
 
 ## Installation
 ```shell
-# pre-commit 설정 
-./install_pre_commit.sh # (mac, linux 환경에서 사용)
-./install_pre_commit_windows.bat # windows 환경에서 사용
+npm install husky --save-dev # node js 설치 필요
 flutter pub get
+dart run husky install
 ```
