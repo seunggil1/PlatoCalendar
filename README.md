@@ -13,12 +13,10 @@
 
 ## Getting Started
 
-- Flutter 3.29.2 이상
-- Android Studio 2024.1.2
+- Flutter 3.27.3
+- Android Studio 2024.1.2 (더 높은 버전에서 오류가 있었음)
 
-## Installation
 ```shell
-npm install husky --save-dev # node js 설치 필요
 flutter pub get
 dart run husky install
 ```
