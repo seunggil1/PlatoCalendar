@@ -16,7 +16,15 @@
 - Flutter 3.27.3
 - Android Studio 2024.1.2 (더 높은 버전에서 오류가 있었음)
 
+
 ```shell
 flutter pub get
 dart run husky install
+# node js 설치 필요
+npm install -g husky
 ```
+
+
+## TODO 
+
+- windows 이슈 해결 필요 : https://github.com/typicode/husky/issues/1292#issuecomment-1782421295
