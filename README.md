@@ -20,11 +20,10 @@
 ```shell
 flutter pub get
 dart run husky install
-# node js 설치 필요
-npm install -g husky
 ```
 
 
-## TODO 
-
+## ETC
+- windows + github desktop pre-commit 이슈
+  - git 환경 변수에 추가 필요 (ex. `C:\Program Files\Git\bin`)
 - windows 이슈 해결 필요 : https://github.com/typicode/husky/issues/1292#issuecomment-1782421295
