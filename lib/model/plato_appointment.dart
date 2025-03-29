@@ -21,7 +21,7 @@ class PlatoAppointment {
 
   late String comment = ''; // 해당 칼럼은 사용자가 넣은 코멘트를 저장하는 칼럼입니다.
 
-  late String subjectCode = '전체';
+  late String subjectCode = subjectCodeNone;
   late String year;
   late String semester;
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plato_calendar/etc/calendar_color.dart';
 import 'package:plato_calendar/etc/school_data.dart';
-import 'package:plato_calendar/etc/subject_code.dart';
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/widget_util/widget_util.dart';
 
@@ -54,7 +53,6 @@ class _AppointmentEditor extends State<AppointmentEditorDialog> {
   void initState() {
     super.initState();
     subjectCodeList = widget.subjectCodeList.sublist(1);
-    subjectCodeList.add(subjectCodeNone);
 
     appointment = widget.platoAppointment;
     isEditing = widget.isEditing;
