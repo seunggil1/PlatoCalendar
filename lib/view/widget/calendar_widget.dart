@@ -106,7 +106,7 @@ class CalendarWidget extends StatelessWidget {
           return AppointmentEditorDialog.fromPlatoAppointment(appointment,
               subjectCodeList: subjectCodeList);
         });
-    if (updateAppointment) {
+    if (updateAppointment != null) {
       todoListBloc.add(UpdateTodo(updateAppointment));
       syncfusionCalendarAppointmentCubit.loadPlatoAppointment(
           showFinished: showFinished0);
