@@ -14,7 +14,9 @@ class PlatoSyncInfoBloc extends Bloc<PlatoSyncInfoEvent, PlatoSyncInfoState> {
     });
 
     on<PlatoLogout>((event, emit) async {
-      await PlatoCredentialDB.deleteAll();
+      await Future.wait(
+          [PlatoCredentialDB.deleteAll(), PlatoAppointmentDB.deleteAll()]);
+
       emit(PlatoSyncInfoState(platoCredential: null, syncInfo: state.syncInfo));
     });
 

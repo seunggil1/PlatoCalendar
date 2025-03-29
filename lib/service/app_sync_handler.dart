@@ -1,6 +1,9 @@
+import 'package:flutter/services.dart' show rootBundle;
+
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/model_repository/model_repository.dart';
 import 'package:plato_calendar/util/util.dart';
+import 'package:plato_calendar/etc/school_data.dart';
 
 import 'calendar_api.dart';
 import 'calendar_parser.dart';
@@ -58,5 +61,27 @@ class AppSyncHandler {
       logger.severe('Failed to updatePlatoAppointment: $e', stackTrace);
       rethrow;
     }
+  }
+
+  /// 테스트를 위해 임의의 일정 생성하는 함수
+  /// icalexport_test.ics 내용을 현재 날짜 기준으로 바꿔서 넣는다.
+  static Future<void> addTestPlatoAppointment() async {
+    String fileContent =
+        await rootBundle.loadString('assets/ics/icalexport_test.ics');
+    final appointments = CalendarParser.parse(fileContent);
+
+    DateTime now = DateTime.now().subtract(const Duration(days: 2));
+
+    for (var appointment in appointments) {
+      appointment.year = year.toString();
+      appointment.semester = semester.toString();
+
+      appointment.start = now;
+      appointment.end = now.add(const Duration(hours: 1));
+
+      now = now.add(const Duration(days: 1));
+    }
+
+    PlatoAppointmentDB.writeAll(appointments);
   }
 }
