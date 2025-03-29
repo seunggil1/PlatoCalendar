@@ -9,9 +9,7 @@ void main() {
       // 테스트용 ics 파일을 읽어온다.
 
       List<String> icsFilePathList = [
-        'assets/ics/icalexport.ics',
-        'assets/ics/icalexport2.ics',
-        'assets/ics/icalexport(0915)_time_error.ics',
+        'assets/ics/icalexport_test.ics',
       ];
 
       for (var icsFilePath in icsFilePathList) {

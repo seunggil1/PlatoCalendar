@@ -48,7 +48,7 @@ void main() {
   test('readAllSubjectCode: Should read all subject code from the database',
       () async {
     // 실행
-    final filePath = 'assets/ics/icalexport(0915)_time_error.ics';
+    final filePath = 'assets/ics/icalexport_test.ics';
     final fileContent = await rootBundle.loadString(filePath);
     final List<PlatoAppointment> result = CalendarParser.parse(fileContent);
     await PlatoAppointmentDB.writeAll(result);

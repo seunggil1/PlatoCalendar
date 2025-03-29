@@ -24,10 +24,6 @@ class CalendarParser {
 
   static List<PlatoAppointment> parse(String bytes) {
     try {
-      // For Test
-      // String bytes = await rootBundle.loadString('icalexport.ics');
-      // End For Test
-
       List<String> lineBytes = bytes.split('\r\n');
       // 일정 내용에 :가 있을 경우 오류가 발생하는 경우가 있어서 : -> ####로 교체하고 파싱진행.
       for (int i = 0; i < lineBytes.length; i++) {
