@@ -8,6 +8,7 @@ enum Status { enable, disable }
 
 enum DataType { school, etc }
 
+@TableIndex(name: 'status', columns: {#status})
 @TableIndex(name: 'finished', columns: {#finished})
 @TableIndex(name: 'end', columns: {#end})
 @TableIndex(name: 'subjectCode', columns: {#subjectCode})
@@ -71,7 +72,8 @@ class PlatoAppointmentDrift extends _$PlatoAppointmentDrift {
 
   Future<List<PlatoAppointmentTableData>> readAll(
       {required bool showFinished}) {
-    final query = select(platoAppointmentTable);
+    final query = select(platoAppointmentTable)
+      ..where((t) => t.status.equals('enable'));
 
     // showFinished가 false이면, finished가 false인 것만 가져옴
     if (!showFinished) {

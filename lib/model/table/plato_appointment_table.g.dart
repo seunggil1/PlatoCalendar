@@ -72,14 +72,11 @@ class $PlatoAppointmentTableTable extends PlatoAppointmentTable
       requiredDuringInsert: true,
       defaultConstraints:
           GeneratedColumn.constraintIsAlways('CHECK ("finished" IN (0, 1))'));
-  static const VerificationMeta _statusMeta = const VerificationMeta('status');
   @override
   late final GeneratedColumnWithTypeConverter<Status, String> status =
       GeneratedColumn<String>('status', aliasedName, false,
               type: DriftSqlType.string, requiredDuringInsert: true)
           .withConverter<Status>($PlatoAppointmentTableTable.$converterstatus);
-  static const VerificationMeta _dataTypeMeta =
-      const VerificationMeta('dataType');
   @override
   late final GeneratedColumnWithTypeConverter<DataType, String> dataType =
       GeneratedColumn<String>('data_type', aliasedName, false,
@@ -187,8 +184,6 @@ class $PlatoAppointmentTableTable extends PlatoAppointmentTable
     } else if (isInserting) {
       context.missing(_finishedMeta);
     }
-    context.handle(_statusMeta, const VerificationResult.success());
-    context.handle(_dataTypeMeta, const VerificationResult.success());
     if (data.containsKey('color')) {
       context.handle(
           _colorMeta, color.isAcceptableOrUnknown(data['color']!, _colorMeta));
@@ -683,6 +678,8 @@ abstract class _$PlatoAppointmentDrift extends GeneratedDatabase {
       $PlatoAppointmentDriftManager(this);
   late final $PlatoAppointmentTableTable platoAppointmentTable =
       $PlatoAppointmentTableTable(this);
+  late final Index status = Index(
+      'status', 'CREATE INDEX status ON plato_appointment_table (status)');
   late final Index finished = Index('finished',
       'CREATE INDEX finished ON plato_appointment_table (finished)');
   late final Index end =
@@ -694,7 +691,7 @@ abstract class _$PlatoAppointmentDrift extends GeneratedDatabase {
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [platoAppointmentTable, finished, end, subjectCode];
+      [platoAppointmentTable, status, finished, end, subjectCode];
 }
 
 typedef $$PlatoAppointmentTableTableCreateCompanionBuilder

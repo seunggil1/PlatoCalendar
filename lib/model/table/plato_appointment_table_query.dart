@@ -7,6 +7,7 @@ typedef PlatoAppointmentResults = List<PlatoAppointmentTableData>;
 extension PlatoAppointmentTableQuery on PlatoAppointmentDrift {
   PlateAppointmentQuery _addSubjectCodeFilter(
       PlateAppointmentQuery query, String subjectCode) {
+    query.where((t) => t.status.equals('enable'));
     if (subjectCode != '전체') {
       query.where((t) => t.subjectCode.equals(subjectCode));
     }
