@@ -81,7 +81,7 @@ class _TodoWidget extends StatelessWidget {
     return TextButton(
         onPressed: () {
           final todoListBloc = context.read<TodoListBloc>();
-          final bool showFinished0 = context
+          final bool showFinished = context
               .read<SyncfusionCalendarOptionBloc>()
               .state
               .calendarOption
@@ -98,7 +98,7 @@ class _TodoWidget extends StatelessWidget {
             if (updateAppointment == null) return;
             todoListBloc.add(UpdateTodo(updateAppointment));
             syncfusionCalendarAppointmentCubit.loadPlatoAppointment(
-                showFinished: showFinished0);
+                showFinished: showFinished);
           });
         },
         style: TextButton.styleFrom(
