@@ -71,6 +71,7 @@ class AppSyncHandler {
     final appointments = CalendarParser.parse(fileContent);
 
     DateTime now = DateTime.now().subtract(const Duration(days: 2));
+    now = DateTime(now.year, now.month, now.day, 0, 0, 0);
 
     for (var appointment in appointments) {
       appointment.year = year.toString();
@@ -79,7 +80,7 @@ class AppSyncHandler {
       appointment.start = now;
       appointment.end = now.add(const Duration(hours: 1));
 
-      now = now.add(const Duration(days: 1));
+      now = now.add(const Duration(hours: 4));
     }
 
     PlatoAppointmentDB.writeAll(appointments);
