@@ -25,11 +25,10 @@ dart run husky install
 
 ## ETC
 - github desktop pre-commit 이슈
-  - github desktop과 별개로, git 설치 후 환경 변수에 추가 필요 (ex. `C:\Program Files\Git\bin`)
-- windows 이슈 해결 필요 : https://github.com/typicode/husky/issues/1292#issuecomment-1782421295
-
+  - github desktop에서 정상적으로 작동하려면, git 설치 후 환경 변수에 추가 필요 (ex. `C:\Program Files\Git\bin`)
 
 ## 개발 남은거
 - 일정 수정 페이지
 - 과목 색상 자동 설정
 - 로그아웃, 데이터 삭제 기능 추가
+- 테스트 데이터 추가
