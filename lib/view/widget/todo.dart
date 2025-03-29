@@ -80,15 +80,26 @@ class _TodoWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     return TextButton(
         onPressed: () {
+          final todoListBloc = context.read<TodoListBloc>();
+          final bool showFinished0 = context
+              .read<SyncfusionCalendarOptionBloc>()
+              .state
+              .calendarOption
+              .showFinished;
+          final syncfusionCalendarAppointmentCubit =
+              context.read<SyncfusionCalendarAppointmentCubit>();
           showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AppointmentEditorDialog.fromPlatoAppointment(
-                        appointmentData,
-                        subjectCodeList: subjectCodeList);
-                    // PopUpAppointmentEditor(data);
-                  })
-              .then((value) => debugPrint('Closed AppointmentEditor: $value'));
+              context: context,
+              builder: (BuildContext context) {
+                return AppointmentEditorDialog.fromPlatoAppointment(
+                    appointmentData,
+                    subjectCodeList: subjectCodeList);
+              }).then((updateAppointment) {
+            if (updateAppointment == null) return;
+            todoListBloc.add(UpdateTodo(updateAppointment));
+            syncfusionCalendarAppointmentCubit.loadPlatoAppointment(
+                showFinished: showFinished0);
+          });
         },
         style: TextButton.styleFrom(
           padding: EdgeInsets.all(0),

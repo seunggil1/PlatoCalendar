@@ -38,47 +38,17 @@ class CalendarWidget extends StatelessWidget {
       firstDayOfWeek: calendarOption.firstDayOfWeek,
       monthViewSettings: calendarOption.getMonthViewSettings(),
       dataSource: SfCalendarDataSource(appointmentList),
-      viewHeaderStyle: getViewHeaderStyle(colorScheme),
+      viewHeaderStyle: _getViewHeaderStyle(colorScheme),
       headerHeight: 40,
-      headerStyle: getCalendarHeaderStyle(colorScheme, textTheme),
+      headerStyle: _getCalendarHeaderStyle(colorScheme, textTheme),
       todayHighlightColor: colorScheme.primary,
-      scheduleViewSettings: getScheduleViewSettings(colorScheme),
+      scheduleViewSettings: _getScheduleViewSettings(colorScheme),
       initialDisplayDate: calendarController.displayDate,
       onTap: (CalendarTapDetails data) async {
         onTapCallBack(context, data, calendarOptionState, appointmentState);
       },
       onLongPress: (CalendarLongPressDetails data) async {},
     );
-  }
-
-  ViewHeaderStyle getViewHeaderStyle(ColorScheme colorScheme) {
-    return ViewHeaderStyle(
-        dayTextStyle: TextStyle(
-            color: colorScheme.onSurface, fontWeight: FontWeight.bold));
-  }
-
-  CalendarHeaderStyle getCalendarHeaderStyle(
-      ColorScheme colorScheme, TextTheme textTheme) {
-    return CalendarHeaderStyle(
-        backgroundColor: colorScheme.primaryContainer,
-        textStyle: textTheme.headlineSmall?.copyWith(
-          color: colorScheme.primary,
-          fontSize: 18.sp,
-        ));
-  }
-
-  ScheduleViewSettings getScheduleViewSettings(ColorScheme colorScheme) {
-    return ScheduleViewSettings(
-        appointmentItemHeight: 70,
-        monthHeaderSettings: getMonthHeaderSettings(colorScheme));
-  }
-
-  MonthHeaderSettings getMonthHeaderSettings(ColorScheme colorScheme) {
-    return MonthHeaderSettings(
-        height: 90,
-        monthFormat: 'yyyy년 M월',
-        backgroundColor: colorScheme.secondaryContainer,
-        monthTextStyle: TextStyle(color: colorScheme.onSecondaryContainer));
   }
 
   void onTapCallBack(
@@ -96,12 +66,7 @@ class CalendarWidget extends StatelessWidget {
             appointmentList.firstWhereOrNull((element) => element.uid == uid);
 
         if (appointment != null) {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AppointmentEditorDialog.fromPlatoAppointment(appointment,
-                    subjectCodeList: subjectCodeList);
-              });
+          showAppointmentEditor(context, appointment, subjectCodeList);
         }
       }
     } else {
@@ -118,14 +83,63 @@ class CalendarWidget extends StatelessWidget {
             appointmentList.firstWhereOrNull((element) => element.uid == uid);
 
         if (appointment != null) {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AppointmentEditorDialog.fromPlatoAppointment(appointment,
-                    subjectCodeList: subjectCodeList);
-              });
+          showAppointmentEditor(context, appointment, subjectCodeList);
         }
       }
     }
   }
+
+  void showAppointmentEditor(BuildContext context, PlatoAppointment appointment,
+      List<String> subjectCodeList) async {
+    final todoListBloc = context.read<TodoListBloc>();
+    final bool showFinished0 = context
+        .read<SyncfusionCalendarOptionBloc>()
+        .state
+        .calendarOption
+        .showFinished;
+    final syncfusionCalendarAppointmentCubit =
+        context.read<SyncfusionCalendarAppointmentCubit>();
+
+    final updateAppointment = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AppointmentEditorDialog.fromPlatoAppointment(appointment,
+              subjectCodeList: subjectCodeList);
+        });
+    if (updateAppointment) {
+      todoListBloc.add(UpdateTodo(updateAppointment));
+      syncfusionCalendarAppointmentCubit.loadPlatoAppointment(
+          showFinished: showFinished0);
+    }
+  }
+}
+
+ViewHeaderStyle _getViewHeaderStyle(ColorScheme colorScheme) {
+  return ViewHeaderStyle(
+      dayTextStyle:
+          TextStyle(color: colorScheme.onSurface, fontWeight: FontWeight.bold));
+}
+
+CalendarHeaderStyle _getCalendarHeaderStyle(
+    ColorScheme colorScheme, TextTheme textTheme) {
+  return CalendarHeaderStyle(
+      backgroundColor: colorScheme.primaryContainer,
+      textStyle: textTheme.headlineSmall?.copyWith(
+        color: colorScheme.primary,
+        fontSize: 18.sp,
+      ));
+}
+
+ScheduleViewSettings _getScheduleViewSettings(ColorScheme colorScheme) {
+  return ScheduleViewSettings(
+      appointmentItemHeight: 70,
+      monthHeaderSettings: _getMonthHeaderSettings(colorScheme));
+}
+
+MonthHeaderSettings _getMonthHeaderSettings(ColorScheme colorScheme) {
+  return MonthHeaderSettings(
+      height: 90,
+      monthFormat: 'yyyy년 M월',
+      backgroundColor: colorScheme.secondaryContainer,
+      monthTextStyle: TextStyle(color: colorScheme.onSecondaryContainer));
 }

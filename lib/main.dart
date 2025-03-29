@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'package:plato_calendar/etc/theme_seed_color.dart';
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/model_repository/calendar_option_db.dart';
@@ -84,6 +86,15 @@ class MaterialThemePage extends StatelessWidget {
     final themeSeedColorIndex = context.select(
         (GlobalDisplayOptionBloc bloc) => bloc.state.themeSeedColorIndex);
     return MaterialApp(
+        supportedLocales: [
+          const Locale('ko', 'KR'),
+          const Locale('en', 'US'),
+        ],
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
         theme: ThemeData(
             brightness: Brightness.light,
             colorScheme: ColorScheme.fromSeed(

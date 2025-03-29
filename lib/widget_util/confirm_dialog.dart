@@ -5,12 +5,13 @@ Future<bool> confirmDialog(BuildContext context,
     content = 'Are you sure you want to exit?',
     yesLabel = 'Yes',
     noLabel = 'No'}) async {
+  final textTheme = Theme.of(context).textTheme;
   return await showDialog<bool>(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text(title),
-            content: Text(content),
+            title: Text(title, style: textTheme.titleSmall),
+            content: Text(content, style: textTheme.bodySmall),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
