@@ -9,3 +9,4 @@ export 'plato_appointment_db.dart';
 export 'plato_credential_db.dart';
 export 'sync_info_db.dart';
 export 'task_check_list_display_option_db.dart';
+export 'subject_code_color_db.dart';

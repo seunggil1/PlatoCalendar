@@ -52,7 +52,11 @@ class AppSyncHandler {
 
       final data1 = CalendarParser.parse(calendarData[0]).toSet();
       final data2 = CalendarParser.parse(calendarData[1]).toSet();
+
       Set<PlatoAppointment> appointments = data1.union(data2);
+      await CalendarParser.updateSubjectCodeColor(appointments);
+      appointments =
+          (await CalendarParser.setPlatoAppointmentColor(appointments)).toSet();
 
       await Future.wait([
         SyncInfoDB.write(SyncInfo()..platoSyncTime = DateTime.now()),
@@ -69,7 +73,7 @@ class AppSyncHandler {
   static Future<void> addTestPlatoAppointment() async {
     String fileContent =
         await rootBundle.loadString('assets/ics/icalexport_test.ics');
-    final appointments = CalendarParser.parse(fileContent);
+    List<PlatoAppointment> appointments = CalendarParser.parse(fileContent);
 
     DateTime now = DateTime.now().subtract(const Duration(days: 2));
     now = DateTime(now.year, now.month, now.day, 0, 0, 0);
@@ -83,6 +87,10 @@ class AppSyncHandler {
 
       now = now.add(const Duration(hours: 4));
     }
+
+    await CalendarParser.updateSubjectCodeColor(appointments);
+    appointments = (await CalendarParser.setPlatoAppointmentColor(appointments))
+        .toList(growable: false);
 
     PlatoAppointmentDB.writeAll(appointments);
   }
