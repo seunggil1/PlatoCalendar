@@ -59,6 +59,7 @@ class PlatoAppointmentDrift extends _$PlatoAppointmentDrift {
 
   Future<void> write(PlatoAppointmentTableCompanion data) async {
     await transaction(() async {
+      // 새로운 데이터 기록. 이미 있을 경우 업데이트
       return await into(platoAppointmentTable).insertOnConflictUpdate(data);
     });
   }
@@ -66,7 +67,9 @@ class PlatoAppointmentDrift extends _$PlatoAppointmentDrift {
   Future<void> writeAll(List<PlatoAppointmentTableCompanion> data) async {
     await transaction(() async {
       return await batch((batch) {
-        batch.insertAllOnConflictUpdate(platoAppointmentTable, data);
+        // TODO : 데이터 변경사항이 반영되지 않는 문제가 있음
+        batch.insertAll(platoAppointmentTable, data,
+            mode: InsertMode.insertOrIgnore);
       });
     });
   }

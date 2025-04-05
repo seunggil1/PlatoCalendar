@@ -87,6 +87,7 @@ class CalendarParser {
 
   static Future<Iterable<PlatoAppointment>> setPlatoAppointmentColor(
       Iterable<PlatoAppointment> appointments) async {
+    // { subjectCode: color } 형태로 저장된 과목코드 색상 가져오기
     final subjectCodeColorMap = await SubjectCodeColorDB.readAll();
 
     appointments = appointments.mapIndexed((index, appointment) {
