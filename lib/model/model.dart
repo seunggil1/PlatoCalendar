@@ -9,6 +9,7 @@ export 'encrypt_key.dart';
 export 'global_display_option.dart';
 export 'plato_appointment.dart';
 export 'plato_credential.dart';
+export 'subject_code_color.dart';
 export 'sync_info.dart';
 export 'table/table.dart';
 export 'task_check_list_display_option.dart';
