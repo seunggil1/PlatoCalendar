@@ -1,14 +1,18 @@
+// Dart imports:
 import 'dart:ui';
 
+// Package imports:
 import 'package:drift/drift.dart';
+
+// Project imports:
 import 'package:plato_calendar/etc/calendar_color.dart';
 import 'package:plato_calendar/etc/school_data.dart' as school_data;
 import 'package:plato_calendar/etc/subject_code.dart';
 import 'package:plato_calendar/util/logger.dart';
+import 'table/table.dart';
+
 import 'package:syncfusion_flutter_calendar/calendar.dart'
     as syncfusion_calendar;
-
-import 'table/table.dart';
 
 part 'plato_appointment_mapper.dart';
 

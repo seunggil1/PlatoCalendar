@@ -1,4 +1,7 @@
+// Package imports:
 import 'package:equatable/equatable.dart';
+
+// Project imports:
 import 'package:plato_calendar/model/model.dart';
 
 enum SyncStatusType { syncing, synced }

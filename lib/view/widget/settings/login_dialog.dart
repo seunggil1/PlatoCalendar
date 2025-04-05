@@ -1,7 +1,12 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:responsive_sizer/responsive_sizer.dart';
+
+// Project imports:
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/service/service.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class LoginDialog extends StatefulWidget {
   const LoginDialog({super.key});

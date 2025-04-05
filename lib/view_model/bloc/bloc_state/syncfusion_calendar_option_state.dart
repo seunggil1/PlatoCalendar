@@ -1,5 +1,8 @@
-import 'package:plato_calendar/model/model.dart';
+// Package imports:
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+
+// Project imports:
+import 'package:plato_calendar/model/model.dart';
 
 final class SyncfusionCalendarOptionState {
   final CalendarOption calendarOption;

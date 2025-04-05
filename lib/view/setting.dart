@@ -1,6 +1,8 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:plato_calendar/util/logger.dart';
 
+// Project imports:
+import 'package:plato_calendar/util/logger.dart';
 import 'widget/widget.dart';
 
 final _logger = LoggerManager.getLogger('View - SettingPage');

@@ -1,12 +1,16 @@
-import 'package:collection/collection.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:plato_calendar/model/model.dart';
-import 'package:plato_calendar/util/logger.dart';
-import 'package:plato_calendar/view_model/view_model.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+// Project imports:
+import 'package:plato_calendar/model/model.dart';
+import 'package:plato_calendar/util/logger.dart';
+import 'package:plato_calendar/view_model/view_model.dart';
 import 'appointment_editor/appointment_editor.dart';
 
 class CalendarWidget extends StatelessWidget {

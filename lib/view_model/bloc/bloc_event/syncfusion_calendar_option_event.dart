@@ -1,6 +1,9 @@
+// Package imports:
 import 'package:equatable/equatable.dart';
-import 'package:plato_calendar/model/model.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+
+// Project imports:
+import 'package:plato_calendar/model/model.dart';
 
 sealed class SyncfusionCalendarOptionEvent extends Equatable {
   @override

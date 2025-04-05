@@ -1,9 +1,12 @@
+// Dart imports:
 import 'dart:collection';
 
+// Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+// Project imports:
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/model_repository/model_repository.dart';
-
 import 'bloc_event/bloc_event.dart';
 import 'bloc_state/bloc_state.dart';
 

@@ -1,6 +1,10 @@
-import 'package:drift/drift.dart';
+// Flutter imports:
 import 'package:flutter/material.dart' as flutter_material;
 
+// Package imports:
+import 'package:drift/drift.dart';
+
+// Project imports:
 import 'table/table.dart';
 
 class GlobalDisplayOption {

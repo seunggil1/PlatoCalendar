@@ -1,10 +1,14 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+// Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:plato_calendar/util/logger.dart';
-import 'package:plato_calendar/view_model/view_model.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+// Project imports:
+import 'package:plato_calendar/util/logger.dart';
+import 'package:plato_calendar/view_model/view_model.dart';
 import './widget/calendar_widget.dart';
 
 final _logger = LoggerManager.getLogger('View - SyncfusionCalendarPage');

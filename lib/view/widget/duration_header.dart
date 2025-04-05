@@ -1,5 +1,10 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+// Project imports:
 import 'package:plato_calendar/view_model/view_model.dart';
 
 class DurationHeaderWidget extends StatelessWidget {

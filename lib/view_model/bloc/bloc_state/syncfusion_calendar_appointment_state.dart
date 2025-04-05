@@ -1,3 +1,4 @@
+// Project imports:
 import 'package:plato_calendar/model/model.dart';
 
 final class SyncfusionCalendarAppointmentState {

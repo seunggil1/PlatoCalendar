@@ -1,8 +1,12 @@
+// Dart imports:
 import 'dart:math';
 import 'dart:typed_data';
 
+// Package imports:
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+// Project imports:
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/util/logger.dart';
 

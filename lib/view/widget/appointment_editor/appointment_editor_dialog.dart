@@ -1,9 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:plato_calendar/etc/calendar_color.dart';
 import 'package:plato_calendar/etc/school_data.dart';
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/widget_util/widget_util.dart';
-
 import 'select_color.dart';
 import 'subject_code_drop_down_menu.dart';
 

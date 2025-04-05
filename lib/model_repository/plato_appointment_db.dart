@@ -1,6 +1,7 @@
+// Project imports:
+import 'package:plato_calendar/etc/subject_code.dart';
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/util/logger.dart';
-import 'package:plato_calendar/etc/subject_code.dart';
 
 class PlatoAppointmentDB {
   static PlatoAppointmentDrift database = PlatoAppointmentDrift();

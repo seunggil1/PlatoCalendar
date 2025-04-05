@@ -1,9 +1,13 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:plato_calendar/view_model/view_model.dart';
-import 'package:plato_calendar/service/service.dart';
-import 'package:plato_calendar/widget_util/widget_util.dart';
 
+// Package imports:
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+// Project imports:
+import 'package:plato_calendar/service/service.dart';
+import 'package:plato_calendar/view_model/view_model.dart';
+import 'package:plato_calendar/widget_util/widget_util.dart';
 import 'material_card.dart';
 
 class DebugSettingWidget extends StatefulWidget {

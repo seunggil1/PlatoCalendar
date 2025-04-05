@@ -1,5 +1,10 @@
-import 'package:collection/collection.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:collection/collection.dart';
+
+// Project imports:
 import 'package:plato_calendar/etc/calendar_color.dart';
 import 'package:plato_calendar/model/model.dart';
 

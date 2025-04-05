@@ -1,6 +1,9 @@
+// Flutter imports:
+import 'package:flutter/material.dart' as flutter_material;
+
+// Package imports:
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
-import 'package:flutter/material.dart' as flutter_material;
 
 part 'global_option_table.g.dart';
 

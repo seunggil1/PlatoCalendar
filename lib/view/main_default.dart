@@ -1,8 +1,13 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+
+// Project imports:
 import 'package:plato_calendar/view/view.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 Widget getDefaultMainPage(BuildContext context, int tapIndex) {
   return ResponsiveSizer(builder: (context, orientation, screenType) {
