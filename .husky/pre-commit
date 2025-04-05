@@ -1,21 +1,28 @@
 #!/bin/sh
 
+#set -x
+
 . "$(dirname "$0")/_/husky.sh"
 
 error_messages=""
 
 fix_output=$(dart fix --apply 2>&1)
 if ! echo "$fix_output" | grep -q "Nothing to fix!"; then
-    error_messages="${error_messages}\n\n⚠️ dart fix --apply: 자동 수정 사항이 적용되었습니다.\n${fix_output}"
+    error_messages="${error_messages}\n\n⚠️ dart fix --apply: 자동 수정 사항 적용\n${fix_output}"
 fi
 
 format_output=$(dart format . 2>&1)
 if ! echo "$format_output" | grep -Eq "0 changed|no files"; then
-    error_messages="${error_messages}\n\n⚠️ dart format: 코드 포맷이 적용되었습니다.\n${format_output}"
+    error_messages="${error_messages}\n\n⚠️ dart format: 코드 포맷팅 적용.\n${format_output}"
+fi
+
+import_sorter_output=$(dart run import_sorter:main 2>&1)
+if echo "$import_sorter_output" | grep -q "Sorted imports for"; then
+    error_messages="${error_messages}\n\n⚠️ dart run import_sorter:main: import sorter 적용:\n${import_sorter_output}"
 fi
 
 #analyze_result=$(flutter analyze 2>&1 | grep -Ei "error • ")
-#if [ -n "$analyze_re9sult" ]; then
+#if [ -n "$analyze_result" ]; then
 #    error_messages="${error_messages}\n\n⚠️ flutter analyze: 정적 분석 결과 문제가 발견되었습니다. 아래 내용을 확인하세요:\n${analyze_result}"
 #fi
 

@@ -9,7 +9,6 @@
 
 - 달력 기능 제공
 - To do List 기능 제공
-- google calendar 자동동기화 (optional)
 
 ## Getting Started
 
