@@ -12,3 +12,4 @@ export 'display_option/display_option.dart';
 export 'plato_appointment_table.dart';
 export 'plato_credential_table.dart';
 export 'sync_info_table.dart';
+export 'subject_code_color_table.dart';
