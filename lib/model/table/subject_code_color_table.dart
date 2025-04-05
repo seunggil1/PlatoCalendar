@@ -43,10 +43,24 @@ class SubjectCodeColorDrift extends _$SubjectCodeColorDrift {
     });
   }
 
-  Future<List<SubjectCodeColorTableData>> readAll(
+  Future<List<SubjectCodeColorTableData>> readAll() async {
+    final query = select(subjectCodeColorTable)
+      ..orderBy([
+        (t) => OrderingTerm(expression: t.year, mode: OrderingMode.asc),
+        (t) => OrderingTerm(expression: t.semester, mode: OrderingMode.asc),
+      ]);
+
+    return await query.get();
+  }
+
+  Future<List<SubjectCodeColorTableData>> readAllThisSemester(
       {required int year, required int semester}) async {
     final query = select(subjectCodeColorTable)
-      ..where((t) => t.year.equals(year) & t.semester.equals(semester));
+      ..where((t) => t.year.equals(year) & t.semester.equals(semester))
+      ..orderBy([
+        (t) => OrderingTerm(expression: t.year, mode: OrderingMode.asc),
+        (t) => OrderingTerm(expression: t.semester, mode: OrderingMode.asc),
+      ]);
 
     return await query.get();
   }
