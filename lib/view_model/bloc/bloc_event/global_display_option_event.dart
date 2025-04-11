@@ -6,7 +6,7 @@ sealed class GlobalDisplayOptionEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class GlobalDisplayOptionInitial extends GlobalDisplayOptionEvent {}
+class GlobalDisplayOptionUpdate extends GlobalDisplayOptionEvent {}
 
 class ChangeTapIndex extends GlobalDisplayOptionEvent {
   final int tapIndex;
