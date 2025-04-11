@@ -20,23 +20,8 @@ class PlatoLoginSetting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _logger.fine('Widget build');
-
-    return BlocConsumer<PlatoSyncInfoBloc, PlatoSyncInfoState>(
-        listener: (context, state) {
-      if (state.syncStatus == SyncStatusType.synced &&
-          (state.syncInfo?.success ?? false)) {
-        bool showFinished = context
-            .read<SyncfusionCalendarOptionBloc>()
-            .state
-            .calendarOption
-            .showFinished;
-        context
-            .read<SyncfusionCalendarAppointmentCubit>()
-            .loadPlatoAppointment(showFinished: showFinished);
-        context.read<TodoListBloc>().add(LoadTodoList());
-      }
-    }, builder: (context, state) {
+    return BlocBuilder<PlatoSyncInfoBloc, PlatoSyncInfoState>(
+        builder: (context, state) {
       PlatoCredential? platoCredential = state.platoCredential;
       SyncInfo? syncInfo = state.syncInfo;
       SyncStatusType syncStatusType = state.syncStatus;
@@ -123,7 +108,6 @@ class AfterLoginWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     return ListTile(
         leading: Padding(

@@ -69,9 +69,8 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) => PlatoSyncInfoBloc(
               platoCredential: Setup.platoCredential,
               syncInfo: Setup.syncInfo)),
-      BlocProvider<SyncfusionCalendarAppointmentCubit>(
-          create: (BuildContext context) =>
-              SyncfusionCalendarAppointmentCubit())
+      BlocProvider<SyncfusionCalendarAppointmentBloc>(
+          create: (BuildContext context) => SyncfusionCalendarAppointmentBloc())
     ], child: const MaterialThemePage());
   }
 }

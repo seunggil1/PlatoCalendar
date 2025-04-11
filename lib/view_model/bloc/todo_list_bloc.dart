@@ -12,16 +12,23 @@ import 'bloc_state/bloc_state.dart';
 
 class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
   TodoListBloc() : super(TodoListState()) {
+    PlatoAppointmentDB.dbUpdatedStream.listen((_) async {
+      add(LoadTodoList());
+    });
+    TaskCheckListDisplayOptionDB.dbUpdatedStream.listen((_) async {
+      add(LoadTodoList());
+    });
+
     on<LoadTodoList>((event, emit) async {
       final taskCheckListDisplayOption =
           await TaskCheckListDisplayOptionDB.read();
       final subjectCodeList = await PlatoAppointmentDB.readAllSubjectCode();
 
       String subjectCodeFilter =
-          event.subjectCodeFilter ?? state.subjectCodeList.first;
+          event.subjectCodeFilter ?? state.subjectCodeFilter;
 
       final data = await _readData(
-          subjectCodeList: subjectCodeList,
+          subjectCodeList: subjectCodeList.toList(growable: false),
           option: taskCheckListDisplayOption,
           subjectCodeFilter: subjectCodeFilter);
 
@@ -30,7 +37,6 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
 
     on<UpdateTodo>((event, emit) async {
       await PlatoAppointmentDB.write(event.appointment);
-      add(LoadTodoList());
     });
 
     on<ChangeTodoDisplayOption>((event, emit) async {
@@ -40,61 +46,56 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
           !nextOption.showToDoList[event.changeIndex];
 
       await TaskCheckListDisplayOptionDB.write(nextOption);
-      final data = await _readData(
-          subjectCodeList: state.subjectCodeList,
-          option: nextOption,
-          subjectCodeFilter: state.subjectCodeFilter);
-      emit(data);
     });
   }
+}
 
-  Future<TodoListState> _readData(
-      {required List<String> subjectCodeList,
-      required TaskCheckListDisplayOption option,
-      required String subjectCodeFilter}) async {
-    final readRequestList = [];
+Future<TodoListState> _readData(
+    {required List<String> subjectCodeList,
+    required TaskCheckListDisplayOption option,
+    required String subjectCodeFilter}) async {
+  final readRequestList = [];
 
-    option.showToDoList.asMap().forEach((index, show) {
-      readRequestList.add(toDoListMapper[index]);
+  option.showToDoList.asMap().forEach((index, show) {
+    readRequestList.add(toDoListMapper[index]);
 
-      // 만약 displayOption이 true인 것만 requestList에 추가할거면
-      // if (show) {
-      //   readRequestList.add(toDoListMapper[index]);
-      // }
-    });
+    // 만약 displayOption이 true인 것만 requestList에 추가할거면
+    // if (show) {
+    //   readRequestList.add(toDoListMapper[index]);
+    // }
+  });
 
-    final List<List<PlatoAppointment>> appointmentList =
-        await Future.wait(readRequestList.map((e) => e(subjectCodeFilter)));
-    final Queue<List<PlatoAppointment>> appointmentListQueue =
-        Queue.from(appointmentList);
+  final List<List<PlatoAppointment>> appointmentList =
+      await Future.wait(readRequestList.map((e) => e(subjectCodeFilter)));
+  final Queue<List<PlatoAppointment>> appointmentListQueue =
+      Queue.from(appointmentList);
 
-    // displayOption이 false인 것은 빈 리스트로 채워서 반환
-    final data = <List<PlatoAppointment>>[];
-    option.showToDoList.asMap().forEach((index, show) {
-      data.add(appointmentListQueue.removeFirst());
-      // if (show) {
-      //   data.add(appointmentListQueue.removeFirst());
-      // } else {
-      //   data.add(<PlatoAppointment>[]);
-      // }
-    });
+  // displayOption이 false인 것은 빈 리스트로 채워서 반환
+  final data = <List<PlatoAppointment>>[];
+  option.showToDoList.asMap().forEach((index, show) {
+    data.add(appointmentListQueue.removeFirst());
+    // if (show) {
+    //   data.add(appointmentListQueue.removeFirst());
+    // } else {
+    //   data.add(<PlatoAppointment>[]);
+    // }
+  });
 
-    final result = TodoListState(
-      subjectCodeList: subjectCodeList,
-      subjectCodeFilter: subjectCodeFilter,
-      taskCheckListDisplayOption: option,
-      taskCheckListPassed: data[0],
-      taskCheckList6Hour: data[1],
-      taskCheckList12Hour: data[2],
-      taskCheckListToday: data[3],
-      taskCheckListTomorrow: data[4],
-      taskCheckListWeek: data[5],
-      taskCheckListMoreThanWeek: data[6],
-      taskCheckListComplete: data[7],
-    );
+  final result = TodoListState(
+    subjectCodeList: subjectCodeList,
+    subjectCodeFilter: subjectCodeFilter,
+    taskCheckListDisplayOption: option,
+    taskCheckListPassed: data[0],
+    taskCheckList6Hour: data[1],
+    taskCheckList12Hour: data[2],
+    taskCheckListToday: data[3],
+    taskCheckListTomorrow: data[4],
+    taskCheckListWeek: data[5],
+    taskCheckListMoreThanWeek: data[6],
+    taskCheckListComplete: data[7],
+  );
 
-    return result;
-  }
+  return result;
 }
 
 final toDoListMapper = {

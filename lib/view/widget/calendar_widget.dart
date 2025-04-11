@@ -25,7 +25,7 @@ class CalendarWidget extends StatelessWidget {
     SyncfusionCalendarOptionState calendarOptionState =
         context.watch<SyncfusionCalendarOptionBloc>().state;
     SyncfusionCalendarAppointmentState appointmentState =
-        context.watch<SyncfusionCalendarAppointmentCubit>().state;
+        context.watch<SyncfusionCalendarAppointmentBloc>().state;
 
     List<PlatoAppointment> appointmentList = appointmentState.appointments;
 
@@ -97,14 +97,6 @@ class CalendarWidget extends StatelessWidget {
   void showAppointmentEditor(BuildContext context, PlatoAppointment appointment,
       List<String> subjectCodeList) async {
     final todoListBloc = context.read<TodoListBloc>();
-    final bool showFinished0 = context
-        .read<SyncfusionCalendarOptionBloc>()
-        .state
-        .calendarOption
-        .showFinished;
-    final syncfusionCalendarAppointmentCubit =
-        context.read<SyncfusionCalendarAppointmentCubit>();
-
     final updateAppointment = await showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -113,8 +105,6 @@ class CalendarWidget extends StatelessWidget {
         });
     if (updateAppointment != null) {
       todoListBloc.add(UpdateTodo(updateAppointment));
-      syncfusionCalendarAppointmentCubit.loadPlatoAppointment(
-          showFinished: showFinished0);
     }
   }
 }

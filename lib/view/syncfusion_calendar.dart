@@ -26,14 +26,9 @@ class _SyncfusionCalendarPageState extends State<SyncfusionCalendarPage> {
     super.initState();
     _logger.fine('initState');
 
-    bool showFinished = context
-        .read<SyncfusionCalendarOptionBloc>()
-        .state
-        .calendarOption
-        .showFinished;
     context
-        .read<SyncfusionCalendarAppointmentCubit>()
-        .loadPlatoAppointment(showFinished: showFinished);
+        .read<SyncfusionCalendarAppointmentBloc>()
+        .add(SyncfusionCalendarAppointmentUpdate());
   }
 
   @override

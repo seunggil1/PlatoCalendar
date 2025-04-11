@@ -6,18 +6,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Project imports:
 import 'package:plato_calendar/etc/subject_code.dart';
+import 'package:plato_calendar/util/logger.dart';
 import 'package:plato_calendar/view/widget/appointment_editor/appointment_editor.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
 
+final _logger = LoggerManager.getLogger('widget - subject_code_app_bar');
+
 AppBar getSubjectCodeAppBarWidget(BuildContext context) {
   final todoListBloc = context.read<TodoListBloc>();
-  final bool showFinished = context
-      .read<SyncfusionCalendarOptionBloc>()
-      .state
-      .calendarOption
-      .showFinished;
-  final syncfusionCalendarAppointmentCubit =
-      context.read<SyncfusionCalendarAppointmentCubit>();
 
   return AppBar(
       elevation: 0,
@@ -27,7 +23,7 @@ AppBar getSubjectCodeAppBarWidget(BuildContext context) {
         List<String> subjectCodeList = state.subjectCodeList;
         String subjectCodeFilter = state.subjectCodeFilter;
 
-        debugPrint(
+        _logger.fine(
             'subjectCodeList: $subjectCodeList, Filter: $subjectCodeFilter');
 
         return Row(
@@ -75,8 +71,6 @@ AppBar getSubjectCodeAppBarWidget(BuildContext context) {
                       }).then((updateAppointment) {
                     if (updateAppointment != null) {
                       todoListBloc.add(UpdateTodo(updateAppointment));
-                      syncfusionCalendarAppointmentCubit.loadPlatoAppointment(
-                          showFinished: showFinished);
                     }
                   });
                 },

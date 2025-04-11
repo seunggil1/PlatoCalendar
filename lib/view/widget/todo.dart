@@ -85,13 +85,6 @@ class _TodoWidget extends StatelessWidget {
     return TextButton(
         onPressed: () {
           final todoListBloc = context.read<TodoListBloc>();
-          final bool showFinished = context
-              .read<SyncfusionCalendarOptionBloc>()
-              .state
-              .calendarOption
-              .showFinished;
-          final syncfusionCalendarAppointmentCubit =
-              context.read<SyncfusionCalendarAppointmentCubit>();
           showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -101,8 +94,6 @@ class _TodoWidget extends StatelessWidget {
               }).then((updateAppointment) {
             if (updateAppointment == null) return;
             todoListBloc.add(UpdateTodo(updateAppointment));
-            syncfusionCalendarAppointmentCubit.loadPlatoAppointment(
-                showFinished: showFinished);
           });
         },
         style: TextButton.styleFrom(
@@ -121,14 +112,6 @@ class _TodoWidget extends StatelessWidget {
                   context
                       .read<TodoListBloc>()
                       .add(UpdateTodo(nextAppointmentData));
-                  bool showFinished = context
-                      .read<SyncfusionCalendarOptionBloc>()
-                      .state
-                      .calendarOption
-                      .showFinished;
-                  context
-                      .read<SyncfusionCalendarAppointmentCubit>()
-                      .loadPlatoAppointment(showFinished: showFinished);
                   if (finished) {
                     showSnackBar(context, '완료된 일정으로 변경했습니다.');
                   }

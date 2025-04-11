@@ -13,7 +13,7 @@ class PlatoSyncInfoBloc extends Bloc<PlatoSyncInfoEvent, PlatoSyncInfoState> {
     on<PlatoLogin>((event, emit) async {
       await PlatoCredentialDB.write(event.platoCredential);
       emit(PlatoSyncInfoState(
-          platoCredential: event.platoCredential, syncInfo: syncInfo));
+          platoCredential: event.platoCredential, syncInfo: state.syncInfo));
     });
 
     on<PlatoLogout>((event, emit) async {

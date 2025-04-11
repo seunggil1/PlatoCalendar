@@ -43,9 +43,6 @@ class SyncfusionCalendarShowFinishedSettingWidget extends StatelessWidget {
                       context.read<SyncfusionCalendarOptionBloc>().add(
                           SyncfusionCalendarOptionUpdate(
                               calendarOption.copyWith(showFinished: value)));
-                      context
-                          .read<SyncfusionCalendarAppointmentCubit>()
-                          .loadPlatoAppointment(showFinished: value);
                     }))));
   }
 }
