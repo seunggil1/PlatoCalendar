@@ -12,7 +12,6 @@ class PlatoCredentialDB {
 
   static final _dbUpdateStream = StreamController<bool>.broadcast();
   static Stream<bool> get dbUpdatedStream async* {
-    yield true;
     yield* _dbUpdateStream.stream;
   }
 
