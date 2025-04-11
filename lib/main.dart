@@ -9,10 +9,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 // Project imports:
 import 'package:plato_calendar/etc/theme_seed_color.dart';
 import 'package:plato_calendar/model/model.dart';
-import 'package:plato_calendar/model_repository/calendar_option_db.dart';
 import 'package:plato_calendar/model_repository/global_display_option_db.dart';
 import 'package:plato_calendar/model_repository/plato_credential_db.dart';
 import 'package:plato_calendar/model_repository/sync_info_db.dart';
+import 'package:plato_calendar/model_repository/syncfusion_calendar_option_db.dart';
 import 'package:plato_calendar/util/util.dart';
 import 'package:plato_calendar/view/view.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
@@ -20,7 +20,7 @@ import 'package:plato_calendar/view_model/view_model.dart';
 // 앱 시작전 호출되어야 함.
 class Setup {
   static late GlobalDisplayOption globalDisplayOption;
-  static late CalendarOption calendarOption;
+  static late SyncfusionCalendarOption calendarOption;
   static late PlatoCredential? platoCredential;
   static late SyncInfo? syncInfo;
 }
@@ -37,7 +37,7 @@ void main() async {
   ]);
   await Future.wait([
     GlobalDisplayOptionDB.read(),
-    CalendarOptionDB.read(),
+    SyncfusionCalendarOptionDB.read(),
     PlatoCredentialDB.read(),
     SyncInfoDB.read()
   ]).then((List value) {

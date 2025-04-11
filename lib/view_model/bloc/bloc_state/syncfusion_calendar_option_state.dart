@@ -5,11 +5,11 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:plato_calendar/model/model.dart';
 
 final class SyncfusionCalendarOptionState {
-  final CalendarOption calendarOption;
+  final SyncfusionCalendarOption calendarOption;
 
   CalendarController calendarController;
 
-  SyncfusionCalendarOptionState(CalendarOption option,
+  SyncfusionCalendarOptionState(SyncfusionCalendarOption option,
       {CalendarView? calendarView, DateTime? displayDate})
       : calendarOption = option,
         calendarController = CalendarController()

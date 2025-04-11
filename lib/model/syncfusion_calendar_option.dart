@@ -5,7 +5,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 // Project imports:
 import 'table/table.dart';
 
-class CalendarOption {
+class SyncfusionCalendarOption {
   final int? id;
   final bool showFinished;
   final int firstDayOfWeek;
@@ -14,7 +14,7 @@ class CalendarOption {
   final bool showAgenda;
   final DateTime dbTimestamp;
 
-  CalendarOption({
+  SyncfusionCalendarOption({
     this.id,
     this.showFinished = true,
     this.firstDayOfWeek = 7,
@@ -23,13 +23,13 @@ class CalendarOption {
     DateTime? dbTimestamp,
   }) : dbTimestamp = dbTimestamp ?? DateTime.now();
 
-  CalendarOption copyWith({
+  SyncfusionCalendarOption copyWith({
     bool? showFinished,
     int? firstDayOfWeek,
     bool? showAgenda,
     DateTime? dbTimestamp,
   }) {
-    return CalendarOption(
+    return SyncfusionCalendarOption(
       showFinished: showFinished ?? this.showFinished,
       firstDayOfWeek: firstDayOfWeek ?? this.firstDayOfWeek,
       showAgenda: showAgenda ?? this.showAgenda,
@@ -53,10 +53,10 @@ class CalendarOption {
       'showAgenda: $showAgenda, dbTimestamp: $dbTimestamp)';
 }
 
-extension CalendarOptionMapper on CalendarOption {
+extension CalendarOptionMapper on SyncfusionCalendarOption {
   /// CalendarOption -> CalendarOptionTableData
-  CalendarOptionTableData _toData() {
-    return CalendarOptionTableData(
+  SyncfusionCalendarOptionTableData _toData() {
+    return SyncfusionCalendarOptionTableData(
       id: id ?? 0,
       // autoIncrement 컬럼이므로, INSERT 시에 0 무시됨.
       showFinished: showFinished,
@@ -66,8 +66,8 @@ extension CalendarOptionMapper on CalendarOption {
     );
   }
 
-  CalendarOptionTableCompanion toSchema() {
-    return CalendarOptionTableCompanion(
+  SyncfusionCalendarOptionTableCompanion toSchema() {
+    return SyncfusionCalendarOptionTableCompanion(
       showFinished: Value(showFinished),
       firstDayOfWeek: Value(firstDayOfWeek),
       showAgenda: Value(showAgenda),
@@ -76,10 +76,10 @@ extension CalendarOptionMapper on CalendarOption {
   }
 }
 
-extension CalendarOptionTableDataMapper on CalendarOptionTableData {
+extension CalendarOptionTableDataMapper on SyncfusionCalendarOptionTableData {
   /// CalendarOptionTableData -> CalendarOption
-  CalendarOption toModel() {
-    return CalendarOption(
+  SyncfusionCalendarOption toModel() {
+    return SyncfusionCalendarOption(
       id: id,
       showFinished: showFinished,
       firstDayOfWeek: firstDayOfWeek,

@@ -10,10 +10,11 @@ import './bloc_state/bloc_state.dart';
 // TODO: implement event handler
 class SyncfusionCalendarOptionBloc
     extends Bloc<SyncfusionCalendarOptionEvent, SyncfusionCalendarOptionState> {
-  SyncfusionCalendarOptionBloc(CalendarOption? init)
-      : super(SyncfusionCalendarOptionState(init ?? CalendarOption())) {
+  SyncfusionCalendarOptionBloc(SyncfusionCalendarOption? init)
+      : super(
+            SyncfusionCalendarOptionState(init ?? SyncfusionCalendarOption())) {
     on<SyncfusionCalendarOptionUpdate>((event, emit) async {
-      await CalendarOptionDB.write(event.option);
+      await SyncfusionCalendarOptionDB.write(event.option);
       emit(SyncfusionCalendarOptionState(event.option,
           calendarView: state.calendarController.view,
           displayDate: state.calendarController.displayDate));

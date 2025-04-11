@@ -1,14 +1,16 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'calendar_option_table.dart';
+part of 'syncfusion_calendar_option_table.dart';
 
 // ignore_for_file: type=lint
-class $CalendarOptionTableTable extends CalendarOptionTable
-    with TableInfo<$CalendarOptionTableTable, CalendarOptionTableData> {
+class $SyncfusionCalendarOptionTableTable extends SyncfusionCalendarOptionTable
+    with
+        TableInfo<$SyncfusionCalendarOptionTableTable,
+            SyncfusionCalendarOptionTableData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $CalendarOptionTableTable(this.attachedDatabase, [this._alias]);
+  $SyncfusionCalendarOptionTableTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -55,10 +57,10 @@ class $CalendarOptionTableTable extends CalendarOptionTable
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'calendar_option_table';
+  static const String $name = 'syncfusion_calendar_option_table';
   @override
   VerificationContext validateIntegrity(
-      Insertable<CalendarOptionTableData> instance,
+      Insertable<SyncfusionCalendarOptionTableData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -103,10 +105,10 @@ class $CalendarOptionTableTable extends CalendarOptionTable
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  CalendarOptionTableData map(Map<String, dynamic> data,
+  SyncfusionCalendarOptionTableData map(Map<String, dynamic> data,
       {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return CalendarOptionTableData(
+    return SyncfusionCalendarOptionTableData(
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       showFinished: attachedDatabase.typeMapping
@@ -121,19 +123,19 @@ class $CalendarOptionTableTable extends CalendarOptionTable
   }
 
   @override
-  $CalendarOptionTableTable createAlias(String alias) {
-    return $CalendarOptionTableTable(attachedDatabase, alias);
+  $SyncfusionCalendarOptionTableTable createAlias(String alias) {
+    return $SyncfusionCalendarOptionTableTable(attachedDatabase, alias);
   }
 }
 
-class CalendarOptionTableData extends DataClass
-    implements Insertable<CalendarOptionTableData> {
+class SyncfusionCalendarOptionTableData extends DataClass
+    implements Insertable<SyncfusionCalendarOptionTableData> {
   final int id;
   final bool showFinished;
   final int firstDayOfWeek;
   final bool showAgenda;
   final DateTime dbTimestamp;
-  const CalendarOptionTableData(
+  const SyncfusionCalendarOptionTableData(
       {required this.id,
       required this.showFinished,
       required this.firstDayOfWeek,
@@ -150,8 +152,8 @@ class CalendarOptionTableData extends DataClass
     return map;
   }
 
-  CalendarOptionTableCompanion toCompanion(bool nullToAbsent) {
-    return CalendarOptionTableCompanion(
+  SyncfusionCalendarOptionTableCompanion toCompanion(bool nullToAbsent) {
+    return SyncfusionCalendarOptionTableCompanion(
       id: Value(id),
       showFinished: Value(showFinished),
       firstDayOfWeek: Value(firstDayOfWeek),
@@ -160,10 +162,10 @@ class CalendarOptionTableData extends DataClass
     );
   }
 
-  factory CalendarOptionTableData.fromJson(Map<String, dynamic> json,
+  factory SyncfusionCalendarOptionTableData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return CalendarOptionTableData(
+    return SyncfusionCalendarOptionTableData(
       id: serializer.fromJson<int>(json['id']),
       showFinished: serializer.fromJson<bool>(json['showFinished']),
       firstDayOfWeek: serializer.fromJson<int>(json['firstDayOfWeek']),
@@ -183,21 +185,22 @@ class CalendarOptionTableData extends DataClass
     };
   }
 
-  CalendarOptionTableData copyWith(
+  SyncfusionCalendarOptionTableData copyWith(
           {int? id,
           bool? showFinished,
           int? firstDayOfWeek,
           bool? showAgenda,
           DateTime? dbTimestamp}) =>
-      CalendarOptionTableData(
+      SyncfusionCalendarOptionTableData(
         id: id ?? this.id,
         showFinished: showFinished ?? this.showFinished,
         firstDayOfWeek: firstDayOfWeek ?? this.firstDayOfWeek,
         showAgenda: showAgenda ?? this.showAgenda,
         dbTimestamp: dbTimestamp ?? this.dbTimestamp,
       );
-  CalendarOptionTableData copyWithCompanion(CalendarOptionTableCompanion data) {
-    return CalendarOptionTableData(
+  SyncfusionCalendarOptionTableData copyWithCompanion(
+      SyncfusionCalendarOptionTableCompanion data) {
+    return SyncfusionCalendarOptionTableData(
       id: data.id.present ? data.id.value : this.id,
       showFinished: data.showFinished.present
           ? data.showFinished.value
@@ -214,7 +217,7 @@ class CalendarOptionTableData extends DataClass
 
   @override
   String toString() {
-    return (StringBuffer('CalendarOptionTableData(')
+    return (StringBuffer('SyncfusionCalendarOptionTableData(')
           ..write('id: $id, ')
           ..write('showFinished: $showFinished, ')
           ..write('firstDayOfWeek: $firstDayOfWeek, ')
@@ -230,7 +233,7 @@ class CalendarOptionTableData extends DataClass
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is CalendarOptionTableData &&
+      (other is SyncfusionCalendarOptionTableData &&
           other.id == this.id &&
           other.showFinished == this.showFinished &&
           other.firstDayOfWeek == this.firstDayOfWeek &&
@@ -238,21 +241,21 @@ class CalendarOptionTableData extends DataClass
           other.dbTimestamp == this.dbTimestamp);
 }
 
-class CalendarOptionTableCompanion
-    extends UpdateCompanion<CalendarOptionTableData> {
+class SyncfusionCalendarOptionTableCompanion
+    extends UpdateCompanion<SyncfusionCalendarOptionTableData> {
   final Value<int> id;
   final Value<bool> showFinished;
   final Value<int> firstDayOfWeek;
   final Value<bool> showAgenda;
   final Value<DateTime> dbTimestamp;
-  const CalendarOptionTableCompanion({
+  const SyncfusionCalendarOptionTableCompanion({
     this.id = const Value.absent(),
     this.showFinished = const Value.absent(),
     this.firstDayOfWeek = const Value.absent(),
     this.showAgenda = const Value.absent(),
     this.dbTimestamp = const Value.absent(),
   });
-  CalendarOptionTableCompanion.insert({
+  SyncfusionCalendarOptionTableCompanion.insert({
     this.id = const Value.absent(),
     required bool showFinished,
     required int firstDayOfWeek,
@@ -262,7 +265,7 @@ class CalendarOptionTableCompanion
         firstDayOfWeek = Value(firstDayOfWeek),
         showAgenda = Value(showAgenda),
         dbTimestamp = Value(dbTimestamp);
-  static Insertable<CalendarOptionTableData> custom({
+  static Insertable<SyncfusionCalendarOptionTableData> custom({
     Expression<int>? id,
     Expression<bool>? showFinished,
     Expression<int>? firstDayOfWeek,
@@ -278,13 +281,13 @@ class CalendarOptionTableCompanion
     });
   }
 
-  CalendarOptionTableCompanion copyWith(
+  SyncfusionCalendarOptionTableCompanion copyWith(
       {Value<int>? id,
       Value<bool>? showFinished,
       Value<int>? firstDayOfWeek,
       Value<bool>? showAgenda,
       Value<DateTime>? dbTimestamp}) {
-    return CalendarOptionTableCompanion(
+    return SyncfusionCalendarOptionTableCompanion(
       id: id ?? this.id,
       showFinished: showFinished ?? this.showFinished,
       firstDayOfWeek: firstDayOfWeek ?? this.firstDayOfWeek,
@@ -316,7 +319,7 @@ class CalendarOptionTableCompanion
 
   @override
   String toString() {
-    return (StringBuffer('CalendarOptionTableCompanion(')
+    return (StringBuffer('SyncfusionCalendarOptionTableCompanion(')
           ..write('id: $id, ')
           ..write('showFinished: $showFinished, ')
           ..write('firstDayOfWeek: $firstDayOfWeek, ')
@@ -327,31 +330,32 @@ class CalendarOptionTableCompanion
   }
 }
 
-abstract class _$CalendarOptionDrift extends GeneratedDatabase {
-  _$CalendarOptionDrift(QueryExecutor e) : super(e);
-  $CalendarOptionDriftManager get managers => $CalendarOptionDriftManager(this);
-  late final $CalendarOptionTableTable calendarOptionTable =
-      $CalendarOptionTableTable(this);
+abstract class _$SyncfusionCalendarOptionDrift extends GeneratedDatabase {
+  _$SyncfusionCalendarOptionDrift(QueryExecutor e) : super(e);
+  $SyncfusionCalendarOptionDriftManager get managers =>
+      $SyncfusionCalendarOptionDriftManager(this);
+  late final $SyncfusionCalendarOptionTableTable syncfusionCalendarOptionTable =
+      $SyncfusionCalendarOptionTableTable(this);
   late final Index dbTimestamp = Index('dbTimestamp',
-      'CREATE INDEX dbTimestamp ON calendar_option_table (db_timestamp)');
+      'CREATE INDEX dbTimestamp ON syncfusion_calendar_option_table (db_timestamp)');
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [calendarOptionTable, dbTimestamp];
+      [syncfusionCalendarOptionTable, dbTimestamp];
 }
 
-typedef $$CalendarOptionTableTableCreateCompanionBuilder
-    = CalendarOptionTableCompanion Function({
+typedef $$SyncfusionCalendarOptionTableTableCreateCompanionBuilder
+    = SyncfusionCalendarOptionTableCompanion Function({
   Value<int> id,
   required bool showFinished,
   required int firstDayOfWeek,
   required bool showAgenda,
   required DateTime dbTimestamp,
 });
-typedef $$CalendarOptionTableTableUpdateCompanionBuilder
-    = CalendarOptionTableCompanion Function({
+typedef $$SyncfusionCalendarOptionTableTableUpdateCompanionBuilder
+    = SyncfusionCalendarOptionTableCompanion Function({
   Value<int> id,
   Value<bool> showFinished,
   Value<int> firstDayOfWeek,
@@ -359,9 +363,9 @@ typedef $$CalendarOptionTableTableUpdateCompanionBuilder
   Value<DateTime> dbTimestamp,
 });
 
-class $$CalendarOptionTableTableFilterComposer
-    extends Composer<_$CalendarOptionDrift, $CalendarOptionTableTable> {
-  $$CalendarOptionTableTableFilterComposer({
+class $$SyncfusionCalendarOptionTableTableFilterComposer extends Composer<
+    _$SyncfusionCalendarOptionDrift, $SyncfusionCalendarOptionTableTable> {
+  $$SyncfusionCalendarOptionTableTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -385,9 +389,9 @@ class $$CalendarOptionTableTableFilterComposer
       column: $table.dbTimestamp, builder: (column) => ColumnFilters(column));
 }
 
-class $$CalendarOptionTableTableOrderingComposer
-    extends Composer<_$CalendarOptionDrift, $CalendarOptionTableTable> {
-  $$CalendarOptionTableTableOrderingComposer({
+class $$SyncfusionCalendarOptionTableTableOrderingComposer extends Composer<
+    _$SyncfusionCalendarOptionDrift, $SyncfusionCalendarOptionTableTable> {
+  $$SyncfusionCalendarOptionTableTableOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -412,9 +416,9 @@ class $$CalendarOptionTableTableOrderingComposer
       column: $table.dbTimestamp, builder: (column) => ColumnOrderings(column));
 }
 
-class $$CalendarOptionTableTableAnnotationComposer
-    extends Composer<_$CalendarOptionDrift, $CalendarOptionTableTable> {
-  $$CalendarOptionTableTableAnnotationComposer({
+class $$SyncfusionCalendarOptionTableTableAnnotationComposer extends Composer<
+    _$SyncfusionCalendarOptionDrift, $SyncfusionCalendarOptionTableTable> {
+  $$SyncfusionCalendarOptionTableTableAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -437,34 +441,38 @@ class $$CalendarOptionTableTableAnnotationComposer
       column: $table.dbTimestamp, builder: (column) => column);
 }
 
-class $$CalendarOptionTableTableTableManager extends RootTableManager<
-    _$CalendarOptionDrift,
-    $CalendarOptionTableTable,
-    CalendarOptionTableData,
-    $$CalendarOptionTableTableFilterComposer,
-    $$CalendarOptionTableTableOrderingComposer,
-    $$CalendarOptionTableTableAnnotationComposer,
-    $$CalendarOptionTableTableCreateCompanionBuilder,
-    $$CalendarOptionTableTableUpdateCompanionBuilder,
+class $$SyncfusionCalendarOptionTableTableTableManager extends RootTableManager<
+    _$SyncfusionCalendarOptionDrift,
+    $SyncfusionCalendarOptionTableTable,
+    SyncfusionCalendarOptionTableData,
+    $$SyncfusionCalendarOptionTableTableFilterComposer,
+    $$SyncfusionCalendarOptionTableTableOrderingComposer,
+    $$SyncfusionCalendarOptionTableTableAnnotationComposer,
+    $$SyncfusionCalendarOptionTableTableCreateCompanionBuilder,
+    $$SyncfusionCalendarOptionTableTableUpdateCompanionBuilder,
     (
-      CalendarOptionTableData,
-      BaseReferences<_$CalendarOptionDrift, $CalendarOptionTableTable,
-          CalendarOptionTableData>
+      SyncfusionCalendarOptionTableData,
+      BaseReferences<
+          _$SyncfusionCalendarOptionDrift,
+          $SyncfusionCalendarOptionTableTable,
+          SyncfusionCalendarOptionTableData>
     ),
-    CalendarOptionTableData,
+    SyncfusionCalendarOptionTableData,
     PrefetchHooks Function()> {
-  $$CalendarOptionTableTableTableManager(
-      _$CalendarOptionDrift db, $CalendarOptionTableTable table)
+  $$SyncfusionCalendarOptionTableTableTableManager(
+      _$SyncfusionCalendarOptionDrift db,
+      $SyncfusionCalendarOptionTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $$CalendarOptionTableTableFilterComposer($db: db, $table: table),
+              $$SyncfusionCalendarOptionTableTableFilterComposer(
+                  $db: db, $table: table),
           createOrderingComposer: () =>
-              $$CalendarOptionTableTableOrderingComposer(
+              $$SyncfusionCalendarOptionTableTableOrderingComposer(
                   $db: db, $table: table),
           createComputedFieldComposer: () =>
-              $$CalendarOptionTableTableAnnotationComposer(
+              $$SyncfusionCalendarOptionTableTableAnnotationComposer(
                   $db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
@@ -473,7 +481,7 @@ class $$CalendarOptionTableTableTableManager extends RootTableManager<
             Value<bool> showAgenda = const Value.absent(),
             Value<DateTime> dbTimestamp = const Value.absent(),
           }) =>
-              CalendarOptionTableCompanion(
+              SyncfusionCalendarOptionTableCompanion(
             id: id,
             showFinished: showFinished,
             firstDayOfWeek: firstDayOfWeek,
@@ -487,7 +495,7 @@ class $$CalendarOptionTableTableTableManager extends RootTableManager<
             required bool showAgenda,
             required DateTime dbTimestamp,
           }) =>
-              CalendarOptionTableCompanion.insert(
+              SyncfusionCalendarOptionTableCompanion.insert(
             id: id,
             showFinished: showFinished,
             firstDayOfWeek: firstDayOfWeek,
@@ -501,26 +509,31 @@ class $$CalendarOptionTableTableTableManager extends RootTableManager<
         ));
 }
 
-typedef $$CalendarOptionTableTableProcessedTableManager = ProcessedTableManager<
-    _$CalendarOptionDrift,
-    $CalendarOptionTableTable,
-    CalendarOptionTableData,
-    $$CalendarOptionTableTableFilterComposer,
-    $$CalendarOptionTableTableOrderingComposer,
-    $$CalendarOptionTableTableAnnotationComposer,
-    $$CalendarOptionTableTableCreateCompanionBuilder,
-    $$CalendarOptionTableTableUpdateCompanionBuilder,
-    (
-      CalendarOptionTableData,
-      BaseReferences<_$CalendarOptionDrift, $CalendarOptionTableTable,
-          CalendarOptionTableData>
-    ),
-    CalendarOptionTableData,
-    PrefetchHooks Function()>;
+typedef $$SyncfusionCalendarOptionTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$SyncfusionCalendarOptionDrift,
+        $SyncfusionCalendarOptionTableTable,
+        SyncfusionCalendarOptionTableData,
+        $$SyncfusionCalendarOptionTableTableFilterComposer,
+        $$SyncfusionCalendarOptionTableTableOrderingComposer,
+        $$SyncfusionCalendarOptionTableTableAnnotationComposer,
+        $$SyncfusionCalendarOptionTableTableCreateCompanionBuilder,
+        $$SyncfusionCalendarOptionTableTableUpdateCompanionBuilder,
+        (
+          SyncfusionCalendarOptionTableData,
+          BaseReferences<
+              _$SyncfusionCalendarOptionDrift,
+              $SyncfusionCalendarOptionTableTable,
+              SyncfusionCalendarOptionTableData>
+        ),
+        SyncfusionCalendarOptionTableData,
+        PrefetchHooks Function()>;
 
-class $CalendarOptionDriftManager {
-  final _$CalendarOptionDrift _db;
-  $CalendarOptionDriftManager(this._db);
-  $$CalendarOptionTableTableTableManager get calendarOptionTable =>
-      $$CalendarOptionTableTableTableManager(_db, _db.calendarOptionTable);
+class $SyncfusionCalendarOptionDriftManager {
+  final _$SyncfusionCalendarOptionDrift _db;
+  $SyncfusionCalendarOptionDriftManager(this._db);
+  $$SyncfusionCalendarOptionTableTableTableManager
+      get syncfusionCalendarOptionTable =>
+          $$SyncfusionCalendarOptionTableTableTableManager(
+              _db, _db.syncfusionCalendarOptionTable);
 }

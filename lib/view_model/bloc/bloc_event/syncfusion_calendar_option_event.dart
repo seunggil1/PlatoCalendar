@@ -11,7 +11,7 @@ sealed class SyncfusionCalendarOptionEvent extends Equatable {
 }
 
 class SyncfusionCalendarOptionUpdate extends SyncfusionCalendarOptionEvent {
-  final CalendarOption option;
+  final SyncfusionCalendarOption option;
 
   SyncfusionCalendarOptionUpdate(this.option);
 

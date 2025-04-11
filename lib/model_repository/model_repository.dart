@@ -3,7 +3,7 @@
 
 library;
 
-export 'calendar_option_db.dart';
+export 'syncfusion_calendar_option_db.dart';
 export 'global_display_option_db.dart';
 export 'plato_appointment_db.dart';
 export 'plato_credential_db.dart';

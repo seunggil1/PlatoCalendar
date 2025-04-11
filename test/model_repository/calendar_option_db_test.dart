@@ -17,7 +17,7 @@ void main() {
   const MethodChannel channel =
       MethodChannel('plugins.flutter.io/path_provider');
   late Directory testDirectory;
-  late CalendarOption testCalendarOption;
+  late SyncfusionCalendarOption testCalendarOption;
 
   setUp(() async {
     // 임시 디렉터리 생성
@@ -37,7 +37,7 @@ void main() {
       },
     );
 
-    testCalendarOption = CalendarOption(
+    testCalendarOption = SyncfusionCalendarOption(
       showAgenda: true,
     );
   });
@@ -53,7 +53,7 @@ void main() {
     test('read : read CalendarOption from empty database', () async {
       // 데이터 읽기
       try {
-        await CalendarOptionDB.read();
+        await SyncfusionCalendarOptionDB.read();
       } on StateError catch (e) {
         if (e.message == 'No element') {
           return;
@@ -69,10 +69,10 @@ void main() {
       // CalendarOptionDB 생성
 
       // 데이터베이스 쓰기
-      await CalendarOptionDB.write(testCalendarOption);
+      await SyncfusionCalendarOptionDB.write(testCalendarOption);
 
       // 데이터 읽기
-      final readData = await CalendarOptionDB.read();
+      final readData = await SyncfusionCalendarOptionDB.read();
 
       // 검증
       expect(readData.showFinished, testCalendarOption.showFinished);

@@ -4,7 +4,7 @@
 
 library;
 
-export 'calendar_option.dart';
+export 'syncfusion_calendar_option.dart';
 export 'encrypt_key.dart';
 export 'global_display_option.dart';
 export 'plato_appointment.dart';

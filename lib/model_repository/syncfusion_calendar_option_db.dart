@@ -2,12 +2,13 @@
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/util/logger.dart';
 
-class CalendarOptionDB {
+class SyncfusionCalendarOptionDB {
   static final logger =
-      LoggerManager.getLogger('model_repository - CalendarOptionDB');
-  static CalendarOptionDrift database = CalendarOptionDrift();
+      LoggerManager.getLogger('model_repository - SyncfusionCalendarOptionDB');
+  static SyncfusionCalendarOptionDrift database =
+      SyncfusionCalendarOptionDrift();
 
-  static Future<void> write(CalendarOption data) async {
+  static Future<void> write(SyncfusionCalendarOption data) async {
     try {
       await database.replace(data.toSchema());
     } catch (e, stackTrace) {
@@ -16,13 +17,13 @@ class CalendarOptionDB {
     }
   }
 
-  static Future<CalendarOption> read() async {
+  static Future<SyncfusionCalendarOption> read() async {
     try {
       return await database.read().then((value) => value.toModel());
     } on StateError catch (e) {
       if (e.message == 'No element') {
         logger.warning('No element found');
-        final defaultOption = CalendarOption();
+        final defaultOption = SyncfusionCalendarOption();
         await write(defaultOption);
         return defaultOption;
       } else {

@@ -29,7 +29,8 @@ class CalendarWidget extends StatelessWidget {
 
     List<PlatoAppointment> appointmentList = appointmentState.appointments;
 
-    final CalendarOption calendarOption = calendarOptionState.calendarOption;
+    final SyncfusionCalendarOption calendarOption =
+        calendarOptionState.calendarOption;
     CalendarController calendarController =
         calendarOptionState.calendarController;
     final colorScheme = Theme.of(context).colorScheme;

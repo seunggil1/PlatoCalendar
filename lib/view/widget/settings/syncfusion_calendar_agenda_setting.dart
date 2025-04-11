@@ -46,9 +46,9 @@ class _SyncfusionCalendarShowAgendaWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<SyncfusionCalendarOptionBloc,
-        SyncfusionCalendarOptionState, CalendarOption>(
+        SyncfusionCalendarOptionState, SyncfusionCalendarOption>(
       selector: (state) => state.calendarOption,
-      builder: (BuildContext context, CalendarOption option) {
+      builder: (BuildContext context, SyncfusionCalendarOption option) {
         final textTheme = Theme.of(context).textTheme;
         final colorScheme = Theme.of(context).colorScheme;
         return Padding(

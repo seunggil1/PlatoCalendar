@@ -7,15 +7,15 @@ import 'package:plato_calendar/model/model.dart';
 enum SyncStatusType { syncing, synced }
 
 final class PlatoSyncInfoState extends Equatable {
+  final PlatoCredential? platoCredential;
+  final SyncInfo? syncInfo;
+  final SyncStatusType syncStatus;
+
   const PlatoSyncInfoState({
     required this.platoCredential,
     required this.syncInfo,
     this.syncStatus = SyncStatusType.synced,
   });
-
-  final PlatoCredential? platoCredential;
-  final SyncInfo? syncInfo;
-  final SyncStatusType syncStatus;
 
   PlatoSyncInfoState copyWith({
     PlatoCredential? platoCredential,
