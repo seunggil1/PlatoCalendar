@@ -8,17 +8,17 @@ error_messages=""
 
 fix_output=$(dart fix --apply 2>&1)
 if ! echo "$fix_output" | grep -q "Nothing to fix!"; then
-    error_messages="${error_messages}\n\n⚠️ dart fix --apply: 자동 수정 사항 적용\n${fix_output}"
+    error_messages="${error_messages}"$'\n\n⚠️ dart fix --apply: 자동 수정 사항 적용\n'"${fix_output}"
 fi
 
 format_output=$(dart format . 2>&1)
 if ! echo "$format_output" | grep -Eq "0 changed|no files"; then
-    error_messages="${error_messages}\n\n⚠️ dart format: 코드 포맷팅 적용.\n${format_output}"
+    error_messages="${error_messages}"$'\n\n⚠️ dart format: 코드 포맷팅 적용.\n'"${format_output}"
 fi
 
 import_sorter_output=$(dart run import_sorter:main 2>&1)
 if echo "$import_sorter_output" | grep -q "Sorted imports for"; then
-    error_messages="${error_messages}\n\n⚠️ dart run import_sorter:main: import sorter 적용:\n${import_sorter_output}"
+    error_messages="${error_messages}"$'\n\n⚠️ dart run import_sorter:main: import sorter 적용:\n'"${import_sorter_output}"
 fi
 
 #analyze_result=$(flutter analyze 2>&1 | grep -Ei "error • ")
@@ -27,9 +27,9 @@ fi
 #fi
 
 if [ -n "$error_messages" ]; then
-    error_messages="변경 내용을 확인한 후 다시 커밋해주세요. ${error_messages}"
+    error_messages=$'변경 내용을 확인한 후 다시 커밋해주세요.\n'"$error_messages"$'\n\n'
     # 표준 에러로 출력
-    printf "%b\n" "$error_messages" >&2
+    printf "%s\n" "$error_messages" >&2
     exit 1
 fi
 
