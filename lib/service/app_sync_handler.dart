@@ -85,7 +85,7 @@ class AppSyncHandler {
       appointment.start = now;
       appointment.end = now.add(const Duration(hours: 1));
 
-      now = now.add(const Duration(hours: 4));
+      now = now.add(const Duration(hours: 12));
     }
 
     await CalendarParser.updateSubjectCodeColor(appointments);
