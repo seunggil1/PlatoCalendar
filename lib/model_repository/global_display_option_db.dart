@@ -11,7 +11,6 @@ class GlobalDisplayOptionDB {
 
   static final _dbUpdateStream = StreamController<bool>.broadcast();
   static Stream<bool> get dbUpdatedStream async* {
-    yield false;
     yield* _dbUpdateStream.stream;
   }
 
