@@ -1,46 +1,56 @@
+// Dart imports:
+import 'dart:async';
+
 // Project imports:
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/util/logger.dart';
 
 class SyncfusionCalendarOptionDB {
-  static final logger =
+  static final _logger =
       LoggerManager.getLogger('model_repository - SyncfusionCalendarOptionDB');
-  static SyncfusionCalendarOptionDrift database =
+  // static final _dbUpdateStream = StreamController<bool>.broadcast();
+  static final SyncfusionCalendarOptionDrift _database =
       SyncfusionCalendarOptionDrift();
+
+  // static Stream<bool> get dbUpdatedStream async* {
+  //   yield true;
+  //   yield* _dbUpdateStream.stream;
+  // }
 
   static Future<void> write(SyncfusionCalendarOption data) async {
     try {
-      await database.replace(data.toSchema());
+      await _database.replace(data.toSchema());
+      // _dbUpdateStream.add(true);
     } catch (e, stackTrace) {
-      logger.severe('Failed to writeCalendarOption: $e', stackTrace);
+      _logger.severe('Failed to writeCalendarOption: $e', stackTrace);
       rethrow;
     }
   }
 
   static Future<SyncfusionCalendarOption> read() async {
     try {
-      return await database.read().then((value) => value.toModel());
+      return await _database.read().then((value) => value.toModel());
     } on StateError catch (e) {
       if (e.message == 'No element') {
-        logger.warning('No element found');
+        _logger.warning('No element found');
         final defaultOption = SyncfusionCalendarOption();
         await write(defaultOption);
         return defaultOption;
       } else {
-        logger.severe('Failed to readGlobalDisplayOption: $e');
+        _logger.severe('Failed to readGlobalDisplayOption: $e');
         rethrow;
       }
     } catch (e, stackTrace) {
-      logger.severe('Failed to readCalendarOption: $e', stackTrace);
+      _logger.severe('Failed to readCalendarOption: $e', stackTrace);
       rethrow;
     }
   }
 
   static Future<bool> isEmpty() async {
     try {
-      return await database.isEmpty();
+      return await _database.isEmpty();
     } catch (e, stackTrace) {
-      logger.severe(
+      _logger.severe(
           'Failed to check if calendarOption is empty: $e', stackTrace);
       rethrow;
     }
@@ -48,9 +58,9 @@ class SyncfusionCalendarOptionDB {
 
   static Future<int> count() async {
     try {
-      return await database.count();
+      return await _database.count();
     } catch (e, stackTrace) {
-      logger.severe('Failed to count calendarOption: $e', stackTrace);
+      _logger.severe('Failed to count calendarOption: $e', stackTrace);
       rethrow;
     }
   }

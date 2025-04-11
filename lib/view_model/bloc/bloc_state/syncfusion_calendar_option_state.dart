@@ -10,12 +10,15 @@ final class SyncfusionCalendarOptionState {
   CalendarController calendarController;
 
   SyncfusionCalendarOptionState(SyncfusionCalendarOption option,
-      {CalendarView? calendarView, DateTime? displayDate})
+      {CalendarController? calendarController,
+      CalendarView? calendarView,
+      DateTime? displayDate})
       : calendarOption = option,
-        calendarController = CalendarController()
-          ..view = calendarView ?? CalendarView.month
-          ..displayDate = displayDate ?? DateTime.now()
-          ..selectedDate = DateTime.now();
+        calendarController = calendarController ?? CalendarController() {
+    this.calendarController.view = calendarView ?? CalendarView.month;
+    this.calendarController.displayDate = displayDate ?? DateTime.now();
+    this.calendarController.selectedDate = displayDate ?? DateTime.now();
+  }
 
   bool calendarViewTypeIsSchedule() {
     return calendarController.view == CalendarView.schedule;
