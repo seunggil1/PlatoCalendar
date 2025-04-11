@@ -21,11 +21,6 @@ flutter pub get
 dart run husky install
 ```
 
-
 ## ETC
 - github desktop pre-commit 이슈
   - github desktop에서 정상적으로 작동하려면, git 설치 후 환경 변수에 추가 필요 (ex. `C:\Program Files\Git\bin`)
-
-## 개발 남은거
-- 일정 수정 페이지
-- 과목 색상 자동 설정
