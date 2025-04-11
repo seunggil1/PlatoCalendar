@@ -25,16 +25,7 @@
 - Flutter 3.27.3
 - Android Studio 2024.1.2
 
-### 1. flutter 패키지 설치
-```shell
-flutter pub get
-```
-
-### 2. pre-commit 설정을 위한 husky 실행
-- 커밋때마다 자동으로 포맷팅을 진행합니다.
-```shell
-dart run husky install
-```
+- https://github.com/seunggil1/PlatoCalendar/wiki/Start 페이지 참조
 
 ## ETC
 - github desktop pre-commit 이슈
