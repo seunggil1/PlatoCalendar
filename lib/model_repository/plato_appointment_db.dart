@@ -56,11 +56,11 @@ class PlatoAppointmentDB {
     }
   }
 
-  static Future<List<String>> readAllSubjectCode() async {
+  static Future<Set<String>> readAllSubjectCode() async {
     try {
-      final result = [subjectCodeAll];
+      final result = <String>{subjectCodeAll};
       result.addAll(await _database.readAllSubjectCode());
-      // result.remove(subjectNone);
+      result.add(subjectCodeNone);
 
       _logger.fine('Read all subject code: ${result.length}');
       return result;

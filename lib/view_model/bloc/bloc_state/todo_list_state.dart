@@ -2,6 +2,7 @@
 import 'dart:collection';
 
 // Project imports:
+import 'package:plato_calendar/etc/subject_code.dart';
 import 'package:plato_calendar/model/model.dart';
 
 final class TodoListState with ListMixin<List<PlatoAppointment>> {
@@ -21,7 +22,7 @@ final class TodoListState with ListMixin<List<PlatoAppointment>> {
   TodoListState({
     TaskCheckListDisplayOption? taskCheckListDisplayOption,
     String? subjectCodeFilter,
-    this.subjectCodeList = const ['전체'],
+    this.subjectCodeList = const [subjectCodeAll],
     this.taskCheckListPassed = const [],
     this.taskCheckList6Hour = const [],
     this.taskCheckList12Hour = const [],

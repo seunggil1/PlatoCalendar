@@ -58,11 +58,11 @@ void main() {
     final fileContent = await rootBundle.loadString(filePath);
     final List<PlatoAppointment> result = CalendarParser.parse(fileContent);
     await PlatoAppointmentDB.writeAll(result);
-    List<String> data = await PlatoAppointmentDB.readAllSubjectCode();
+    Set<String> data = await PlatoAppointmentDB.readAllSubjectCode();
 
     // 검증
     expect(data, isNotEmpty);
-    expect(data, isA<List<String>>());
+    expect(data, isA<Set<String>>());
   });
   test('writeAppointment: Should write an appointment to the database',
       () async {

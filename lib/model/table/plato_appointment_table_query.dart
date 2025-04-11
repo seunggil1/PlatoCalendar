@@ -14,7 +14,7 @@ extension PlatoAppointmentTableQuery on PlatoAppointmentDrift {
     return query;
   }
 
-  Future<List<String>> readAllSubjectCode() async {
+  Future<Set<String>> readAllSubjectCode() async {
     final query = selectOnly(platoAppointmentTable, distinct: true)
       ..addColumns([platoAppointmentTable.subjectCode]);
 
@@ -22,7 +22,7 @@ extension PlatoAppointmentTableQuery on PlatoAppointmentDrift {
     return rows
         .map((row) => row.read(platoAppointmentTable.subjectCode))
         .whereType<String>()
-        .toList();
+        .toSet();
   }
 
   Future<PlatoAppointmentResults> readPastPlatoAppointment(
