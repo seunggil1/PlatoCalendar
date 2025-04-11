@@ -8,19 +8,20 @@ import 'package:plato_calendar/util/logger.dart';
 class SyncfusionCalendarOptionDB {
   static final _logger =
       LoggerManager.getLogger('model_repository - SyncfusionCalendarOptionDB');
-  // static final _dbUpdateStream = StreamController<bool>.broadcast();
+
+  static final _dbUpdateStream = StreamController<bool>.broadcast();
+  static Stream<bool> get dbUpdatedStream async* {
+    yield true;
+    yield* _dbUpdateStream.stream;
+  }
+
   static final SyncfusionCalendarOptionDrift _database =
       SyncfusionCalendarOptionDrift();
-
-  // static Stream<bool> get dbUpdatedStream async* {
-  //   yield true;
-  //   yield* _dbUpdateStream.stream;
-  // }
 
   static Future<void> write(SyncfusionCalendarOption data) async {
     try {
       await _database.replace(data.toSchema());
-      // _dbUpdateStream.add(true);
+      _dbUpdateStream.add(true);
     } catch (e, stackTrace) {
       _logger.severe('Failed to writeCalendarOption: $e', stackTrace);
       rethrow;

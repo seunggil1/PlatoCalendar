@@ -8,6 +8,7 @@ import 'package:plato_calendar/util/logger.dart';
 class GlobalDisplayOptionDB {
   static final _logger =
       LoggerManager.getLogger('model repository - GlobalDisplayOptionDB');
+
   static final _dbUpdateStream = StreamController<bool>.broadcast();
   static Stream<bool> get dbUpdatedStream async* {
     yield true;

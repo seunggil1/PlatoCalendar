@@ -1,12 +1,22 @@
+// Dart imports:
+import 'dart:async';
+
 // Project imports:
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/service/service.dart';
 import 'package:plato_calendar/util/logger.dart';
 
 class PlatoCredentialDB {
-  static final logger =
+  static final _logger =
       LoggerManager.getLogger('model repository - PlatoCredentialDB');
-  static PlatoCredentialDrift database = PlatoCredentialDrift();
+
+  static final _dbUpdateStream = StreamController<bool>.broadcast();
+  static Stream<bool> get dbUpdatedStream async* {
+    yield true;
+    yield* _dbUpdateStream.stream;
+  }
+
+  static final PlatoCredentialDrift _database = PlatoCredentialDrift();
 
   static Future<void> write(PlatoCredential data) async {
     try {
@@ -16,16 +26,17 @@ class PlatoCredentialDB {
         ..username = data.username
         ..password = encryptedPassword;
 
-      await database.write(encryptedData.toSchema());
+      await _database.write(encryptedData.toSchema());
+      _dbUpdateStream.add(true);
     } catch (e, stackTrace) {
-      logger.severe('Failed to write plato credential: $e', stackTrace);
+      _logger.severe('Failed to write plato credential: $e', stackTrace);
       rethrow;
     }
   }
 
   static Future<PlatoCredential?> read() async {
     try {
-      final queryResult = await database.read();
+      final queryResult = await _database.read();
       PlatoCredential data = queryResult.toModel();
 
       String plainPassword =
@@ -35,37 +46,37 @@ class PlatoCredentialDB {
         ..username = data.username
         ..password = plainPassword;
 
-      logger.fine('Read plato credential: ${result.id}');
+      _logger.fine('Read plato credential: ${result.id}');
       return result;
     } on StateError catch (e) {
       if (e.message == 'No element') {
-        logger.warning('No element found');
+        _logger.warning('No element found');
         return null;
       } else {
-        logger.severe('Failed to readSyncInfo: $e');
+        _logger.severe('Failed to readSyncInfo: $e');
         rethrow;
       }
     } catch (e, stackTrace) {
-      logger.severe('Failed to read plato credential: $e', stackTrace);
+      _logger.severe('Failed to read plato credential: $e', stackTrace);
       rethrow;
     }
   }
 
   static Future<bool> isEmpty() async {
     try {
-      final queryResult = await database.isEmpty();
+      final queryResult = await _database.isEmpty();
       return queryResult;
     } catch (e, stackTrace) {
-      logger.severe('Failed to check isEmpty : $e', stackTrace);
+      _logger.severe('Failed to check isEmpty : $e', stackTrace);
       rethrow;
     }
   }
 
   static Future<void> deleteAll() async {
     try {
-      await database.deleteAll();
+      await _database.deleteAll();
     } catch (e, stackTrace) {
-      logger.severe('Failed to deleteAll : $e', stackTrace);
+      _logger.severe('Failed to deleteAll : $e', stackTrace);
       rethrow;
     }
   }

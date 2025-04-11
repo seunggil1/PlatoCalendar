@@ -1,17 +1,28 @@
+// Dart imports:
+import 'dart:async';
+
 // Project imports:
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/util/logger.dart';
 
 class TaskCheckListDisplayOptionDB {
-  static final logger = LoggerManager.getLogger(
+  static final _logger = LoggerManager.getLogger(
       'model repository - TaskCheckListDisplayOptionDB');
-  static TaskCheckListOptionDrift database = TaskCheckListOptionDrift();
+
+  static final _dbUpdateStream = StreamController<bool>.broadcast();
+  static Stream<bool> get dbUpdatedStream async* {
+    yield true;
+    yield* _dbUpdateStream.stream;
+  }
+
+  static final TaskCheckListOptionDrift _database = TaskCheckListOptionDrift();
 
   static Future<void> write(TaskCheckListDisplayOption data) async {
     try {
-      await database.write(data.toSchema());
+      await _database.write(data.toSchema());
+      _dbUpdateStream.add(true);
     } catch (e, stackTrace) {
-      logger.severe(
+      _logger.severe(
           'Failed to writeTaskCheckListDisplayOption: $e', stackTrace);
       rethrow;
     }
@@ -19,19 +30,20 @@ class TaskCheckListDisplayOptionDB {
 
   static Future<TaskCheckListDisplayOption> read() async {
     try {
-      return await database.read().then((value) => value.toModel());
+      return await _database.read().then((value) => value.toModel());
     } on StateError catch (e) {
       if (e.message == 'No element') {
-        logger.warning('No element found');
+        _logger.warning('No element found');
         final defaultOption = TaskCheckListDisplayOption();
         await write(defaultOption);
         return defaultOption;
       } else {
-        logger.severe('Failed to readTaskCheckListDisplayOption: $e');
+        _logger.severe('Failed to readTaskCheckListDisplayOption: $e');
         rethrow;
       }
     } catch (e, stackTrace) {
-      logger.severe('Failed to readTaskCheckListDisplayOption: $e', stackTrace);
+      _logger.severe(
+          'Failed to readTaskCheckListDisplayOption: $e', stackTrace);
       rethrow;
     }
   }
