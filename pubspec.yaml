@@ -1,0 +1,58 @@
+name: plato_calendar
+description: calendar app using plato.
+publish_to: 'none'
+
+
+version: 4.0.0+1
+
+environment:
+  sdk: '>=3.3.4 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  intl: ^0.19.0
+
+  icalendar_parser: ^2.1.0
+  syncfusion_flutter_calendar: ^28.2.6   # calendar
+  flutter_datetime_picker_plus: ^2.2.0   # datetime picker
+
+  flutter_bloc: ^9.0.0   # bloc 디자인 패턴 적용
+  responsive_sizer: ^3.3.1
+
+  path_provider: ^2.1.5
+  cupertino_icons: ^1.0.6
+
+  encrypt: ^5.0.3       # 암호화 라이브러리
+  flutter_secure_storage: ^9.2.4 # 암호화 키 저장소
+  equatable: ^2.0.0
+  collection: ^1.19.1   # List에서 mapIndexed 사용하기 위한 라이브러리
+
+  drift: ^2.25.1
+  drift_flutter: ^0.2.4
+
+  dio: ^5.8.0+1
+
+  logging: ^1.2.0       # logging 라이브러리
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  import_sorter: ^4.6.0
+  husky: ^0.1.7
+
+  drift_dev: ^2.25.2
+  build_runner: ^2.4.15
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/ics/icalexport_test.ics
