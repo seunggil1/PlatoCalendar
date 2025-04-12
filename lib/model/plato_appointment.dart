@@ -7,7 +7,7 @@ import 'package:drift/drift.dart';
 // Project imports:
 import 'package:plato_calendar/etc/calendar_color.dart';
 import 'package:plato_calendar/etc/school_data.dart' as school_data;
-import 'package:plato_calendar/etc/subject_code.dart';
+import 'package:plato_calendar/etc/subject_code_to_name.dart';
 import 'package:plato_calendar/util/logger.dart';
 import 'table/table.dart';
 

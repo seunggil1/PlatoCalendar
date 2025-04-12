@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Project imports:
-import 'package:plato_calendar/etc/subject_code.dart';
+import 'package:plato_calendar/etc/subject_code_to_name.dart';
 import 'package:plato_calendar/util/logger.dart';
 import 'package:plato_calendar/view/widget/appointment_editor/appointment_editor.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
