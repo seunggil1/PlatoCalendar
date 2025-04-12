@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:plato_calendar/etc/subject_code.dart';
+import 'package:plato_calendar/etc/subject_code_to_name.dart';
 
 class SubjectCodeDropDownMenu extends StatelessWidget {
   final List<String> subjectCodeList;

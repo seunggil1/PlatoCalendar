@@ -5,7 +5,7 @@ import 'dart:collection';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Project imports:
-import 'package:plato_calendar/etc/subject_code.dart';
+import 'package:plato_calendar/etc/subject_code_to_name.dart';
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/model_repository/model_repository.dart';
 import 'bloc_event/bloc_event.dart';

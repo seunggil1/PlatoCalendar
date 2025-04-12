@@ -8,7 +8,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 // Project imports:
 import 'package:plato_calendar/etc/calendar_color.dart';
 import 'package:plato_calendar/etc/kr_localization.dart';
-import 'package:plato_calendar/etc/subject_code.dart';
+import 'package:plato_calendar/etc/subject_code_to_name.dart';
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/view_model/view_model.dart';
 import 'package:plato_calendar/widget_util/widget_util.dart';

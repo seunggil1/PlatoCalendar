@@ -2,7 +2,7 @@
 import 'dart:collection';
 
 // Project imports:
-import 'package:plato_calendar/etc/subject_code.dart';
+import 'package:plato_calendar/etc/subject_code_to_name.dart';
 import 'package:plato_calendar/model/model.dart';
 
 final class TodoListState with ListMixin<List<PlatoAppointment>> {

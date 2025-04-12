@@ -2,7 +2,7 @@
 import 'dart:async';
 
 // Project imports:
-import 'package:plato_calendar/etc/subject_code.dart';
+import 'package:plato_calendar/etc/subject_code_to_name.dart';
 import 'package:plato_calendar/model/model.dart';
 import 'package:plato_calendar/util/logger.dart';
 
