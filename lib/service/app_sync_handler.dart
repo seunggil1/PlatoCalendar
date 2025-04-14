@@ -29,6 +29,7 @@ class AppSyncHandler {
       }
 
       // update plato calendar
+      logger.fine('Syncing plato calendar...');
       await updatePlatoAppointment();
     } catch (e, stackTrace) {
       logger.severe('Failed to plato sync: $e', stackTrace);

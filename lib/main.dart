@@ -85,6 +85,10 @@ class MaterialThemePage extends StatelessWidget {
         context.select((GlobalDisplayOptionBloc bloc) => bloc.state.themeMode);
     final themeSeedColorIndex = context.select(
         (GlobalDisplayOptionBloc bloc) => bloc.state.themeSeedColorIndex);
+
+    // Plato 동기화 진행.
+    context.read<PlatoSyncInfoBloc>().add(PlatoSync());
+
     return MaterialApp(
         supportedLocales: [
           const Locale('ko', 'KR'),
