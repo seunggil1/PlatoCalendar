@@ -25,7 +25,8 @@
 - Flutter 3.27.3
 - Android Studio 2024.1.2
 
-- https://github.com/seunggil1/PlatoCalendar/wiki 페이지 참조
+- `dart run husky install`
+  - https://github.com/seunggil1/PlatoCalendar/wiki 페이지 참조
 
 ## ETC
 - github desktop pre-commit 이슈
